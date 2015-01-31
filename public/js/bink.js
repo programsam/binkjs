@@ -1,0 +1,4 @@
+function loadLink()
+{
+	alert('Sex');
+} 
