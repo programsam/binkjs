@@ -3,7 +3,7 @@
   "description": "BINK! rewritten in Node.js",
   "version": "0.0.1",
   "author": "Ben Smith",
-  "repo": "git@github.com:dangrossman/Bookmarkly.git",
+  "repository": "git@github.com:programsam/binkjs.git",
   "keywords": [],
   "dependencies": {
     "express":"*"
