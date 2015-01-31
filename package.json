@@ -1,0 +1,12 @@
+{
+  "name": "BINK.js",
+  "description": "BINK! rewritten in Node.js",
+  "version": "0.0.1",
+  "author": "Ben Smith",
+  "repo": "git@github.com:dangrossman/Bookmarkly.git",
+  "keywords": [],
+  "dependencies": {
+    "express":"*"
+    ,"mysql":"0.9.5"
+  }
+}
