@@ -4,5 +4,5 @@ $(document).ready(function(){
 
 function loadLink(event)
 {
-	alert('Sex');
+	$("thispage").html("<h1>This is some HTML</h1>");
 } 
