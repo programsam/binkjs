@@ -1,8 +1,10 @@
 var express = require('express')
 var app = express()
+var jade = require('jade');
+
 
 app.get('/', function (req, res) {
-  res.send('Hello World!')
+  res.send(var html = jade.renderFile(__dirname + 'jade/index.jade', options));
 })
 
 app.use(express.static(__dirname + '/public'));
