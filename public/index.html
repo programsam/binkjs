@@ -1,8 +1,78 @@
-doctype html
-html
-  head
-    style
-      include default.css
-  body
-    #main
-      #gfx
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+<script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
+<meta name="description" content="BINK! is an experiment in musical documentation."/>
+<meta name="keywords" content="music, website, jams, mp3, free, download"/> 
+<meta name="author" content="Ben Smith"/> 
+<meta name="google-site-verification" content="jMHQ1vNX95MNBOYsGemuRSIsT-CH_3Rwh6N3wEg69bY" />
+<meta property="og:title" content="BINK! An experiment in musical documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="img/header.jpg" />
+<meta property="og:site_name" content="BINK!" />
+<meta property="fb:admins" content="11801699" />
+<link rel="stylesheet" type="text/css" href="default.css"/>
+<title>BINK!</title>
+</head>
+<body onload="initialize();">
+
+<!-- this is the facebook code to asynchronously load the API -->
+
+
+<!-- end the facebook code -->
+
+<div class="main">
+<div class="gfx"> 
+	<table border=0 width="100%">
+	<tr>
+	<td colspan=4>
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- binkmusic -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:550px;height:80px"
+     data-ad-client="ca-pub-1453391221011492"
+     data-ad-slot="7514258764"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>		
+	</td>
+	</tr>
+	<tr>
+	<td width="670px"><img src="img/header.jpg" /></td>
+	<td width="120px"><a href="feed.php"><img src="img/rss-0.91.gif" border=0 /></a></td>
+	<td width="30px"><a href="feed.php?podcast=1"><img src=img/podcast.gif border=0 width=25/></a></td><td width="80px">
+	
+	<!-- this is the actual like button -->
+	
+	 <iframe src="http://www.facebook.com/plugins/like.php?href=&colorscheme=dark&width=50&layout=button_count"
+        scrolling="no" frameborder="0"
+        style="border:none; width:80px; height: 30px"></iframe>
+	
+	<!-- end the actual like button -->
+	</td>
+	</tr>
+	</table>
+</div>
+	<div class="menu">
+		<a href="index.php"><span>Recent</span></a>
+		<a href="history.php"><span>History</span></a>
+		<a href="player.php"><span>Player</span></a>
+		<a href="list.php"><span>Browse</span></a>
+ 	    <a href="/timeline/"><span>Timeline</span></a>
+		<a href="maps.php"><span>Map</span></a>
+		<a href="news.php"><span>Tweets</span></a>
+ 		<a href="admin.php"><span>Admin</span></a>
+		
+	
+		<span><?=printSearchBar() ?></span>
+	</div>
+	<div class="content">
+	This is content.
+		<div class='item'>
+<p align=right>[ <a href='<?= $_SERVER['HTTP_REFERER']?>'>Go Back</a> ]</p></div></div>
+	<div class="footer">&copy; 2009-2014 <a href="index.php">BINK!</a> created by <a href="http://bensmith.zapto.org">Ben Smith</a>. Design by <a href="http://arcsin.se">Arcsin</a></div>
+</div>
+</body>
+</html>
