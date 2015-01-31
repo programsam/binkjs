@@ -5,6 +5,8 @@ app.get('/', function (req, res) {
   res.send('Hello World!')
 })
 
+app.use(express.static(__dirname + '/public'));
+
 var server = app.listen(3001, function () {
 
   var host = server.address().address
