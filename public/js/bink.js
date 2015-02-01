@@ -5,5 +5,18 @@ $(document).ready(function(){
 
 function loadLink(event)
 {
-	$("#thispage").html("<h1>This is some HTML</h1>");
+	if (event.target.id == "recentButton")
+	{
+		loadRecentJams()
+	}
+	else
+	{
+		$("#thispage").html("<h1>" + event.target.id + " was clicked</h1>");
+	}
 } 
+
+
+function loadRecentJams()
+{
+	$("#thispage").html("<h1>Recent Jams</h1>")
+}
