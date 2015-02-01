@@ -1,5 +1,6 @@
 $(document).ready(function(){
    $("#recentButton").click(loadLink)
+   $('a').css('cursor','pointer');
 })
 
 function loadLink(event)
