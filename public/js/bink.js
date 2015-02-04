@@ -9,11 +9,15 @@ function loadRecentJams()
 	$.get( "/recent", function( data ) {
 		var html = "";
 		var result = JSON.parse(data)
-  		result.forEach(function (element, index, array) {
-  			mydate = Date.parse(element.date.substr(0,10)).toString("MM/dd/yyyy")
+  		result.forEach(function (thisjam, index, array) {
+  			mydate = Date.parse(thisjam.date.substr(0,10)).toString("MM/dd/yyyy")
   			html += "<div class='item'>"
-  			html += "<h1><a href=''>" + mydate + " - " + element.title + "</a></h1>"
-  			html += "<div class='quote'>" + element.notes + "</div>"
+  			html += "<h1><a href=''>" + mydate + " - " + thisjam.title + "</a></h1>"
+  			if (thisjam.hasOwnProperty("location"))
+  			{
+  				html += thisband.location.name
+  			}
+  			html += "<div class='quote'>" + thisjam.notes + "</div>"
   			html += "</div>"
   		})
   		$("#thispage").html(html)
