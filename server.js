@@ -13,7 +13,7 @@ app.get('/', function (req, res) {
 
 app.get('/recent', function (req, res) {
 	var client = sql();
-	client..query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
+	client.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
 	  if (err) throw err;
 	  console.log('The solution is: ', rows[0].solution);
 	});
