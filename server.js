@@ -47,9 +47,7 @@ app.get('/recent', function (req, res) {
 			  function (callback2)
 			  {
 			  	res.send(JSON.stringify(jams))
-			  	callback2()
 			  }) //locations are done
-
 		  }) //jams are done
 	  })//client.query
 }) //get /recent
