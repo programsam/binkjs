@@ -16,7 +16,7 @@ app.get('/recent', function (req, res) {
 	client.query('SELECT * from jams order by date desc limit 0,5', function(err, jams, fields) {
 	  if (err) throw err;
 	  jams.forEach(function(element, index, array) {
-	  	if (element.bandid != "-1")
+	  	if (element.bandid != -1)
 	  	{
 	  		client.query('SELECT * from bands where bandid = ' + element.bandid, function(err, bands, fields) {
 	  			jams.band = bands[0].name
