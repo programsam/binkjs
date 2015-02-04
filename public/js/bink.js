@@ -15,7 +15,7 @@ function loadRecentJams()
   			html += "<h1><a href=''>" + mydate + " - " + thisjam.title + "</a></h1>"
   			if (thisjam.hasOwnProperty("location"))
   			{
-  				html += thisband.location.name
+  				html += thisjam.location.name
   			}
   			html += "<div class='quote'>" + thisjam.notes + "</div>"
   			html += "</div>"

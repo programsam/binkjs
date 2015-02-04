@@ -29,7 +29,7 @@ app.get('/recent', function (req, res) {
 			  	callback()
 			  }
 		  }, //individual jam
-		  function (callback)
+		  function (err)
 		  {
 			  async.forEach(jams, function(thisjam, callback2) {
 				  if (thisjam.locid != -1)
@@ -44,7 +44,7 @@ app.get('/recent', function (req, res) {
 				  	callback2()
 				  }
 			  }, //individual jam
-			  function (callback2)
+			  function (err)
 			  {
 			  	res.send(JSON.stringify(jams))
 			  }) //locations are done
