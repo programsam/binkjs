@@ -28,15 +28,14 @@ app.get('/recent', function (req, res) {
 			  {
 			  	callback()
 			  }
-		  },
+		  }, //individual jam
 		  function (callback)
 		  {
 		  	res.send(JSON.stringify(jams))
 		  	callback()
-		  })
-	  })
-	});
-})
+		  }) //jams are done
+	  })//client.query
+}) //get /recent
 
 app.use(express.static(__dirname + '/public'));
 
