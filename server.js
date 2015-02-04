@@ -19,7 +19,7 @@ app.get('/recent', function (req, res) {
 	  	if (element.bandid != -1)
 	  	{
 	  		client.query('SELECT * from bands where bandid = ' + element.bandid, function(err, bands, fields) {
-	  			jams.band = bands[0].name
+	  			console.log(JSON.stringify(bands))
 	  		})
 	  	}
 	  })
