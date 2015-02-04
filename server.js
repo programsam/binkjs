@@ -3,8 +3,10 @@ var app 		= express()
 var mysql		= require('mysql');
 var settings	= require('./settings.json')
 
-console.log(settings.derp)
-
+function sql() {
+	mysql.createConnection(settings.mysql);
+	return connection.connect();
+}
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
 })

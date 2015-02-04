@@ -1,3 +1,9 @@
 {
-	"derp":"derp"
+	"mysql":
+	{
+		"host": "localhost",
+		"user": "user",
+		"port": 3306
+		"password": "password"
+	}
 }
