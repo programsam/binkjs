@@ -31,24 +31,25 @@ app.get('/recent', function (req, res) {
 		  }, //individual jam
 		  function (callback)
 		  {
-			  async.forEach(jams, function(thisjam, callback) {
+			  async.forEach(jams, function(thisjam, bandcallback) {
 				  if (thisjam.locid != -1)
 				  {
 				  	client.query('SELECT * from locations where id = ' + thisjam.locid, function(err, locations, fields) {
 				  		thisjam.location = locations[0]
-				  		callback()
+				  		bandcallback()
 				  	})
 				  }
 				  else
 				  {
-				  	callback()
+				  	bandcallback()
 				  }
 			  }, //individual jam
-			  function (callback)
+			  function (bandcallback)
 			  {
 			  	res.send(JSON.stringify(jams))
-			  	callback()
+			  	bandcallback()
 			  })
+			  callback()
 		  }) //jams are done
 	  })//client.query
 }) //get /recent
