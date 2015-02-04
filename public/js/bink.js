@@ -9,7 +9,7 @@ function loadRecentJams()
 	$.get( "/recent", function( data ) {
 		var result = JSON.parse(data)
   		result.forEach(function (element, index, array) {
-  			console.log(element.id + "...");
+  			console.log(element);
   		})
 	});
 }
