@@ -13,13 +13,17 @@ app.get('/', function (req, res) {
 
 app.get('/recent', function (req, res) {
 	var client = sql();
-	client.query('SELECT * from jams order by date desc limit 0,5', function(err, rows, fields) {
+	client.query('SELECT * from jams order by date desc limit 0,5', function(err, jams, fields) {
 	  if (err) throw err;
-	  rows.forEach(function(element, index, array) {
+	  jams.forEach(function(element, index, array) {
 	  	if (element.bandid != "-1")
-	  		console.log("Found band id: " + element.bandid)
+	  	{
+	  		client.query('SELECT * from bands where bandid = ' + element.bandid, function(err, bands, fields) {
+	  			jams.band = bands[0].name
+	  		})
+	  	}
 	  })
-	  res.send(JSON.stringify(rows))
+	  res.send(JSON.stringify(jams))
 	});
 })
 
