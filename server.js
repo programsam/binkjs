@@ -1,6 +1,7 @@
 var express 	= require('express')
 var app 		= express()
 var mysql		= require('mysql');
+var async		= require('async');
 var settings	= require('./settings.json')
 
 function sql() {
@@ -15,15 +16,25 @@ app.get('/recent', function (req, res) {
 	var client = sql();
 	client.query('SELECT * from jams order by date desc limit 0,5', function(err, jams, fields) {
 	  if (err) throw err;
-	  jams.forEach(function(element, index, array) {
-	  	if (element.bandid != -1)
-	  	{
-	  		client.query('SELECT * from bands where id = ' + element.bandid, function(err, bands, fields) {
-	  			element.band = bands[0]
-	  		})
-	  	}
+	  async.forEach(jams, function(thisjam, callback) {
+			  if (element.bandid != -1)
+			  {
+			  	client.query('SELECT * from bands where id = ' + element.bandid, function(err, bands, fields) {
+			  		thisjam.band = bands[0]
+			  		callback()
+			  	})
+			  }
+			  else
+			  {
+			  	callback()
+			  }
+		  },
+		  function (callback)
+		  {
+		  	res.send(JSON.stringify(jams))
+		  	callback()
+		  })
 	  })
-	  res.send(JSON.stringify(jams))
 	});
 })
 
