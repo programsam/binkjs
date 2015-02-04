@@ -4,8 +4,7 @@ var mysql		= require('mysql');
 var settings	= require('./settings.json')
 
 function sql() {
-	mysql.createConnection(settings.mysql);
-	return connection.connect();
+	return mysql.createClient(settings.mysql);
 }
 
 app.get('/', function (req, res) {
@@ -13,7 +12,11 @@ app.get('/', function (req, res) {
 })
 
 app.get('/recent', function (req, res) {
-	var connection = sql();
+	var client = sql();
+	client..query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
+	  if (err) throw err;
+	  console.log('The solution is: ', rows[0].solution);
+	});
 })
 
 app.use(express.static(__dirname + '/public'));
