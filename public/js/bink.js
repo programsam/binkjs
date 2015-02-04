@@ -1,7 +1,7 @@
 $(document).ready(function(){
-   $("#recentButton").click(loadLink)
-   
-   $('a').css('cursor','pointer');
+   $("#recentButton").click(loadRecentJams)
+   $('#recentButton').css('cursor','pointer');
+
 })
 
 function loadRecentJams()
