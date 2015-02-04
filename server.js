@@ -18,8 +18,7 @@ app.get('/recent', function (req, res) {
 	  jams.forEach(function(element, index, array) {
 	  	if (element.bandid != -1)
 	  	{
-	  		console.log("Query: " + 'SELECT * from bands where bandid = ' + element.bandid)
-	  		client.query('SELECT * from bands where bandid = ' + element.bandid, function(err, bands, fields) {
+	  		client.query('SELECT * from bands where id = ' + element.bandid, function(err, bands, fields) {
 	  			console.log(JSON.stringify(bands))
 	  		})
 	  	}
