@@ -7,9 +7,11 @@ $(document).ready(function(){
 function loadRecentJams()
 {
 	$.get( "/recent", function( data ) {
+		var html = "";
 		var result = JSON.parse(data)
   		result.forEach(function (element, index, array) {
-  			console.log(element);
+  			html += "<h1><a href=''>" + element.title + "</a></h1>"
   		})
+  		$("#thispage").html(html)
 	});
 }
