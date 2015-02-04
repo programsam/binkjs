@@ -49,7 +49,7 @@ app.get('/recent', function (req, res) {
 			  	res.send(JSON.stringify(jams))
 			  	callback2()
 			  }) //locations are done
-			  callback() //bands are done
+
 		  }) //jams are done
 	  })//client.query
 }) //get /recent
