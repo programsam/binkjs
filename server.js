@@ -1,6 +1,9 @@
-var express = require('express')
-var app = express()
+var express 	= require('express')
+var app 		= express()
+var mysql		= require('mysql');
+var settings	= require('./settings.json')
 
+console.log(settings.derp)
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
