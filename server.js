@@ -19,7 +19,7 @@ app.get('/recent', function (req, res) {
 	  async.forEach(jams, function(thisjam, callback) {
 			  if (thisjam.bandid != -1)
 			  {
-			  	client.query('SELECT * from bands where id = ' + element.bandid, function(err, bands, fields) {
+			  	client.query('SELECT * from bands where id = ' + thisjam.bandid, function(err, bands, fields) {
 			  		thisjam.band = bands[0]
 			  		callback()
 			  	})
