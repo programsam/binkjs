@@ -7,7 +7,8 @@ $(document).ready(function(){
 function loadRecentJams()
 {
 	$.get( "/recent", function( data ) {
-  		data.forEach(function (element, index, array) {
+		var result = JSON.parse(data)
+  		result.forEach(function (element, index, array) {
   			console.log(data.id + "...");
   		})
 	});
