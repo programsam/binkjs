@@ -6,5 +6,9 @@ $(document).ready(function(){
 
 function loadRecentJams()
 {
-	$("#thispage").html("<h1>Recent Jams</h1>")
+	$.get( "/recent", function( data ) {
+  		data.forEach(function (element, index, array) {
+  			console.log(data.id + "...");
+  		})
+	});
 }
