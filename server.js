@@ -15,6 +15,10 @@ app.get('/recent', function (req, res) {
 	var client = sql();
 	client.query('SELECT * from jams order by date desc limit 0,5', function(err, rows, fields) {
 	  if (err) throw err;
+	  rows.forEach(function(element, index, array) {
+	  	if (element.bandid != "-1")
+	  		console.log("Found band id: " + element.bandid)
+	  })
 	  res.send(JSON.stringify(rows))
 	});
 })
