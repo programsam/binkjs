@@ -26,8 +26,7 @@ function loadRecentJams()
 
 function loadJam(id)
 {
-	$.get( "/jam/" + id, function( data ) {
-		console.log(data)
+	$.get( "/jam/" + id, function( thisjam ) {
 		var html = "";
   		html += "<div class='item'>"
   		mydate = Date.parse(thisjam.date.substr(0,10)).toString("MM/dd/yyyy")
@@ -38,6 +37,6 @@ function loadJam(id)
 		}
 		html += "<div class='quote'>" + thisjam.notes + "</div>"
 		html += "</div>"
+		$("#thispage").html(html)
 	});
-	$("#thispage").html(html)
 }
