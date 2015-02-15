@@ -17,11 +17,15 @@ function loadRecentJams()
   			{
   				html += thisjam.band.name
   			}
+  			if (thisjam.hasOwnProperty("band") && thisJam.hasOwnProperty("location")
+  			{
+  				html += " at "
+  			}
   			if (thisjam.hasOwnProperty("location"))
   			{
-  				html += " at " + thisjam.location.name
+  				html += thisjam.location.name
   			}
-  			html += "<div class='quote'>" + thisjam.notes + "</div>"
+  			html += "<p /><div class='quote'>" + thisjam.notes + "</div>"
   			html += "</div>"
   		})
   		$("#thispage").html(html)
