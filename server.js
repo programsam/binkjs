@@ -14,8 +14,8 @@ app.get('/', function (req, res) {
 
 app.get('/jam/:id', function (req, res) {
 	var client = sql();
-	client.query('SELECT * from jams where id = ' + req.params.id, function(err, result) {
-		res.send({});
+	client.query('SELECT * from jams where id = ' + req.params.id, function(err, rows) {
+		res.send(rows);
 	})
 }) //get /jam/id
 
