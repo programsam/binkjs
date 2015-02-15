@@ -23,41 +23,10 @@ app.get('/jam/:id', function (req, res) {
 
 app.get('/recent', function (req, res) {
 	var client = sql();
-	client.query('SELECT * from jams order by date desc limit 0,5', function(err, jams, fields) {
+	var jams = [];
+	client.query('SELECT * from jams where bands.id = jams.bandid and locations.id = jams.locid order by date desc limit 0,5', function(err, rows) {
 	  if (err) throw err;
-	  async.forEach(jams, function(thisjam, callback) {
-			  if (thisjam.bandid != -1)
-			  {
-			  	client.query('SELECT * from bands where id = ' + thisjam.bandid, function(err, bands, fields) {
-			  		thisjam.band = bands[0]
-			  		callback()
-			  	})
-			  }
-			  else
-			  {
-			  	callback()
-			  }
-		  }, //individual jam
-		  function (err)
-		  {
-			  async.forEach(jams, function(thisjam, callback2) {
-				  if (thisjam.locid != -1)
-				  {
-				  	client.query('SELECT * from locations where id = ' + thisjam.locid, function(err, locations, fields) {
-				  		thisjam.location = locations[0]
-				  		callback2()
-				  	})
-				  }
-				  else
-				  {
-				  	callback2()
-				  }
-			  }, //individual jam
-			  function (err)
-			  {
-			  	res.send(JSON.stringify(jams))
-			  }) //locations are done
-		  }) //jams are done
+	  	res.send(rows)
 	  })//client.query
 }) //get /recent
 
