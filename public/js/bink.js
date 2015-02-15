@@ -29,7 +29,6 @@ function loadJam(id)
 	$.get( "/jam/" + id, function( data ) {
 		console.log(data)
 		var html = "";
-		var thisjam = JSON.parse(data)
   		html += "<div class='item'>"
   		mydate = Date.parse(thisjam.date.substr(0,10)).toString("MM/dd/yyyy")
 		html += "<h1>" + mydate + " - " + thisjam.title + "</a></h1>"
