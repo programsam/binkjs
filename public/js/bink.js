@@ -17,7 +17,7 @@ function loadRecentJams()
   			{
   				html += thisjam.band.name
   			}
-  			if (thisjam.hasOwnProperty("band") && thisJam.hasOwnProperty("location")
+  			if (thisjam.hasOwnProperty("band") && thisJam.hasOwnProperty("location"))
   			{
   				html += " at "
   			}
