@@ -24,7 +24,7 @@ app.get('/jam/:id', function (req, res) {
 app.get('/recent', function (req, res) {
 	var client = sql();
 	var jams = [];
-	client.query('SELECT * from jams, bands, locations where bands.id = jams.bandid and locations.id = jams.locid order by date desc limit 0,5', function(err, rows) {
+	client.query('SELECT jams.date, jams.title, jams.notes, locations.name, bands.name from jams, bands, locations where bands.id = jams.bandid and locations.id = jams.locid and private = 0 order by date desc limit 0,5', function(err, rows) {
 	  if (err) throw err;
 	  	res.send(rows)
 	  })//client.query
