@@ -9,8 +9,7 @@ function loadRecentJams()
 	$.get( "/recent", function( data ) {
 		var html = "";
 		console.log(data)
-		var result = JSON.parse(data)
-  		result.forEach(function (thisjam, index, array) {
+  		data.forEach(function (thisjam, index, array) {
   			mydate = Date.parse(thisjam.date.substr(0,10)).toString("MM/dd/yyyy")
   			html += "<div class='item'>"
   			html += "<h1><a id='jam" + thisjam.id + "' onclick='loadJam(" + thisjam.id + ")' style='cursor:pointer'>" + mydate + " - " + thisjam.title + "</a></h1>"
