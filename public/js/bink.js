@@ -8,6 +8,7 @@ function loadRecentJams()
 {
 	$.get( "/recent", function( data ) {
 		var html = "";
+		console.log(data)
 		var result = JSON.parse(data)
   		result.forEach(function (thisjam, index, array) {
   			mydate = Date.parse(thisjam.date.substr(0,10)).toString("MM/dd/yyyy")
