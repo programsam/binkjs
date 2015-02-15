@@ -29,7 +29,7 @@ app.get('/jam/:id', function (req, res) {
 		})
 		}
 		res.set('Content-Type', 'application/json')
-		res.send(result)
+		res.send(thisjam)
 	})
 }) //get /jam/id
 
