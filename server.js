@@ -16,7 +16,7 @@ app.get('/jam/:id', function (req, res) {
 	var client = sql();
 	client.query('SELECT * from jams where id = ' + req.params.id, function(err, result) {
 		res.send({});
-	}
+	})
 }) //get /jam/id
 
 app.get('/recent', function (req, res) {
