@@ -12,7 +12,7 @@ function loadRecentJams()
   		result.forEach(function (thisjam, index, array) {
   			mydate = Date.parse(thisjam.date.substr(0,10)).toString("MM/dd/yyyy")
   			html += "<div class='item'>"
-  			html += "<h1><a id='jam" + thisjam.id + ">" + mydate + " - " + thisjam.title + "</a></h1>"
+  			html += "<h1><a id='jam" + thisjam.id + "'>" + mydate + " - " + thisjam.title + "</a></h1>"
   			if (thisjam.hasOwnProperty("location"))
   			{
   				html += thisjam.location.name
