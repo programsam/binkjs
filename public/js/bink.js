@@ -26,5 +26,11 @@ function loadRecentJams()
 
 function loadJam(id)
 {
-	alert("Jam clicked!")
+	$.get( "/jam/" + id, function( data ) {
+		var html = "";
+		var result = JSON.parse(data)
+		console.log(JSON.stringify(result))
+  		html += "<h1>This will be the jam</h1>"
+  		$("#thispage").html(html)
+	});
 }

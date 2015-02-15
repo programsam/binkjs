@@ -12,6 +12,13 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
 })
 
+app.get('/jam/:id', function (req, res) {
+	var client = sql();
+	client.query('SELECT * from jams where id = ' + req.params.id, function(err, result) {
+		res.send({});
+	}
+}) //get /jam/id
+
 app.get('/recent', function (req, res) {
 	var client = sql();
 	client.query('SELECT * from jams order by date desc limit 0,5', function(err, jams, fields) {
