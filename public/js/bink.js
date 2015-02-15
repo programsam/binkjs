@@ -19,7 +19,13 @@ function loadRecentJams()
   			}
   			html += "<div class='quote'>" + thisjam.notes + "</div>"
   			html += "</div>"
+  			$("#jam" + thisJam.id).click(loadJam)
   		})
   		$("#thispage").html(html)
 	});
+}
+
+function loadJam(event)
+{
+	alert("Jam clicked!")
 }
