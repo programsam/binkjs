@@ -27,6 +27,7 @@ function loadRecentJams()
 function loadJam(id)
 {
 	$.get( "/jam/" + id, function( data ) {
+		console.log(data)
 		var html = "";
 		var thisjam = JSON.parse(data)
   		html += "<div class='item'>"
@@ -39,4 +40,5 @@ function loadJam(id)
 		html += "<div class='quote'>" + thisjam.notes + "</div>"
 		html += "</div>"
 	});
+	$("#thispage").html(html)
 }
