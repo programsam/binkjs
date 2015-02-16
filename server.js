@@ -5,7 +5,16 @@ var async		= require('async');
 var settings	= require('./settings.json')
 
 function sql() {
-	return mysql.createClient(settings.mysql);
+	var client;
+	try
+	{
+		client = mysql.createClient(settings.mysql);
+		return client
+	}
+	catch (error)
+	{
+		console.log(error)
+	}
 }
 
 app.get('/', function (req, res) {
