@@ -30,6 +30,10 @@ function loadRecentJams()
 	  		})
 	  	$("#thispage").html(html)
 	})
+	.fail(function()
+	{
+		alert('Encountered a problem.')
+	})
 }
 
 function loadJam(id)
