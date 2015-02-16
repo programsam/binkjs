@@ -24,12 +24,12 @@ app.get('/jam/:id', function (req, res) {
 				{
 					client.query('SELECT * from locations where id = ' + thisjam.locid, function(err, locations, fields) {
 				  		thisjam.location = locations[0]
-				  		res.end(thisjam)
+				  		res.end(JSON.stringify(thisjam))
 					}) //client.query
 				}
 		  		else
 		  		{
-		  			res.end(thisjam)
+		  			res.end(JSON.stringify(thisjam))
 		  		} //else
 		  	})
 		} //if
@@ -37,12 +37,12 @@ app.get('/jam/:id', function (req, res) {
 		{
 			client.query('SELECT * from locations where id = ' + thisjam.locid, function(err, locations, fields) {
 		  		thisjam.location = locations[0]
-		  		res.end(thisjam)
+		  		res.end(JSON.stringify(thisjam))
 			}) //client.query
 		} //else if
 		else
 		{
-			res.end(thisjam)
+			res.end(JSON.stringify(thisjam))
 		} //else
 	}) //outer client.query
 }) //get /jam/id
