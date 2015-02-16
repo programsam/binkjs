@@ -16,7 +16,7 @@ app.get('/jam/:id', function (req, res) {
 	var client = sql();
 	client.query('SELECT * from jams where id = ' + req.params.id, function(err, rows) {
 		thisjam = rows[0]
-		async.series(function(callback) {
+		async.series([function(callback) {
 			if (thisjam.bandid != -1)
 			{
 			  	client.query('SELECT * from bands where id = ' + thisjam.bandid, function(err, bands, fields) {
@@ -30,11 +30,10 @@ app.get('/jam/:id', function (req, res) {
 				})
 			}
 			callback()
-		}, function(callback2) {
+		}, function() {
 			res.set('Content-Type', 'application/json')
-			res.send(thisjam)
-			callback2()
-		})
+			res.end(thisjam)
+		}])
 	})
 }) //get /jam/id
 
