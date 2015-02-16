@@ -36,7 +36,7 @@ function loadRecentJams()
 	  		})
 	  		$("#thispage").html(html)
 		} //there was no error
-	}); //get
+	}, "json"); //get
 }
 
 function loadJam(id)
