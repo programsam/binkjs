@@ -39,11 +39,12 @@ app.get('/jam/:id', function (req, res) {
 }) //get /jam/id
 
 app.get('/recent', function (req, res) {
+	res.set('Content-Type','application/json')
 	var client = sql();
 	client.query('SELECT * from jams where private = 0 order by date desc limit 0,5', function(err, jams, fields) {
 	  if (err)
 	  {
-		  res.send(JSON.stringify({"message":"There was an error communicating with the database.",
+		  res.end(JSON.stringify({"message":"There was an error communicating with the database.",
 			  						"error":err
 		  }))
 	  }
@@ -79,7 +80,6 @@ app.get('/recent', function (req, res) {
 				  }, //individual jam
 				  function (err)
 				  {
-				    res.set('Content-Type','application/json')
 				  	res.send(JSON.stringify(jams))
 				  }) //locations are done
 			  }) //jams are done
