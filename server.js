@@ -16,7 +16,7 @@ app.get('/jam/:id', function (req, res) {
 	var client = sql();
 	client.query('SELECT * from jams where id = ' + req.params.id, function(err, rows) {
 		thisjam = rows[0]
-		async.series([function(callback) {
+		async.series([function() {
 			if (thisjam.bandid != -1)
 			{
 			  	client.query('SELECT * from bands where id = ' + thisjam.bandid, function(err, bands, fields) {
@@ -29,7 +29,6 @@ app.get('/jam/:id', function (req, res) {
 			  		thisjam.location = locations[0]
 				})
 			}
-			callback()
 		}, function() {
 			res.set('Content-Type', 'application/json')
 			res.end(thisjam)
