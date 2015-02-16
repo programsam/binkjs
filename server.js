@@ -30,10 +30,10 @@ app.get('/jam/:id', function (req, res) {
 				})
 			}
 			callback()
-		}, function(callback) {
+		}, function(callback2) {
 			res.set('Content-Type', 'application/json')
 			res.send(thisjam)
-			callback()
+			callback2()
 		})
 	})
 }) //get /jam/id
