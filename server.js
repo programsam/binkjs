@@ -15,27 +15,35 @@ app.get('/', function (req, res) {
 app.get('/jam/:id', function (req, res) {
 	var client = sql();
 	client.query('SELECT * from jams where id = ' + req.params.id, function(err, rows) {
-		thisjam = rows[0]
-		async.series([function(callback) {
-			if (thisjam.bandid != -1)
-			{
-			  	client.query('SELECT * from bands where id = ' + thisjam.bandid, function(err, bands, fields) {
-			  		thisjam.band = bands[0]
-			  	})
-			}
-			if (thisjam.locid != -1)
+	thisjam = rows[0]
+	if (thisjam.bandid != -1)
+	{
+	  	client.query('SELECT * from bands where id = ' + thisjam.bandid, function(err, bands, fields) {
+	  		thisjam.band = bands[0]
+	  		if (thisjam.locid != -1)
 			{
 				client.query('SELECT * from locations where id = ' + thisjam.locid, function(err, locations, fields) {
 			  		thisjam.location = locations[0]
+			  		res.end(thisjam)
 				})
 			}
-			callback(null)
-		}, function(callback) {
-			res.set('Content-Type', 'application/json')
-			res.end(thisjam)
-			callback(null)
-		}])
-	})
+	  		else
+	  		{
+	  			res.end(thisjam)
+	  		}
+	  	})
+	} //if
+	else if (thisjam.locid != -1)
+	{
+		client.query('SELECT * from locations where id = ' + thisjam.locid, function(err, locations, fields) {
+	  		thisjam.location = locations[0]
+	  		res.end(thisjam)
+		})
+	} //else if
+	else
+	{
+		res.end(thisjam)
+	}
 }) //get /jam/id
 
 app.get('/recent', function (req, res) {
