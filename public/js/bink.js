@@ -8,6 +8,7 @@ function loadRecentJams()
 {
 	$.get( "/recent", function( data ) {
 		var html = "";
+		console.log(data)
 		if (data.error)
 		{
 			alert('We encountered an issue.')
