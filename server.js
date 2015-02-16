@@ -44,9 +44,7 @@ app.get('/recent', function (req, res) {
 	client.query('SELECT * from jams where private = 0 order by date desc limit 0,5', function(err, jams, fields) {
 	  if (err)
 	  {
-		  res.end(JSON.stringify({"message":"There was an error communicating with the database.",
-			  						"error":err
-		  }))
+		  res.status(500).end()
 	  }
 	  else
 	  {
