@@ -8,7 +8,8 @@ function loadRecentJams()
 		console.log(data)
 		var html = "";
 		data.forEach(function (thisjam, index, array) {
-  			mydate = Date.parse(thisjam.date.substr(0,10)).toString("MM/dd/yyyy")
+  			var d = new Date(thisjam.date)
+  			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
   			html += "<div class='jumbotron'>"
   			html += "<h1><a id='jam" + thisjam.id + "' onclick='loadJam(" + thisjam.id + ")' style='cursor:pointer'>" + mydate + " - " + thisjam.title + "</a></h1>"
   			if (thisjam.hasOwnProperty("band"))
