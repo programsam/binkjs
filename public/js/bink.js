@@ -21,8 +21,8 @@ function loadRecentJams()
 		data.forEach(function (thisjam, index, array) {
   			var d = new Date(thisjam.date)
   			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
-  			html += "<div class='col-xs-6 col-md-3'>"
-  			html += "<h1><a id='jam" + thisjam.id + "' onclick='loadJam(" + thisjam.id + ")' style='cursor:pointer'>" + mydate + " - " + thisjam.title + "</a></h1>"
+  			html += "<div class='col-xs-6 col-md-3 well'>"
+  			html += "<h4><a id='jam" + thisjam.id + "' onclick='loadJam(" + thisjam.id + ")' style='cursor:pointer'>" + mydate + " - " + thisjam.title + "</a></h4>"
   			if (thisjam.hasOwnProperty("band"))
   			{
   				html += thisjam.band.name
