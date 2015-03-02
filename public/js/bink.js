@@ -7,10 +7,21 @@ function loadRecentJams()
 	$.get( "/recent", function( data ) {
 		console.log(data)
 		var html = "";
+		/*
+		 <div class="row">
+  <div class="col-xs-6 col-md-3">
+    <a href="#" class="thumbnail">
+      <img src="..." alt="...">
+    </a>
+  </div>
+  ...
+</div>
+		 */
+		html += "<div class='row'>"
 		data.forEach(function (thisjam, index, array) {
   			var d = new Date(thisjam.date)
   			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
-  			html += "<div class='jumbotron'>"
+  			html += "<div class='col-xs-6 col-md-3'>"
   			html += "<h1><a id='jam" + thisjam.id + "' onclick='loadJam(" + thisjam.id + ")' style='cursor:pointer'>" + mydate + " - " + thisjam.title + "</a></h1>"
   			if (thisjam.hasOwnProperty("band"))
   			{
@@ -27,6 +38,7 @@ function loadRecentJams()
   			html += "<p /><div class='quote'>" + thisjam.notes + "</div>"
   			html += "</div>"
 	  		})
+	  	html += "</div>"
 	  	$(".main").html(html)
 	})
 	.fail(function()
