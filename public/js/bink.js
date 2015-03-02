@@ -9,7 +9,7 @@ function loadRecentJams()
 		var html = "";
 		data.forEach(function (thisjam, index, array) {
   			mydate = Date.parse(thisjam.date.substr(0,10)).toString("MM/dd/yyyy")
-  			html += "<div class='item'>"
+  			html += "<div class='jumbotron'>"
   			html += "<h1><a id='jam" + thisjam.id + "' onclick='loadJam(" + thisjam.id + ")' style='cursor:pointer'>" + mydate + " - " + thisjam.title + "</a></h1>"
   			if (thisjam.hasOwnProperty("band"))
   			{
@@ -26,7 +26,8 @@ function loadRecentJams()
   			html += "<p /><div class='quote'>" + thisjam.notes + "</div>"
   			html += "</div>"
 	  		})
-	  	$("#main").html(html)
+	  	//$("#main").html(html)
+	  	$(".main").html("<strong>SUCKER!</strong>")
 	})
 	.fail(function()
 	{
