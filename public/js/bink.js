@@ -22,7 +22,7 @@ function loadRecentJams()
   			var d = new Date(thisjam.date)
   			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
   			html += "<div class='col-xs-6 col-md-3 well'>"
-  			html += "<h4><a id='jam" + thisjam.id + "' onclick='loadJam(" + thisjam.id + ")' style='cursor:pointer'>" + mydate + " - " + thisjam.title + "</a></h4>"
+  			html += "<h4><a href='#' id='jam" + thisjam.id + "' onclick='loadJam(" + thisjam.id + ")'>" + mydate + " - " + thisjam.title + "</a></h4>"
   			if (thisjam.hasOwnProperty("band"))
   			{
   				html += thisjam.band.name
@@ -52,8 +52,9 @@ function loadJam(id)
 	$.get( "/jam/" + id, function( thisjam ) {
 		console.log(thisjam)
 		var html = "";
-		mydate = Date.parse(thisjam.date.substr(0,10)).toString("MM/dd/yyyy")
-		html += "<div class='item'>"
+		var d = new Date(thisjam.date)
+		var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
+		html += "<div class='well'>"
 		html += "<h1><a id='jam" + thisjam.id + "' onclick='loadJam(" + thisjam.id + ")' style='cursor:pointer'>" + mydate + " - " + thisjam.title + "</a></h1>"
 		if (thisjam.hasOwnProperty("band"))
 		{
