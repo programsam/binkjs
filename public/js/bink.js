@@ -1,7 +1,5 @@
 $(document).ready(function(){
-   $("#recentButton").click(loadRecentJams)
-   $('#recentButton').css('cursor','pointer');
-
+   $("a#recentButton").click(loadRecentJams)
 })
 
 function loadRecentJams()
@@ -28,7 +26,7 @@ function loadRecentJams()
   			html += "<p /><div class='quote'>" + thisjam.notes + "</div>"
   			html += "</div>"
 	  		})
-	  	$("#thispage").html(html)
+	  	$("#main").html(html)
 	})
 	.fail(function()
 	{
