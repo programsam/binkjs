@@ -50,7 +50,7 @@ app.get('/jam/:id', function (req, res) {
 app.get('/recent', function (req, res) {
 	res.set('Content-Type','application/json')
 	var client = sql();
-	client.query('SELECT * from jams where private = 0 order by date desc limit 0,5', function(err, jams, fields) {
+	client.query('SELECT * from jams where private = 0 order by date desc limit 0,20', function(err, jams, fields) {
 	  if (err)
 	  {
 		  console.log("ERROR Getting recent jams: " + err)
