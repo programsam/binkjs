@@ -7,16 +7,6 @@ function loadRecentJams()
 	$.get( "/recent", function( data ) {
 		console.log(data)
 		var html = "";
-		/*
-		 <div class="row">
-  <div class="col-xs-6 col-md-3">
-    <a href="#" class="thumbnail">
-      <img src="..." alt="...">
-    </a>
-  </div>
-  ...
-</div>
-		 */
 		html += "<div class='row'>"
 		data.forEach(function (thisjam, index, array) {
   			var d = new Date(thisjam.date)
@@ -70,6 +60,6 @@ function loadJam(id)
 		}
 		html += "<p /><div class='quote'>" + thisjam.notes + "</div>"
 		html += "</div>"
-		$("#thispage").html(html)
+		$(".main").html(html)
 	});
 }
