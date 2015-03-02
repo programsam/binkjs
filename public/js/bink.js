@@ -11,7 +11,7 @@ function loadRecentJams()
 		data.forEach(function (thisjam, index, array) {
   			var d = new Date(thisjam.date)
   			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
-  			html += "<div class='col-xs-6 col-md-3 well'>"
+  			html += "<div class='col-xs-6 col-md-3'>"
   			html += "<h4>" + mydate + " - " + thisjam.title + "</h4>"
   			if (thisjam.hasOwnProperty("band"))
   			{
