@@ -27,8 +27,7 @@ function loadRecentJams()
   			html += "<p /><div class='quote'>" + thisjam.notes + "</div>"
   			html += "</div>"
 	  		})
-	  	//$("#main").html(html)
-	  	$(".main").html("<strong>SUCKER!</strong>")
+	  	$(".main").html(html)
 	})
 	.fail(function()
 	{
