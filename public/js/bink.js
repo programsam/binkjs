@@ -12,7 +12,7 @@ function loadRecentJams()
   			var d = new Date(thisjam.date)
   			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
   			html += "<div class='col-xs-6 col-md-3 well-sm'>"
-  			html += "<button onclick='loadJam(" + thisjam.id + ")' type='button' class='btn btn-default badge' aria-label='Left Align'><span class='glyphicon glyphicon-align-left' aria-hidden='true'></span></button>"
+  			html += "<button onclick='loadJam(" + thisjam.id + ")' type='button' class='btn btn-default' aria-label='Load this Jam'><span class='badge glyphicon glyphicon-align-left' aria-hidden='true'></span></button>"
   			html += "<h4>" + mydate + " - " + thisjam.title + "</h4>"
   			if (thisjam.hasOwnProperty("band"))
   			{
