@@ -26,7 +26,7 @@ function loadRecentJams()
   				html += thisjam.location.name
   			}
   			html += "<p /><div class='quote'>" + thisjam.notes + "</div>"
-  			html += "<button onclick='loadJam(" + thisjam.id + ")' type='button' class='btn btn-default' aria-label='Load this Jam'><span class='glyphicon glyphicon-align-left' aria-hidden='true'></span></button>"
+  			html += "<div align='right'><button onclick='loadJam(" + thisjam.id + ")' type='button' class='btn btn-default' aria-label='Load this Jam'><span class='glyphicon glyphicon-expand' aria-hidden='true'></span></button></div>"
   			
   			html += "</div>"
 	  		})
