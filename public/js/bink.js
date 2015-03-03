@@ -39,12 +39,6 @@ function loadRecentJams()
 
 function loadJam(id)
 {
-//	<div class="panel panel-default">
-//	  <div class="panel-heading">Panel heading without title</div>
-//	  <div class="panel-body">
-//	    Panel content
-//	  </div>
-//	</div>
 	$.get( "/jam/" + id, function( thisjam ) {
 		console.log(thisjam)
 		var html = "";

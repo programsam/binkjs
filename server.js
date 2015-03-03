@@ -12,6 +12,31 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
 })
 
+function getJamMusicians(thisjam, overallCallback)
+{
+	var client = sql();
+	client.query("SELECT * FROM musiciansoncollection, musicians, instruments where instruments.id = " +
+			"musiciansoncollection.instrumentid and musicians.id = musicianid and " +
+			"musiciansoncollection.jamid = " + thisjam.id, function(err, musicians, fields) {
+		if (err) //error while getting the item
+		{
+			console.log("ERROR: " + err)
+			client.end()
+		}
+		else
+		{
+			 mymusicians = []
+			 async.forEach(musicians, function(thismusician, mainCallback) {
+				 
+			 }, 
+			 function(err, results) {
+				 thisjam.musicians = mymusicians
+				 overallCallback()
+			 })
+		}
+	})
+}
+
 function getBand(thisjam, callback)
 {
 	var client = sql();
