@@ -34,33 +34,29 @@ function getJamMusicians(thisjam, overallCallback)
 		else
 		{
 			 async.forEach(musicians, function(thismusician, mainCallback) {
+				 var found = false
 				 async.forEach(mymusicians, function(thismymusician, subCallback) {
 				 	 if (thismusician.name == thismymusician.name)
 					 {
 						thismymusician.instruments.push(thismusician.instrumentname)
+						found = true
 						subCallback()
 					 }
-					 else
+				 	}, 
+				 	function (err, results) {
+					 if (found == false)
 					 {
 						 var musician = {"name":thismusician.musicianname,
 								 "instruments": [thismusician.instrumentname]}
 						 mymusicians.push(musician)
-						 subCallback()
+						 mainCallback()
 					 }
-				 }, 
-				 function (err, results) {
-					 mainCallback()
-				 })
-				 if (mymusicians.length == 0)
-				 {
-					 var musician = {"name":thismusician.musicianname,
-							 "instruments": [thismusician.instrumentname]}
-					 mymusicians.push(musician)
-					 mainCallback()
-				 }
+				  })
+			   })
 			 }, 
 			 function(err, results) {
 				 thisjam.musicians = mymusicians
+				 client.end()
 				 overallCallback()
 			 })
 		}
