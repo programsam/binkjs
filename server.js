@@ -15,6 +15,7 @@ app.get('/', function (req, res) {
 function getJamMusicians(thisjam, overallCallback)
 {
 	var client = sql();
+	var mymusicians = []
 	client.query("SELECT musiciansoncollection.musicianid, musiciansoncollection.jamid, musiciansoncollection.instrumentid, " +
 			"musicians.name as musicianname, instruments.name as instrumentname FROM musiciansoncollection, musicians, " +
 			"instruments where instruments.id = musiciansoncollection.instrumentid and musicians.id = musicianid and " +
@@ -27,7 +28,6 @@ function getJamMusicians(thisjam, overallCallback)
 		}
 		else
 		{
-			 mymusicians = []
 			 async.forEach(musicians, function(thismusician, mainCallback) {
 				 async.forEach(mymusicians, function(thismymusician, subCallback) {
 				 	 if (thismusician.name == thismymusician.name)
