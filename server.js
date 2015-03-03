@@ -36,6 +36,8 @@ function getJamMusicians(thisjam, overallCallback)
 			 async.forEach(musicians, function(thismusician, mainCallback) {
 				 var found = false
 				 async.forEach(mymusicians, function(thismymusician, subCallback) {
+					 console.log("This musician: " + thismusician.name)
+					 console.log("My musician: " + thismymusician.name)
 				 	 if (thismusician.name == thismymusician.name)
 					 {
 						thismymusician.instruments.push(thismusician.instrumentname)
@@ -46,6 +48,7 @@ function getJamMusicians(thisjam, overallCallback)
 				 	function (err, results) {
 					 if (found == false)
 					 {
+						 console.log("Not found.")
 						 var musician = {"name":thismusician.musicianname,
 								 "instruments": [thismusician.instrumentname]}
 						 mymusicians.push(musician)
