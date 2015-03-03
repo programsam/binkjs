@@ -16,11 +16,6 @@ function getJamMusicians(thisjam, overallCallback)
 {
 	var client = sql();
 	var mymusicians = []
-	console.log("Query: SELECT musiciansoncollection.musicianid, musiciansoncollection.jamid, musiciansoncollection.instrumentid, " +
-			"musicians.name as musicianname, instruments.name as instrumentname FROM musiciansoncollection, musicians, " +
-			"instruments where instruments.id = musiciansoncollection.instrumentid and musicians.id = musicianid and " +
-			"musiciansoncollection.jamid = " + thisjam.id)
-			
 	client.query("SELECT musiciansoncollection.musicianid, musiciansoncollection.jamid, musiciansoncollection.instrumentid, " +
 			"musicians.name as musicianname, instruments.name as instrumentname FROM musiciansoncollection, musicians, " +
 			"instruments where instruments.id = musiciansoncollection.instrumentid and musicians.id = musicianid and " +
