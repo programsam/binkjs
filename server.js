@@ -33,12 +33,14 @@ function getJamMusicians(thisjam, overallCallback)
 				 	 if (thismymusician.name == thismusician.name)
 					 {
 						thismymusician.instruments.push(thismusician.instrumentname)
+						subCallback()
 					 }
 					 else
 					 {
 						 var musician = {"name":thismusician.musicianname,
 								 "instruments": [thismusician.instrumentname]}
 						 thismymusician.push(thismusician)
+						 subCallback()
 					 }
 				 }, 
 				 function (err, results) {
