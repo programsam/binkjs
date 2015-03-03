@@ -12,7 +12,7 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
 })
 
-function getItem(field, id)
+function getBand(thisjam, callback)
 {
 	var client = sql();
 	console.log("SELECT * from " + field + " where id = " + id)
@@ -26,12 +26,13 @@ function getItem(field, id)
 			if (rows.length > 0) //there is something in the array, return it
 			{
 				console.log("Found: " + JSON.stringify(rows[0]))
-				return rows[0]
+				thisjam.band = rows[0]
+				callback()
 			}
 			else //nothing in the array, return null
 			{
 				console.log("Found nothing.")
-				return null
+				callback()
 			}
 		} //else
 	}) //query
@@ -44,9 +45,7 @@ app.get('/jam/:id', function (req, res) {
 		async.series([
 		    function(callback)
 		    {
-		    	console.log("Getting the band...")
-		    	thisjam.band = getItem("bands", thisjam.bandid)
-		    	callback()
+		    	thisjam.band = getBand(thisjam, callback)
 		    },
 		    function(callback)
 		    {
