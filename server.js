@@ -15,8 +15,9 @@ app.get('/', function (req, res) {
 function getJamMusicians(thisjam, overallCallback)
 {
 	var client = sql();
-	client.query("SELECT * FROM musiciansoncollection, musicians, instruments where instruments.id = " +
-			"musiciansoncollection.instrumentid and musicians.id = musicianid and " +
+	client.query("SELECT musiciansoncollection.musicianid, musiciansoncollection.jamid, musiciansoncollection.instrumentid, " +
+			"musicians.name as musicianname, instruments.name as instrumentname FROM musiciansoncollection, musicians, " +
+			"instruments where instruments.id = musiciansoncollection.instrumentid and musicians.id = musicianid and " +
 			"musiciansoncollection.jamid = " + thisjam.id, function(err, musicians, fields) {
 		if (err) //error while getting the item
 		{
@@ -28,7 +29,18 @@ function getJamMusicians(thisjam, overallCallback)
 		{
 			 mymusicians = []
 			 async.forEach(musicians, function(thismusician, mainCallback) {
-				 mymusicians.push(thismusician)
+				 mymusicians.each(function (element, index, array) {
+					 if (element.name == thismusician.name)
+					 {
+						element.instruments.push(thismusician.instrumentname)
+					 }
+					 else
+					 {
+						 var musician = {"name":thismusician.musicianname,
+								 "instruments": [thismusician.instrumentname]}
+						 mymusicians.push(thismusician)
+					 }
+				 }
 				 mainCallback()
 			 }, 
 			 function(err, results) {
