@@ -58,7 +58,7 @@ function loadJam(id)
 		{
 			html += thisjam.location.name
 		}
-		html += "<p /><div class='panel'>" + thisjam.notes + "</div>"
+		html += "<p /><div class='panel panel-default'>" + thisjam.notes + "</div>"
 		$(".main").html(html)
 	});
 }
