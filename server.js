@@ -39,7 +39,7 @@ function getJamMusicians(thisjam, overallCallback)
 					 {
 						 var musician = {"name":thismusician.musicianname,
 								 "instruments": [thismusician.instrumentname]}
-						 mymusicians.push(thismusician)
+						 mymusicians.push(musician)
 						 subCallback()
 					 }
 				 }, 
