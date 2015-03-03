@@ -62,7 +62,7 @@ function loadJam(id)
 			html += "<p /><div class='panel panel-default'><div class='panel-heading'>Notes</div>"
 			html += "<div class='panel-body'>" + thisjam.notes + "</div></div>"
 		}
-		if (thisjam.hasOwnProperty("musicians"))
+		if (thisjam.hasOwnProperty("musicians") && musicians.length != 0)
 		{
 			html += "<div class='panel panel-default'><div class='panel-heading'>Musicians</div>"
 			html += "<div class='panel-body'>" + JSON.stringify(thisjam.musicians) + "</div></div>"
