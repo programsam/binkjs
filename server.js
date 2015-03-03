@@ -40,8 +40,8 @@ function getJamMusicians(thisjam, overallCallback)
 					 {
 						thismymusician.instruments.push(thismusician.instrumentname)
 						found = true
-						subCallback()
 					 }
+					 subCallback()
 				 	}, 
 				 	function (err, results) {
 					 if (found == false)
