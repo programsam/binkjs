@@ -66,9 +66,9 @@ function loadJam(id)
 		{
 			html += "<div class='panel panel-default'><div class='panel-heading'>Musicians</div>"
 			html += "<ul class='list-group'>"
-			thisjam.musicians.forEach(element, index, array) {
+			thisjam.musicians.forEach(function (element, index, array) {
 				html += "<li class='list-group-item'>" + element.name + "</li>"
-			}
+			})
 			html += "</ul></div>"
 		}
 		
