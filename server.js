@@ -12,38 +12,32 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
 })
 
+function getItem(field, id)
+{
+	client.query('SELECT * from " + fields + " where id = ' + id, function(err, rows, fields) {
+		if (err)
+		{
+			console.log("ERROR: " + err)
+		}
+		else
+		{
+			if (rows.size > 0)
+			{
+				return row[0]
+			}
+			else
+			{
+				return null
+			}
+		}
+	}
+}
+
 app.get('/jam/:id', function (req, res) {
 	var client = sql();
 	client.query('SELECT * from jams where id = ' + req.params.id, function(err, rows) {
 		thisjam = rows[0]
-		if (thisjam.bandid != -1)
-		{
-		  	client.query('SELECT * from bands where id = ' + thisjam.bandid, function(err, bands, fields) {
-		  		thisjam.band = bands[0]
-		  		if (thisjam.locid != -1)
-				{
-					client.query('SELECT * from locations where id = ' + thisjam.locid, function(err, locations, fields) {
-				  		thisjam.location = locations[0]
-				  		res.send(thisjam)
-					}) //client.query
-				}
-		  		else
-		  		{
-		  			res.send(thisjam)
-		  		} //else
-		  	})
-		} //if
-		else if (thisjam.locid != -1)
-		{
-			client.query('SELECT * from locations where id = ' + thisjam.locid, function(err, locations, fields) {
-		  		thisjam.location = locations[0]
-		  		res.send(thisjam)
-			}) //client.query
-		} //else if
-		else
-		{
-			res.end(JSON.stringify(thisjam))
-		} //else
+		thisjam.band = getItem("bands", thisjam.bandid)
 	}) //outer client.query
 }) //get /jam/id
 
