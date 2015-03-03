@@ -30,6 +30,7 @@ function getJamMusicians(thisjam, overallCallback)
 		{
 			 async.forEach(musicians, function(thismusician, mainCallback) {
 				 async.forEach(mymusicians, function(thismymusician, subCallback) {
+					 console.log("Comparing: " + JSON.stringify(thismymusician) + " to " + JSON.stringify(thismusician))
 				 	 if (thismusician.name == thismymusician.name)
 					 {
 						thismymusician.instruments.push(thismusician.instrumentname)
