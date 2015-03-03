@@ -40,7 +40,7 @@ function getJamMusicians(thisjam, overallCallback)
 								 "instruments": [thismusician.instrumentname]}
 						 mymusicians.push(thismusician)
 					 }
-				 }
+				 })
 				 mainCallback()
 			 }, 
 			 function(err, results) {
