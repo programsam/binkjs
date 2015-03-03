@@ -45,8 +45,7 @@ function loadJam(id)
 		var html = "";
 		var d = new Date(thisjam.date)
 		var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
-		html += "<div class='well'>"
-		html += "<h1><a id='jam" + thisjam.id + "' onclick='loadJam(" + thisjam.id + ")' style='cursor:pointer'>" + mydate + " - " + thisjam.title + "</a></h1>"
+		html += "<h1>" + mydate + " - " + thisjam.title + "</h1>"
 		if (thisjam.hasOwnProperty("band"))
 		{
 			html += thisjam.band.name
@@ -59,8 +58,7 @@ function loadJam(id)
 		{
 			html += thisjam.location.name
 		}
-		html += "<p /><div class='quote'>" + thisjam.notes + "</div>"
-		html += "</div>"
+		html += "<p /><div class='panel'>" + thisjam.notes + "</div>"
 		$(".main").html(html)
 	});
 }
