@@ -57,8 +57,17 @@ function loadJam(id)
 		{
 			html += thisjam.location.name
 		}
-		html += "<p /><div class='panel panel-default'><div class='panel-heading'>Notes</div>"
-		html += "<div class='panel-body'>" + thisjam.notes + "</div></div>"
+		if (thisjam.hasOwnProperty("notes") && notes != "")
+		{
+			html += "<p /><div class='panel panel-default'><div class='panel-heading'>Notes</div>"
+			html += "<div class='panel-body'>" + thisjam.notes + "</div></div>"
+		}
+		if (thisjam.hasOwnProperty("musicians"))
+		{
+			html += "<div class='panel panel-default'><div class='panel-heading'>Musicians</div>"
+			html += "<div class='panel-body'>" + JSON.stringify(thisjam.musicians) + "</div></div>"
+		}
+		
 		$(".main").html(html)
 	});
 }
