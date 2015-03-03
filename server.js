@@ -38,7 +38,7 @@ app.get('/jam/:id', function (req, res) {
 	client.query('SELECT * from jams where id = ' + req.params.id, function(err, rows) {
 		thisjam = rows[0]
 		thisjam.band = getItem("bands", thisjam.bandid)
-		return JSON.stringify(thisjam)
+		res.send(JSON.stringify(thisjam))
 	}) //outer client.query
 }) //get /jam/id
 
