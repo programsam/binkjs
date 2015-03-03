@@ -49,16 +49,15 @@ function getJamMusicians(thisjam, overallCallback)
 						 var musician = {"name":thismusician.musicianname,
 								 "instruments": [thismusician.instrumentname]}
 						 mymusicians.push(musician)
-						 mainCallback()
 					 }
+					 mainCallback()
 				  })
-			   })
-			 }, 
-			 function(err, results) {
+			   },
+			   function(err, results) {
 				 thisjam.musicians = mymusicians
 				 client.end()
 				 overallCallback()
-			 })
+			   })
 		}
 	})
 }
