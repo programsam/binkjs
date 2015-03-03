@@ -107,8 +107,8 @@ app.get('/recent', function (req, res) {
 				    	res.send(thisjam)
 				    	callback()
 				    }
-				    mainCallback()
 			  ])
+			  mainCallback()
 		  }, //got everything, return now
 		  function (err)
 		  {
