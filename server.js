@@ -15,23 +15,23 @@ app.get('/', function (req, res) {
 function getItem(field, id)
 {
 	client.query('SELECT * from " + fields + " where id = ' + id, function(err, rows, fields) {
-		if (err)
+		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
 		}
-		else
+		else //no error
 		{
-			if (rows.size > 0)
+			if (rows.length > 0) //there is something in the array, return it
 			{
 				return row[0]
 			}
-			else
+			else //nothing in the array, return null
 			{
 				return null
 			}
-		}
-	}
-}
+		} //else
+	}) //query
+} //function
 
 app.get('/jam/:id', function (req, res) {
 	var client = sql();
