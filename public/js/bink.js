@@ -5,7 +5,6 @@ $(document).ready(function(){
 function loadRecentJams()
 {
 	$.get( "/recent", function( data ) {
-		console.log(data)
 		var html = "";
 		html += "<div class='row'>"
 		data.forEach(function (thisjam, index, array) {
