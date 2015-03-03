@@ -28,7 +28,7 @@ function getJamMusicians(thisjam, overallCallback)
 		{
 			 mymusicians = []
 			 async.forEach(musicians, function(thismusician, mainCallback) {
-				 
+				 mainCallback()
 			 }, 
 			 function(err, results) {
 				 thisjam.musicians = mymusicians
