@@ -30,7 +30,7 @@ function getJamMusicians(thisjam, overallCallback)
 			 mymusicians = []
 			 async.forEach(musicians, function(thismusician, mainCallback) {
 				 async.forEach(mymusicians, function(thismymusician, subCallback) {
-				 	 if (thismymusician.name == thismusician.name)
+				 	 if (thismusician.name == thismymusician.name)
 					 {
 						thismymusician.instruments.push(thismusician.instrumentname)
 						subCallback()
@@ -39,7 +39,7 @@ function getJamMusicians(thisjam, overallCallback)
 					 {
 						 var musician = {"name":thismusician.musicianname,
 								 "instruments": [thismusician.instrumentname]}
-						 thismymusician.push(thismusician)
+						 mymusicians.push(thismusician)
 						 subCallback()
 					 }
 				 }, 
