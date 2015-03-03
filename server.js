@@ -15,8 +15,8 @@ app.get('/', function (req, res) {
 function getBand(thisjam, callback)
 {
 	var client = sql();
-	console.log("SELECT * from bands where id = " + id)
-	client.query("SELECT * from bands where id = " + id, function(err, rows, fields) {
+	console.log("SELECT * from bands where id = " + thisjam.bandid)
+	client.query("SELECT * from bands where id = " + thisjam.bandid, function(err, rows, fields) {
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
