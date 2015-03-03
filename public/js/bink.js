@@ -39,6 +39,12 @@ function loadRecentJams()
 
 function loadJam(id)
 {
+//	<div class="panel panel-default">
+//	  <div class="panel-heading">Panel heading without title</div>
+//	  <div class="panel-body">
+//	    Panel content
+//	  </div>
+//	</div>
 	$.get( "/jam/" + id, function( thisjam ) {
 		console.log(thisjam)
 		var html = "";
@@ -57,7 +63,8 @@ function loadJam(id)
 		{
 			html += thisjam.location.name
 		}
-		html += "<p /><div class='panel panel-default'>" + thisjam.notes + "</div>"
+		html += "<p /><div class='panel panel-default'><div class='panel-heading'>Notes</div>"
+		html += "<div class='panel-body'>" + thisjam.notes + "</div></div>"
 		$(".main").html(html)
 	});
 }
