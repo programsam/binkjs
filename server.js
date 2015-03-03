@@ -44,6 +44,7 @@ app.get('/jam/:id', function (req, res) {
 		    },
 		    function()
 		    {
+		    	console.log("Sending my response")
 		    	res.send(thisjam)
 		    }
 		]) //series
