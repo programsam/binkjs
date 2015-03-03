@@ -14,6 +14,7 @@ app.get('/', function (req, res) {
 
 function getItem(field, id)
 {
+	console.log("SELECT * from " + field + " where id = " + id)
 	client.query("SELECT * from " + field + " where id = " + id, function(err, rows, fields) {
 		if (err) //error while getting the item
 		{
