@@ -57,7 +57,7 @@ function loadJam(id)
 		{
 			html += thisjam.location.name
 		}
-		if (thisjam.hasOwnProperty("notes") && notes != "")
+		if (thisjam.hasOwnProperty("notes") && thisjam.notes != "")
 		{
 			html += "<p /><div class='panel panel-default'><div class='panel-heading'>Notes</div>"
 			html += "<div class='panel-body'>" + thisjam.notes + "</div></div>"
