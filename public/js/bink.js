@@ -62,10 +62,14 @@ function loadJam(id)
 			html += "<p /><div class='panel panel-default'><div class='panel-heading'>Notes</div>"
 			html += "<div class='panel-body'>" + thisjam.notes + "</div></div>"
 		}
-		if (thisjam.hasOwnProperty("musicians") && musicians.length != 0)
+		if (thisjam.hasOwnProperty("musicians") && thisjam.musicians.length != 0)
 		{
 			html += "<div class='panel panel-default'><div class='panel-heading'>Musicians</div>"
-			html += "<div class='panel-body'>" + JSON.stringify(thisjam.musicians) + "</div></div>"
+			html += "<ul class='list-group'>"
+			thisjam.musicians.forEach(element, index, array) {
+				html += "<li class='list-group-item'>" + element.name + "</li>"
+			}
+			html += "</ul></div>"
 		}
 		
 		$(".main").html(html)
