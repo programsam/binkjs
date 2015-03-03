@@ -23,7 +23,7 @@ function getItem(field, id)
 		{
 			if (rows.length > 0) //there is something in the array, return it
 			{
-				return row[0]
+				return rows[0]
 			}
 			else //nothing in the array, return null
 			{
