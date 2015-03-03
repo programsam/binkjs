@@ -14,7 +14,6 @@ app.get('/', function (req, res) {
 
 function getItem(field, id)
 {
-	console.log("SELECT * from " + field + " where id = " + id)
 	client.query("SELECT * from " + field + " where id = " + id, function(err, rows, fields) {
 		if (err) //error while getting the item
 		{
@@ -24,7 +23,6 @@ function getItem(field, id)
 		{
 			if (rows.length > 0) //there is something in the array, return it
 			{
-				console.log("Found: " + rows[0])
 				return rows[0]
 			}
 			else //nothing in the array, return null
@@ -39,9 +37,17 @@ app.get('/jam/:id', function (req, res) {
 	var client = sql();
 	client.query('SELECT * from jams where id = ' + req.params.id, function(err, rows) {
 		thisjam = rows[0]
-		thisjam.band = getItem("bands", thisjam.bandid)
-		res.send(thisjam)
-	}) //outer client.query
+		async.series([
+		    function()
+		    {
+		    	thisjam.band = getItem("bands", thisjam.bandid)
+		    },
+		    function()
+		    {
+		    	res.send(thisjam)
+		    }
+		]) //series
+	})//outer client.query
 }) //get /jam/id
 
 app.get('/recent', function (req, res) {
