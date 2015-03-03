@@ -92,7 +92,6 @@ app.get('/recent', function (req, res) {
 	  else
 	  {
 		  async.forEach(jams, function(thisjam, mainCallback) {
-			  thisjam = rows[0]
 				async.series([
 				    function(callback)
 				    {
