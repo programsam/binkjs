@@ -66,8 +66,19 @@ function loadJam(id)
 		{
 			html += "<div class='panel panel-default'><div class='panel-heading'>Musicians</div>"
 			html += "<ul class='list-group'>"
-			thisjam.musicians.forEach(function (element, index, array) {
-				html += "<li class='list-group-item'>" + element.name + "</li>"
+			thisjam.musicians.forEach(function (musician, mi, ma) {
+				html += "<li class='list-group-item'>" + musician.name
+				musician.instruments.forEach(function (instrument, instindex, instarray) {
+					if (instindex == (instarray.length - 1))
+					{
+						html += instrument
+					}
+					else
+					{
+						html += instrument + ","
+					}
+				})
+				html += "</li>"
 			})
 			html += "</ul></div>"
 		}
