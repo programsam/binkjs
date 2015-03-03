@@ -29,7 +29,7 @@ function getJamMusicians(thisjam, overallCallback)
 		{
 			 mymusicians = []
 			 async.forEach(musicians, function(thismusician, mainCallback) {
-				 mymusicians.each(function (element, index, array) {
+				 mymusicians.forEach(function (element, index, array) {
 					 if (element.name == thismusician.name)
 					 {
 						element.instruments.push(thismusician.instrumentname)
