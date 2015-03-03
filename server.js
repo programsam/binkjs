@@ -36,9 +36,9 @@ function getJamMusicians(thisjam, overallCallback)
 			 async.forEach(musicians, function(thismusician, mainCallback) {
 				 var found = false
 				 async.forEach(mymusicians, function(thismymusician, subCallback) {
-					 console.log("This musician: " + thismusician.name)
+					 console.log("This musician: " + thismusician.musicianname)
 					 console.log("My musician: " + thismymusician.name)
-				 	 if (thismusician.name == thismymusician.name)
+				 	 if (thismusician.musicianname == thismymusician.name)
 					 {
 						thismymusician.instruments.push(thismusician.instrumentname)
 						found = true
