@@ -15,7 +15,6 @@ app.get('/', function (req, res) {
 function getBand(thisjam, callback)
 {
 	var client = sql();
-	console.log("SELECT * from bands where id = " + thisjam.bandid)
 	client.query("SELECT * from bands where id = " + thisjam.bandid, function(err, rows, fields) {
 		if (err) //error while getting the item
 		{
@@ -25,13 +24,34 @@ function getBand(thisjam, callback)
 		{
 			if (rows.length > 0) //there is something in the array, return it
 			{
-				console.log("Found: " + JSON.stringify(rows[0]))
 				thisjam.band = rows[0]
 				callback()
 			}
 			else //nothing in the array, return null
 			{
-				console.log("Found nothing.")
+				callback()
+			}
+		} //else
+	}) //query
+} //function
+
+function getLocation(thisjam, callback)
+{
+	var client = sql();
+	client.query("SELECT * from locations where id = " + thisjam.locid, function(err, rows, fields) {
+		if (err) //error while getting the item
+		{
+			console.log("ERROR: " + err)
+		}
+		else //no error
+		{
+			if (rows.length > 0) //there is something in the array, return it
+			{
+				thisjam.location = rows[0]
+				callback()
+			}
+			else //nothing in the array, return null
+			{
 				callback()
 			}
 		} //else
@@ -46,6 +66,10 @@ app.get('/jam/:id', function (req, res) {
 		    function(callback)
 		    {
 		    	thisjam.band = getBand(thisjam, callback)
+		    },
+		    function(callback)
+		    {
+		    	thisjam.location = getLocation(thisjam, callback)
 		    },
 		    function(callback)
 		    {
