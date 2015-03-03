@@ -29,19 +29,21 @@ function getJamMusicians(thisjam, overallCallback)
 		{
 			 mymusicians = []
 			 async.forEach(musicians, function(thismusician, mainCallback) {
-				 mymusicians.forEach(function (element, index, array) {
-					 if (element.name == thismusician.name)
+				 async.forEach(mymusicians, function(thismymusician, subCallback) {
+				 	 if (thismymusician.name == thismusician.name)
 					 {
-						element.instruments.push(thismusician.instrumentname)
+						thismymusician.instruments.push(thismusician.instrumentname)
 					 }
 					 else
 					 {
 						 var musician = {"name":thismusician.musicianname,
 								 "instruments": [thismusician.instrumentname]}
-						 mymusicians.push(thismusician)
+						 thismymusician.push(thismusician)
 					 }
+				 }, 
+				 function (err, results) {
+					 mainCallback()
 				 })
-				 mainCallback()
 			 }, 
 			 function(err, results) {
 				 thisjam.musicians = mymusicians
