@@ -42,15 +42,17 @@ app.get('/jam/:id', function (req, res) {
 	client.query('SELECT * from jams where id = ' + req.params.id, function(err, rows) {
 		thisjam = rows[0]
 		async.series([
-		    function()
+		    function(callback)
 		    {
 		    	console.log("Getting the band...")
 		    	thisjam.band = getItem("bands", thisjam.bandid)
+		    	callback()
 		    },
-		    function()
+		    function(callback)
 		    {
 		    	console.log("Sending my response")
 		    	res.send(thisjam)
+		    	callback()
 		    }
 		]) //series
 	})//outer client.query
