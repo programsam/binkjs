@@ -21,6 +21,7 @@ function getJamMusicians(thisjam, overallCallback)
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
+			res.status(500).end("ERROR!")
 			client.end()
 		}
 		else
@@ -44,6 +45,7 @@ function getBand(thisjam, callback)
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
+			res.status(500).end("ERROR!")
 			client.end()
 		}
 		else //no error
@@ -70,6 +72,7 @@ function getLocation(thisjam, callback)
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
+			res.status(500).end("ERROR!")
 			client.end()
 		}
 		else //no error
@@ -92,27 +95,35 @@ function getLocation(thisjam, callback)
 app.get('/jam/:id', function (req, res) {
 	var client = sql();
 	client.query('SELECT * from jams where id = ' + req.params.id, function(err, rows) {
-		thisjam = rows[0]
-		async.series([
-		    function(callback)
-		    {
-		    	getBand(thisjam, callback)
-		    },
-		    function(callback)
-		    {
-		    	getLocation(thisjam, callback)
-		    },
-		    function(callback)
-		    {
-		    	getJamMusicians(thisjam, callback)
-		    },
-		    function(callback)
-		    {
-		    	res.send(thisjam)
-		    	client.end()
-		    	callback()
-		    }
-		]) //series
+		if (err)
+		{
+			res.status(500).end("ERROR!")
+			client.end()
+		}
+		else
+		{
+			thisjam = rows[0]
+			async.series([
+			    function(callback)
+			    {
+			    	getBand(thisjam, callback)
+			    },
+			    function(callback)
+			    {
+			    	getLocation(thisjam, callback)
+			    },
+			    function(callback)
+			    {
+			    	getJamMusicians(thisjam, callback)
+			    },
+			    function(callback)
+			    {
+			    	res.send(thisjam)
+			    	client.end()
+			    	callback()
+			    }
+			]) //series
+		}
 	})//outer client.query
 }) //get /jam/id
 
