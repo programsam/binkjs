@@ -19,16 +19,19 @@ function getBand(thisjam, callback)
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
+			client.end()
 		}
 		else //no error
 		{
 			if (rows.length > 0) //there is something in the array, return it
 			{
 				thisjam.band = rows[0]
+				client.end()
 				callback()
 			}
 			else //nothing in the array, return null
 			{
+				client.end()
 				callback()
 			}
 		} //else
@@ -42,16 +45,19 @@ function getLocation(thisjam, callback)
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
+			client.end()
 		}
 		else //no error
 		{
 			if (rows.length > 0) //there is something in the array, return it
 			{
 				thisjam.location = rows[0]
+				client.end()
 				callback()
 			}
 			else //nothing in the array, return null
 			{
+				client.end()
 				callback()
 			}
 		} //else
@@ -65,15 +71,16 @@ app.get('/jam/:id', function (req, res) {
 		async.series([
 		    function(callback)
 		    {
-		    	thisjam.band = getBand(thisjam, callback)
+		    	getBand(thisjam, callback)
 		    },
 		    function(callback)
 		    {
-		    	thisjam.location = getLocation(thisjam, callback)
+		    	getLocation(thisjam, callback)
 		    },
 		    function(callback)
 		    {
 		    	res.send(thisjam)
+		    	client.end()
 		    	callback()
 		    }
 		]) //series
@@ -88,6 +95,7 @@ app.get('/recent', function (req, res) {
 	  {
 		  console.log("ERROR Getting recent jams: " + err)
 		  res.status(500).end()
+		  client.end()
 	  }
 	  else
 	  {
@@ -95,11 +103,11 @@ app.get('/recent', function (req, res) {
 				async.series([
 				    function(callback)
 				    {
-				    	thisjam.band = getBand(thisjam, callback)
+				    	getBand(thisjam, callback)
 				    },
 				    function(callback)
 				    {
-				    	thisjam.location = getLocation(thisjam, callback)
+				    	getLocation(thisjam, callback)
 				    }
 				],
 				function (err, results) {
@@ -109,6 +117,7 @@ app.get('/recent', function (req, res) {
 		  function (err)
 		  {
 			  res.send(jams)
+			  client.end()
 		  }
 		  ) //jams are done
 	  	} //else the database command was successful
