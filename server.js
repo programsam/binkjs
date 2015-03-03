@@ -16,6 +16,11 @@ function getJamMusicians(thisjam, overallCallback)
 {
 	var client = sql();
 	var mymusicians = []
+	console.log("Query: SELECT musiciansoncollection.musicianid, musiciansoncollection.jamid, musiciansoncollection.instrumentid, " +
+			"musicians.name as musicianname, instruments.name as instrumentname FROM musiciansoncollection, musicians, " +
+			"instruments where instruments.id = musiciansoncollection.instrumentid and musicians.id = musicianid and " +
+			"musiciansoncollection.jamid = " + thisjam.id)
+			
 	client.query("SELECT musiciansoncollection.musicianid, musiciansoncollection.jamid, musiciansoncollection.instrumentid, " +
 			"musicians.name as musicianname, instruments.name as instrumentname FROM musiciansoncollection, musicians, " +
 			"instruments where instruments.id = musiciansoncollection.instrumentid and musicians.id = musicianid and " +
@@ -28,6 +33,7 @@ function getJamMusicians(thisjam, overallCallback)
 		}
 		else
 		{
+			console.log("We got results!")
 			 async.forEach(musicians, function(thismusician, mainCallback) {
 				 async.forEach(mymusicians, function(thismymusician, subCallback) {
 					 console.log("Comparing: " + JSON.stringify(thismymusician) + " to " + JSON.stringify(thismusician))
