@@ -100,14 +100,11 @@ app.get('/recent', function (req, res) {
 				    function(callback)
 				    {
 				    	thisjam.location = getLocation(thisjam, callback)
-				    },
-				    function(callback)
-				    {
-				    	res.send(thisjam)
-				    	callback()
 				    }
-			  ])
-			  mainCallback()
+				],
+				function (err, results) {
+					mainCallback()
+				})
 		  }, //got everything, return now
 		  function (err)
 		  {
