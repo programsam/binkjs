@@ -1,13 +1,6 @@
 $(document).ready(function(){
    $("a#recentButton").click(loadRecentJams)
-   //loadRecentJams()
-   $("a#playerButton").click(function () {
-       console.log("I do what I want!")
-	   $("#jquery_jplayer_1").jPlayer("setMedia", {
-	        title: "Winter's Day 5",
-	        mp3: "https://s3.amazonaws.com/binkmedia/public/snd/664/Jam.mp3"
-	      });
-   })
+   loadRecentJams()
    
   $("#jquery_jplayer_1").jPlayer({
     ready: function () {
