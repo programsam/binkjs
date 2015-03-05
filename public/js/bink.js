@@ -23,7 +23,7 @@ $(document).ready(function(){
 
 function play(setTitle, path)
 {
-	$("#jquery_jplayer_1).jPlayer("setMedia", {
+	$("#jquery_jplayer_1").jPlayer("setMedia", {
 	        title: setTitle,
 	        mp3: path
 	      });
