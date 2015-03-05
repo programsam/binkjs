@@ -110,7 +110,7 @@ function loadJam(id)
 				html += "<li class='list-group-item'>"
 				html += "<a href='" + tracks.path + "'>" + tracks.title
 				html += "</a>"
-				html += "</li>
+				html += "</li>"
 			})
 			html += "</ul></div>"
 		}
