@@ -75,7 +75,7 @@ function getJamTracks(thisjam, overallCallback)
 				var track = {
 					id: thisTrack.id,
 					title: thisTrack.title,
-					path: settings.track_url + thisTrack.path,
+					path: settings.media_s3_url + thisTrack.path,
 					notes: thisTrack.notes
 				}
 				mytracks.push(track)
