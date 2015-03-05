@@ -57,6 +57,52 @@ function getJamMusicians(thisjam, overallCallback)
 	})
 }
 
+function getJamStaff(thisjam, overallCallback)
+{
+	var client = sql();
+	var mymusicians = []
+	client.query("SELECT productiononcollection.jamid, productiononcollection.staffid, 
+				productiononcollection.roleid, staff.name as staffname, roles.name as rolename 
+				FROM productiononcollection, staff, roles where staff.id = productiononcollection.staffid 
+				and roles.id = productiononcollection.roleid 
+				and jamid = " + thisjam.id, function(err, staff, fields) {
+		if (err) //error while getting the item
+		{
+			console.log("ERROR: " + err)
+			res.status(500).end("ERROR!")
+			client.end()
+		}
+		else
+		{
+			 async.forEach(staff, function(thisstaff, mainCallback) {
+				 var found = false
+				 async.forEach(mystaff, function(thismystaff, subCallback) {
+				 	 if (thisstaff.staffname == thismystaff.name)
+					 {
+						thismystaff.roles.push(thisstaff.rolename)
+						found = true
+					 }
+					 subCallback()
+				 	}, 
+				 	function (err, results) {
+					 if (found == false)
+					 {
+						 var staff = {"name":thisstaff.staffname,
+								 "roles": [thisstaff.rolename]}
+						 mystaff.push(staff)
+					 }
+					 mainCallback()
+				  })
+			   },
+			   function(err, results) {
+				 thisjam.staff = mystaff
+				 client.end()
+				 overallCallback()
+			   })
+		}
+	})
+}
+
 function getBand(thisjam, callback)
 {
 	var client = sql();

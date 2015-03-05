@@ -82,6 +82,26 @@ function loadJam(id)
 			})
 			html += "</ul></div>"
 		}
+		if (thisjam.hasOwnProperty("staff") && thisjam.staff.length != 0)
+		{
+			html += "<div class='panel panel-default'><div class='panel-heading'>Staff</div>"
+			html += "<ul class='list-group'>"
+			thisjam.staff.forEach(function (staff, staffi, staffa) {
+				html += "<li class='list-group-item'>" + staff.name + " - "
+				staff.roles.forEach(function (role, roleindex, rolearray) {
+					if (roleindex == (rolearray.length - 1))
+					{
+						html += role
+					}
+					else
+					{
+						html += role + ", "
+					}
+				})
+				html += "</li>"
+			})
+			html += "</ul></div>"
+		}
 		
 		$(".main").html(html)
 	});
