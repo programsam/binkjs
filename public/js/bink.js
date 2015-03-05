@@ -1,5 +1,6 @@
 $(document).ready(function(){
    $("a#recentButton").click(loadRecentJams)
+   loadRecentJams()
 })
 
 function loadRecentJams()
