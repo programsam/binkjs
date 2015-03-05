@@ -57,6 +57,27 @@ function getJamMusicians(thisjam, overallCallback)
 	})
 }
 
+function getJamTracks(thisjam, overallCallback)
+{
+	var client = sql();
+	var mytracks = []
+	client.query("SELECT from tracks where jamid = " + thisjam.id + 
+				 " order by num asc", function(err, tracks, fields) {
+		async.forEach(tracks, function(thisTrack, trackCallback) {
+			var track = {
+				id: thisTrack.id,
+				title: thisTrack.title,
+				path: settings.track_url + thisTrack.path,
+				notes: thisTrack.notes
+			}
+		}, function (err, results)
+		{
+			thisjam.tracks = mytracks
+			overallCallback()
+		}	 
+	}
+}
+
 function getJamStaff(thisjam, overallCallback)
 {
 	var client = sql();
@@ -184,6 +205,10 @@ app.get('/jam/:id', function (req, res) {
 			    function(callback)
 			    {
 			    	getJamStaff(thisjam, callback)
+			    },
+			    function(callback)
+			    {
+			    	getJamTracks(thisjam, callback)
 			    },
 			    function(callback)
 			    {
