@@ -102,6 +102,18 @@ function loadJam(id)
 			})
 			html += "</ul></div>"
 		}
+		if (thisjam.hasOwnProperty("tracks") && thisjam.tracks.length != 0)
+		{
+			html += "<div class='panel panel-default'><div class='panel-heading'>Music</div>"
+			html += "<ul class='list-group'>"
+			thisjam.tracks.forEach(function (tracks, tracksi, tracksa) {
+				html += "<li class='list-group-item'>"
+				html += "<a href='" + tracks.path + "'>" + tracks.title
+				html += "</a>"
+				html += "</li>
+			})
+			html += "</ul></div>"
+		}
 		
 		$(".main").html(html)
 	});
