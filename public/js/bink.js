@@ -130,11 +130,7 @@ function loadJam(id)
 			thisjam.tracks.forEach(function (tracks, tracksi, tracksa) {
 				html += "<li class='list-group-item'>"
 				html += "<a href='" + tracks.path + "'>" + tracks.title
-				html += "</a> [ <a id='track" + tracks.id + "' href='#'>Play</a> ]"
-				$("#track" + tracks.id).click(function() {
-					console.log("Playing: " + tracks.path)
-					play(tracks.title, tracks.path)
-				})
+				html += "</a> [ <a onclick=\"play(\"" + tracks.title + "\", \"" + tracks.path + "\") href='#'>Play</a> ]"
 				html += "</li>"
 			})
 			html += "</ul></div>"
