@@ -62,10 +62,10 @@ function getJamStaff(thisjam, overallCallback)
 	var client = sql();
 	var mymusicians = []
 	client.query("SELECT productiononcollection.jamid, productiononcollection.staffid, " +
-				productiononcollection.roleid, staff.name as staffname, roles.name as rolename " +  
-				FROM productiononcollection, staff, roles where staff.id = productiononcollection.staffid " + 
-				and roles.id = productiononcollection.roleid " +
-				and jamid = " + thisjam.id, function(err, staff, fields) {
+				 "productiononcollection.roleid, staff.name as staffname, roles.name as rolename " +  
+				 "FROM productiononcollection, staff, roles where staff.id = productiononcollection.staffid " + 
+				 "and roles.id = productiononcollection.roleid " +
+				 "and jamid = " + thisjam.id, function(err, staff, fields) {
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
