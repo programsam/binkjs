@@ -23,8 +23,8 @@ function getJamMusicians(thisjam, overallCallback)
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
-			res.status(500).end("ERROR!")
 			client.end()
+			overallCallback()
 		}
 		else
 		{
@@ -67,6 +67,7 @@ function getJamTracks(thisjam, overallCallback)
 		{
 			console.log("ERROR: " + err)
 			client.end()
+			overallCallback()
 		}
 		else
 		{
@@ -99,6 +100,7 @@ function getJamStaff(thisjam, overallCallback)
 		{
 			console.log("ERROR: " + err)
 			client.end()
+			overallCallback()
 		}
 		else
 		{
@@ -139,6 +141,7 @@ function getBand(thisjam, callback)
 		{
 			console.log("ERROR: " + err)
 			client.end()
+			callback()
 		}
 		else //no error
 		{
@@ -165,6 +168,7 @@ function getLocation(thisjam, callback)
 		{
 			console.log("ERROR: " + err)
 			client.end()
+			callback()
 		}
 		else //no error
 		{
