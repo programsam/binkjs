@@ -72,13 +72,14 @@ function getJamTracks(thisjam, overallCallback)
 		else
 		{
 			async.forEach(tracks, function(thisTrack, trackCallback) {
-			var track = {
-				id: thisTrack.id,
-				title: thisTrack.title,
-				path: settings.track_url + thisTrack.path,
-				notes: thisTrack.notes
-			}
-			mytracks.push(track)
+				var track = {
+					id: thisTrack.id,
+					title: thisTrack.title,
+					path: settings.track_url + thisTrack.path,
+					notes: thisTrack.notes
+				}
+				mytracks.push(track)
+				trackCallback()
 			}, function (err, results)
 			{
 				thisjam.tracks = mytracks
