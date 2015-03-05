@@ -1,6 +1,31 @@
 $(document).ready(function(){
    $("a#recentButton").click(loadRecentJams)
-   loadRecentJams()
+   //loadRecentJams()
+   $("a#playerButton").click(function () {
+       console.log("I do what I want!")
+	   $("#jquery_jplayer_1").jPlayer("setMedia", {
+	        title: "Winter's Day 5",
+	        mp3: "https://s3.amazonaws.com/binkmedia/public/snd/664/Jam.mp3"
+	      });
+   })
+   
+  $("#jquery_jplayer_1").jPlayer({
+    ready: function () {
+      $(this).jPlayer("setMedia", {
+        title: "Winter's Day",
+        mp3: "https://s3.amazonaws.com/binkmedia/public/snd/668/First%20Bounce.mp3"
+      });
+    },
+    cssSelectorAncestor: "#jp_container_1",
+    swfPath: "/js",
+    supplied: "mp3",
+    useStateClassSkin: true,
+    autoBlur: false,
+    smoothPlayBar: true,
+    keyEnabled: true,
+    remainingDuration: true,
+    toggleDuration: true
+  });
 })
 
 function loadRecentJams()
