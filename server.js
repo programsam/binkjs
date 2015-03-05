@@ -78,6 +78,7 @@ function getJamTracks(thisjam, overallCallback)
 				path: settings.track_url + thisTrack.path,
 				notes: thisTrack.notes
 			}
+			mytracks.push(track)
 			}, function (err, results)
 			{
 				thisjam.tracks = mytracks
