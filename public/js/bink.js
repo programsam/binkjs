@@ -3,12 +3,6 @@ $(document).ready(function(){
    loadRecentJams()
    
   $("#jquery_jplayer_1").jPlayer({
-    ready: function () {
-      $(this).jPlayer("setMedia", {
-        title: "Winter's Day",
-        mp3: "https://s3.amazonaws.com/binkmedia/public/snd/668/First%20Bounce.mp3"
-      });
-    },
     cssSelectorAncestor: "#jp_container_1",
     swfPath: "/js",
     supplied: "mp3",
@@ -26,7 +20,7 @@ function play(setTitle, path)
 	$("#jquery_jplayer_1").jPlayer("setMedia", {
 	        title: setTitle,
 	        mp3: path
-	      });
+	  });
 }
 
 function loadRecentJams()
@@ -136,8 +130,9 @@ function loadJam(id)
 			thisjam.tracks.forEach(function (tracks, tracksi, tracksa) {
 				html += "<li class='list-group-item'>"
 				html += "<a href='" + tracks.path + "'>" + tracks.title
-				html += "</a> <a id='track" + tracks.id + "' href='#'>Play</a>"
+				html += "</a> [ <a id='track" + tracks.id + "' href='#'>Play</a> ]"
 				$("#track" + tracks.id).click(function() {
+					console.log("Playing: " + tracks.path)
 					play(tracks.title, tracks.path)
 				})
 				html += "</li>"
