@@ -5,6 +5,8 @@
 		"user": "user",
 		"port": 3306,
 		"password": "password",
-		"database": "bink
-	}
+		"database": "bink",
+		
+	},
+	"media_s3_url": "https://s3.amazonaws.com/binkmedia/public/"
 }
