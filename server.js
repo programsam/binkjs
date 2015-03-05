@@ -74,8 +74,8 @@ function getJamTracks(thisjam, overallCallback)
 		{
 			thisjam.tracks = mytracks
 			overallCallback()
-		}	 
-	}
+		}) //async
+	}) //query
 }
 
 function getJamStaff(thisjam, overallCallback)
