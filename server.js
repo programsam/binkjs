@@ -183,6 +183,10 @@ app.get('/jam/:id', function (req, res) {
 			    },
 			    function(callback)
 			    {
+			    	getJamStaff(thisjam, callback)
+			    },
+			    function(callback)
+			    {
 			    	res.send(thisjam)
 			    	client.end()
 			    	callback()
