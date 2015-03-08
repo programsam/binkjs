@@ -33,6 +33,7 @@ function loadRecentJams()
   			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
   			html += "<div class='col-xs-6 col-md-3'>"
   			html += "<h4>" + mydate + " - " + thisjam.title + "</h4>"
+			html += "<h5>"
   			if (thisjam.hasOwnProperty("band"))
   			{
   				html += thisjam.band.name
@@ -45,7 +46,8 @@ function loadRecentJams()
   			{
   				html += thisjam.location.name
   			}
-  			html += "<div align='right'><button onclick='loadJam(" + thisjam.id + ")' type='button' class='btn btn-default' aria-label='Load this Jam'><span class='glyphicon glyphicon-expand' aria-hidden='true'></span></button></div>"
+			html += "</h5>"
+  			html += "<div align='right'><button onclick='loadJam(" + thisjam.id + ")' type='button' class='btn btn-default' aria-label='Load this Jam'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button></div>"
   			
   			html += "</div>"
 	  		})
@@ -65,7 +67,8 @@ function loadJam(id)
 		var html = "";
 		var d = new Date(thisjam.date)
 		var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
-		html += "<h1>" + mydate + " - " + thisjam.title + "</h1>"
+		html += "<h3>" + mydate + " - " + thisjam.title + "</h3>"
+		html += "<h4>"
 		if (thisjam.hasOwnProperty("band"))
 		{
 			html += thisjam.band.name
@@ -78,10 +81,10 @@ function loadJam(id)
 		{
 			html += thisjam.location.name
 		}
+		html += "</h4>"
 		if (thisjam.hasOwnProperty("notes") && thisjam.notes != "")
 		{
-			html += "<p /><div class='panel panel-default'><div class='panel-heading'>Notes</div>"
-			html += "<div class='panel-body'>" + thisjam.notes + "</div></div>"
+			html += "<p>" + thisjam.notes + "</p>"
 		}
 		if (thisjam.hasOwnProperty("musicians") && thisjam.musicians.length != 0)
 		{
