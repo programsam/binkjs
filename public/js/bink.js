@@ -17,10 +17,13 @@ $(document).ready(function(){
 
 function play(setTitle, path)
 {
+	console.log("Title: " + setTitle)
+	console.log("Path: " + path)
 	$("#jquery_jplayer_1").jPlayer("setMedia", {
 	        title: setTitle,
 	        mp3: path
 	  });
+	$("#jquery_jplayer_1").jPlayer("play")
 }
 
 function loadRecentJams()
@@ -133,7 +136,7 @@ function loadJam(id)
 			thisjam.tracks.forEach(function (tracks, tracksi, tracksa) {
 				html += "<li class='list-group-item'>"
 				html += "<a href='" + tracks.path + "'>" + tracks.title
-				html += "</a> [ <a onclick=\"play(\"" + tracks.title + "\", \"" + encodeURI(tracks.path) + "\") href='#'>Play</a> ]"
+				html += "</a> [ <a onclick=\"play('" + tracks.title + "', '" + tracks.path + "')\" href='#'>Play</a> ]"
 				html += "</li>"
 			})
 			html += "</ul></div>"
