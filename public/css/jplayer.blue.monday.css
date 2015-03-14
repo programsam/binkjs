@@ -37,7 +37,7 @@
   background-color: #eee; }
 
 .jp-audio {
-  width: 420px; }
+  width: 100%; }
 
 .jp-audio-stream {
   width: 182px; }
@@ -103,7 +103,7 @@
 /* @group CONTROLS */
 .jp-controls-holder {
   clear: both;
-  width: 440px;
+  width: 100%;
   margin: 0 auto;
   position: relative;
   overflow: hidden;
