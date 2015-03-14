@@ -222,7 +222,7 @@
 
 /* The seeking class is added/removed inside jPlayer */
 .jp-seeking-bg {
-  background: url("../image/jplayer.blue.monday.seeking.gif"); }
+  background: url("/img/jplayer/jplayer.blue.monday.seeking.gif"); }
 
 /* @end */
 /* @group volume controls */
@@ -440,13 +440,13 @@ span.jp-artist {
   margin-top: -50px;
   left: 50%;
   top: 50%;
-  background: url("../image/jplayer.blue.monday.video.play.png") 0 0 no-repeat;
+  background: url("/img/jplayer/jplayer.blue.monday.video.play.png") 0 0 no-repeat;
   text-indent: -9999px;
   border: none;
   cursor: pointer; }
 
 .jp-video-play-icon:focus {
-  background: url("../image/jplayer.blue.monday.video.play.png") 0 -100px no-repeat; }
+  background: url("/img/jplayer/jplayer.blue.monday.video.play.png") 0 -100px no-repeat; }
 
 .jp-jplayer audio,
 .jp-jplayer {
