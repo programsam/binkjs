@@ -141,6 +141,10 @@ function loadJam(id)
 				html += "<tr>"
 				html += "<td width='15px'><span style='cursor: pointer' onclick=\"play('" + tracks.title + "', '" + tracks.path + "')\"  class='glyphicon glyphicon-play-circle' aria-hidden='true'></span></td>"
 				html += "<td><a href='" + tracks.path + "'>" + tracks.title + "</a></td>"
+				if (tracks.notes)
+				{
+					html += "<td>" + tracks.notes + "</td>"
+				}
 				html += "</tr>"
 			})
 			html += "</div>"
