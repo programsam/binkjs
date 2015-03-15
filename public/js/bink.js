@@ -72,7 +72,9 @@ function browse()
 {
 	$.get( "/browse", function( data ) {
 		var html = "<table class='table table-bordered'>";
-		html += "<tr><th>Date</th><th>Title</th><th>Band</th><th>Location</th>"
+		html += "<tr>"
+		html += "<th><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></th>"
+		html += <th>Date</th><th>Title</th><th>Band</th><th>Location</th>"
 		html += "<th><span class='glyphicon glyphicon-music' aria-hidden='true'></span></th>"
 		html += "<th><span class='glyphicon glyphicon-picture' aria-hidden='true'></span></th>"
 		html += "<th><span class='glyphicon glyphicon-facetime-video' aria-hidden='true'></span></th>"
@@ -81,6 +83,9 @@ function browse()
 	  			var d = new Date(thisjam.date)
 	  			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
 				html += "<tr>"
+				
+				html += "<td><span onclick='loadJam(" + thisjam.id + ")' class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></td>"
+				
 				html += "<td>" + mydate + "</td>"
 				html += "<td>" + thisjam.title + "</td>"
 
