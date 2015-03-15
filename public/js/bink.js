@@ -72,7 +72,9 @@ function browse()
 {
 	$.get( "/browse", function( data ) {
 		var html = "<table class='table table-bordered'>";
-		html += "<tr><th>Date</th><th>Title</th><th>Band</th><th>Location</th></tr>"
+		html += "<tr><th>Date</th><th>Title</th><th>Band</th><th>Location</th>"
+		html += "<th><span class='glyphicon glyphicon-music' aria-hidden='true'></span></th>"
+		html += "</tr>"
 		data.forEach(function (thisjam, index, array) {
 	  			var d = new Date(thisjam.date)
 	  			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
