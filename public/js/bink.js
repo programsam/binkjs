@@ -54,7 +54,7 @@ function loadRecentJams()
 			{
 				html += "<p>" + thisjam.notes + "</p>"
 			}
-  			html += "<div align='right'><button onclick='loadJam(" + thisjam.id + ")' type='button' class='btn btn-default' aria-label='Load this Jam'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button></div>"
+  			html += "<p class='text-right'><button onclick='loadJam(" + thisjam.id + ")' type='button' class='btn btn-default' aria-label='Load this Jam'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button></p>"
   			html += "</div>"
   			html += "</div>"
 	  		})
