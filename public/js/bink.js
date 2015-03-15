@@ -35,6 +35,7 @@ function loadRecentJams()
   			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
   			html += "<div class='panel panel-default'>"
   			html += "<div class='panel-heading'>" + mydate + " - " + thisjam.title + "</div>"
+  			html += "<div class='panel-body'>
 			html += "<p align='right'>"
   			if (thisjam.hasOwnProperty("band"))
   			{
@@ -54,10 +55,9 @@ function loadRecentJams()
 				html += "<p>" + thisjam.notes + "</p>"
 			}
   			html += "<div align='right'><button onclick='loadJam(" + thisjam.id + ")' type='button' class='btn btn-default' aria-label='Load this Jam'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button></div>"
-  			
+  			html += "</div>
   			html += "</div>"
 	  		})
-	  	html += "</div>"
 	  	$(".main").html(html)
 	})
 	.fail(function()
