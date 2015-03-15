@@ -241,7 +241,13 @@
   position: absolute;
   top: 32px;
   left: 308px;
-  width: 200px; }
+}
+
+.jp-other {
+  position: absolute;
+  top: 32px;
+  left: 420px;
+}
 
 .jp-audio-stream .jp-volume-controls {
   left: 70px; }
