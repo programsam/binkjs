@@ -1,5 +1,6 @@
 $(document).ready(function(){
    $("a#recentButton").click(loadRecentJams)
+   $("a#browseButton").click(browse)
    loadRecentJams()
    
   $("#jquery_jplayer_1").jPlayer({
@@ -59,6 +60,23 @@ function loadRecentJams()
   			html += "</div>"
   			html += "</div>"
 	  		})
+	  	$(".main").html(html)
+	})
+	.fail(function()
+	{
+		alert('Encountered a problem.')
+	})
+}
+
+function browse()
+{
+	$.get( "/browse", function( data ) {
+		var html = "<table class='table table-bordered'>";
+		data.forEach(function (thisjam, index, array) {
+  			var d = new Date(thisjam.date)
+  			
+	  		})
+	  	html += "</table>"
 	  	$(".main").html(html)
 	})
 	.fail(function()
