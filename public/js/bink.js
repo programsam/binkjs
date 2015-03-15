@@ -95,7 +95,7 @@ function loadJam(id)
 		}
 		if (thisjam.hasOwnProperty("musicians") && thisjam.musicians.length != 0)
 		{
-			html += "<div class='panel panel-default col-xs-6 col-md-4'><div class='panel-heading'>Musicians</div>"
+			html += "<div class='panel panel-default'><div class='panel-heading'>Musicians</div>"
 			html += "<ul class='list-group'>"
 			thisjam.musicians.forEach(function (musician, mi, ma) {
 				html += "<li class='list-group-item'>" + musician.name + " - "
@@ -115,7 +115,7 @@ function loadJam(id)
 		}
 		if (thisjam.hasOwnProperty("staff") && thisjam.staff.length != 0)
 		{
-			html += "<div class='panel panel-default col-xs-6 col-md-4'><div class='panel-heading'>Staff</div>"
+			html += "<div class='panel panel-default'><div class='panel-heading'>Staff</div>"
 			html += "<ul class='list-group'>"
 			thisjam.staff.forEach(function (staff, staffi, staffa) {
 				html += "<li class='list-group-item'>" + staff.name + " - "
