@@ -35,7 +35,7 @@ function loadRecentJams()
   			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
   			html += "<div class='panel panel-default'>"
   			html += "<div class='panel-heading'>" + mydate + " - " + thisjam.title
-  			html += "<p class='text-right'>"
+  			html += "<div class='text-right'>"
   			if (thisjam.hasOwnProperty("band"))
   			{
   				html += thisjam.band.name
@@ -48,7 +48,7 @@ function loadRecentJams()
   			{
   				html += thisjam.location.name
   			}
-			html += "</p>"
+			html += "</div>"
 			html += "</div>"
   			html += "<div class='panel-body'>"
 			if (thisjam.hasOwnProperty("notes") && thisjam.notes != "")
