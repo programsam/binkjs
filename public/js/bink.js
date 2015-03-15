@@ -74,11 +74,27 @@ function browse()
 		var html = "<table class='table table-bordered'>";
 		html += "<tr><th>Date</th><th>Title</th><th>Band</th><th>Location</th></tr>"
 		data.forEach(function (thisjam, index, array) {
-  			var d = new Date(thisjam.date)
-  			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
-			html += "<tr>"
-			html += "<td>" + mydate + "</td>"
-			html += "<td>" + thisjam.title + "</td>"
+	  			var d = new Date(thisjam.date)
+	  			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
+				html += "<tr>"
+				html += "<td>" + mydate + "</td>"
+				html += "<td>" + thisjam.title + "</td>"
+				if (thisjam.hasOwnProperty("band"))
+				{
+					html += "<td>" + thisjam.band.name + "</td>"
+				}
+				else
+				{
+					html += "<td></td>"
+				}
+				if (thisjam.hasOwnProperty("location"))
+				{
+					html += "<td>" + thisjam.location.name + "</td>"
+				}
+				else
+				{
+					html += "<td></td>"
+				}
 	  		})
 	  	html += "</table>"
 	  	$(".main").html(html)
