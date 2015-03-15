@@ -73,7 +73,7 @@ function browse()
 	$.get( "/browse", function( data ) {
 		var html = "<table class='table table-bordered'>";
 		html += "<tr>"
-		html += "<th><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></th>"
+		html += "<th><span style='cursor: pointer' class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></th>"
 		html += "<th>Date</th><th>Title</th><th>Band</th><th>Location</th>"
 		html += "<th><span class='glyphicon glyphicon-music' aria-hidden='true'></span></th>"
 		html += "<th><span class='glyphicon glyphicon-picture' aria-hidden='true'></span></th>"
