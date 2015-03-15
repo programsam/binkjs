@@ -269,6 +269,43 @@ app.get('/recent', function (req, res) {
 	  })//client.query
 }) //get /recent
 
+app.get('/browse', function (req, res) {
+	res.set('Content-Type','application/json')
+	var client = sql();
+	client.query('SELECT * from jams where private = 0 order by date desc limit 0,20', function(err, jams, fields) {
+	  if (err)
+	  {
+		  console.log("ERROR Getting recent jams: " + err)
+		  res.status(500).end()
+		  client.end()
+	  }
+	  else
+	  {
+		  async.forEach(jams, function(thisjam, mainCallback) {
+				async.series([
+				    function(callback)
+				    {
+				    	getBand(thisjam, callback)
+				    },
+				    function(callback)
+				    {
+				    	getLocation(thisjam, callback)
+				    }
+				],
+				function (err, results) {
+					mainCallback()
+				})
+		  }, //got everything, return now
+		  function (err)
+		  {
+			  res.send(jams)
+			  client.end()
+		  }
+		  ) //jams are done
+	  	} //else the database command was successful
+	  })//client.query
+}) //get /recent
+
 app.use(express.static(__dirname + '/public'));
 
 var server = app.listen(process.env.PORT || 3001, function () {
