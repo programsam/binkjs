@@ -83,6 +83,7 @@ function browse()
 				html += "<tr>"
 				html += "<td>" + mydate + "</td>"
 				html += "<td>" + thisjam.title + "</td>"
+
 				if (thisjam.hasOwnProperty("band"))
 				{
 					html += "<td>" + thisjam.band.name + "</td>"
@@ -91,6 +92,7 @@ function browse()
 				{
 					html += "<td></td>"
 				}
+
 				if (thisjam.hasOwnProperty("location"))
 				{
 					html += "<td>" + thisjam.location.name + "</td>"
@@ -99,9 +101,28 @@ function browse()
 				{
 					html += "<td></td>"
 				}
+
 				if (thisjam.hasTracks)
 				{
 					html += "<td><span class='glyphicon glyphicon-music' aria-hidden='true'></td>"
+				}
+				else
+				{
+					html += "<td></td>"
+				}
+				
+				if (thisjam.hasPics)
+				{
+					html += "<td><span class='glyphicon glyphicon-picture' aria-hidden='true'></td>"
+				}
+				else
+				{
+					html += "<td></td>"
+				}
+				
+				if (thisjam.hasVids)
+				{
+					html += "<td><span class='glyphicon glyphicon-facetime-video' aria-hidden='true'></td>"
 				}
 				else
 				{

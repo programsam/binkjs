@@ -92,7 +92,6 @@ function getJamTracks(thisjam, overallCallback)
 function hasTracks(thisjam, overallCallback)
 {
 	var client = sql();
-	var mytracks = []
 	client.query("SELECT * from tracks where jamid = " + thisjam.id, function(err, tracks, fields) {
 		if (err) //error while getting the item
 		{
@@ -110,6 +109,58 @@ function hasTracks(thisjam, overallCallback)
 			else
 			{
 				thisjam.hasTracks = false
+				overallCallback()
+			}
+		} //else
+	}) //query
+}
+
+function hasPics(thisjam, overallCallback)
+{
+	var client = sql();
+	client.query("SELECT * from pictures where jamid = " + thisjam.id, function(err, tracks, fields) {
+		if (err) //error while getting the item
+		{
+			console.log("ERROR: " + err)
+			client.end()
+			overallCallback()
+		}
+		else
+		{
+			if (tracks.length > 0)
+			{
+				thisjam.hasPics = true
+				overallCallback()
+			}
+			else
+			{
+				thisjam.hasPics = false
+				overallCallback()
+			}
+		} //else
+	}) //query
+}
+
+function hasVids(thisjam, overallCallback)
+{
+	var client = sql();
+	client.query("SELECT * from video where jamid = " + thisjam.id, function(err, tracks, fields) {
+		if (err) //error while getting the item
+		{
+			console.log("ERROR: " + err)
+			client.end()
+			overallCallback()
+		}
+		else
+		{
+			if (tracks.length > 0)
+			{
+				thisjam.hasVids = true
+				overallCallback()
+			}
+			else
+			{
+				thisjam.hasVids = false
 				overallCallback()
 			}
 		} //else
@@ -321,6 +372,14 @@ app.get('/browse', function (req, res) {
 				    function(callback)
 				    {
 				    	hasTracks(thisjam, callback)
+				    },
+				    function(callback)
+				    {
+				    	hasVids(thisjam, callback)
+				    },
+				    function(callback)
+				    {
+				    	hasPics(thisjam, callback)
 				    }
 				],
 				function (err, results) {
