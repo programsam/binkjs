@@ -35,7 +35,7 @@ function loadRecentJams()
   			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
   			html += "<div class='panel panel-default'>"
   			html += "<div class='panel-heading'>" + mydate + " - " + thisjam.title
-  			html += "<div class='text-right'>"
+  			html += "<div class='pull-right'>"
   			if (thisjam.hasOwnProperty("band"))
   			{
   				html += thisjam.band.name
