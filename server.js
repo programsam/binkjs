@@ -101,6 +101,7 @@ function hasTracks(thisjam, overallCallback)
 		}
 		else
 		{
+			client.end()
 			if (tracks.length > 0)
 			{
 				thisjam.hasTracks = true
@@ -127,6 +128,7 @@ function hasPics(thisjam, overallCallback)
 		}
 		else
 		{
+			client.end()
 			if (tracks.length > 0)
 			{
 				thisjam.hasPics = true
@@ -153,6 +155,7 @@ function hasVids(thisjam, overallCallback)
 		}
 		else
 		{
+			client.end()
 			if (tracks.length > 0)
 			{
 				thisjam.hasVids = true
