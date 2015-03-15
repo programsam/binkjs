@@ -136,7 +136,7 @@ function loadJam(id)
 			thisjam.tracks.forEach(function (tracks, tracksi, tracksa) {
 				html += "<li class='list-group-item'>"
 				html += "<a href='" + tracks.path + "'>" + tracks.title + "</a>"
-				html += "<button onclick=\"play('" + tracks.title + "', '" + tracks.path + "')\" type='button' class='btn btn-default' aria-label='Load this Jam'><span class='glyphicon glyphicon-play-circle' aria-hidden='true'></span></button>"
+				html += "<span onclick=\"play('" + tracks.title + "', '" + tracks.path + "')\"  class='glyphicon glyphicon-play-circle' aria-hidden='true'></span>"
 				html += "</li>"
 			})
 			html += "</ul></div>"
