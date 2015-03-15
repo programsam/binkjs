@@ -99,6 +99,14 @@ function browse()
 				{
 					html += "<td></td>"
 				}
+				if (thisjam.hasTracks)
+				{
+					html += "<td><span class='glyphicon glyphicon-music' aria-hidden='true'></td>"
+				}
+				else
+				{
+					html += "<td></td>"
+				}
 	  		})
 	  	html += "</table>"
 	  	$(".main").html(html)

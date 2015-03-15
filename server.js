@@ -89,6 +89,33 @@ function getJamTracks(thisjam, overallCallback)
 	}) //query
 }
 
+function hasTracks(thisjam, overallCallback)
+{
+	var client = sql();
+	var mytracks = []
+	client.query("SELECT * from tracks where jamid = " + thisjam.id, function(err, tracks, fields) {
+		if (err) //error while getting the item
+		{
+			console.log("ERROR: " + err)
+			client.end()
+			overallCallback()
+		}
+		else
+		{
+			if (tracks.length > 0)
+			{
+				thisjam.hasTracks = true
+				overallCallback()
+			}
+			else
+			{
+				thisjam.hasTracks = false
+				overallCallback()
+			}
+		} //else
+	}) //query
+}
+
 function getJamStaff(thisjam, overallCallback)
 {
 	var client = sql();
@@ -290,6 +317,10 @@ app.get('/browse', function (req, res) {
 				    function(callback)
 				    {
 				    	getLocation(thisjam, callback)
+				    },
+				    function(callback)
+				    {
+				    	hasTracks(thisjam, callback)
 				    }
 				],
 				function (err, results) {
