@@ -30,11 +30,10 @@ function loadRecentJams()
 {
 	$.get( "/recent", function( data ) {
 		var html = "";
-		html += "<div class='row'>"
 		data.forEach(function (thisjam, index, array) {
   			var d = new Date(thisjam.date)
   			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
-  			html += "<div class='col-xs-6 col-md-3'>"
+  			html += "<div class='panel'>"
   			html += "<h4>" + mydate + " - " + thisjam.title + "</h4>"
 			html += "<h5>"
   			if (thisjam.hasOwnProperty("band"))
