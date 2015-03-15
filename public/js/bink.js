@@ -132,14 +132,14 @@ function loadJam(id)
 		if (thisjam.hasOwnProperty("tracks") && thisjam.tracks.length != 0)
 		{
 			html += "<div class='panel panel-default'><div class='panel-heading'>Music</div>"
-			html += "<ul class='list-group'>"
+			html += "<table class='table'>"
 			thisjam.tracks.forEach(function (tracks, tracksi, tracksa) {
-				html += "<li class='list-group-item'>"
-				html += "<a href='" + tracks.path + "'>" + tracks.title + "</a>"
-				html += "<span onclick=\"play('" + tracks.title + "', '" + tracks.path + "')\"  class='glyphicon glyphicon-play-circle' aria-hidden='true'></span>"
-				html += "</li>"
+				html += "<tr>"
+				html += "<td><span onclick=\"play('" + tracks.title + "', '" + tracks.path + "')\"  class='glyphicon glyphicon-play-circle' aria-hidden='true'></span></td>"
+				html += "<td><a href='" + tracks.path + "'>" + tracks.title + "</a></td>"
+				html += "</tr>"
 			})
-			html += "</ul></div>"
+			html += "</div>"
 		}
 		
 		$(".main").html(html)
