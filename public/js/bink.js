@@ -74,7 +74,10 @@ function browse()
 		var html = "<table class='table table-bordered'>";
 		data.forEach(function (thisjam, index, array) {
   			var d = new Date(thisjam.date)
-  			
+  			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
+			html += "<tr>"
+			html += "<td>" + mydate + "</td>"
+			html += "<td>" + thisjam.title + "</td>"
 	  		})
 	  	html += "</table>"
 	  	$(".main").html(html)
