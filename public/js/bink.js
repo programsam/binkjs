@@ -44,6 +44,15 @@ function enqueue(setTitle, setPath)
 	    contentType: "application/json",
 	    data: { title: setTitle, path: setPath }
 	});
+	updatePlaylist()
+}
+
+function updatePlaylist()
+{
+	$.get( "/playlist", function( data ) {
+		var html = "";
+		console.log("Got updated playlist data: " + data)	
+	})
 }
 
 function play(setTitle, path)
