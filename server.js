@@ -365,7 +365,7 @@ app.get('/recent', function (req, res) {
 }) //get /recent
 
 app.get('/playlist', function(req, res) {
-	res.send(req.playlist)
+	res.send(JSON.stringify(req.playlist))
 })
 
 app.put('/playlist', function(req, res) {
