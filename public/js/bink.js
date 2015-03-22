@@ -1,7 +1,7 @@
 $(document).ready(function(){
    $("a#recentButton").click(loadRecentJams)
    $("a#browseButton").click(browse)
-   loadRecentJams()
+   //loadRecentJams()
    
   $("#jquery_jplayer_1").jPlayer({
     cssSelectorAncestor: "#jp_container_1",
@@ -14,15 +14,23 @@ $(document).ready(function(){
     remainingDuration: true,
     toggleDuration: true
   });
- 
- $("a#browseButton").click( function() {
- 	  $(".main").html("<div id='jp_container_2'><div class='jp-playlist'><ul><li></li></ul></div></div>")
-	  var cssSelector = { jPlayer: "#jquery_jplayer_1", cssSelectorAncestor: "#jp_container_2" };
-	  var playlist = [];
-	  var options = { swfPath: "/js/player", supplied: "ogv, m4v, oga, mp3" };
-	  var myPlaylist = new jPlayerPlaylist(cssSelector, playlist, options);
+  
+  $("#playlistButton").click( function () {
+  	$("#sidebar-wrapper").collapse('toggle')
   })
+
+var myPlaylist = new jPlayerPlaylist({
+  jPlayer: "#jquery_jplayer_1",
+  cssSelectorAncestor: "#sidebar-wrapper"
 })
+	myPlaylist.add({
+	  title:"Tempered Song",
+	  artist:"Miaow",
+	  mp3:"http://www.jplayer.org/audio/mp3/Miaow-01-Tempered-song.mp3",
+	  oga:"http://www.jplayer.org/audio/ogg/Miaow-01-Tempered-song.ogg",
+	  poster: "http://www.jplayer.org/audio/poster/Miaow_640x360.png"
+	}); 
+ })
 
 function play(setTitle, path)
 {
