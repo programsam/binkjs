@@ -17,20 +17,19 @@ $(document).ready(function(){
   
   $("#playlistButton").click( function () {
   	$("#sidebar-wrapper").collapse('toggle')
+  	$( ".main" ).css( "left", function( left ) {
+  		return 200;
+	});
   })
 
-var myPlaylist = new jPlayerPlaylist({
-  jPlayer: "#jquery_jplayer_1",
-  cssSelectorAncestor: "#sidebar-wrapper"
+  enqueue("Winters Day", "https://s3.amazonaws.com/binkmedia/public/snd/668/First%20Bounce.mp3")
 })
-	myPlaylist.add({
-	  title:"Tempered Song",
-	  artist:"Miaow",
-	  mp3:"http://www.jplayer.org/audio/mp3/Miaow-01-Tempered-song.mp3",
-	  oga:"http://www.jplayer.org/audio/ogg/Miaow-01-Tempered-song.ogg",
-	  poster: "http://www.jplayer.org/audio/poster/Miaow_640x360.png"
-	}); 
- })
+
+function enqueue(setTitle, path)
+{
+	console.log("Title: " + setTitle)
+	console.log("Path: " + path)
+}
 
 function play(setTitle, path)
 {
