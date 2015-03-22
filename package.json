@@ -11,5 +11,6 @@
     ,"async":"*"
     ,"express-session":"*"
     ,"node-uuid":"*"
+    ,"body-parser":"*"
   }
 }

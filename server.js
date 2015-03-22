@@ -4,6 +4,7 @@ var uuid		= require('node-uuid')
 var app 		= express()
 var mysql		= require('mysql');
 var async		= require('async');
+var bodyParser 	= require('body-parser')
 var settings	= require('./settings.json')
 
 function sql() {
