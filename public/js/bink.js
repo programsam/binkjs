@@ -44,10 +44,10 @@ function enqueue(setTitle, setPath)
 	    url: "/playlist",
 	    contentType: "application/json",
 	    data: JSON.stringify(object),
-	},
-	function( data ) {
-		var html = "";
-		console.log("Got updated playlist data: " + data)	
+	}.done(
+		function( data ) {
+			var html = "";
+			console.log("Got updated playlist data: " + data)	
 	});
 }
 
