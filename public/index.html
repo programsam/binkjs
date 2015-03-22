@@ -60,13 +60,6 @@
       </div>
     </nav>
     <div id="jquery_jplayer_1"></div>
-	<div id="jp_container_2">
-	  <div class="jp-playlist">
-	    <ul>
-	      <li></li> <!-- Empty <li> so your HTML conforms with the W3C spec -->
-	    </ul>
-	  </div>
-	</div>
 	<div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
 		<div class="jp-type-single">
 			<div class="jp-gui jp-interface">
@@ -106,7 +99,13 @@
 		  </div>
 		  </div>
         <div class="main">
-        	
+        	<div id="jp_container_2" style="visibility:hidden">
+			  <div class="jp-playlist">
+			    <ul>
+			      <li></li> <!-- Empty <li> so your HTML conforms with the W3C spec -->
+			    </ul>
+			  </div>
+			</div>
           </div>
         </div>
       </div>
