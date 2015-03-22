@@ -15,11 +15,20 @@ $(document).ready(function(){
     toggleDuration: true
   });
   
+$('#sidebar-wrapp').on('hidden.bs.collapse', function () {
+	$( ".main" ).css( "padding-left", function( paddingleft ) {
+  		return 40;
+	});
+})
+
+$('#sidebar-wrapper').on('shown.bs.collapse', function () {
+  	$( ".main" ).css( "padding-left", function( paddingleft ) {
+  		return 265;
+	});
+})
+  
   $("#playlistButton").click( function () {
   	$("#sidebar-wrapper").collapse('toggle')
-  	$( ".main" ).css( "left", function( left ) {
-  		return 200;
-	});
   })
 
   enqueue("Winters Day", "https://s3.amazonaws.com/binkmedia/public/snd/668/First%20Bounce.mp3")
