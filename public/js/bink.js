@@ -46,8 +46,9 @@ function enqueue(setTitle, setPath)
 	    data: JSON.stringify(object),
 	}).done(
 		function( data ) {
-			var html = "";
 			console.log("Got updated playlist data: " + data)	
+			$("#the-playlist").append("<li><a onclick=\"play('" + object.title + "', '" + object.path + "')\"'>" + 
+					object.title + "</a></li>") 
 	})
 }
 
