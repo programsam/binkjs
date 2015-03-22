@@ -366,6 +366,7 @@ app.get('/playlist', function(req, res) {
 })
 
 app.put('/playlist', function(req, res) {
+	console.log("Playlist before: " + req.session.playlist)
 	if (! req.session.hasOwnProperty("playlist") ||
 		typeof req.session.playlist == "undefined")
 	{ 
@@ -373,6 +374,7 @@ app.put('/playlist', function(req, res) {
 	}
 
 	req.session.playlist.push(req.body)
+	console.log("Playlist after: " + req.session.playlist)
 	res.send(req.playlist)
 })
 
