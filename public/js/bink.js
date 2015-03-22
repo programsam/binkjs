@@ -15,7 +15,7 @@ $(document).ready(function(){
     toggleDuration: true
   });
   
-  var cssSelector = { jPlayer: "#jquery_jplayer_1", cssSelectorAncestor: "#jp_container_1" };
+  var cssSelector = { jPlayer: "#jquery_jplayer_1", cssSelectorAncestor: "#jp_container_2" };
   var playlist = [];
   var options = { swfPath: "/js/player", supplied: "ogv, m4v, oga, mp3" };
   var myPlaylist = new jPlayerPlaylist(cssSelector, playlist, options);
