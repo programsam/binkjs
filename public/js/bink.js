@@ -48,6 +48,7 @@ function enqueue(setTitle, setPath)
 		function( data ) {
 			var html = "";
 			console.log("Got updated playlist data: " + data)	
+			$("#
 	})
 }
 
@@ -55,7 +56,7 @@ function updatePlaylist()
 {
 	$.get( "/playlist", function( data ) {
 		var html = "";
-		console.log("Got updated playlist data: " + data)	
+		console.log("Got updated playlist data: " + data)
 	})
 }
 
