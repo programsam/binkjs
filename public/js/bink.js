@@ -39,8 +39,9 @@ function enqueue(setTitle, setPath)
 	console.log("Title: " + setTitle)
 	console.log("Path: " + setPath)
 	var object = { title: setTitle, path: setPath }
-	$("#the-playlist").append("<li><a onclick=\"play('" + object.title + "', '" + object.path + "')\"'>" + 
-					object.title + "</a></li>") 
+	$("#the-playlist").append("<li><a>" + 
+					object.title + "</a><span onclick=\"play('" + object.title + "', '" + object.path + "')\"' " +
+					class='glyphicon glyphicon-plus' aria-hidden='true'></span></li>") 
 	$.ajax({
 	    type: "PUT",
 	    url: "/playlist",
@@ -52,7 +53,7 @@ function enqueue(setTitle, setPath)
 	})
 }
 
-function updatePlaylist()
+function loadPlaylist()
 {
 	$.get( "/playlist", function( data ) {
 		var html = "";
