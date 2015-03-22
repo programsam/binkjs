@@ -14,11 +14,13 @@ $(document).ready(function(){
     remainingDuration: true,
     toggleDuration: true
   });
-  
-  var cssSelector = { jPlayer: "#jquery_jplayer_1", cssSelectorAncestor: "#jp_container_2" };
-  var playlist = [];
-  var options = { swfPath: "/js/player", supplied: "ogv, m4v, oga, mp3" };
-  var myPlaylist = new jPlayerPlaylist(cssSelector, playlist, options);
+ 
+ $("a#browseButton").click( function() {
+	  var cssSelector = { jPlayer: "#jquery_jplayer_1", cssSelectorAncestor: "#jp_container_2" };
+	  var playlist = [];
+	  var options = { swfPath: "/js/player", supplied: "ogv, m4v, oga, mp3" };
+	  var myPlaylist = new jPlayerPlaylist(cssSelector, playlist, options);
+  })
 })
 
 function play(setTitle, path)
