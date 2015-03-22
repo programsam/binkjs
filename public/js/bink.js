@@ -16,6 +16,7 @@ $(document).ready(function(){
   });
  
  $("a#browseButton").click( function() {
+ 	  $(".main").html("<div id='jp_container_2'><div class='jp-playlist'><ul><li></li></ul></div></div>")
 	  var cssSelector = { jPlayer: "#jquery_jplayer_1", cssSelectorAncestor: "#jp_container_2" };
 	  var playlist = [];
 	  var options = { swfPath: "/js/player", supplied: "ogv, m4v, oga, mp3" };
