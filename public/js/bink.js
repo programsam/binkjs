@@ -38,11 +38,12 @@ function enqueue(setTitle, setPath)
 {
 	console.log("Title: " + setTitle)
 	console.log("Path: " + setPath)
+	var object = { title: setTitle, path: setPath }
 	$.ajax({
 	    type: "PUT",
 	    url: "/playlist",
 	    contentType: "application/json",
-	    data: { title: setTitle, path: setPath }
+	    data: JSON.stringify(object)
 	});
 	updatePlaylist()
 }
