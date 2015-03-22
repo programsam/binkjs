@@ -9,5 +9,7 @@
     "express":"*"
     ,"mysql":"0.9.5"
     ,"async":"*"
+    ,"express-session":"*"
+    ,"node-uuid":"*"
   }
 }

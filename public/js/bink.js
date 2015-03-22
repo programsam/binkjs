@@ -34,10 +34,16 @@ $('#sidebar-wrapper').on('shown.bs.collapse', function () {
   enqueue("Winters Day", "https://s3.amazonaws.com/binkmedia/public/snd/668/First%20Bounce.mp3")
 })
 
-function enqueue(setTitle, path)
+function enqueue(setTitle, setPath)
 {
 	console.log("Title: " + setTitle)
-	console.log("Path: " + path)
+	console.log("Path: " + setPath)
+	$.ajax({
+	    type: "PUT",
+	    url: "/playlist",
+	    contentType: "application/json",
+	    data: { title: setTitle, path: setPath }
+	});
 }
 
 function play(setTitle, path)

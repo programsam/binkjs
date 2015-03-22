@@ -1,4 +1,6 @@
 var express 	= require('express')
+var session 	= require('express-session')
+var uuid		= require('node-uuid')
 var app 		= express()
 var mysql		= require('mysql');
 var async		= require('async');
@@ -7,6 +9,15 @@ var settings	= require('./settings.json')
 function sql() {
 	return client = mysql.createClient(settings.mysql);
 }
+
+app.use(session({
+  resave: false,
+  saveUninitialized: false,
+  genid: function(req) {
+    return uuid.v4(); // use UUIDs for session IDs
+  },
+  secret: 'keyboard cat'
+}))
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
@@ -349,6 +360,21 @@ app.get('/recent', function (req, res) {
 	  	} //else the database command was successful
 	  })//client.query
 }) //get /recent
+
+app.get('/playlist', function(req, res) {
+	res.send(req.playlist)
+})
+
+app.put('/playlist', function(req, res) {
+	if (! req.session.hasOwnProperty("playlist") ||
+		typeof req.session.playlist == "undefined")
+	{ 
+		req.session.playlist = []
+	}
+
+	req.session.playlist.push(req.body)
+	res.send(req.playlist)
+})
 
 app.get('/browse', function (req, res) {
 	res.set('Content-Type','application/json')
