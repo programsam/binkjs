@@ -39,6 +39,8 @@ function enqueue(setTitle, setPath)
 	console.log("Title: " + setTitle)
 	console.log("Path: " + setPath)
 	var object = { title: setTitle, path: setPath }
+	$("#the-playlist").append("<li><a onclick=\"play('" + object.title + "', '" + object.path + "')\"'>" + 
+					object.title + "</a></li>") 
 	$.ajax({
 	    type: "PUT",
 	    url: "/playlist",
@@ -47,8 +49,6 @@ function enqueue(setTitle, setPath)
 	}).done(
 		function( data ) {
 			console.log("Got updated playlist data: " + data)	
-			$("#the-playlist").append("<li><a onclick=\"play('" + object.title + "', '" + object.path + "')\"'>" + 
-					object.title + "</a></li>") 
 	})
 }
 
