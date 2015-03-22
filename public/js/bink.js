@@ -43,9 +43,12 @@ function enqueue(setTitle, setPath)
 	    type: "PUT",
 	    url: "/playlist",
 	    contentType: "application/json",
-	    data: JSON.stringify(object)
+	    data: JSON.stringify(object),
+	    function( data ) {
+			var html = "";
+			console.log("Got updated playlist data: " + data)	
+		})
 	});
-	updatePlaylist()
 }
 
 function updatePlaylist()
