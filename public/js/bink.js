@@ -15,7 +15,7 @@ $(document).ready(function(){
     toggleDuration: true
   });
   
-$('#sidebar-wrapp').on('hidden.bs.collapse', function () {
+$('#sidebar-wrapper').on('hidden.bs.collapse', function () {
 	$( ".main" ).css( "padding-left", function( paddingleft ) {
   		return 40;
 	});
