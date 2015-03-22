@@ -40,8 +40,8 @@ function enqueue(setTitle, setPath)
 	console.log("Path: " + setPath)
 	var object = { title: setTitle, path: setPath }
 	$("#the-playlist").append("<li><a>" + 
-					object.title + "</a><span onclick=\"play('" + object.title + "', '" + object.path + "')\"' " +
-					"class='pull-right glyphicon glyphicon-plus' aria-hidden='true'></span></li>") 
+					object.title + "<span onclick=\"play('" + object.title + "', '" + object.path + "')\"' " +
+					"class='pull-right glyphicon glyphicon-plus' aria-hidden='true'></span></a></li>") 
 	$.ajax({
 	    type: "PUT",
 	    url: "/playlist",
