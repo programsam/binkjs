@@ -365,7 +365,7 @@ app.get('/recent', function (req, res) {
 }) //get /recent
 
 app.get('/playlist', function(req, res) {
-	res.send(JSON.stringify(req.playlist))
+	res.send(JSON.stringify(req.session.playlist))
 })
 
 app.put('/playlist', function(req, res) {
@@ -378,7 +378,7 @@ app.put('/playlist', function(req, res) {
 	console.log("Received data: " + req.body)
 	req.session.playlist.push(req.body)
 	console.log("Playlist after: " + req.session.playlist)
-	res.send(req.playlist)
+	res.send(req.session.playlist)
 })
 
 app.get('/browse', function (req, res) {
