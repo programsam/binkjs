@@ -33,8 +33,6 @@ $('#sidebar-wrapper').on('shown.bs.collapse', function () {
   	$("#sidebar-wrapper").collapse('toggle')
   })
   
-  $(".main").jscroll({debug:true})
-
 })
 
 function enqueue(setTitle, setPath)
@@ -122,6 +120,7 @@ function loadRecentJams()
   			html += "</div>"
 	  		})
 	  	$(".main").html(html)
+	  	$(".main").jscroll({debug:true})
 	})
 	.fail(function()
 	{
