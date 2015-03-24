@@ -37,8 +37,6 @@ $('#sidebar-wrapper').on('shown.bs.collapse', function () {
 
 function enqueue(setTitle, setPath)
 {
-	console.log("Title: " + setTitle)
-	console.log("Path: " + setPath)
 	var object = { title: setTitle, path: setPath }
 	$("#the-playlist").append("<li><a>" + 
 								"<button type='button' class='btn btn-default btn-xs' aria-label='Play Button'>" +
@@ -61,7 +59,8 @@ function loadPlaylist()
 {
 	$.get( "/playlist", function( data ) {
 		var html = "";
-		data.forEach(function(element,index,array) {
+		var array = JSON.parse(data)
+		array.forEach(function(element,index,array) {
 			console.log(element)
 		})
 		//$("#the-playlist").append("<li><a>" + 
