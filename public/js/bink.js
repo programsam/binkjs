@@ -45,8 +45,6 @@ function enqueue(setTitle, setPath)
 	  							"class='glyphicon glyphicon-play' aria-hidden='true'></span>" +
 								"</button> " + object.title + "</a></li>"
 								)
-					//"<span onclick=\"play('" + object.title + "', '" + object.path + "')\"' " +
-					//"class='pull-right glyphicon glyphicon-play' aria-hidden='true'></span></a></li>") 
 	$.ajax({
 	    type: "PUT",
 	    url: "/playlist",
@@ -266,6 +264,8 @@ function loadJam(id)
 			thisjam.tracks.forEach(function (tracks, tracksi, tracksa) {
 				html += "<tr>"
 				html += "<td width='15px'><span style='cursor: pointer' onclick=\"play('" + tracks.title + "', '" + tracks.path + "')\"  class='glyphicon glyphicon-play-circle' aria-hidden='true'></span></td>"
+				html += "<td width='15px'><span style='cursor: pointer' onclick=\"enqueue('" + tracks.title + "', '" + tracks.path + "')\"  class='glyphicon glyphicon-add' aria-hidden='true'></span></td>"
+				
 				html += "<td><a href='" + tracks.path + "'>" + tracks.title + "</a></td>"
 				if (tracks.notes)
 				{
