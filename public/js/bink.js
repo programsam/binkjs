@@ -32,6 +32,8 @@ $('#sidebar-wrapper').on('shown.bs.collapse', function () {
   $("#playlistButton").click( function () {
   	$("#sidebar-wrapper").collapse('toggle')
   })
+  
+  $(".main").jscroll()
 
 })
 
