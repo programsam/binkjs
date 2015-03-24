@@ -31,7 +31,6 @@ $('#sidebar-wrapper').on('shown.bs.collapse', function () {
   	$("#sidebar-wrapper").collapse('toggle')
   })
 
-  enqueue("Winters Day", "https://s3.amazonaws.com/binkmedia/public/snd/668/First%20Bounce.mp3")
 })
 
 function enqueue(setTitle, setPath)
@@ -264,7 +263,7 @@ function loadJam(id)
 			thisjam.tracks.forEach(function (tracks, tracksi, tracksa) {
 				html += "<tr>"
 				html += "<td width='15px'><span style='cursor: pointer' onclick=\"play('" + tracks.title + "', '" + tracks.path + "')\"  class='glyphicon glyphicon-play-circle' aria-hidden='true'></span></td>"
-				html += "<td width='15px'><span style='cursor: pointer' onclick=\"enqueue('" + tracks.title + "', '" + tracks.path + "')\"  class='glyphicon glyphicon-add' aria-hidden='true'></span></td>"
+				html += "<td width='15px'><span style='cursor: pointer' onclick=\"enqueue('" + tracks.title + "', '" + tracks.path + "')\"  class='glyphicon glyphicon-plus' aria-hidden='true'></span></td>"
 				
 				html += "<td><a href='" + tracks.path + "'>" + tracks.title + "</a></td>"
 				if (tracks.notes)
