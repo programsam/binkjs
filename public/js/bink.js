@@ -59,10 +59,13 @@ function loadPlaylist()
 {
 	$.get( "/playlist", function( data ) {
 		var html = "";
-		var array = JSON.parse(data)
-		array.forEach(function(element,index,array) {
-			console.log(element)
-		})
+		if (typeof data != "undefined")
+		{
+			var array = JSON.parse(data)
+			array.forEach(function(element,index,array) {
+				console.log(element)
+			})
+		}
 		//$("#the-playlist").append("<li><a>" + 
 		//		"<button type='button' class='btn btn-default btn-xs' aria-label='Play Button'>" +
 		//			"<span onclick=\"play('" + object.title + "', '" + object.path + "')\"' " + 
