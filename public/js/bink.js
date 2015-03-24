@@ -33,7 +33,7 @@ $('#sidebar-wrapper').on('shown.bs.collapse', function () {
   	$("#sidebar-wrapper").collapse('toggle')
   })
   
-  $(".main").jscroll()
+  $(".main").jscroll({debug:true})
 
 })
 
