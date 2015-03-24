@@ -375,9 +375,7 @@ app.put('/playlist', function(req, res) {
 	{ 
 		req.session.playlist = []
 	}
-	console.log("Received data: " + req.body)
 	req.session.playlist.push(req.body)
-	console.log("Playlist after: " + req.session.playlist)
 	res.send(req.session.playlist)
 })
 
