@@ -59,19 +59,19 @@ function loadPlaylist()
 {
 	$.get( "/playlist", function( data ) {
 		var html = "";
-		if (typeof data != "undefined")
+		if (data && typeof data != "undefined")
 		{
 			var array = JSON.parse(data)
 			array.forEach(function(element,index,array) {
-				console.log(element)
+				$("#the-playlist").append("<li><a>" + 
+						"<button type='button' class='btn btn-default btn-xs' aria-label='Play Button'>" +
+							"<span onclick=\"play('" + element.title + "', '" + element.path + "')\"' " + 
+							"class='glyphicon glyphicon-play' aria-hidden='true'></span>" +
+						"</button> " + element.title + "</a></li>"
+				 )	
 			})
 		}
-		//$("#the-playlist").append("<li><a>" + 
-		//		"<button type='button' class='btn btn-default btn-xs' aria-label='Play Button'>" +
-		//			"<span onclick=\"play('" + object.title + "', '" + object.path + "')\"' " + 
-		//			"class='glyphicon glyphicon-play' aria-hidden='true'></span>" +
-		//		"</button> " + object.title + "</a></li>"
-		//		)	
+		
 	})
 }
 
