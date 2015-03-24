@@ -41,7 +41,8 @@ function enqueue(setTitle, setPath)
 	var object = { title: setTitle, path: setPath }
 	$("#the-playlist").append("<li><a>" + 
 								"<button type='button' class='btn btn-default btn-xs' aria-label='Play Button'>" +
-	  							"<span class='glyphicon glyphicon-play' aria-hidden='true'></span>" +
+	  							"<span onclick=\"play('" + object.title + "', '" + object.path + "')\"' " + 
+	  							"class='glyphicon glyphicon-play' aria-hidden='true'></span>" +
 								"</button> " + object.title + "</a></li>"
 								)
 					//"<span onclick=\"play('" + object.title + "', '" + object.path + "')\"' " +
