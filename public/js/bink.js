@@ -3,6 +3,8 @@ $(document).ready(function(){
    $("a#browseButton").click(browse)
    //loadRecentJams()
    
+   loadPlaylist()
+   
   $("#jquery_jplayer_1").jPlayer({
     cssSelectorAncestor: "#jp_container_1",
     swfPath: "/js",
@@ -59,7 +61,15 @@ function loadPlaylist()
 {
 	$.get( "/playlist", function( data ) {
 		var html = "";
-		console.log("Got updated playlist data: " + data)
+		data.forEach(function(element,index,array) {
+			console.log(element)
+		})
+		//$("#the-playlist").append("<li><a>" + 
+		//		"<button type='button' class='btn btn-default btn-xs' aria-label='Play Button'>" +
+		//			"<span onclick=\"play('" + object.title + "', '" + object.path + "')\"' " + 
+		//			"class='glyphicon glyphicon-play' aria-hidden='true'></span>" +
+		//		"</button> " + object.title + "</a></li>"
+		//		)	
 	})
 }
 
