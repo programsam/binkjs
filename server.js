@@ -257,6 +257,33 @@ function getBand(thisjam, callback)
 	}) //query
 } //function
 
+function getDefPic(thisjam, callback)
+{
+	var client = sql();
+	client.query("SELECT * from pictures where id = " + thisjam.bandid, function(err, rows, fields) {
+		if (err) //error while getting the item
+		{
+			console.log("ERROR: " + err)
+			client.end()
+			callback()
+		}
+		else //no error
+		{
+			if (rows.length > 0) //there is something in the array, return it
+			{
+				thisjam.defpic = rows[0]
+				client.end()
+				callback()
+			}
+			else //nothing in the array, return null
+			{
+				client.end()
+				callback()
+			}
+		} //else
+	}) //query
+} //function
+
 function getLocation(thisjam, callback)
 {
 	var client = sql();
@@ -348,6 +375,10 @@ app.get('/recent', function (req, res) {
 				    function(callback)
 				    {
 				    	getLocation(thisjam, callback)
+				    },
+				    function(callback)
+				    {
+				    	getDefPic(thisjam, callback)
 				    }
 				],
 				function (err, results) {

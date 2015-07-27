@@ -115,6 +115,10 @@ function loadRecentJams()
 			{
 				html += "<p>" + thisjam.notes + "</p>"
 			}
+			if (thisjam.hasOwnProperty("defpic") && thisjam.defpic != null && thisjam.defpic != -1)
+			{
+				//html += "<p><img src='" + settings.media_s3_url + "pics/" + thisjam.id + "/"
+			}
   			html += "<p class='pull-right'><button onclick='loadJam(" + thisjam.id + ")' type='button' class='btn btn-default' aria-label='Load this Jam'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button></p>"
   			html += "</div>"
   			html += "</div>"
