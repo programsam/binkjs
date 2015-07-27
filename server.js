@@ -162,7 +162,7 @@ function hasPics(thisjam, overallCallback)
 function hasVids(thisjam, overallCallback)
 {
 	var client = sql();
-	client.query("SELECT * from video where jamid = ", [thisjam.id], 
+	client.query("SELECT * from video where jamid = ?", [thisjam.id], 
 		function(err, tracks, fields) {
 		if (err) //error while getting the item
 		{
