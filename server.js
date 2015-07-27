@@ -237,7 +237,7 @@ function getJamStaff(thisjam, overallCallback)
 function getBand(thisjam, callback)
 {
 	var client = sql();
-	client.query("SELECT * from bands where id = ?", [thisjam.bandid, 
+	client.query("SELECT * from bands where id = ?", [thisjam.bandid], 
     function(err, rows, fields) {
 		if (err) //error while getting the item
 		{
