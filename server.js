@@ -33,7 +33,7 @@ function getJamMusicians(thisjam, overallCallback)
 	client.query("SELECT musiciansoncollection.musicianid, musiciansoncollection.jamid, musiciansoncollection.instrumentid, " +
 			"musicians.name as musicianname, instruments.name as instrumentname FROM musiciansoncollection, musicians, " +
 			"instruments where instruments.id = musiciansoncollection.instrumentid and musicians.id = musicianid and " +
-			"musiciansoncollection.jamid = " + thisjam.id, function(err, musicians, fields) {
+			"musiciansoncollection.jamid = ?", [thisjam.id], function(err, musicians, fields) {
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
@@ -75,8 +75,8 @@ function getJamTracks(thisjam, overallCallback)
 {
 	var client = sql();
 	var mytracks = []
-	client.query("SELECT * from tracks where jamid = " + thisjam.id + 
-				 " order by num asc", function(err, tracks, fields) {
+	client.query("SELECT * from tracks where jamid = ? order by num asc", [thisjam.id], 
+		function(err, tracks, fields) {
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
@@ -106,7 +106,8 @@ function getJamTracks(thisjam, overallCallback)
 function hasTracks(thisjam, overallCallback)
 {
 	var client = sql();
-	client.query("SELECT * from tracks where jamid = " + thisjam.id, function(err, tracks, fields) {
+	client.query("SELECT * from tracks where jamid = ?", [thisjam.id], 
+		function(err, tracks, fields) {
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
@@ -133,7 +134,8 @@ function hasTracks(thisjam, overallCallback)
 function hasPics(thisjam, overallCallback)
 {
 	var client = sql();
-	client.query("SELECT * from pictures where jamid = " + thisjam.id, function(err, tracks, fields) {
+	client.query("SELECT * from pictures where jamid = ?", [thisjam.id], 
+		function(err, tracks, fields) {
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
@@ -160,7 +162,8 @@ function hasPics(thisjam, overallCallback)
 function hasVids(thisjam, overallCallback)
 {
 	var client = sql();
-	client.query("SELECT * from video where jamid = " + thisjam.id, function(err, tracks, fields) {
+	client.query("SELECT * from video where jamid = ", [thisjam.id], 
+		function(err, tracks, fields) {
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
@@ -192,7 +195,8 @@ function getJamStaff(thisjam, overallCallback)
 				 "productiononcollection.roleid, staff.name as staffname, roles.name as rolename " +  
 				 "FROM productiononcollection, staff, roles where staff.id = productiononcollection.staffid " + 
 				 "and roles.id = productiononcollection.roleid " +
-				 "and jamid = " + thisjam.id, function(err, staff, fields) {
+				 "and jamid = ?", [thisjam.id], 
+		function(err, staff, fields) {
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
@@ -233,7 +237,8 @@ function getJamStaff(thisjam, overallCallback)
 function getBand(thisjam, callback)
 {
 	var client = sql();
-	client.query("SELECT * from bands where id = " + thisjam.bandid, function(err, rows, fields) {
+	client.query("SELECT * from bands where id = ?", [thisjam.bandid, 
+    function(err, rows, fields) {
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
@@ -261,7 +266,8 @@ function getDefPic(thisjam, callback)
 {
 	
 	var client = sql();
-	client.query("SELECT * from pictures where id = " + thisjam.defpic, function(err, rows, fields) {
+	client.query("SELECT * from pictures where id = ?", [thisjam.defpic], 
+		function(err, rows, fields) {
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
@@ -288,7 +294,8 @@ function getDefPic(thisjam, callback)
 function getLocation(thisjam, callback)
 {
 	var client = sql();
-	client.query("SELECT * from locations where id = " + thisjam.locid, function(err, rows, fields) {
+	client.query("SELECT * from locations where id = ?", [thisjam.locid], 
+		function(err, rows, fields) {
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
@@ -314,7 +321,8 @@ function getLocation(thisjam, callback)
 
 app.get('/jam/:id', function (req, res) {
 	var client = sql();
-	client.query('SELECT * from jams where id = ' + req.params.id, function(err, rows) {
+	client.query('SELECT * from jams where id = ?', [req.params.id], 
+		function(err, rows) {
 		if (err)
 		{
 			console.log("ERROR: " + err)
