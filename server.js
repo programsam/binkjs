@@ -259,8 +259,9 @@ function getBand(thisjam, callback)
 
 function getDefPic(thisjam, callback)
 {
+	
 	var client = sql();
-	client.query("SELECT * from pictures where id = " + thisjam.bandid, function(err, rows, fields) {
+	client.query("SELECT * from pictures where id = " + thisjam.defpic, function(err, rows, fields) {
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
