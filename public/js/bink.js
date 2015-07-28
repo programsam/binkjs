@@ -148,10 +148,11 @@ function browse()
 	  			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
 				html += "<tr>"
 				
-				html += "<td><span onclick='loadJam(" + thisjam.id + ")' class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></td>"
+				html += "<td><span onclick='loadJam(" + thisjam.id + ")' style='cursor: pointer' class='glyphicon glyphicon-folder-open'" +
+						" aria-hidden='true'></span></td>"
 				
 				html += "<td>" + mydate + "</td>"
-				html += "<td>" + thisjam.title + "</td>"
+				html += "<td><a href='javascript:loadJam(" + thisjam.id + ")'>" + thisjam.title + "</a></td>"
 
 				if (thisjam.hasOwnProperty("band"))
 				{
