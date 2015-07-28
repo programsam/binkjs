@@ -239,7 +239,7 @@ function browseCallback( data ) {
   	}
   	
 	  	html += "<li>"
-	  		html += "<a href='#' aria-label='Next'>" +
+	  		html += "<a href=\"javascript:browse(" + data.size + "," + (j+1) + ")\" aria-label='Next'>" +
 	  				"<span aria-hidden='true'>&raquo;</span>" + 
 	  				"</a>"
 	  	html += "</li>"
