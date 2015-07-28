@@ -498,6 +498,7 @@ app.put('/playlist', function(req, res) {
 
 app.get('/browse', function (req, res) {
 	res.set('Content-Type','application/json')
+	console.log(req.body)
 	var client = sql();
 	client.query('SELECT * from jams where private = 0 order by date desc limit 0,10', function(err, jams, fields) {
 	  if (err)
