@@ -134,10 +134,15 @@ function loadRecentJams()
 	})
 }
 
-function browse()
+function browse(size, page)
 {
+	if (size == null)
+		size = 10
+	if (page == null)
+		page = 0
+		
 	$(".main").html("Loading...")
-	$.get( "/browse/10/0", function( data ) {
+	$.get( "/browse/" + size + "/" + page, function( data ) {
 		var html = "<table class='table table-bordered'>";
 		html += "<tr>"
 		html += "<th><span style='cursor: pointer' class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></th>"
@@ -204,8 +209,7 @@ function browse()
 	  		})
 	  	html += "</table>"
 	  		
-	  	html += "<div class='center-block'><nav>"
-	  	html += "<ul class='pagination centered'>"
+	  	html += "<ul class='pagination'>"
 	  		html += "<li>"
 	  			html += "<a href='#' aria-label='Previous'>" +
 	  					"<span aria-hidden='true'>&laquo;</span>" +
@@ -224,7 +228,7 @@ function browse()
 		  				"</a>"
 		  	html += "</li>"
 		 html += "</ul>"
-	     html += "</nav></div>"
+	     html += "</nav>"
 	  	
 	  	$(".main").html(html)
 	})
