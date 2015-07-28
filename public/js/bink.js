@@ -219,7 +219,7 @@ function browseCallback( data ) {
   	html += "</table>"
   		
   	var pageCount = (data.total / data.size) - 1
-  	html += "<ul class='pagination'>"
+  	html += "Page: <ul class='pagination'>"
   		if (data.page == 0)
   		{
   			html += "<li class='disabled'><a href='#' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>"
@@ -259,6 +259,18 @@ function browseCallback( data ) {
   	}
 	 html += "</ul>"
      html += "</nav>"
+
+    html += "<div class='btn-group' data-toggle='buttons'>"
+    html += "<label class='btn btn-primary active'>" 
+    html += "<input type='radio' name='options' id='option1' autocomplete='off' checked> Radio 1 (preselected)"
+    html+= "</label>"
+    html+= "<label class='btn btn-primary'>"
+    html+= "<input type='radio' name='options' id='option2' autocomplete='off'> Radio 2"
+    html+= " </label>"
+    html+= "<label class='btn btn-primary'>"
+    html+= "  <input type='radio' name='options' id='option3' autocomplete='off'> Radio 3"
+    html+= " </label>"
+    html+= " </div>"
   	
   	$(".main").html(html)
 }
