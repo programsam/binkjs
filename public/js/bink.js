@@ -225,7 +225,7 @@ function browseCallback( data ) {
   					"</a>"
   		html += "</li>"
   	
-  	var pageCount = data.total / data.size
+  	var pageCount = (data.total / data.size) - 1
   	for (var j=0;j<pageCount;j++)
   	{
   		if (data.page == j)
