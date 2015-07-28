@@ -496,16 +496,23 @@ app.put('/playlist', function(req, res) {
 	res.send(req.session.playlist)
 })
 
-app.get('/browse/:size', function (req, res) {
+app.get('/browse/:size/:page', function (req, res) {
 	res.set('Content-Type','application/json')
-	var size = 10;
+	var size = 10
+	var page = 0
 	if (req.params.size != "" && req.params.size != null)
 	{
 		size = parseInt(req.params.size)
 	}
+	if (req.params.page != "" && req.params.page != null)
+	{
+		page = parseInt(req.params.page)
+	}
+	var offset = page * size
+	
 	var client = sql();
-	client.query('SELECT * from jams where private = 0 order by date desc limit 0,?', 
-	[size],
+	client.query('SELECT * from jams where private = 0 order by date desc limit ?,?', 
+	[offset, size],
 	function(err, jams, fields) {
 	  if (err)
 	  {
