@@ -293,8 +293,9 @@ function loadJam(id)
 		}
 		if (thisjam.hasOwnProperty("pictures") && thisjam.pictures != null && thisjam.pictures.length != 0)
 		{
-			html += "<div id='carousel-example-generic' class='carousel slide' data-ride='carousel' style='width: 400px'>"
-				html += "<ol class='carousel-indicators'>"
+			html += "<div class='panel panel-default'><div class='panel-heading'>Pictures</div>"
+				html += "<div id='carousel-example-generic' class='carousel slide' data-ride='carousel' style='width: 400px'>"
+					html += "<ol class='carousel-indicators'>"
 					for (var i=0;i<thisjam.pictures.length;i++)
 					{
 						if (thisjam.pictures[i].id == thisjam.defpic)
@@ -335,6 +336,7 @@ function loadJam(id)
 			html += "<span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span>"
 			html += "<span class='sr-only'>Next</span>"
 			html += "</a>"
+			html += "</div>"
 			html += "</div>"
 		}
 		
