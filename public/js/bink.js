@@ -209,7 +209,7 @@ function browse()
 	  		html += "<li>"
 	  			html += "<a href='#' aria-label='Previous'>" +
 	  					"<span aria-hidden='true'>&laquo;</span>" +
-	  					"</a>
+	  					"</a>"
 	  		html += "</li>"
 	  	
 		  	html += "<li><a href='#'>1</a></li>"
