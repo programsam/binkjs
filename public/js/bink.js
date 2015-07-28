@@ -301,7 +301,12 @@ function loadJam(id)
 				html += "</ol>"
 
 			html += "<div class='carousel-inner' role='listbox'>"
-			for (var i=0;i<=3;i++)
+				html += "<div class='item active'>"
+					html += "<img src='" + thisjam.pictures[0].path + "'>"
+					html += "<div class='carousel-caption'>"
+					html += "</div>"
+				html += "</div>"
+			for (var i=1;i<3;i++)
 			{
 				html += "<div class='item'>"
 					html += "<img src='" + thisjam.pictures[i].path + "'>"
