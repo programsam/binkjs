@@ -230,7 +230,7 @@ function browseCallback( data ) {
   	{
   		if (data.page == j)
   		{
-  			html += "<li class='active'><a href='#'>" + j + "<span class='sr-only'>(current)</span></a></li>"
+  			html += "<li class='active'><a href='#'>" + (j+1) + "<span class='sr-only'>(current)</span></a></li>"
   		}
   		else
   		{
