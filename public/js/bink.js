@@ -302,7 +302,7 @@ function loadJam(id)
 
 			html += "<div class='carousel-inner' role='listbox'>"
 				html += "<div class='item active'>"
-					html += "<img src='" + thisjam.pictures[0].path + "'>"
+					html += "<img src='" + thisjam.pictures[0].path + "' width='200px'>"
 					html += "<div class='carousel-caption'>"
 					html += "</div>"
 				html += "</div>"
