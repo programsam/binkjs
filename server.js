@@ -424,7 +424,7 @@ app.get('/jam/:id', function (req, res) {
 			    },
 			    function(callback)
 			    {
-			    	getJamVideo(thisjam, callback)
+			    	getJamVideos(thisjam, callback)
 			    },
 			    function(callback)
 			    {
