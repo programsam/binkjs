@@ -295,9 +295,17 @@ function loadJam(id)
 		{
 			html += "<div id='carousel-example-generic' class='carousel slide' data-ride='carousel' style='width: 400px'>"
 				html += "<ol class='carousel-indicators'>"
-					html += "<li data-target='#carousel-example-generic' data-slide-to='0' class='active'></li>"
-					html += "<li data-target='#carousel-example-generic' data-slide-to='1'></li>"
-					html += "<li data-target='#carousel-example-generic' data-slide-to='2'></li>"
+					for (var i=0;i<thisjam.pictures.length;i++)
+					{
+						if (thisjam.pictures[i].id == thisjam.defpic)
+						{
+							html += "<li data-target='#carousel-example-generic' data-slide-to='" + i + "' class='active'></li>"
+						}
+						else
+						{
+							html += "<li data-target='#carousel-example-generic' data-slide-to='" + i + "'></li>"
+						}
+					}
 				html += "</ol>"
 
 			html += "<div class='carousel-inner' role='listbox'>"
@@ -306,9 +314,17 @@ function loadJam(id)
 					html += "<div class='carousel-caption'>"
 					html += "</div>"
 				html += "</div>"
-			for (var i=1;i<thisjam.pictures.length;i++)
+			for (var i=0;i<thisjam.pictures.length;i++)
 			{
-				html += "<div class='item'>"
+				if (thisjam.pictures[i].id == thisjam.defpic)
+				{
+					html += "<div class='item active'>"
+				}
+				else
+				{
+					html += "<div class='item'>"
+				}
+				
 					html += "<img src='" + thisjam.pictures[i].path + "' width='400px'>"
 					html += "<div class='carousel-caption'>"
 					html += "</div>"
