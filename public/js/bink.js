@@ -306,7 +306,7 @@ function loadJam(id)
 					html += "<div class='carousel-caption'>"
 					html += "</div>"
 				html += "</div>"
-			for (var i=1;i<3;i++)
+			for (var i=1;i<thisjam.pictures.length;i++)
 			{
 				html += "<div class='item'>"
 					html += "<img src='" + thisjam.pictures[i].path + "' width='400px'>"
