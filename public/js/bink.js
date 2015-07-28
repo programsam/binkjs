@@ -301,7 +301,7 @@ function loadJam(id)
 				html += "</ol>"
 
 			html += "<div class='carousel-inner' role='listbox'>"
-			thisjam.pictures.foreach(function(item, element, array) {
+			thisjam.pictures.forEach(function(item, element, array) {
 				html += "<div class='item'>"
 					html += "<img src='" + item.path + "'>"
 					html += "<div class='carousel-caption'>"
