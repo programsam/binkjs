@@ -142,100 +142,102 @@ function browse(size, page)
 		page = 0
 		
 	$(".main").html("Loading...")
-	$.get( "/browse/" + size + "/" + page, function( data ) {
-		var html = "<table class='table table-bordered'>";
-		html += "<tr>"
-		html += "<th><span style='cursor: pointer' class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></th>"
-		html += "<th>Date</th><th>Title</th><th>Band</th><th>Location</th>"
-		html += "<th><span class='glyphicon glyphicon-music' aria-hidden='true'></span></th>"
-		html += "<th><span class='glyphicon glyphicon-picture' aria-hidden='true'></span></th>"
-		html += "<th><span class='glyphicon glyphicon-facetime-video' aria-hidden='true'></span></th>"
-		html += "</tr>"
-		data.forEach(function (thisjam, index, array) {
-	  			var d = new Date(thisjam.date)
-	  			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
-				html += "<tr>"
-				
-				html += "<td><span onclick='loadJam(" + thisjam.id + ")' style='cursor: pointer' class='glyphicon glyphicon-folder-open'" +
-						" aria-hidden='true'></span></td>"
-				
-				html += "<td>" + mydate + "</td>"
-				html += "<td><a href='javascript:loadJam(" + thisjam.id + ")'>" + thisjam.title + "</a></td>"
-
-				if (thisjam.hasOwnProperty("band"))
-				{
-					html += "<td>" + thisjam.band.name + "</td>"
-				}
-				else
-				{
-					html += "<td></td>"
-				}
-
-				if (thisjam.hasOwnProperty("location"))
-				{
-					html += "<td>" + thisjam.location.name + "</td>"
-				}
-				else
-				{
-					html += "<td></td>"
-				}
-
-				if (thisjam.hasTracks)
-				{
-					html += "<td><span class='glyphicon glyphicon-music' aria-hidden='true'></td>"
-				}
-				else
-				{
-					html += "<td></td>"
-				}
-				
-				if (thisjam.hasPics)
-				{
-					html += "<td><span class='glyphicon glyphicon-picture' aria-hidden='true'></td>"
-				}
-				else
-				{
-					html += "<td></td>"
-				}
-				
-				if (thisjam.hasVids)
-				{
-					html += "<td><span class='glyphicon glyphicon-facetime-video' aria-hidden='true'></td>"
-				}
-				else
-				{
-					html += "<td></td>"
-				}
-	  		})
-	  	html += "</table>"
-	  		
-	  	html += "<ul class='pagination'>"
-	  		html += "<li>"
-	  			html += "<a href='#' aria-label='Previous'>" +
-	  					"<span aria-hidden='true'>&laquo;</span>" +
-	  					"</a>"
-	  		html += "</li>"
-	  	
-		  	html += "<li><a href='#'>1</a></li>"
-		  	html += "<li><a href='#'>2</a></li>"
-		  	html += "<li><a href='#'>3</a></li>"
-		  	html += "<li><a href='#'>4</a></li>"
-		  	html += "<li><a href='#'>5</a></li>"
-	  	
-		  	html += "<li>"
-		  		html += "<a href='#' aria-label='Next'>" +
-		  				"<span aria-hidden='true'>&raquo;</span>" + 
-		  				"</a>"
-		  	html += "</li>"
-		 html += "</ul>"
-	     html += "</nav>"
-	  	
-	  	$(".main").html(html)
-	})
+	$.get( "/browse/" + size + "/" + page, browseCallback(data))
 	.fail(function()
-	{
-		alert('Encountered a problem.')
-	})
+			{
+				alert('Encountered a problem.')
+			})
+}
+
+function browseCallback( data ) {
+	var html = "<table class='table table-bordered'>";
+	html += "<tr>"
+	html += "<th><span style='cursor: pointer' class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></th>"
+	html += "<th>Date</th><th>Title</th><th>Band</th><th>Location</th>"
+	html += "<th><span class='glyphicon glyphicon-music' aria-hidden='true'></span></th>"
+	html += "<th><span class='glyphicon glyphicon-picture' aria-hidden='true'></span></th>"
+	html += "<th><span class='glyphicon glyphicon-facetime-video' aria-hidden='true'></span></th>"
+	html += "</tr>"
+	data.results.forEach(function (thisjam, index, array) {
+  			var d = new Date(thisjam.date)
+  			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
+			html += "<tr>"
+			
+			html += "<td><span onclick='loadJam(" + thisjam.id + ")' style='cursor: pointer' class='glyphicon glyphicon-folder-open'" +
+					" aria-hidden='true'></span></td>"
+			
+			html += "<td>" + mydate + "</td>"
+			html += "<td><a href='javascript:loadJam(" + thisjam.id + ")'>" + thisjam.title + "</a></td>"
+
+			if (thisjam.hasOwnProperty("band"))
+			{
+				html += "<td>" + thisjam.band.name + "</td>"
+			}
+			else
+			{
+				html += "<td></td>"
+			}
+
+			if (thisjam.hasOwnProperty("location"))
+			{
+				html += "<td>" + thisjam.location.name + "</td>"
+			}
+			else
+			{
+				html += "<td></td>"
+			}
+
+			if (thisjam.hasTracks)
+			{
+				html += "<td><span class='glyphicon glyphicon-music' aria-hidden='true'></td>"
+			}
+			else
+			{
+				html += "<td></td>"
+			}
+			
+			if (thisjam.hasPics)
+			{
+				html += "<td><span class='glyphicon glyphicon-picture' aria-hidden='true'></td>"
+			}
+			else
+			{
+				html += "<td></td>"
+			}
+			
+			if (thisjam.hasVids)
+			{
+				html += "<td><span class='glyphicon glyphicon-facetime-video' aria-hidden='true'></td>"
+			}
+			else
+			{
+				html += "<td></td>"
+			}
+  		})
+  	html += "</table>"
+  		
+  	html += "<ul class='pagination'>"
+  		html += "<li>"
+  			html += "<a href='#' aria-label='Previous'>" +
+  					"<span aria-hidden='true'>&laquo;</span>" +
+  					"</a>"
+  		html += "</li>"
+  	
+  	var pageCount = data.total / data.size
+  	for (var j=0;j<pageCount;j++)
+  	{
+	  	html += "<li><a href='#'>" + (j+1) "</a></li>"
+  	}
+  	
+	  	html += "<li>"
+	  		html += "<a href='#' aria-label='Next'>" +
+	  				"<span aria-hidden='true'>&raquo;</span>" + 
+	  				"</a>"
+	  	html += "</li>"
+	 html += "</ul>"
+     html += "</nav>"
+  	
+  	$(".main").html(html)
 }
 
 function loadJam(id)
