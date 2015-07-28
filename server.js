@@ -135,7 +135,7 @@ function hasPics(thisjam, overallCallback)
 {
 	var client = sql();
 	client.query("SELECT * from pictures where jamid = ?", [thisjam.id], 
-		function(err, tracks, fields) {
+		function(err, pics, fields) {
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
@@ -145,7 +145,7 @@ function hasPics(thisjam, overallCallback)
 		else
 		{
 			client.end()
-			if (tracks.length > 0)
+			if (pics.length > 0)
 			{
 				thisjam.hasPics = true
 				overallCallback()
@@ -163,7 +163,7 @@ function hasVids(thisjam, overallCallback)
 {
 	var client = sql();
 	client.query("SELECT * from video where jamid = ?", [thisjam.id], 
-		function(err, tracks, fields) {
+		function(err, vids, fields) {
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
@@ -173,7 +173,7 @@ function hasVids(thisjam, overallCallback)
 		else
 		{
 			client.end()
-			if (tracks.length > 0)
+			if (vids.length > 0)
 			{
 				thisjam.hasVids = true
 				overallCallback()
@@ -232,6 +232,34 @@ function getJamStaff(thisjam, overallCallback)
 			   })
 		}
 	})
+}
+
+function getPictures(thisjam, callback)
+{
+	var client = sql();
+	client.query("SELECT * from pictures where jamid = ?", [thisjam.id], 
+		function(err, pics, fields) {
+		if (err) //error while getting the item
+		{
+			console.log("ERROR: " + err)
+			client.end()
+			overallCallback()
+		}
+		else
+		{
+			client.end()
+			if (pics.length > 0)
+			{
+				thisjam.pictures = pics
+				overallCallback()
+			}
+			else
+			{
+				thisjam.pictures = null
+				overallCallback()
+			}
+		} //else
+	}) //query
 }
 
 function getBand(thisjam, callback)
