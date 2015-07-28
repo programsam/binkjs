@@ -234,7 +234,7 @@ function browseCallback( data ) {
   		}
   		else
   		{
-  			html += "<li><a href=\"javascript:browse(" + j + "," + data.size + ")\">" + (j+1) + "</a></li>"
+  			html += "<li><a href=\"javascript:browse(" + data.size + "," + j + ")\">" + (j+1) + "</a></li>"
   		}
   	}
   	
