@@ -501,7 +501,7 @@ app.get('/browse/:size', function (req, res) {
 	var size = 10;
 	if (req.params.size != "" && req.params.size != null)
 	{
-		size = req.params.size
+		size = parseInt(req.params.size)
 	}
 	var client = sql();
 	client.query('SELECT * from jams where private = 0 order by date desc limit 0,?', 
