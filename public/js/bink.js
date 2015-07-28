@@ -226,7 +226,7 @@ function browseCallback( data ) {
   	var pageCount = data.total / data.size
   	for (var j=0;j<pageCount;j++)
   	{
-	  	html += "<li><a href='#'>" + (j+1) "</a></li>"
+	  	html += "<li><a href='#'>" + (j+1) + "</a></li>"
   	}
   	
 	  	html += "<li>"
