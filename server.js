@@ -496,7 +496,7 @@ app.put('/playlist', function(req, res) {
 	res.send(req.session.playlist)
 })
 
-function getTotalJams(toRet, callback) {
+function getTotalJams(toRet) {
 	var client = sql();
 	client.query("SELECT COUNT(*) as num from jams", 
 		function(err, rows, fields) {
@@ -509,14 +509,12 @@ function getTotalJams(toRet, callback) {
 		{
 			if (rows.length > 0) //there is something in the array, return it
 			{
-				console.log(rows)
 				client.end()
-				return rows[0].num
+				toRet.total = rows[0].num
 			}
 			else //nothing in the array, return null
 			{
 				client.end()
-				return null;
 			}
 		} //else
 	}) //query
@@ -537,7 +535,8 @@ app.get('/browse/:size/:page', function (req, res) {
 	var offset = page * size
 	
 	var client = sql();
-	var toRet = {"page": page, "offset": offset, "total":getTotalJams()}
+	var toRet = {"page": page, "offset": offset}
+	getTotalJams(toRet)
 	client.query('SELECT * from jams where private = 0 order by date desc limit ?,?', 
 	[offset, size],
 	function(err, jams, fields) {
