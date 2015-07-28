@@ -291,6 +291,38 @@ function loadJam(id)
 			})
 			html += "</div>"
 		}
+		if (thisjam.hasOwnProperty("pictures") && thisjam.pictures.length != 0)
+		{
+			html += "<div id='carousel-example-generic' class='carousel slide' data-ride='carousel'>"
+			html += "<ol class='carousel-indicators'>"
+			html += "<li data-target='#carousel-example-generic' data-slide-to='0' class='active'></li>"
+			html += "<li data-target='#carousel-example-generic' data-slide-to='1'></li>"
+			html += "<li data-target='#carousel-example-generic' data-slide-to='2'></li>"
+			html += "</ol>"
+
+			html += "<div class='carousel-inner' role='listbox'>"
+			html += "<div class='item active'>"
+			html += "<img src='...' alt='...'>"
+			html += "<div class='carousel-caption'>"
+			html += "</div>"
+			html += "</div>"
+			html += "<div class='item'>"
+			html += "<img src='...' alt='...'>"
+			html += "<div class='carousel-caption'>"
+			html += "</div>"
+			html += "</div>"
+			html += "</div>"
+
+			html += "<a class='left carousel-control' href='#carousel-example-generic' role='button' data-slide='prev'>"
+			html += "<span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span>"
+			html += "<span class='sr-only'>Previous</span>"
+			html += "</a>"
+			html += "<a class='right carousel-control' href='#carousel-example-generic' role='button' data-slide='next'>"
+			html += "<span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span>"
+			html += "<span class='sr-only'>Next</span>"
+			html += "</a>"
+			html += "</div>"
+		}
 		
 		$(".main").html(html)
 	});
