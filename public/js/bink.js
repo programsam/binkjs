@@ -220,7 +220,7 @@ function browseCallback( data ) {
   		
   	html += "<ul class='pagination'>"
   		html += "<li>"
-  			html += "<a href='#' aria-label='Previous'>" +
+  			html += "<a href=\"javascript:browse(" + data.size + "," + (data.page - 1) + ")\" aria-label='Previous'>" +
   					"<span aria-hidden='true'>&laquo;</span>" +
   					"</a>"
   		html += "</li>"
