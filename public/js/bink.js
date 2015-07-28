@@ -293,7 +293,7 @@ function loadJam(id)
 		}
 		if (thisjam.hasOwnProperty("pictures") && thisjam.pictures != null && thisjam.pictures.length != 0)
 		{
-			html += "<div id='carousel-example-generic' class='carousel slide' data-ride='carousel'>"
+			html += "<div id='carousel-example-generic' class='carousel slide' data-ride='carousel' stle='width: 450px'>"
 				html += "<ol class='carousel-indicators'>"
 					html += "<li data-target='#carousel-example-generic' data-slide-to='0' class='active'></li>"
 					html += "<li data-target='#carousel-example-generic' data-slide-to='1'></li>"
@@ -302,14 +302,14 @@ function loadJam(id)
 
 			html += "<div class='carousel-inner' role='listbox'>"
 				html += "<div class='item active'>"
-					html += "<img src='" + thisjam.pictures[0].path + "' width='200px'>"
+					html += "<img src='" + thisjam.pictures[0].path + "' width='400px'>"
 					html += "<div class='carousel-caption'>"
 					html += "</div>"
 				html += "</div>"
 			for (var i=1;i<3;i++)
 			{
 				html += "<div class='item'>"
-					html += "<img src='" + thisjam.pictures[i].path + "'>"
+					html += "<img src='" + thisjam.pictures[i].path + "' width='400px'>"
 					html += "<div class='carousel-caption'>"
 					html += "</div>"
 				html += "</div>"
