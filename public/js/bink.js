@@ -1,7 +1,7 @@
 $(document).ready(function(){
    $("a#recentButton").click(loadRecentJams)
    $("a#browseButton").click(function() { 
-	   browse(0, 10);
+	   browse(10, 0);
    })
    loadRecentJams()
    
@@ -138,7 +138,7 @@ function loadRecentJams()
 
 function browse(size, pageNumber)
 {
-	if (size == null)
+	if (size == null || size < 5)
 		size = 10
 	if (pageNumber == null)
 		pageNumber = 0
