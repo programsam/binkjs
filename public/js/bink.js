@@ -291,7 +291,7 @@ function loadJam(id)
 			})
 			html += "</div>"
 		}
-		if (thisjam.hasOwnProperty("pictures") && thisjam.pictures.length != 0)
+		if (thisjam.hasOwnProperty("pictures") && thisjam.pictures != null && thisjam.pictures.length != 0)
 		{
 			html += "<div id='carousel-example-generic' class='carousel slide' data-ride='carousel'>"
 			html += "<ol class='carousel-indicators'>"
