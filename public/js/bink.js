@@ -1,7 +1,7 @@
 $(document).ready(function(){
    $("a#recentButton").click(loadRecentJams)
    $("a#browseButton").click(browse)
-   //loadRecentJams()
+   loadRecentJams()
    
    loadPlaylist()
    
