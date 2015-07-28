@@ -228,7 +228,14 @@ function browseCallback( data ) {
   	var pageCount = data.total / data.size
   	for (var j=0;j<pageCount;j++)
   	{
-	  	html += "<li><a href='#'>" + (j+1) + "</a></li>"
+  		if (data.page == j)
+  		{
+  			html += "<li class='active'><a href='#'>" + j + "<span class='sr-only'>(current)</span></a></li>"
+  		}
+  		else
+  		{
+  			html += "<li><a href=\"javascript:browse(" + j + "," + data.size + ")>" + (j+1) + "</a></li>"
+  		}
   	}
   	
 	  	html += "<li>"
