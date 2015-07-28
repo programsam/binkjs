@@ -496,7 +496,7 @@ app.put('/playlist', function(req, res) {
 	res.send(req.session.playlist)
 })
 
-function getTotalJams() {
+function getTotalJams(toRet, callback) {
 	var client = sql();
 	client.query("SELECT COUNT(*) as num from jams", 
 		function(err, rows, fields) {
@@ -509,6 +509,7 @@ function getTotalJams() {
 		{
 			if (rows.length > 0) //there is something in the array, return it
 			{
+				console.log(rows)
 				client.end()
 				return rows[0].num
 			}
