@@ -278,16 +278,23 @@ function loadJam(id)
 			html += "<div class='panel panel-default'><div class='panel-heading'>Music</div>"
 			html += "<table class='table table-bordered'>"
 			thisjam.tracks.forEach(function (tracks, tracksi, tracksa) {
-				html += "<tr>"
-				html += "<td width='15px'><span style='cursor: pointer' onclick=\"play('" + tracks.title + "', '" + tracks.path + "')\"  class='glyphicon glyphicon-play-circle' aria-hidden='true'></span></td>"
-				html += "<td width='15px'><span style='cursor: pointer' onclick=\"enqueue('" + tracks.title + "', '" + tracks.path + "')\"  class='glyphicon glyphicon-plus' aria-hidden='true'></span></td>"
-				
-				html += "<td><a href='" + tracks.path + "'>" + tracks.title + "</a></td>"
-				if (tracks.notes)
+				if (tracks.title == "--------------------")
 				{
-					html += "<td>" + tracks.notes + "</td>"
+					html += "<tr><td colspan='4'>&nbsp</td></tr>"
 				}
-				html += "</tr>"
+				else
+				{
+					html += "<tr>"
+					html += "<td width='15px'><span style='cursor: pointer' onclick=\"play('" + tracks.title + "', '" + tracks.path + "')\"  class='glyphicon glyphicon-play-circle' aria-hidden='true'></span></td>"
+					html += "<td width='15px'><span style='cursor: pointer' onclick=\"enqueue('" + tracks.title + "', '" + tracks.path + "')\"  class='glyphicon glyphicon-plus' aria-hidden='true'></span></td>"
+					
+					html += "<td><a href='" + tracks.path + "'>" + tracks.title + "</a></td>"
+					if (tracks.notes)
+					{
+						html += "<td>" + tracks.notes + "</td>"
+					}
+					html += "</tr>"
+				}
 			})
 			html += "</table></div>"
 		}
