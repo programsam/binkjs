@@ -204,8 +204,8 @@ function browse()
 	  		})
 	  	html += "</table>"
 	  		
-	  	html += "<nav>"
-	  	html += "<ul class='pagination'>"
+	  	html += "<div class='center-block'><nav>"
+	  	html += "<ul class='pagination centered'>"
 	  		html += "<li>"
 	  			html += "<a href='#' aria-label='Previous'>" +
 	  					"<span aria-hidden='true'>&laquo;</span>" +
@@ -224,7 +224,7 @@ function browse()
 		  				"</a>"
 		  	html += "</li>"
 		 html += "</ul>"
-	     html += "</nav>"
+	     html += "</nav></div>"
 	  	
 	  	$(".main").html(html)
 	})
