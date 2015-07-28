@@ -313,7 +313,6 @@ function getDefPic(thisjam, callback)
 			}
 			else //nothing in the array, return null
 			{
-				console.log("Jam " + thisjam.id + ", titled: " + thisjam.title + ", points at a picture that does not exist.")
 				thisjam.defpic = null
 				client.end()
 				callback()
