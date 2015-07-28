@@ -293,7 +293,7 @@ function loadJam(id)
 		}
 		if (thisjam.hasOwnProperty("pictures") && thisjam.pictures != null && thisjam.pictures.length != 0)
 		{
-			html += "<div id='carousel-example-generic' class='carousel slide' data-ride='carousel' stle='width: 450px'>"
+			html += "<div id='carousel-example-generic' class='carousel slide' data-ride='carousel' stle='width: 400px'>"
 				html += "<ol class='carousel-indicators'>"
 					html += "<li data-target='#carousel-example-generic' data-slide-to='0' class='active'></li>"
 					html += "<li data-target='#carousel-example-generic' data-slide-to='1'></li>"
