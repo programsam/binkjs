@@ -279,6 +279,7 @@ function getDefPic(thisjam, callback)
 			if (rows.length > 0) //there is something in the array, return it
 			{
 				thisjam.defpic = rows[0]
+				thisjam.defpic.path = settings.media_s3_url + "/" + thisjam.id + "/" + thisjam.defpic.filename
 				client.end()
 				callback()
 			}
