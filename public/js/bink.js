@@ -301,14 +301,14 @@ function loadJam(id)
 				html += "</ol>"
 
 			html += "<div class='carousel-inner' role='listbox'>"
-			thisjam.pictures.forEach(function(item, element, array) {
+			for (var i=0;i<=3;i++)
+			{
 				html += "<div class='item'>"
-					html += "<img src='" + item.path + "'>"
+					html += "<img src='" + thisjam.pictures[i].path + "'>"
 					html += "<div class='carousel-caption'>"
 					html += "</div>"
 				html += "</div>"
-			})
-				
+			}
 			html += "</div>"
 
 			html += "<a class='left carousel-control' href='#carousel-example-generic' role='button' data-slide='prev'>"
