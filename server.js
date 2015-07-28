@@ -385,7 +385,7 @@ app.get('/jam/:id', function (req, res) {
 			    function(callback)
 			    {
 			    	getJamPictures(thisjam, callback)
-			    }
+			    },
 			    function(callback)
 			    {
 			    	res.send(thisjam)
