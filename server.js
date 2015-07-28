@@ -234,7 +234,7 @@ function getJamStaff(thisjam, overallCallback)
 	})
 }
 
-function getJamPictures(thisjam, callback)
+function getJamPictures(thisjam, overallCallback)
 {
 	var client = sql();
 	client.query("SELECT * from pictures where jamid = ?", [thisjam.id], 
@@ -250,13 +250,21 @@ function getJamPictures(thisjam, callback)
 			client.end()
 			if (pics.length > 0)
 			{
-				thisjam.pictures = pics
-				callback()
+				mypics = []
+				async.forEach(pics, function(thisPic, picCallback) {
+					thisPic.path = settings.media_s3_url + "pics/" + thisPic.jamid + "/" + thisPic.filename
+					mypics.push(thisPic)
+					picCallback()
+				}, function (err, results)
+				{
+					thisjam.pictures = mypics
+					overallCallback()
+				}) //async
 			}
 			else
 			{
 				thisjam.pictures = null
-				callback()
+				overallCallback()
 			}
 		} //else
 	}) //query
