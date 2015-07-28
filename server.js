@@ -243,7 +243,7 @@ function getJamPictures(thisjam, callback)
 		{
 			console.log("ERROR: " + err)
 			client.end()
-			overallCallback()
+			callback()
 		}
 		else
 		{
@@ -251,12 +251,12 @@ function getJamPictures(thisjam, callback)
 			if (pics.length > 0)
 			{
 				thisjam.pictures = pics
-				overallCallback()
+				callback()
 			}
 			else
 			{
 				thisjam.pictures = null
-				overallCallback()
+				callback()
 			}
 		} //else
 	}) //query
