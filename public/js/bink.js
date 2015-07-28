@@ -212,19 +212,19 @@ function browse()
 	  					"</a>
 	  		html += "</li>"
 	  	
-		  	html += "<li><a href='#'>1</a></li>
-		  	html += "<li><a href='#'>2</a></li>
-		  	html += "<li><a href='#'>3</a></li>
-		  	html += "<li><a href='#'>4</a></li>
-		  	html += "<li><a href='#'>5</a></li>
+		  	html += "<li><a href='#'>1</a></li>"
+		  	html += "<li><a href='#'>2</a></li>"
+		  	html += "<li><a href='#'>3</a></li>"
+		  	html += "<li><a href='#'>4</a></li>"
+		  	html += "<li><a href='#'>5</a></li>"
 	  	
 		  	html += "<li>
 		  		html += "<a href='#' aria-label='Next'>" +
 		  				"<span aria-hidden='true'>&raquo;</span>" + 
 		  				"</a>"
-		  	html += "</li>
-		 html += "</ul>
-	     html += "</nav>
+		  	html += "</li>"
+		 html += "</ul>"
+	     html += "</nav>"
 	  	
 	  	$(".main").html(html)
 	})
