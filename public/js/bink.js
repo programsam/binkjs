@@ -95,7 +95,8 @@ function loadRecentJams()
   			var d = new Date(thisjam.date)
   			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
   			html += "<div class='panel panel-default'>"
-  			html += "<div class='panel-heading'>" + mydate + " - " + thisjam.title
+  			html += "<div class='panel-heading'>" + mydate + 
+  			" - <a href='javascript:loadJam:('" + thisjam.id + "'>" + thisjam.title + "</a>"
   			html += "<div class='pull-right'>"
   			if (thisjam.hasOwnProperty("band"))
   			{
