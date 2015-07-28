@@ -286,6 +286,10 @@ function getJamVideos(thisjam, callback)
 			client.end()
 			if (vids.length > 0)
 			{
+				for (var j=0;j<vids.length;j++)
+				{
+					vids[j].path = settings.media_s3_url + vids[j].path
+				}
 				thisjam.video = vids
 				callback()
 			}
