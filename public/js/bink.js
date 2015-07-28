@@ -88,6 +88,7 @@ function play(setTitle, path)
 
 function loadRecentJams()
 {
+	$(".main").html("Loading...")
 	$.get( "/recent", function( data ) {
 		var html = "";
 		data.forEach(function (thisjam, index, array) {
@@ -134,6 +135,7 @@ function loadRecentJams()
 
 function browse()
 {
+	$(".main").html("Loading...")
 	$.get( "/browse", function( data ) {
 		var html = "<table class='table table-bordered'>";
 		html += "<tr>"
