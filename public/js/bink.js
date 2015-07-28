@@ -343,7 +343,7 @@ function loadJam(id)
 		{
 			html += "<div class='panel panel-default'><div class='panel-heading'>Videos</div>"
 			html += "<table class='table table-bordered'>"
-			thisjam.tracks.forEach(function (element, index, array) {
+			thisjam.video.forEach(function (element, index, array) {
 				html += "<tr>"
 				html += "<td><a href='" + element.path + "'>" + element.title + "</a></td>"
 				if (element.notes)
