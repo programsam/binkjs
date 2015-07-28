@@ -218,14 +218,21 @@ function browseCallback( data ) {
   		})
   	html += "</table>"
   		
-  	html += "<ul class='pagination'>"
-  		html += "<li>"
-  			html += "<a href=\"javascript:browse(" + data.size + "," + (data.page - 1) + ")\" aria-label='Previous'>" +
-  					"<span aria-hidden='true'>&laquo;</span>" +
-  					"</a>"
-  		html += "</li>"
-  	
   	var pageCount = (data.total / data.size) - 1
+  	html += "<ul class='pagination'>"
+  		if (data.page == 0)
+  		{
+  			html += "<li class='disabled'><a href='#' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>"
+  		}
+  		else
+  		{
+	  		html += "<li>"
+	  			html += "<a href=\"javascript:browse(" + data.size + "," + (data.page - 1) + ")\" aria-label='Previous'>" +
+	  					"<span aria-hidden='true'>&laquo;</span>" +
+	  					"</a>"
+	  		html += "</li>"
+  		}
+  	
   	for (var j=0;j<pageCount;j++)
   	{
   		if (data.page == j)
@@ -238,11 +245,18 @@ function browseCallback( data ) {
   		}
   	}
   	
+  	if (data.page == pageCount)
+	{
+		html += "<li class='disabled'><a href='#' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>"
+	}
+  	else
+  	{
 	  	html += "<li>"
 	  		html += "<a href=\"javascript:browse(" + data.size + "," + (data.page + 1) + ")\" aria-label='Next'>" +
 	  				"<span aria-hidden='true'>&raquo;</span>" + 
 	  				"</a>"
 	  	html += "</li>"
+  	}
 	 html += "</ul>"
      html += "</nav>"
   	
