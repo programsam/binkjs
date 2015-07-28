@@ -270,6 +270,34 @@ function getJamPictures(thisjam, overallCallback)
 	}) //query
 }
 
+function getJamVideos(thisjam, callback)
+{
+	var client = sql();
+	client.query("SELECT * from video where jamid = ?", [thisjam.id], 
+		function(err, vids, fields) {
+		if (err) //error while getting the item
+		{
+			console.log("ERROR: " + err)
+			client.end()
+			callback()
+		}
+		else
+		{
+			client.end()
+			if (vids.length > 0)
+			{
+				thisjam.video = vids
+				callback()
+			}
+			else
+			{
+				thisjam.video = null
+				callback()
+			}
+		} //else
+	}) //query
+}
+
 function getBand(thisjam, callback)
 {
 	var client = sql();
