@@ -1,6 +1,8 @@
 $(document).ready(function(){
    $("a#recentButton").click(loadRecentJams)
-   $("a#browseButton").click(browse)
+   $("a#browseButton").click(function() { 
+	   browse(0, 10);
+   })
    loadRecentJams()
    
    loadPlaylist()
@@ -134,15 +136,15 @@ function loadRecentJams()
 	})
 }
 
-function browse(size, page)
+function browse(size, pageNumber)
 {
 	if (size == null)
 		size = 10
-	if (page == null)
-		page = 0
+	if (pageNumber == null)
+		pageNumber = 0
 		
 	$(".main").html("Loading...")
-	$.get( "/browse/" + size + "/" + page, browseCallback)
+	$.get( "/browse/" + size + "/" + pageNumber, browseCallback)
 	.fail(function()
 			{
 				alert('Encountered a problem.')
