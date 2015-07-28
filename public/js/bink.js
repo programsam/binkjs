@@ -309,11 +309,6 @@ function loadJam(id)
 				html += "</ol>"
 
 			html += "<div class='carousel-inner' role='listbox'>"
-				html += "<div class='item active'>"
-					html += "<img src='" + thisjam.pictures[0].path + "' width='400px'>"
-					html += "<div class='carousel-caption'>"
-					html += "</div>"
-				html += "</div>"
 			for (var i=0;i<thisjam.pictures.length;i++)
 			{
 				if (thisjam.pictures[i].id == thisjam.defpic)
