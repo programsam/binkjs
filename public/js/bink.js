@@ -289,7 +289,7 @@ function loadJam(id)
 				}
 				html += "</tr>"
 			})
-			html += "</div>"
+			html += "</table></div>"
 		}
 		if (thisjam.hasOwnProperty("pictures") && thisjam.pictures != null && thisjam.pictures.length != 0)
 		{
