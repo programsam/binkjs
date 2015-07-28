@@ -496,11 +496,17 @@ app.put('/playlist', function(req, res) {
 	res.send(req.session.playlist)
 })
 
-app.get('/browse', function (req, res) {
+app.get('/browse/:size', function (req, res) {
 	res.set('Content-Type','application/json')
-	console.log(req.body)
+	var size = 10;
+	if (req.params.size != "" && req.params.size != null)
+	{
+		size = req.params.size
+	}
 	var client = sql();
-	client.query('SELECT * from jams where private = 0 order by date desc limit 0,10', function(err, jams, fields) {
+	client.query('SELECT * from jams where private = 0 order by date desc limit 0,?', 
+	[size],
+	function(err, jams, fields) {
 	  if (err)
 	  {
 		  console.log("ERROR Getting recent jams: " + err)

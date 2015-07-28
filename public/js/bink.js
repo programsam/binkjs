@@ -137,7 +137,7 @@ function loadRecentJams()
 function browse()
 {
 	$(".main").html("Loading...")
-	$.get( "/browse", {size: "10"}, function( data ) {
+	$.get( "/browse/5", function( data ) {
 		var html = "<table class='table table-bordered'>";
 		html += "<tr>"
 		html += "<th><span style='cursor: pointer' class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></th>"
