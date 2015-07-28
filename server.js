@@ -234,7 +234,7 @@ function getJamStaff(thisjam, overallCallback)
 	})
 }
 
-function getPictures(thisjam, callback)
+function getJamPictures(thisjam, callback)
 {
 	var client = sql();
 	client.query("SELECT * from pictures where jamid = ?", [thisjam.id], 
@@ -382,6 +382,10 @@ app.get('/jam/:id', function (req, res) {
 			    {
 			    	getJamTracks(thisjam, callback)
 			    },
+			    function(callback)
+			    {
+			    	getJamPictures(thisjam, callback)
+			    }
 			    function(callback)
 			    {
 			    	res.send(thisjam)
