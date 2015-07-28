@@ -142,7 +142,7 @@ function browse(size, page)
 		page = 0
 		
 	$(".main").html("Loading...")
-	$.get( "/browse/" + size + "/" + page, browseCallback(data))
+	$.get( "/browse/" + size + "/" + page, browseCallback)
 	.fail(function()
 			{
 				alert('Encountered a problem.')
