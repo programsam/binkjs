@@ -245,7 +245,7 @@ function browseCallback( data ) {
   		}
   	}
   	
-  	if (data.page == pageCount)
+  	if (data.page >= (pageCount-1))
 	{
 		html += "<li class='disabled'><a href='#' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>"
 	}
