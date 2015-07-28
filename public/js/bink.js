@@ -203,6 +203,29 @@ function browse()
 				}
 	  		})
 	  	html += "</table>"
+	  		
+	  	html += "<nav>"
+	  	html += "<ul class='pagination'>"
+	  		html += "<li>"
+	  			html += "<a href='#' aria-label='Previous'>" +
+	  					"<span aria-hidden='true'>&laquo;</span>" +
+	  					"</a>
+	  		html += "</li>"
+	  	
+		  	html += "<li><a href='#'>1</a></li>
+		  	html += "<li><a href='#'>2</a></li>
+		  	html += "<li><a href='#'>3</a></li>
+		  	html += "<li><a href='#'>4</a></li>
+		  	html += "<li><a href='#'>5</a></li>
+	  	
+		  	html += "<li>
+		  		html += "<a href='#' aria-label='Next'>" +
+		  				"<span aria-hidden='true'>&raquo;</span>" + 
+		  				"</a>"
+		  	html += "</li>
+		 html += "</ul>
+	     html += "</nav>
+	  	
 	  	$(".main").html(html)
 	})
 	.fail(function()
