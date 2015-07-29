@@ -156,41 +156,9 @@ function browse(size, page)
 {
 	getBrowseResults(size, page)
 	$.get("/total/jams", function(data) {
-		var pageCount = (data.total / size) - 1
 		var html = ""
-	  	html += "Page: <ul class='pagination'>"
-	  		if (page == 0)
-	  		{
-	  			html += "<li class='disabled'><a href='#' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>"
-	  		}
-	  		else
-	  		{
-		  		html += "<li>"
-		  			html += "<a href=\"javascript:getBrowseResults(" + size + "," + (page - 1) + ")\" aria-label='Previous'>" +
-		  					"<span aria-hidden='true'>&laquo;</span>" +
-		  					"</a>"
-		  		html += "</li>"
-	  		}
+		html += "<div id='pages'></div>"
 	  	
-	  	for (var j=0;j<pageCount;j++)
-	  	{
-  			html += "<li id='page" + j + "'><a href=\"javascript:getBrowseResults(" + size + "," + j + ")\">" + (j+1) + "</a></li>"
-	  	}
-	  	
-	  	if (page >= (pageCount-1))
-		{
-			html += "<li class='disabled'><a href='#' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>"
-		}
-	  	else
-	  	{
-		  	html += "<li>"
-		  		html += "<a href=\"javascript:getBrowseResults(" + size + "," + (page + 1) + ")\" aria-label='Next'>" +
-		  				"<span aria-hidden='true'>&raquo;</span>" + 
-		  				"</a>"
-		  	html += "</li>"
-	  	}
-		 html += "</ul>"
-	     html += "</nav>"
 
 	    html += "Number: <div class='btn-group' data-toggle='buttons'>"
 	    for (var j=0;j<nums.length;j++)
@@ -209,6 +177,44 @@ function browse(size, page)
 	{
 		alert('Encountered a problem.')
 	})
+}
+
+function genPages(size, page) {
+	var pageCount = (data.total / size) - 1
+	html += "Page: <ul class='pagination'>"
+	if (page == 0)
+	{
+		html += "<li class='disabled'><a href='#' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>"
+	}
+	else
+	{
+  		html += "<li>"
+  			html += "<a href=\"javascript:getBrowseResults(" + size + "," + (page - 1) + ")\" aria-label='Previous'>" +
+  					"<span aria-hidden='true'>&laquo;</span>" +
+  					"</a>"
+  		html += "</li>"
+	}
+  	
+  	for (var j=0;j<pageCount;j++)
+  	{
+			html += "<li id='page" + j + "'><a href=\"javascript:getBrowseResults(" + size + "," + j + ")\">" + (j+1) + "</a></li>"
+  	}
+  	
+  	if (page >= (pageCount-1))
+	{
+		html += "<li class='disabled'><a href='#' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>"
+	}
+  	else
+  	{
+	  	html += "<li>"
+	  		html += "<a href=\"javascript:getBrowseResults(" + size + "," + (page + 1) + ")\" aria-label='Next'>" +
+	  				"<span aria-hidden='true'>&raquo;</span>" + 
+	  				"</a>"
+	  	html += "</li>"
+  	}
+	 html += "</ul>"
+     html += "</nav>"
+    $("#pages").html(html)
 }
 
 function browseCallback( data ) {
@@ -292,6 +298,8 @@ function browseCallback( data ) {
 		$("#page" + j).removeClass("active")
 	}
 	$("#page" + data.page).addClass("active")
+	
+	genPages(data.size, data.page)
 }
 
 function loadJam(id)
