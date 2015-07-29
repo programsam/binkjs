@@ -3,6 +3,7 @@ $(document).ready(function(){
    $("a#browseButton").click(function() { 
 	   browse(10, 0);
    })
+   $("a#")
    loadRecentJams()
    
    loadPlaylist()
