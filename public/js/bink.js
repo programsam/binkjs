@@ -150,6 +150,8 @@ function getBrowseResults(size, page)
 	})	
 }
 
+var nums = [3, 5, 10, 25, 50, 100]
+
 function browse(size, page)
 {
 	getBrowseResults(size, page)
@@ -198,24 +200,14 @@ function browse(size, page)
 	     html += "</nav>"
 
 	    html += "Number: <div class='btn-group' data-toggle='buttons'>"
-	    html += "<label class='btn btn-primary' id='num3' onclick=\"getBrowseResults(3, " + page + ")\">" 
-	    	html += "<input type='radio' autocomplete='off'> 3"
-	    html += "</label>"
-		html += "<label class='btn btn-primary' id='num5' onclick=\"getBrowseResults(5, " + page + ")\" >" 
-			html += "<input type='radio' autocomplete='off'> 5"
-		html += "</label>"
-		html += "<label class='btn btn-primary' id='num10' onclick=\"getBrowseResults(10, " + page + ")\" >" 
-			html += "<input type='radio' autocomplete='off'> 10"
-		html+= "</label>"
-	    html += "<label class='btn btn-primary' id='num25' onclick=\"getBrowseResults(25, " + page + ")\">" 
-	    	html += "<input type='radio' autocomplete='off'> 25"
-	    html += "</label>"
-		html += "<label class='btn btn-primary' id='num50' onclick=\"getBrowseResults(50, " + page + ")\" >" 
-			html += "<input type='radio' autocomplete='off'> 50"
-		html += "</label>"
-		html += "<label class='btn btn-primary' id='num100' onclick=\"getBrowseResults(100, " + page + ")\" >" 
-			html += "<input type='radio' autocomplete='off'> 100"
-		html += "</label>"
+	    for (var j=0;j<nums.length;j++)
+	    {
+	    	html += "<label class='btn btn-primary' id='num" + nums[j] + 
+	    		" onclick=\"getBrowseResults(" + nums[j] + ", " + page + ")\">" 
+		    html += "<input type='radio' autocomplete='off'> " + nums[j]
+		    html += "</label>"
+	    }
+	    
 	    html += "</div>"
 	    html += "<div id='results'></div>"
 	  	
@@ -294,10 +286,8 @@ function browseCallback( data ) {
   		})
   	html += "</table>"
 
-  	console.log("The size is: " + data.size)
   	$("#results").html(html)
-  	var nums = [3, 5, 10, 25, 50, 100]
-	for (var j=0;j<nums.length;j++)
+  	for (var j=0;j<nums.length;j++)
 	{
 		$("#num" + nums[j]).removeClass("active")
 	}
