@@ -219,7 +219,7 @@ function genPages(size, page, total) {
 	{
 		$("#page" + j).removeClass("active")
 	}
-	$("#page" + data.page).addClass("active")
+	$("#page" + page).addClass("active")
 }
 
 function browseCallback( data ) {
