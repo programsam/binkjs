@@ -520,6 +520,12 @@ function getTotalJams(toRet) {
 	}) //query
 }
 
+app.get('/total/jams', function (req, res) {
+	toRet = {}
+	getTotalJams(toRet)
+	res.write(toRet)
+})
+
 app.get('/browse/:size/:page', function (req, res) {
 	res.set('Content-Type','application/json')
 	var size = 10

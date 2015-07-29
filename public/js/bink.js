@@ -146,9 +146,9 @@ function browse(size, pageNumber)
 	$(".main").html("Loading...")
 	$.get( "/browse/" + size + "/" + pageNumber, browseCallback)
 	.fail(function()
-			{
-				alert('Encountered a problem.')
-			})
+	{
+		alert('Encountered a problem.')
+	})
 }
 
 function browseCallback( data ) {
