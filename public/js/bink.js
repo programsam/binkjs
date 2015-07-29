@@ -91,14 +91,12 @@ function play(setTitle, path)
 function recentCallback(data) {
 	var html = "";
 	renderBlogJams(html, data)
-  	$(".main").html(html)
   	$(".main").jscroll({debug:true})
 }
 
 function historicCallback(data) {
 	var html = "<h1>Today in BINK! History</h1>";
 	renderBlogJams(html, data)
-  	$(".main").html(html)
   	$(".main").jscroll({debug:true})
 }
 
@@ -136,7 +134,8 @@ function renderBlogJams(html, data) {
 		html += "<p class='pull-right'><button onclick='loadJam(" + thisjam.id + ")' type='button' class='btn btn-default' aria-label='Load this Jam'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button></p>"
 		html += "</div>"
 		html += "</div>"
-		})
+	})
+	$(".main").html(html)
 }
 
 function loadRecentJams()
