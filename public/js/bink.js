@@ -272,7 +272,8 @@ function browseCallback( data ) {
 	if (data.size == 5)
 		html += " checked"
 	html += ">5"
-	html += "</label>"html += "<label class='btn'>" 
+	html += "</label>"
+	html += "<label class='btn'>" 
 	html += "<input type='radio' name='num3' id='num3' onclick=\"browse(10, " + data.page + ")\" autocomplete='off'"
 	if (data.size == 10)
 		html += " checked"
