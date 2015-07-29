@@ -179,8 +179,8 @@ function browse(size, page)
 	})
 }
 
-function genPages(size, page) {
-	var pageCount = (data.total / size) - 1
+function genPages(size, page, total) {
+	var pageCount = (total / size) - 1
 	html += "Page: <ul class='pagination'>"
 	if (page == 0)
 	{
@@ -299,7 +299,7 @@ function browseCallback( data ) {
 	}
 	$("#page" + data.page).addClass("active")
 	
-	genPages(data.size, data.page)
+	genPages(data.size, data.page, data.total)
 }
 
 function loadJam(id)
