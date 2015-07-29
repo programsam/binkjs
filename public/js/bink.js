@@ -260,15 +260,17 @@ function browseCallback( data ) {
 	 html += "</ul>"
      html += "</nav>"
 
+    console.log("data.size: " + data.size)
+    console.log("data.size==3" + (data.size == 3))
     html += "Number: <div class='btn-group' data-toggle='buttons'>"
-    html += "<label class='btn btn-primary'>" 
-    html += "<input type='radio' name='num3' id='num3' onclick=\"browse(3, " + data.page + ")\" autocomplete='off'"
+    html += "<label class='btn btn-primary'  onclick=\"browse(3, " + data.page + ")\">" 
+    html += "<input type='radio' name='num3' id='num3' autocomplete='off'"
     if (data.size == 3)
     	html += " checked"
     html += ">3"
     html += "</label>"
-	html += "<label class='btn btn-primary'>" 
-	html += "<input type='radio' name='num3' id='num3' onclick=\"browse(5, " + data.page + ")\" autocomplete='off'"
+	html += "<label class='btn btn-primary' onclick=\"browse(5, " + data.page + ")\" >" 
+	html += "<input type='radio' name='num3' id='num3' autocomplete='off'"
 	if (data.size == 5)
 		html += " checked"
 	html += ">5"
@@ -283,9 +285,6 @@ function browseCallback( data ) {
   	
   	$(".main").html(html)
   	
-  	$('#num3').on('click', function () {
-  		browse(3, data.page)
-  	})
 }
 
 function loadJam(id)
