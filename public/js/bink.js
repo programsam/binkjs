@@ -138,7 +138,7 @@ function loadRecentJams()
 
 function browse(size, pageNumber)
 {
-	if (size == null || size < 5)
+	if (size == null || size < 3)
 		size = 10
 	if (pageNumber == null)
 		pageNumber = 0
@@ -261,7 +261,7 @@ function browseCallback( data ) {
      html += "</nav>"
 
     console.log("data.size: " + data.size)
-    console.log("data.size==3" + (data.size == 3))
+    console.log("data.size==3: " + (data.size == 3))
     html += "Number: <div class='btn-group' data-toggle='buttons'>"
     html += "<label class='btn btn-primary'  onclick=\"browse(3, " + data.page + ")\">" 
     html += "<input type='radio' name='num3' id='num3' autocomplete='off'"
