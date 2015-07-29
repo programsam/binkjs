@@ -260,26 +260,15 @@ function browseCallback( data ) {
 	 html += "</ul>"
      html += "</nav>"
 
-    console.log("data.size: " + data.size)
-    console.log("data.size==3: " + (data.size == 3))
     html += "Number: <div class='btn-group' data-toggle='buttons'>"
-    html += "<label class='btn btn-primary'  onclick=\"browse(3, " + data.page + ")\">" 
-    html += "<input type='radio' name='num3' id='num3' autocomplete='off'"
-    if (data.size == 3)
-    	html += " checked"
-    html += ">3"
+    html += "<label class='btn btn-primary' id='num3' onclick=\"browse(3, " + data.page + ")\">" 
+    	html += "<input type='radio' autocomplete='off'> 3"
     html += "</label>"
-	html += "<label class='btn btn-primary' onclick=\"browse(5, " + data.page + ")\" >" 
-	html += "<input type='radio' name='num3' id='num3' autocomplete='off'"
-	if (data.size == 5)
-		html += " checked"
-	html += ">5"
+	html += "<label class='btn btn-primary' id='num5' onclick=\"browse(5, " + data.page + ")\" >" 
+		html += "<input type='radio' autocomplete='off'> 5"
 	html += "</label>"
-	html += "<label class='btn btn-primary' onclick=\"browse(10, " + data.page + ")\" >" 
-	html += "<input type='radio' name='num3' id='num3' autocomplete='off'"
-	if (data.size == 10)
-		html += " checked"
-	html += ">10"
+	html += "<label class='btn btn-primary' id='num10' onclick=\"browse(10, " + data.page + ")\" >" 
+		html += "<input type='radio' autocomplete='off'> 10"
 	html+= "</label>"
     html+= "</div>"
   	
