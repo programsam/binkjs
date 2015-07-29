@@ -155,6 +155,7 @@ function browse(size, page)
 	getBrowseResults(size, page)
 	$.get("/total/jams", function(data) {
 		var pageCount = (data.total / size) - 1
+		var html = ""
 	  	html += "Page: <ul class='pagination'>"
 	  		if (page == 0)
 	  		{
