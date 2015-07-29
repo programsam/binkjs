@@ -174,14 +174,7 @@ function browse(size, page)
 	  	
 	  	for (var j=0;j<pageCount;j++)
 	  	{
-	  		if (page == j)
-	  		{
-	  			html += "<li class='active'><a href='#'>" + (j+1) + "<span class='sr-only'>(current)</span></a></li>"
-	  		}
-	  		else
-	  		{
-	  			html += "<li><a href=\"javascript:getBrowseResults(" + size + "," + j + ")\">" + (j+1) + "</a></li>"
-	  		}
+  			html += "<li id='page" + j + "'><a href=\"javascript:getBrowseResults(" + size + "," + j + ")\">" + (j+1) + "</a></li>"
 	  	}
 	  	
 	  	if (page >= (pageCount-1))
@@ -292,6 +285,7 @@ function browseCallback( data ) {
 		$("#num" + nums[j]).removeClass("active")
 	}
 	$("#num" + data.size).addClass("active")
+	$("#page" + data.page).addClass("active")
 }
 
 function loadJam(id)
