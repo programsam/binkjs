@@ -4,8 +4,8 @@ $(document).ready(function(){
 	   browse(10, 0);
    })
    $("a#historyButton").click(loadHistoricJams)
+
    loadRecentJams()
-   
    loadPlaylist()
    
   $("#jquery_jplayer_1").jPlayer({
@@ -149,7 +149,7 @@ function loadRecentJams()
 	})
 }
 
-function loadHistroicJams()
+function loadHistoricJams()
 {
 	$(".main").html("Loading...")
 	$.get( "/history", historicCallback)
