@@ -140,12 +140,83 @@ function browse(size, pageNumber)
 {
 	if (size == null || size < 3)
 		size = 10
-	if (pageNumber == null)
-		pageNumber = 0
+	if (page == null)
+		page = 0
 		
-	$(".main").html("Loading...")
-	$.get( "/browse/" + size + "/" + pageNumber, browseCallback)
+	$.get( "/browse/" + size + "/" + page, browseCallback)
 	.fail(function()
+	{
+		alert('Encountered a problem.')
+	})
+	$.get("/total/jams", function(data) {
+		var pageCount = (data.total / size) - 1
+	  	html += "Page: <ul class='pagination'>"
+	  		if (page == 0)
+	  		{
+	  			html += "<li class='disabled'><a href='#' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>"
+	  		}
+	  		else
+	  		{
+		  		html += "<li>"
+		  			html += "<a href=\"javascript:browse(" + size + "," + (page - 1) + ")\" aria-label='Previous'>" +
+		  					"<span aria-hidden='true'>&laquo;</span>" +
+		  					"</a>"
+		  		html += "</li>"
+	  		}
+	  	
+	  	for (var j=0;j<pageCount;j++)
+	  	{
+	  		if (page == j)
+	  		{
+	  			html += "<li class='active'><a href='#'>" + (j+1) + "<span class='sr-only'>(current)</span></a></li>"
+	  		}
+	  		else
+	  		{
+	  			html += "<li><a href=\"javascript:browse(" + size + "," + j + ")\">" + (j+1) + "</a></li>"
+	  		}
+	  	}
+	  	
+	  	if (page >= (pageCount-1))
+		{
+			html += "<li class='disabled'><a href='#' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>"
+		}
+	  	else
+	  	{
+		  	html += "<li>"
+		  		html += "<a href=\"javascript:browse(" + size + "," + (page + 1) + ")\" aria-label='Next'>" +
+		  				"<span aria-hidden='true'>&raquo;</span>" + 
+		  				"</a>"
+		  	html += "</li>"
+	  	}
+		 html += "</ul>"
+	     html += "</nav>"
+
+	    html += "Number: <div class='btn-group' data-toggle='buttons'>"
+	    html += "<label class='btn btn-primary' id='num3' onclick=\"browse(3, " + page + ")\">" 
+	    	html += "<input type='radio' autocomplete='off'> 3"
+	    html += "</label>"
+		html += "<label class='btn btn-primary' id='num5' onclick=\"browse(5, " + page + ")\" >" 
+			html += "<input type='radio' autocomplete='off'> 5"
+		html += "</label>"
+		html += "<label class='btn btn-primary' id='num10' onclick=\"browse(10, " + page + ")\" >" 
+			html += "<input type='radio' autocomplete='off'> 10"
+		html+= "</label>"
+	    html += "<label class='btn btn-primary' id='num25' onclick=\"browse(25, " + page + ")\">" 
+	    	html += "<input type='radio' autocomplete='off'> 25"
+	    html += "</label>"
+		html += "<label class='btn btn-primary' id='num50' onclick=\"browse(50, " + page + ")\" >" 
+			html += "<input type='radio' autocomplete='off'> 50"
+		html += "</label>"
+		html += "<label class='btn btn-primary' id='num100' onclick=\"browse(100, " + page + ")\" >" 
+			html += "<input type='radio' autocomplete='off'> 100"
+		html += "</label>"
+	    html += "</div>"
+	    html += "<div id='results'></div>"
+	  	
+	  	$(".main").html(html)
+	  	$("#num" + data.size).toggleClass("active")
+	  	
+	}).fail(function()
 	{
 		alert('Encountered a problem.')
 	})
@@ -217,72 +288,8 @@ function browseCallback( data ) {
 			}
   		})
   	html += "</table>"
-  		
-  	var pageCount = (data.total / data.size) - 1
-  	html += "Page: <ul class='pagination'>"
-  		if (data.page == 0)
-  		{
-  			html += "<li class='disabled'><a href='#' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>"
-  		}
-  		else
-  		{
-	  		html += "<li>"
-	  			html += "<a href=\"javascript:browse(" + data.size + "," + (data.page - 1) + ")\" aria-label='Previous'>" +
-	  					"<span aria-hidden='true'>&laquo;</span>" +
-	  					"</a>"
-	  		html += "</li>"
-  		}
-  	
-  	for (var j=0;j<pageCount;j++)
-  	{
-  		if (data.page == j)
-  		{
-  			html += "<li class='active'><a href='#'>" + (j+1) + "<span class='sr-only'>(current)</span></a></li>"
-  		}
-  		else
-  		{
-  			html += "<li><a href=\"javascript:browse(" + data.size + "," + j + ")\">" + (j+1) + "</a></li>"
-  		}
-  	}
-  	
-  	if (data.page >= (pageCount-1))
-	{
-		html += "<li class='disabled'><a href='#' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>"
-	}
-  	else
-  	{
-	  	html += "<li>"
-	  		html += "<a href=\"javascript:browse(" + data.size + "," + (data.page + 1) + ")\" aria-label='Next'>" +
-	  				"<span aria-hidden='true'>&raquo;</span>" + 
-	  				"</a>"
-	  	html += "</li>"
-  	}
-	 html += "</ul>"
-     html += "</nav>"
 
-    html += "Number: <div class='btn-group' data-toggle='buttons'>"
-    html += "<label class='btn btn-primary' id='num3' onclick=\"browse(3, " + data.page + ")\">" 
-    	html += "<input type='radio' autocomplete='off'> 3"
-    html += "</label>"
-	html += "<label class='btn btn-primary' id='num5' onclick=\"browse(5, " + data.page + ")\" >" 
-		html += "<input type='radio' autocomplete='off'> 5"
-	html += "</label>"
-	html += "<label class='btn btn-primary' id='num10' onclick=\"browse(10, " + data.page + ")\" >" 
-		html += "<input type='radio' autocomplete='off'> 10"
-	html+= "</label>"
-    html += "<label class='btn btn-primary' id='num25' onclick=\"browse(25, " + data.page + ")\">" 
-    	html += "<input type='radio' autocomplete='off'> 25"
-    html += "</label>"
-	html += "<label class='btn btn-primary' id='num50' onclick=\"browse(50, " + data.page + ")\" >" 
-		html += "<input type='radio' autocomplete='off'> 50"
-	html += "</label>"
-	html += "<label class='btn btn-primary' id='num100' onclick=\"browse(100, " + data.page + ")\" >" 
-		html += "<input type='radio' autocomplete='off'> 100"
-	html+= "</label>"
-    html+= "</div>"
-  	
-  	$(".main").html(html)
-  	$("#num" + data.size).toggleClass("active")
+  	$("#results").html(html)
 }
 
 function loadJam(id)
