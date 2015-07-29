@@ -294,6 +294,7 @@ function browseCallback( data ) {
   		})
   	html += "</table>"
 
+  	console.log("The size is: " + data.size)
   	$("#results").html(html)
   	$("#num" + data.size).toggleClass("active")
 	
