@@ -270,6 +270,15 @@ function browseCallback( data ) {
 	html += "<label class='btn btn-primary' id='num10' onclick=\"browse(10, " + data.page + ")\" >" 
 		html += "<input type='radio' autocomplete='off'> 10"
 	html+= "</label>"
+    html += "<label class='btn btn-primary' id='num25' onclick=\"browse(3, " + data.page + ")\">" 
+    	html += "<input type='radio' autocomplete='off'> 25"
+    html += "</label>"
+	html += "<label class='btn btn-primary' id='num50' onclick=\"browse(5, " + data.page + ")\" >" 
+		html += "<input type='radio' autocomplete='off'> 50"
+	html += "</label>"
+	html += "<label class='btn btn-primary' id='num100' onclick=\"browse(10, " + data.page + ")\" >" 
+		html += "<input type='radio' autocomplete='off'> 100"
+	html+= "</label>"
     html+= "</div>"
   	
   	$(".main").html(html)
