@@ -220,8 +220,6 @@ function browse(size, page)
 	    html += "<div id='results'></div>"
 	  	
 	  	$(".main").html(html)
-	  	$("#num" + data.size).toggleClass("active")
-	  	
 	}).fail(function()
 	{
 		alert('Encountered a problem.')
@@ -229,6 +227,10 @@ function browse(size, page)
 }
 
 function browseCallback( data ) {
+	
+	$("#num" + data.size).toggleClass("active")
+	
+	
 	var html = "<table class='table table-bordered'>";
 	html += "<tr>"
 	html += "<th><span style='cursor: pointer' class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></th>"
