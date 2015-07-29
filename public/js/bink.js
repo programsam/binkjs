@@ -3,7 +3,7 @@ $(document).ready(function(){
    $("a#browseButton").click(function() { 
 	   browse(10, 0);
    })
-   $("a#")
+   $("a#historyButton").click(loadHistoricJams)
    loadRecentJams()
    
    loadPlaylist()
