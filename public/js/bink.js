@@ -285,6 +285,12 @@ function browseCallback( data ) {
 		$("#num" + nums[j]).removeClass("active")
 	}
 	$("#num" + data.size).addClass("active")
+	
+	var pageCount = (data.total / data.size) - 1
+	for (var j=0;j<pageCount;j++)
+	{
+		$("#page" + j).removeClass("active")
+	}
 	$("#page" + data.page).addClass("active")
 }
 
