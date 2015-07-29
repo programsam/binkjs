@@ -88,48 +88,60 @@ function play(setTitle, path)
 	$("#jquery_jplayer_1").jPlayer("play")
 }
 
+function blogStyleCallback( data ) {
+	var html = "";
+	data.forEach(function (thisjam, index, array) {
+			var d = new Date(thisjam.date)
+			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
+			html += "<div class='panel panel-default'>"
+			html += "<div class='panel-heading'>" + mydate + 
+			" - <a href='javascript:loadJam(" + thisjam.id + ")'>" + thisjam.title + "</a>"
+			html += "<div class='pull-right'>"
+			if (thisjam.hasOwnProperty("band"))
+			{
+				html += thisjam.band.name
+			}
+			if (thisjam.hasOwnProperty("band") && thisjam.hasOwnProperty("location"))
+			{
+				html += " at "
+			}
+			if (thisjam.hasOwnProperty("location"))
+			{
+				html += thisjam.location.name
+			}
+		html += "</div>"
+		html += "</div>"
+			html += "<div class='panel-body'>"
+		if (thisjam.hasOwnProperty("notes") && thisjam.notes != "")
+		{
+			html += "<p>" + thisjam.notes + "</p>"
+		}
+		if (thisjam.hasOwnProperty("defpic") && thisjam.defpic != null && thisjam.defpic != -1)
+		{
+			html += "<p><img width='200px' src='" + thisjam.defpic.path + "'></p>"
+		}
+			html += "<p class='pull-right'><button onclick='loadJam(" + thisjam.id + ")' type='button' class='btn btn-default' aria-label='Load this Jam'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button></p>"
+			html += "</div>"
+			html += "</div>"
+  		})
+  	$(".main").html(html)
+  	$(".main").jscroll({debug:true})
+}
+
 function loadRecentJams()
 {
 	$(".main").html("Loading...")
-	$.get( "/recent", function( data ) {
-		var html = "";
-		data.forEach(function (thisjam, index, array) {
-  			var d = new Date(thisjam.date)
-  			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
-  			html += "<div class='panel panel-default'>"
-  			html += "<div class='panel-heading'>" + mydate + 
-  			" - <a href='javascript:loadJam(" + thisjam.id + ")'>" + thisjam.title + "</a>"
-  			html += "<div class='pull-right'>"
-  			if (thisjam.hasOwnProperty("band"))
-  			{
-  				html += thisjam.band.name
-  			}
-  			if (thisjam.hasOwnProperty("band") && thisjam.hasOwnProperty("location"))
-  			{
-  				html += " at "
-  			}
-  			if (thisjam.hasOwnProperty("location"))
-  			{
-  				html += thisjam.location.name
-  			}
-			html += "</div>"
-			html += "</div>"
-  			html += "<div class='panel-body'>"
-			if (thisjam.hasOwnProperty("notes") && thisjam.notes != "")
-			{
-				html += "<p>" + thisjam.notes + "</p>"
-			}
-			if (thisjam.hasOwnProperty("defpic") && thisjam.defpic != null && thisjam.defpic != -1)
-			{
-				html += "<p><img width='200px' src='" + thisjam.defpic.path + "'></p>"
-			}
-  			html += "<p class='pull-right'><button onclick='loadJam(" + thisjam.id + ")' type='button' class='btn btn-default' aria-label='Load this Jam'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button></p>"
-  			html += "</div>"
-  			html += "</div>"
-	  		})
-	  	$(".main").html(html)
-	  	$(".main").jscroll({debug:true})
+	$.get( "/recent", blogStyleCallback)
+	.fail(function()
+	{
+		alert('Encountered a problem.')
 	})
+}
+
+function loadHistroicJams()
+{
+	$(".main").html("Loading...")
+	$.get( "/history", blogStyleCallback)
 	.fail(function()
 	{
 		alert('Encountered a problem.')
