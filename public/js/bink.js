@@ -272,7 +272,7 @@ function browseCallback( data ) {
 	html+= "</label>"
     html+= "</div>"
   	
-    $("num" + data.size).toggleClass("active")
+    $("#num" + data.size).toggleClass("active")
     	
   	$(".main").html(html)
   	
