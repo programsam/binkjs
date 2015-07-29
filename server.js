@@ -496,7 +496,7 @@ app.put('/playlist', function(req, res) {
 	res.send(req.session.playlist)
 })
 
-function getTotalJams(toRet) {
+function getTotalJams(toRet, callback) {
 	var client = sql();
 	client.query("SELECT COUNT(*) as num from jams", 
 		function(err, rows, fields) {
@@ -511,10 +511,14 @@ function getTotalJams(toRet) {
 			{
 				client.end()
 				toRet.total = rows[0].num
+				if (null != callback)
+					callback()
 			}
 			else //nothing in the array, return null
 			{
 				client.end()
+				if (null != callback)
+					callback()
 			}
 		} //else
 	}) //query
@@ -522,8 +526,15 @@ function getTotalJams(toRet) {
 
 app.get('/total/jams', function (req, res) {
 	toRet = {}
-	getTotalJams(toRet)
-	res.send(toRet)
+	async.series([
+	function(callback)
+	{
+		getTotalJams(toRet, callback)
+	},
+	function(callback)
+	{
+		res.send(toRet)
+	}])
 })
 
 app.get('/browse/:size/:page', function (req, res) {
