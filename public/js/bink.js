@@ -282,6 +282,10 @@ function browseCallback( data ) {
     html+= "</div>"
   	
   	$(".main").html(html)
+  	
+  	$('#num3').on('click', function () {
+  		browse(3, data.page)
+  	})
 }
 
 function loadJam(id)
