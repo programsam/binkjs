@@ -272,10 +272,8 @@ function browseCallback( data ) {
 	html+= "</label>"
     html+= "</div>"
   	
-    $("#num" + data.size).toggleClass("active")
-    	
   	$(".main").html(html)
-  	
+  	$("#num" + data.size).toggleClass("active")
 }
 
 function loadJam(id)
