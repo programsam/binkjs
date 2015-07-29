@@ -523,7 +523,7 @@ function getTotalJams(toRet) {
 app.get('/total/jams', function (req, res) {
 	toRet = {}
 	getTotalJams(toRet)
-	res.write(toRet)
+	res.send(toRet)
 })
 
 app.get('/browse/:size/:page', function (req, res) {
