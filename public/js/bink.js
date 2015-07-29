@@ -136,18 +136,23 @@ function loadRecentJams()
 	})
 }
 
-function browse(size, pageNumber)
+function getBrowseResults(size, page)
 {
 	if (size == null || size < 3)
 		size = 10
 	if (page == null)
 		page = 0
 		
-	$.get( "/browse/" + size + "/" + page, browseCallback)
+	$.get("/browse/" + size + "/" + page, browseCallback)
 	.fail(function()
 	{
 		alert('Encountered a problem.')
-	})
+	})	
+}
+
+function browse(size, page)
+{
+	getBrowseResults(size, page)
 	$.get("/total/jams", function(data) {
 		var pageCount = (data.total / size) - 1
 	  	html += "Page: <ul class='pagination'>"
