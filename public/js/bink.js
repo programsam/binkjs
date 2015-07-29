@@ -215,6 +215,11 @@ function genPages(size, page, total) {
 	 html += "</ul>"
      html += "</nav>"
     $("#pages").html(html)
+    for (var j=0;j<pageCount;j++)
+	{
+		$("#page" + j).removeClass("active")
+	}
+	$("#page" + data.page).addClass("active")
 }
 
 function browseCallback( data ) {
@@ -291,13 +296,6 @@ function browseCallback( data ) {
 		$("#num" + nums[j]).removeClass("active")
 	}
 	$("#num" + data.size).addClass("active")
-	
-	var pageCount = (data.total / data.size) - 1
-	for (var j=0;j<pageCount;j++)
-	{
-		$("#page" + j).removeClass("active")
-	}
-	$("#page" + data.page).addClass("active")
 	
 	genPages(data.size, data.page, data.total)
 }
