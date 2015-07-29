@@ -261,15 +261,23 @@ function browseCallback( data ) {
      html += "</nav>"
 
     html += "Number: <div class='btn-group' data-toggle='buttons'>"
-    html += "<label class='btn btn-primary active'>" 
-    html += "<input type='radio' name='options' id='option1' autocomplete='off'>3"
+    html += "<label class='btn'>" 
+    html += "<input type='radio' name='num3' id='num3' onclick=\"browse(3, " + data.page + ")\" autocomplete='off'"
+    if (data.size == 3)
+    	html += " checked"
+    html += ">3"
     html+= "</label>"
-    html+= "<label class='btn btn-primary'>"
-    html+= "<input type='radio' name='options' id='option2' autocomplete='off'>5"
-    html+= " </label>"
-    html+= "<label class='btn btn-primary'>"
-    html+= "  <input type='radio' name='options' id='option3' autocomplete='off' checked>10"
-    html+= " </label>"
+	html += "<label class='btn'>" 
+	html += "<input type='radio' name='num3' id='num3' onclick=\"browse(5, " + data.page + ")\" autocomplete='off'"
+	if (data.size == 5)
+		html += " checked"
+	html += ">5"
+	html+= "</label>"html += "<label class='btn'>" 
+	html += "<input type='radio' name='num3' id='num3' onclick=\"browse(10, " + data.page + ")\" autocomplete='off'"
+	if (data.size == 10)
+		html += " checked"
+	html += ">10"
+	html+= "</label>"
     html+= " </div>"
   	
   	$(".main").html(html)
