@@ -160,7 +160,7 @@ function browse(size, page)
 		html += "<div id='pages'></div>"
 	  	
 
-	    html += "Number: <div class='btn-group' data-toggle='buttons'>"
+	    html += "<div class='btn-group' data-toggle='buttons'>"
 	    for (var j=0;j<nums.length;j++)
 	    {
 	    	html += "<label class='btn btn-primary' id='num" + nums[j] + 
@@ -181,7 +181,7 @@ function browse(size, page)
 
 function genPages(size, page, total) {
 	var pageCount = (total / size) - 1
-	var html = "Page: <ul class='pagination'>"
+	var html = "<ul class='pagination'>"
 	if (page == 0)
 	{
 		html += "<li class='disabled'><a href='#' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>"
