@@ -541,7 +541,7 @@ app.get('/history', function(req, res) {
 	var client = sql();
 	var d = new Date();
 	client.query("SELECT * from jams where date like ('%-?-?')",
-		[d.getUTCMonth()+1, d.getUTCDate()]
+		[d.getUTCMonth()+1, d.getUTCDate()],
 		function(err, rows, fields) {
 		if (err) //error while getting the item
 		{
