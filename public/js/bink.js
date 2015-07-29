@@ -160,7 +160,7 @@ function browse(size, page)
 		html += "<div id='pages'></div>"
 	  	
 
-	    html += "<div class='btn-group' data-toggle='buttons'>"
+	    html += "<div><div class='btn-group' data-toggle='buttons'>"
 	    for (var j=0;j<nums.length;j++)
 	    {
 	    	html += "<label class='btn btn-primary' id='num" + nums[j] + 
@@ -169,7 +169,7 @@ function browse(size, page)
 		    html += "</label>"
 	    }
 	    
-	    html += "</div>"
+	    html += "</div></div>"
 	    html += "<div id='results'></div>"
 	  	
 	  	$(".main").html(html)
