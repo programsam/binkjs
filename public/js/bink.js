@@ -296,8 +296,12 @@ function browseCallback( data ) {
 
   	console.log("The size is: " + data.size)
   	$("#results").html(html)
-  	$("#num" + data.size).toggleClass("active")
-	
+  	var nums = [3, 5, 10, 25, 50, 100]
+	for (var j=0;j<nums.length;j++)
+	{
+		$("#num" + nums[j]).removeClass("active")
+	}
+	$("#num" + data.size).addClass("active")
 }
 
 function loadJam(id)
