@@ -537,6 +537,33 @@ app.get('/total/jams', function (req, res) {
 	}])
 })
 
+app.get('/history', function(req, res) {
+	var client = sql();
+	var d = new Date();
+	client.query("SELECT * from jams where date like ('%-?-?')",
+		[d.getUTCMonth()+1, d.getUTCDate()]
+		function(err, rows, fields) {
+		if (err) //error while getting the item
+		{
+			console.log("ERROR: " + err)
+			client.end()
+		}
+		else //no error
+		{
+			if (rows.length > 0) //there is something in the array, return it
+			{
+				client.end()
+				res.send(rows)
+			}
+			else //nothing in the array, return null
+			{
+				client.end()
+				res.send("[]")
+			}
+		} //else
+	}) //query
+})
+
 app.get('/browse/:size/:page', function (req, res) {
 	res.set('Content-Type','application/json')
 	var size = 10
