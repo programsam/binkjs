@@ -203,7 +203,7 @@ function browse(size, page)
 	    for (var j=0;j<nums.length;j++)
 	    {
 	    	html += "<label class='btn btn-primary' id='num" + nums[j] + 
-	    		" onclick=\"getBrowseResults(" + nums[j] + ", " + page + ")\">" 
+	    		"' onclick=\"getBrowseResults(" + nums[j] + ", " + page + ")\">" 
 		    html += "<input type='radio' autocomplete='off'> " + nums[j]
 		    html += "</label>"
 	    }
