@@ -164,7 +164,7 @@ function browse(size, page)
 	  		else
 	  		{
 		  		html += "<li>"
-		  			html += "<a href=\"javascript:browse(" + size + "," + (page - 1) + ")\" aria-label='Previous'>" +
+		  			html += "<a href=\"javascript:getBrowseResults(" + size + "," + (page - 1) + ")\" aria-label='Previous'>" +
 		  					"<span aria-hidden='true'>&laquo;</span>" +
 		  					"</a>"
 		  		html += "</li>"
@@ -178,7 +178,7 @@ function browse(size, page)
 	  		}
 	  		else
 	  		{
-	  			html += "<li><a href=\"javascript:browse(" + size + "," + j + ")\">" + (j+1) + "</a></li>"
+	  			html += "<li><a href=\"javascript:getBrowseResults(" + size + "," + j + ")\">" + (j+1) + "</a></li>"
 	  		}
 	  	}
 	  	
@@ -189,7 +189,7 @@ function browse(size, page)
 	  	else
 	  	{
 		  	html += "<li>"
-		  		html += "<a href=\"javascript:browse(" + size + "," + (page + 1) + ")\" aria-label='Next'>" +
+		  		html += "<a href=\"javascript:getBrowseResults(" + size + "," + (page + 1) + ")\" aria-label='Next'>" +
 		  				"<span aria-hidden='true'>&raquo;</span>" + 
 		  				"</a>"
 		  	html += "</li>"
@@ -198,22 +198,22 @@ function browse(size, page)
 	     html += "</nav>"
 
 	    html += "Number: <div class='btn-group' data-toggle='buttons'>"
-	    html += "<label class='btn btn-primary' id='num3' onclick=\"browse(3, " + page + ")\">" 
+	    html += "<label class='btn btn-primary' id='num3' onclick=\"getBrowseResults(3, " + page + ")\">" 
 	    	html += "<input type='radio' autocomplete='off'> 3"
 	    html += "</label>"
-		html += "<label class='btn btn-primary' id='num5' onclick=\"browse(5, " + page + ")\" >" 
+		html += "<label class='btn btn-primary' id='num5' onclick=\"getBrowseResults(5, " + page + ")\" >" 
 			html += "<input type='radio' autocomplete='off'> 5"
 		html += "</label>"
-		html += "<label class='btn btn-primary' id='num10' onclick=\"browse(10, " + page + ")\" >" 
+		html += "<label class='btn btn-primary' id='num10' onclick=\"getBrowseResults(10, " + page + ")\" >" 
 			html += "<input type='radio' autocomplete='off'> 10"
 		html+= "</label>"
-	    html += "<label class='btn btn-primary' id='num25' onclick=\"browse(25, " + page + ")\">" 
+	    html += "<label class='btn btn-primary' id='num25' onclick=\"getBrowseResults(25, " + page + ")\">" 
 	    	html += "<input type='radio' autocomplete='off'> 25"
 	    html += "</label>"
-		html += "<label class='btn btn-primary' id='num50' onclick=\"browse(50, " + page + ")\" >" 
+		html += "<label class='btn btn-primary' id='num50' onclick=\"getBrowseResults(50, " + page + ")\" >" 
 			html += "<input type='radio' autocomplete='off'> 50"
 		html += "</label>"
-		html += "<label class='btn btn-primary' id='num100' onclick=\"browse(100, " + page + ")\" >" 
+		html += "<label class='btn btn-primary' id='num100' onclick=\"getBrowseResults(100, " + page + ")\" >" 
 			html += "<input type='radio' autocomplete='off'> 100"
 		html += "</label>"
 	    html += "</div>"
