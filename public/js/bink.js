@@ -354,7 +354,7 @@ function loadJam(id)
 		{
 			$.get("/api/maps/key", function (key) {
 				
-				window.onload = function() {
+				$('div.main')[0]].onload = function() {
 					
 				 var script = document.createElement('script');
 				 script.type = 'text/javascript';
@@ -363,7 +363,8 @@ function loadJam(id)
 				 document.body.appendChild(script);
 				}
 				
-				 var mapCanvas = document.createElement('map-canvas');
+				 var mapCanvas = document.createElement('div');
+				 var mapCanvas.id = "map-canvas"
 				 var main = $(".main")[0]
 				 main.appendChild(mapCanvas)
 //				 var mapOptions = {
