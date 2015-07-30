@@ -353,20 +353,25 @@ function loadJam(id)
 		if (thisjam.hasOwnProperty("location") && thisjam.location.lat != null && thisjam.location.lon != null)
 		{
 			$.get("/api/maps/key", function (key) {
+				
+				window.onload = function() {
+					
 				 var script = document.createElement('script');
 				 script.type = 'text/javascript';
 				 script.src = 'https://maps.googleapis.com/maps/api/js?v=3' +
 				      '&key=' + key;
 				 document.body.appendChild(script);
+				}
+				
 				 var mapCanvas = document.createElement('map-canvas');
 				 var main = $(".main")[0]
 				 main.appendChild(mapCanvas)
-				 var mapOptions = {
-			          center: { lat: -34.397, lng: 150.644},
-			          zoom: 8
-			        }
-				 var map = new google.maps.Map(document.getElementById('map-canvas'),
-				            mapOptions);
+//				 var mapOptions = {
+//			          center: { lat: -34.397, lng: 150.644},
+//			          zoom: 8
+//			        }
+//				 var map = new google.maps.Map(document.getElementById('map-canvas'),
+//				            mapOptions);
 			})
 		}
 		if (thisjam.hasOwnProperty("notes") && thisjam.notes != "")
