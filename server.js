@@ -569,6 +569,31 @@ app.get('/api/maps/key', function (req,res) {
 	res.send(settings.maps)
 })
 
+app.get('/mapdata', function(req, res) {
+	var client = sql();
+	client.query("SELECT * from locations where lat is not null and lon is not null",
+		function(err, rows, fields) {
+		if (err) //error while getting the item
+		{
+			console.log("ERROR: " + err)
+			client.end()
+		}
+		else //no error
+		{
+			if (rows.length > 0) //there is something in the array, return it
+			{
+				client.end()
+				res.send(rows)
+			}
+			else //nothing in the array, return null
+			{
+				client.end()
+				res.send("[]")
+			}
+		} //else
+	}) //query
+})
+
 app.get('/browse/:size/:page', function (req, res) {
 	res.set('Content-Type','application/json')
 	var size = 10
