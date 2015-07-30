@@ -565,7 +565,7 @@ app.get('/history', function(req, res) {
 	}) //query
 })
 
-app.get('/api/maps/key', fucntion (req,res) {
+app.get('/api/maps/key', function (req,res) {
 	res.send(settings.maps)
 })
 
