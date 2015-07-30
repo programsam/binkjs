@@ -355,9 +355,11 @@ function loadJam(id)
 			html += thisjam.location.name
 		}
 		html += "</h4>"
+		var hasMap = false;
 		if (thisjam.hasOwnProperty("location") && thisjam.location.lat != null && thisjam.location.lon != null)
 		{
-			html += "<div id='map-canvas' onload='loadMap()' style='width: 300px, height: 300px'></div>"
+			html += "<div id='map-canvas' style='width: 300px; height: 300px'></div>"
+			hasMap = true
 		}
 		if (thisjam.hasOwnProperty("notes") && thisjam.notes != "")
 		{
@@ -491,7 +493,8 @@ function loadJam(id)
 			})
 			html += "</table></div>"
 		}
-		
-		$(".main").html(html)
+		$(".main").html(html)	
+		if (hasMap)
+			loadMap()
 	});
 }
