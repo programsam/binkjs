@@ -361,7 +361,7 @@ function loadJam(id)
 		if (thisjam.hasOwnProperty("notes") && thisjam.notes != "")
 		{
 			html += "<div class='panel panel-default'><div class='panel-heading'>Notes</div>"
-			html += "<p>" + thisjam.notes + "</p>"
+			html += "<div class='panel-body'>" + thisjam.notes + "</div>"
 			html += "</div>"
 		}
 		if (thisjam.hasOwnProperty("musicians") && thisjam.musicians.length != 0)
