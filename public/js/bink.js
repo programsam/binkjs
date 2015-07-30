@@ -328,7 +328,7 @@ function browseCallback( data ) {
 function loadMap()
 {
 	$.get("/mapdata", function(data) {
-		var html = "<div id='map-canvas' style='width: 100%; height: 100%'></div>"
+		var html = "<div id='map-canvas' style='width: 1000px; height: 300px'></div>"
 		$(".main").html(html)
 		var coordinates = new google.maps.LatLng(42.487161, -89.438055);
 		var mapOptions = {
