@@ -354,7 +354,7 @@ function loadJam(id)
 		{
 			$.get("/api/maps/key", function (key) {
 				
-				 var url = script.src = 'https://maps.googleapis.com/maps/api/js?v=3&key=' + key;
+				 var url = 'https://maps.googleapis.com/maps/api/js?v=3&key=' + key;
 				 $.getScript(url, function() {
 					 var canvas = document.createElement('div');
 					 canvas.id = "map-canvas"
