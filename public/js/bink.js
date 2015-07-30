@@ -60,12 +60,7 @@ function enqueue(setTitle, setPath)
 
 function loadMap()
 {
-	var mapOptions = {
-		center: { lat: -34.397, lng: 150.644},
-		zoom: 8
-	}
-	var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
+	
 }
 
 function loadPlaylist()
@@ -358,7 +353,7 @@ function loadJam(id)
 		var hasMap = false;
 		if (thisjam.hasOwnProperty("location") && thisjam.location.lat != null && thisjam.location.lon != null)
 		{
-			html += "<div id='map-canvas' style='width: 300px; height: 300px'></div>"
+			html += "<div id='map-canvas' style='width: 100%; height: 300px'></div>"
 			hasMap = true
 		}
 		if (thisjam.hasOwnProperty("notes") && thisjam.notes != "")
@@ -495,6 +490,12 @@ function loadJam(id)
 		}
 		$(".main").html(html)	
 		if (hasMap)
-			loadMap()
+		{
+			var mapOptions = {
+					center: { lat: thisjam.location.lat, lng: thisjam.location.lon},
+					zoom: 8
+				}
+			var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+		}
 	});
 }
