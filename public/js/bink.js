@@ -4,6 +4,7 @@ $(document).ready(function(){
 	   browse(10, 0);
    })
    $("a#historyButton").click(loadHistoricJams)
+   $("a#mapButton").click(loadMap)
 
    loadRecentJams()
    loadPlaylist()
@@ -60,7 +61,9 @@ function enqueue(setTitle, setPath)
 
 function loadMap()
 {
-	
+	$.get("/mapdata", function(data) {
+		console.log(data)
+	})
 }
 
 function loadPlaylist()
