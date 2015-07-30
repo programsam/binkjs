@@ -60,8 +60,12 @@ function enqueue(setTitle, setPath)
 
 function loadMap()
 {
-	$.get("/api/maps/key", function (data) {
-		console.log(data)
+	$.get("/api/maps/key", function (key) {
+		 var script = document.createElement('script');
+		 script.type = 'text/javascript';
+		 script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp' +
+		      '&key=" + key + "&callback=initialize';
+		 document.body.appendChild(script);
 	})
 }
 
