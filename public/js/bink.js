@@ -492,7 +492,7 @@ function loadJam(id)
 		if (hasMap)
 		{
 			var mapOptions = {
-					center: { lat: thisjam.location.lat, lng: thisjam.location.lon},
+					center: { lat: parseFloat(thisjam.location.lat), lng: parseFloat(thisjam.location.lon)},
 					zoom: 8
 				}
 			var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
