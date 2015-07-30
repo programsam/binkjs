@@ -357,7 +357,7 @@ function loadJam(id)
 		html += "</h4>"
 		if (thisjam.hasOwnProperty("location") && thisjam.location.lat != null && thisjam.location.lon != null)
 		{
-			html += "<div id='map-canvas' onload='loadMap()'></div>"
+			html += "<div id='map-canvas' onload='loadMap()' style='width: 300px, height: 300px'></div>"
 		}
 		if (thisjam.hasOwnProperty("notes") && thisjam.notes != "")
 		{
