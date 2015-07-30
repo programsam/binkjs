@@ -494,7 +494,7 @@ function loadJam(id)
 			var coordinates = new google.maps.LatLng(parseFloat(thisjam.location.lat), parseFloat(thisjam.location.lon));
 			var mapOptions = {
 					center: coordinates,
-					zoom: 8
+					zoom: 9
 				}
 			var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 			var marker = new google.maps.Marker({
