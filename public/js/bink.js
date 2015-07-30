@@ -491,11 +491,17 @@ function loadJam(id)
 		$(".main").html(html)	
 		if (hasMap)
 		{
+			var coordinates = new google.maps.LatLng(parseFloat(thisjam.location.lat), parseFloat(thisjam.location.lon));
 			var mapOptions = {
-					center: { lat: parseFloat(thisjam.location.lat), lng: parseFloat(thisjam.location.lon)},
+					center: coordinates,
 					zoom: 8
 				}
 			var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+			var marker = new google.maps.Marker({
+			      position: coordinates,
+			      map: map,
+			      title: thisjam.location.name
+			  });
 		}
 	});
 }
