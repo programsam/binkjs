@@ -60,7 +60,12 @@ function enqueue(setTitle, setPath)
 
 function loadMap()
 {
-	
+	var mapOptions = {
+		center: { lat: -34.397, lng: 150.644},
+		zoom: 8
+	}
+	var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
 }
 
 function loadPlaylist()
@@ -352,23 +357,7 @@ function loadJam(id)
 		html += "</h4>"
 		if (thisjam.hasOwnProperty("location") && thisjam.location.lat != null && thisjam.location.lon != null)
 		{
-			$.get("/api/maps/key", function (key) {
-				
-//				 var url = 'https://maps.googleapis.com/maps/api/js?v=3&key=' + key;
-//				 $.getScript(url, function() {
-				html += "<script src='https://maps.googleapis.com/maps/api/js?key=API_KEY' type='text/javascript'></script>"
-					 var canvas = document.createElement('div');
-					 canvas.id = "map-canvas"
-					 var main = $(".main")[0]
-					 main.appendChild(canvas)
-//					 var mapOptions = {
-//				          center: { lat: -34.397, lng: 150.644},
-//				          zoom: 8
-//				        }
-//					 var map = new google.maps.Map(document.getElementById('map-canvas'),
-//					            mapOptions);
-//				 })
-			})
+			html += "<div id='map-canvas' onload='loadMap()'></div>"
 		}
 		if (thisjam.hasOwnProperty("notes") && thisjam.notes != "")
 		{
