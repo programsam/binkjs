@@ -59,12 +59,6 @@ function enqueue(setTitle, setPath)
 	})
 }
 
-function loadMap()
-{
-	$.get("/mapdata", function(data) {
-		console.log(data)
-	})
-}
 
 function loadPlaylist()
 {
@@ -331,7 +325,7 @@ function browseCallback( data ) {
 	genPages(data.size, data.page, data.total)
 }
 
-funcion loadMap()
+function loadMap()
 {
 	
 }
