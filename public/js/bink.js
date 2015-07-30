@@ -328,6 +328,11 @@ function browseCallback( data ) {
 	genPages(data.size, data.page, data.total)
 }
 
+funcion loadMap()
+{
+	
+}
+
 function loadJam(id)
 {
 	$.get( "/jam/" + id, function( thisjam ) {
