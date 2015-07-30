@@ -60,13 +60,7 @@ function enqueue(setTitle, setPath)
 
 function loadMap()
 {
-	$.get("/api/maps/key", function (key) {
-		 var script = document.createElement('script');
-		 script.type = 'text/javascript';
-		 script.src = 'https://maps.googleapis.com/maps/api/js?v=3' +
-		      '&key=' + key;
-		 document.body.appendChild(script);
-	})
+	
 }
 
 function loadPlaylist()
@@ -356,6 +350,16 @@ function loadJam(id)
 			html += thisjam.location.name
 		}
 		html += "</h4>"
+		if (thisjam.hasOwnProperty("location") && thisjam.location.lat != null && thisjam.location.lon != null)
+		{
+			$.get("/api/maps/key", function (key) {
+				 var script = document.createElement('script');
+				 script.type = 'text/javascript';
+				 script.src = 'https://maps.googleapis.com/maps/api/js?v=3' +
+				      '&key=' + key;
+				 document.body.appendChild(script);
+			})
+		}
 		if (thisjam.hasOwnProperty("notes") && thisjam.notes != "")
 		{
 			html += "<p>" + thisjam.notes + "</p>"
