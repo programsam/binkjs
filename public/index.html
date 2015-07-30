@@ -26,11 +26,11 @@
 		  var script = document.createElement('script');
 		  script.type = 'text/javascript';
 		  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp' +
-		      '&signed_in=true&callback=test';
+		      '&signed_in=true&callback=mapcallback&key=AIzaSyCAdtHNvzrbWkorMybU9bYglI_pnqN4TUo';
 		  document.body.appendChild(script);
 	}
 	
-	function test () {
+	function mapcallback() {
 	}
 	
 	window.onload = loadScript;
