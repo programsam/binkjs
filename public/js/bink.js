@@ -58,6 +58,7 @@ function enqueue(setTitle, setPath)
 	})
 }
 
+
 function loadPlaylist()
 {
 	$.get( "/playlist", function( data ) {

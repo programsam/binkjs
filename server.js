@@ -565,6 +565,10 @@ app.get('/history', function(req, res) {
 	}) //query
 })
 
+app.get('/api/maps/key', fucntion (req,res) {
+	res.send(settings.maps)
+})
+
 app.get('/browse/:size/:page', function (req, res) {
 	res.set('Content-Type','application/json')
 	var size = 10
