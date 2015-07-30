@@ -363,10 +363,10 @@ function loadJam(id)
 				 document.body.appendChild(script);
 				}
 				
-				 var mapCanvas = document.createElement('div');
-				 var mapCanvas.id = "map-canvas"
+				 var canvas = document.createElement('div');
+				 canvas.id = "map-canvas"
 				 var main = $(".main")[0]
-				 main.appendChild(mapCanvas)
+				 main.appendChild(canvas)
 //				 var mapOptions = {
 //			          center: { lat: -34.397, lng: 150.644},
 //			          zoom: 8
