@@ -22,19 +22,18 @@
 	<script src="js/player/jquery.jplayer.min.js"></script>
 	<script src="js/player/jplayer.playlist.min.js"></script>
 	<script type="text/javascript">
-	 function loadScript() {
-		  var script = document.createElement('script');
-		  script.type = 'text/javascript';
-		  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp' +
-		      '&signed_in=true&callback=mapcallback&key=AIzaSyCAdtHNvzrbWkorMybU9bYglI_pnqN4TUo';
-		  document.body.appendChild(script);
-	}
-	
-	function mapcallback() {
-		console.log("Google Maps API loaded.")
-	}
-	
-	window.onload = loadScript;
+		 function loadScript() {
+			  var script = document.createElement('script');
+			  script.type = 'text/javascript';
+			  script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCAdtHNvzrbWkorMybU9bYglI_pnqN4TUo&callback=mapcallback'
+			  document.body.appendChild(script);
+		}
+		
+		function mapcallback() {
+			console.log("Google Maps API loaded.")
+		}
+		
+		window.onload = loadScript;
 	</script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
