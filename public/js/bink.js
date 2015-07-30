@@ -328,7 +328,23 @@ function browseCallback( data ) {
 function loadMap()
 {
 	$.get("/mapdata", function(data) {
-		console.log(data)
+		var html = "<div id='map-canvas' style='width: 100%; height: 100%'></div>"
+		$(".main").html(html)
+		var coordinates = new google.maps.LatLng(42.487161, -89.438055);
+		var mapOptions = {
+				center: coordinates,
+				zoom: 4
+		}
+		var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+		for (var j=0;j++;j<data)
+		{
+			var coordinates = new google.maps.LatLng(parseFloat(data[j].lat), parseFloat(data[j].lon));
+			var marker = new google.maps.Marker({
+			      position: coordinates,
+			      map: map,
+			      title: data[j].name
+			  });
+		}
 	})
 }
 
