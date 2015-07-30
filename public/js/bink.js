@@ -327,7 +327,9 @@ function browseCallback( data ) {
 
 function loadMap()
 {
-	
+	$.get("/mapdata", function(data) {
+		console.log(data)
+	})
 }
 
 function loadJam(id)
