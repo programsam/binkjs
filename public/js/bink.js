@@ -354,7 +354,7 @@ function loadJam(id)
 		{
 			$.get("/api/maps/key", function (key) {
 				
-				$('div.main')[0]].onload = function() {
+				$('div.main')[0].onload = function() {
 					
 				 var script = document.createElement('script');
 				 script.type = 'text/javascript';
