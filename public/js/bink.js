@@ -353,12 +353,16 @@ function loadJam(id)
 		var hasMap = false;
 		if (thisjam.hasOwnProperty("location") && thisjam.location.lat != null && thisjam.location.lon != null)
 		{
+			html += "<div class='panel panel-default'><div class='panel-heading'>Location</div>"
 			html += "<div id='map-canvas' style='width: 100%; height: 300px'></div>"
+			html += "</div>"
 			hasMap = true
 		}
 		if (thisjam.hasOwnProperty("notes") && thisjam.notes != "")
 		{
+			html += "<div class='panel panel-default'><div class='panel-heading'>Notes</div>"
 			html += "<p>" + thisjam.notes + "</p>"
+			html += "</div>"
 		}
 		if (thisjam.hasOwnProperty("musicians") && thisjam.musicians.length != 0)
 		{
