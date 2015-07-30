@@ -58,6 +58,12 @@ function enqueue(setTitle, setPath)
 	})
 }
 
+function loadMap()
+{
+	$.get("/api/maps/key"), function (data) {
+		console.log(data)
+	})
+}
 
 function loadPlaylist()
 {
