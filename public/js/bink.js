@@ -334,7 +334,7 @@ function loadMap()
 		var coordinates = new google.maps.LatLng(39.944465, -97.350595);
 		var mapOptions = {
 				center: coordinates,
-				zoom: 4
+				zoom: 5
 		}
 		var map = new google.maps.Map($("#main")[0], mapOptions);
 		for (var j=0;j<data.length;j++)
