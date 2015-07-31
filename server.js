@@ -586,8 +586,9 @@ app.get('/mapdata', function(req, res) {
 				var client2 = sql();
 				for (var j=0;j<rows.length;j++)
 				{
+					var thisloc = rows[j]
 					client2.query("SELECT * from jams where locid = ?",
-							[rows[j].id],
+							[thisloc.id],
 							function(err, jams, fields) {
 							if (err) //error while getting the item
 							{
@@ -598,11 +599,12 @@ app.get('/mapdata', function(req, res) {
 							{
 								if (jams.length > 0) //there is something in the array, return it
 								{
-									rows[j].jams = []
+									thisloc.jams = []
 									for (var i=0;i<jams.length;i++)
 									{
-										rows[j].jams.push(jams[i])
+										thisloc.jams.push(jams[i])
 									}
+									toSend.push(thisloc)
 									client2.end()
 								}
 								else //nothing in the array, return null
@@ -613,7 +615,7 @@ app.get('/mapdata', function(req, res) {
 						}) //query
 				}
 				client.end()
-				res.send(rows)
+				res.send(toSend)
 			}
 			else //nothing in the array, return null
 			{
