@@ -364,10 +364,9 @@ function dropMarker(coordinates, name, content, map) {
 	      content: content
 	  })
 	google.maps.event.addListener(thismarker, 'click', function() {
-		    thiswindow.open(map,thismarker);
 		    if (lastOpenMarker != null)
 		    	lastOpenMarker.close()
-		    	
+		    thiswindow.open(map,thismarker);
 		    lastOpenMarker = thiswindow
 	});
 }
