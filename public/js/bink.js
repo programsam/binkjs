@@ -335,7 +335,7 @@ function loadMap()
 				center: coordinates,
 				zoom: 4
 		}
-		var map = new google.maps.Map($('#map-canvas'), mapOptions);
+		var map = new google.maps.Map($('#map-canvas')[0], mapOptions);
 		for (var j=0;j<data.length;j++)
 		{
 			var coordinates = new google.maps.LatLng(parseFloat(data[j].lat), parseFloat(data[j].lon));
