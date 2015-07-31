@@ -143,6 +143,7 @@ function renderBlogJams(html, data) {
 
 function loadRecentJams()
 {
+	main.removeClass('mapviewer')
 	$(".main").html("Loading...")
 	$.get( "/recent", recentCallback)
 	.fail(function()
@@ -153,6 +154,7 @@ function loadRecentJams()
 
 function loadHistoricJams()
 {
+	main.removeClass('mapviewer')
 	$(".main").html("Loading...")
 	$.get( "/history", historicCallback)
 	.fail(function()
@@ -328,12 +330,14 @@ function browseCallback( data ) {
 function loadMap()
 {
 	$.get("/mapdata", function(data) {
+		var main = $('.main')[0]
+		main.addClass('mapviewer')
 		var coordinates = new google.maps.LatLng(42.487161, -89.438055);
 		var mapOptions = {
 				center: coordinates,
 				zoom: 4
 		}
-		var map = new google.maps.Map($('.main')[0], mapOptions);
+		var map = new google.maps.Map(main, mapOptions);
 		for (var j=0;j<data.length;j++)
 		{
 			var coordinates = new google.maps.LatLng(parseFloat(data[j].lat), parseFloat(data[j].lon));
@@ -348,6 +352,7 @@ function loadMap()
 
 function loadJam(id)
 {
+	main.removeClass('mapviewer')
 	$.get( "/jam/" + id, function( thisjam ) {
 		console.log(thisjam)
 		var html = "";
