@@ -143,8 +143,7 @@ function renderBlogJams(html, data) {
 
 function loadRecentJams()
 {
-	$("#main").removeClass('mapviewer')
-	$("#main").removeProp('background-color')
+	unloadMap()
 	$("#main").html("Loading...")
 	$.get( "/recent", recentCallback)
 	.fail(function()
@@ -155,8 +154,7 @@ function loadRecentJams()
 
 function loadHistoricJams()
 {
-	$("#main").removeClass('mapviewer')
-	$("#main").removeProp('background-color')
+	unloadMap()
 	$("#main").html("Loading...")
 	$.get( "/history", historicCallback)
 	.fail(function()
@@ -329,6 +327,12 @@ function browseCallback( data ) {
 	genPages(data.size, data.page, data.total)
 }
 
+function unloadMap()
+{
+	$("#main").removeClass('mapviewer')
+	$("#main")[0].style.removeProperty("background-color")
+}
+
 function loadMap()
 {
 	$.get("/mapdata", function(data) {
@@ -353,8 +357,7 @@ function loadMap()
 
 function loadJam(id)
 {
-	$("#main").removeClass('mapviewer')
-	$("#main").removeProp('background-color')
+	unloadMap()
 	$.get( "/jam/" + id, function( thisjam ) {
 		console.log(thisjam)
 		var html = "";
