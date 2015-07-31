@@ -361,7 +361,7 @@ function dropMarker(coordinates, name, content, map) {
 	      title: name
 	  });
 	var thiswindow = new google.maps.InfoWindow({
-	      content: conent
+	      content: content
 	  })
 	google.maps.event.addListener(thismarker, 'click', function() {
 		    thiswindow.open(map,thismarker);
