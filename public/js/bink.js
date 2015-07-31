@@ -352,6 +352,12 @@ function loadMap()
 			      map: map,
 			      title: data[j].name
 			  });
+			 var infowindow = new google.maps.InfoWindow({
+			      content: "This is some test text."
+			  });
+			 google.maps.event.addListener(marker, 'click', function() {
+				    infowindow.open(map,marker);
+			});
 		}
 	})
 }
