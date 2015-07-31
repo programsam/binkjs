@@ -347,17 +347,20 @@ function loadMap()
 		for (var j=0;j<data.length;j++)
 		{
 			var coordinates = new google.maps.LatLng(parseFloat(data[j].lat), parseFloat(data[j].lon));
+			console.log(coordinates)
 			var thismarker = new google.maps.Marker({
 			      position: coordinates,
 			      map: map,
 			      title: data[j].name
 			  });
+			console.log(thismarker)
 			var thiswindow = new google.maps.InfoWindow({
 			      content: "<div id='content" + data[j].id + "'>" + data[j].name + "</div>"
 			  })
-			
+			console.log(thiswindow)
 			google.maps.event.addListener(thismarker, 'click', function() {
 				    thiswindow.open(map,thismarker);
+				    console.log(thismarker)
 			});
 		}
 	})
