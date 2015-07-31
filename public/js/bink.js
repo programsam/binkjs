@@ -352,9 +352,9 @@ function loadMap()
 			      map: map,
 			      title: data[j].name
 			  });
+			console.log("Adding window for: " + data[j].name)
 			var thiswindow = new google.maps.InfoWindow({
 			      content: data[j].name
-			      console.log("Adding window for: " + data[j].name)
 			  })
 			google.maps.event.addListener(thismarker, 'click', function() {
 				    thiswindow.open(map,thismarker);
