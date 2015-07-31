@@ -368,7 +368,7 @@ function dropMarker(coordinates, name, content, map) {
 		    if (lastOpenMarker != null)
 		    	lastOpenMarker.close()
 		    	
-		    lastOpenMarker = thismarker
+		    lastOpenMarker = thiswindow
 	});
 }
 
