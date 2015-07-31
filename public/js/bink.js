@@ -331,7 +331,7 @@ function loadMap()
 {
 	$.get("/mapdata", function(data) {
 		$('#main').addClass('mapviewer')
-		var coordinates = new google.maps.LatLng(42.487161, -89.438055);
+		var coordinates = new google.maps.LatLng(39.944465, -97.350595);
 		var mapOptions = {
 				center: coordinates,
 				zoom: 4
