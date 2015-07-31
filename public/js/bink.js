@@ -1,3 +1,5 @@
+var lastOpenMarker = null;
+
 $(document).ready(function(){
    $("a#recentButton").click(loadRecentJams)
    $("a#browseButton").click(function() { 
@@ -347,22 +349,26 @@ function loadMap()
 		for (var j=0;j<data.length;j++)
 		{
 			var coordinates = new google.maps.LatLng(parseFloat(data[j].lat), parseFloat(data[j].lon));
-			dropMarker(coordinates, data[j].name, map)
+			dropMarker(coordinates, data[j].name, data[j].name, map)
 		}
 	})
 }
 
-function dropMarker(coordinates, name, map) {
+function dropMarker(coordinates, name, content, map) {
 	var thismarker = new google.maps.Marker({
 	      position: coordinates,
 	      map: map,
 	      title: name
 	  });
 	var thiswindow = new google.maps.InfoWindow({
-	      content: name
+	      content: conent
 	  })
 	google.maps.event.addListener(thismarker, 'click', function() {
 		    thiswindow.open(map,thismarker);
+		    if (lastOpenMark != null)
+		    	lastOpenMarker.close()
+		    	
+		    lastOpenMarker = thismarker
 	});
 }
 
