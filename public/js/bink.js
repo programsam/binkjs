@@ -181,6 +181,7 @@ var nums = [3, 5, 10, 25, 50, 100]
 
 function browse(size, page)
 {
+	unloadMap()
 	getBrowseResults(size, page)
 	$.get("/total/jams", function(data) {
 		var html = ""
