@@ -143,7 +143,7 @@ function renderBlogJams(html, data) {
 
 function loadRecentJams()
 {
-	main.removeClass('mapviewer')
+	$(".main")[0].removeClass('mapviewer')
 	$(".main").html("Loading...")
 	$.get( "/recent", recentCallback)
 	.fail(function()
@@ -154,7 +154,7 @@ function loadRecentJams()
 
 function loadHistoricJams()
 {
-	main.removeClass('mapviewer')
+	$(".main")[0].removeClass('mapviewer')
 	$(".main").html("Loading...")
 	$.get( "/history", historicCallback)
 	.fail(function()
@@ -352,7 +352,7 @@ function loadMap()
 
 function loadJam(id)
 {
-	main.removeClass('mapviewer')
+	$(".main")[0].removeClass('mapviewer')
 	$.get( "/jam/" + id, function( thisjam ) {
 		console.log(thisjam)
 		var html = "";
