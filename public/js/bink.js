@@ -22,13 +22,13 @@ $(document).ready(function(){
   });
   
 $('#sidebar-wrapper').on('hidden.bs.collapse', function () {
-	$( ".main" ).css( "padding-left", function( paddingleft ) {
+	$( "#main" ).css( "padding-left", function( paddingleft ) {
   		return 40;
 	});
 })
 
 $('#sidebar-wrapper').on('shown.bs.collapse', function () {
-  	$( ".main" ).css( "padding-left", function( paddingleft ) {
+  	$( "#main" ).css( "padding-left", function( paddingleft ) {
   		return 265;
 	});
 })
@@ -94,13 +94,13 @@ function play(setTitle, path)
 function recentCallback(data) {
 	var html = "";
 	renderBlogJams(html, data)
-  	$(".main").jscroll({debug:true})
+  	$("#main").jscroll({debug:true})
 }
 
 function historicCallback(data) {
 	var html = "<h1>Today in BINK! History</h1>";
 	renderBlogJams(html, data)
-  	$(".main").jscroll({debug:true})
+  	$("#main").jscroll({debug:true})
 }
 
 function renderBlogJams(html, data) {
@@ -138,13 +138,13 @@ function renderBlogJams(html, data) {
 		html += "</div>"
 		html += "</div>"
 	})
-	$(".main").html(html)
+	$("#main").html(html)
 }
 
 function loadRecentJams()
 {
-	$(".main")[0].removeClass('mapviewer')
-	$(".main").html("Loading...")
+	$("#main").removeClass('mapviewer')
+	$("#main").html("Loading...")
 	$.get( "/recent", recentCallback)
 	.fail(function()
 	{
@@ -154,8 +154,8 @@ function loadRecentJams()
 
 function loadHistoricJams()
 {
-	$(".main")[0].removeClass('mapviewer')
-	$(".main").html("Loading...")
+	$("#main").removeClass('mapviewer')
+	$("#main").html("Loading...")
 	$.get( "/history", historicCallback)
 	.fail(function()
 	{
@@ -199,7 +199,7 @@ function browse(size, page)
 	    html += "</div></div>"
 	    html += "<div id='results'></div>"
 	  	
-	  	$(".main").html(html)
+	  	$("#main").html(html)
 	}).fail(function()
 	{
 		alert('Encountered a problem.')
@@ -330,14 +330,13 @@ function browseCallback( data ) {
 function loadMap()
 {
 	$.get("/mapdata", function(data) {
-		var main = $('.main')[0]
-		main.addClass('mapviewer')
+		$('#main').addClass('mapviewer')
 		var coordinates = new google.maps.LatLng(42.487161, -89.438055);
 		var mapOptions = {
 				center: coordinates,
 				zoom: 4
 		}
-		var map = new google.maps.Map(main, mapOptions);
+		var map = new google.maps.Map($("#main"), mapOptions);
 		for (var j=0;j<data.length;j++)
 		{
 			var coordinates = new google.maps.LatLng(parseFloat(data[j].lat), parseFloat(data[j].lon));
@@ -352,7 +351,7 @@ function loadMap()
 
 function loadJam(id)
 {
-	$(".main")[0].removeClass('mapviewer')
+	$("#main").removeClass('mapviewer')
 	$.get( "/jam/" + id, function( thisjam ) {
 		console.log(thisjam)
 		var html = "";
@@ -515,7 +514,7 @@ function loadJam(id)
 			})
 			html += "</table></div>"
 		}
-		$(".main").html(html)	
+		$("#main").html(html)	
 		if (hasMap)
 		{
 			var coordinates = new google.maps.LatLng(parseFloat(thisjam.location.lat), parseFloat(thisjam.location.lon));
