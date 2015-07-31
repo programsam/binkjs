@@ -582,6 +582,35 @@ app.get('/mapdata', function(req, res) {
 		{
 			if (rows.length > 0) //there is something in the array, return it
 			{
+				var toSend = []
+				var client2 = sql();
+				for (var j=0;j<rows.length;j++)
+				{
+					client2.query("SELECT * from jams where locid = ?",
+							function(err, jams, fields) {
+							if (err) //error while getting the item
+							{
+								console.log("ERROR: " + err)
+								client2.end()
+							}
+							else //no error
+							{
+								if (rows.length > 0) //there is something in the array, return it
+								{
+									rows[j].jams = []
+									for (var i=0;i<jams.length;i++)
+									{
+										rows[j].jams.push({jams[i]})
+									}
+									client2.end()
+								}
+								else //nothing in the array, return null
+								{
+									client2.end()
+								}
+							} //else
+						}) //query
+				}
 				client.end()
 				res.send(rows)
 			}
