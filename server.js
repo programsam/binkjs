@@ -587,6 +587,7 @@ app.get('/mapdata', function(req, res) {
 				for (var j=0;j<rows.length;j++)
 				{
 					client2.query("SELECT * from jams where locid = ?",
+							[rows[j].id],
 							function(err, jams, fields) {
 							if (err) //error while getting the item
 							{
