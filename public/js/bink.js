@@ -349,14 +349,14 @@ function loadMap()
 		for (var j=0;j<data.length;j++)
 		{
 			var coordinates = new google.maps.LatLng(parseFloat(data[j].lat), parseFloat(data[j].lon));
-			markers[j] = new google.maps.Marker({
+			markers.push(new google.maps.Marker({
 			      position: coordinates,
 			      map: map,
 			      title: data[j].name
-			  });
-			 infowindows[j] = new google.maps.InfoWindow({
+			  }));
+			 infowindows.push(new google.maps.InfoWindow({
 			      content: "<div id='content" + data[j].id + "'>" + data[j].name + "</div>"
-			  });
+			  }))
 			 google.maps.event.addListener(markers[j], 'click', function() {
 				    infowindows[j].open(map,markers[j]);
 			});
