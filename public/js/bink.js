@@ -344,19 +344,21 @@ function loadMap()
 				zoom: 5
 		}
 		var map = new google.maps.Map($("#main")[0], mapOptions);
+		var markers = []
+		var infowindows = []
 		for (var j=0;j<data.length;j++)
 		{
 			var coordinates = new google.maps.LatLng(parseFloat(data[j].lat), parseFloat(data[j].lon));
-			var marker = new google.maps.Marker({
+			markers[j] = new google.maps.Marker({
 			      position: coordinates,
 			      map: map,
 			      title: data[j].name
 			  });
-			 var infowindow = new google.maps.InfoWindow({
+			 infowindows[j] = new google.maps.InfoWindow({
 			      content: "<div id='content" + data[j].id + "'>" + data[j].name + "</div>"
 			  });
-			 google.maps.event.addListener(marker, 'click', function() {
-				    infowindow.open(map,marker);
+			 google.maps.event.addListener(markers[j], 'click', function() {
+				    infowindows[j].open(map,markers[j]);
 			});
 		}
 	})
