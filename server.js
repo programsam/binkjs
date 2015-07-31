@@ -595,12 +595,12 @@ app.get('/mapdata', function(req, res) {
 							}
 							else //no error
 							{
-								if (rows.length > 0) //there is something in the array, return it
+								if (jams.length > 0) //there is something in the array, return it
 								{
 									rows[j].jams = []
 									for (var i=0;i<jams.length;i++)
 									{
-										rows[j].jams.push({jams[i]})
+										rows[j].jams.push(jams[i])
 									}
 									client2.end()
 								}
