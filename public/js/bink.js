@@ -355,7 +355,7 @@ function loadMap()
 			  });
 			console.log(thismarker)
 			var thiswindow = new google.maps.InfoWindow({
-			      content: "<div id='content" + data[j].id + "'>" + data[j].name + "</div>"
+			      content: data[j].name
 			  })
 			console.log(thiswindow)
 			google.maps.event.addListener(thismarker, 'click', function() {
