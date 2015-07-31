@@ -328,14 +328,14 @@ function browseCallback( data ) {
 function loadMap()
 {
 	$.get("/mapdata", function(data) {
-		var html = "<div id='map-canvas' style='width: 1000px; height: 300px'></div>"
+		var html = "<div id='map-canvas' style='width: 100%; height: 1000px'></div>"
 		$(".main").html(html)
 		var coordinates = new google.maps.LatLng(42.487161, -89.438055);
 		var mapOptions = {
 				center: coordinates,
 				zoom: 4
 		}
-		var map = new google.maps.Map($('.main')[0], mapOptions);
+		var map = new google.maps.Map($('#map-canvas'), mapOptions);
 		for (var j=0;j<data.length;j++)
 		{
 			var coordinates = new google.maps.LatLng(parseFloat(data[j].lat), parseFloat(data[j].lon));
