@@ -353,7 +353,7 @@ function loadMap()
 			      title: data[j].name
 			  });
 			 var infowindow = new google.maps.InfoWindow({
-			      content: "This is some test text."
+			      content: "<div id='content" + data[j].id + "'>" + data[j].name + "</div>"
 			  });
 			 google.maps.event.addListener(marker, 'click', function() {
 				    infowindow.open(map,marker);
