@@ -365,7 +365,7 @@ function dropMarker(coordinates, name, content, map) {
 	  })
 	google.maps.event.addListener(thismarker, 'click', function() {
 		    thiswindow.open(map,thismarker);
-		    if (lastOpenMark != null)
+		    if (lastOpenMarker != null)
 		    	lastOpenMarker.close()
 		    	
 		    lastOpenMarker = thismarker
