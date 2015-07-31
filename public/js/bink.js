@@ -347,21 +347,23 @@ function loadMap()
 		for (var j=0;j<data.length;j++)
 		{
 			var coordinates = new google.maps.LatLng(parseFloat(data[j].lat), parseFloat(data[j].lon));
-			var thismarker = new google.maps.Marker({
-			      position: coordinates,
-			      map: map,
-			      title: data[j].name
-			  });
-			console.log("Adding window for: " + data[j].name)
-			var thiswindow = new google.maps.InfoWindow({
-			      content: data[j].name
-			  })
-			google.maps.event.addListener(thismarker, 'click', function() {
-				    thiswindow.open(map,thismarker);
-				    console.log(thismarker.title)
-			});
+			dropMarker(coordinates, data[j].name, map)
 		}
 	})
+}
+
+function dropMarker(coordinates, name, map) {
+	var thismarker = new google.maps.Marker({
+	      position: coordinates,
+	      map: map,
+	      title: name
+	  });
+	var thiswindow = new google.maps.InfoWindow({
+	      content: name
+	  })
+	google.maps.event.addListener(thismarker, 'click', function() {
+		    thiswindow.open(map,thismarker);
+	});
 }
 
 function loadJam(id)
