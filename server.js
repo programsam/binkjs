@@ -605,15 +605,15 @@ app.get('/mapdata', function(req, res) {
 										thisloc.jams.push(jams[i])
 									}
 									toSend.push(thisloc)
-									client2.end()
 								}
 								else //nothing in the array, return null
 								{
-									client2.end()
+									toSend.push(thisloc)
 								}
 							} //else
 						}) //query
 				}
+				client2.end()
 				client.end()
 				res.send(toSend)
 			}
