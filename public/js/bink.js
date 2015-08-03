@@ -78,6 +78,7 @@ function loadTimeline() {
 		  };
 
 		  // Create a Timeline
+		  $('#main').html('Drag left/right or zoom to manipulate the timeline...')
 		  var timeline = new vis.Timeline(container, data, options);
 		  timeline.on('select', function(properties) {
 			  console.log(properties.items)
