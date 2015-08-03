@@ -69,10 +69,11 @@ function loadTimeline() {
 		console.log(data)
 		var data = new google.visualization.DataTable();
 		data.addColumn('date', 'Date');
+		data.addColumn('number', 'vPosition')
 		data.addColumn('string', 'Title');
 		
 		data.addRows([
-		  [new Date(2008, 5, 3), "Test"]
+		  [new Date(2008, 5, 3), 5, "Test"]
 		])
 		
 		var options = {
