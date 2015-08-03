@@ -355,7 +355,10 @@ function loadMap()
 				content += "<hr />"
 				for (var k=0;k<data[j].jams.length;k++)
 				{
-					content += "<a href='loadJam(" + data[j].jams[k].id + ")'>" + data[j].jams[k].title + "</a>"
+					content += "<a href='javascript:loadJam(" + data[j].jams[k].id + ")'>" 
+						+ data[j].jams[k].title + "</a>"
+					if (k != data[j].jams.length)
+						content += ", "
 				}
 			}
 			dropMarker(coordinates, data[j].name, content, map)
