@@ -63,6 +63,13 @@ function enqueue(setTitle, setPath)
 }
 
 
+function loadTimeline() {
+//	$.get("/timeline", function (data) {
+//		
+//	})
+	$("#main").html(html)
+}
+
 function loadPlaylist()
 {
 	$.get( "/playlist", function( data ) {
