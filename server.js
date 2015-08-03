@@ -488,7 +488,7 @@ app.get('/playlist', function(req, res) {
 
 app.get('/timelineData', function(req, res) {
 	var client = sql();
-	client.query("SELECT id, title, date from jams", 
+	client.query("SELECT id, title as content, date as start from jams", 
 		function(err, rows, fields) {
 		if (err) //error while getting the item
 		{
