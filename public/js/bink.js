@@ -8,6 +8,7 @@ $(document).ready(function(){
    $("a#historyButton").click(loadHistoricJams)
    $("a#mapButton").click(loadMap)
    $("a#timelineButton").click(loadTimeline)
+   $("a#twitterButton").click(loadTweets)
 
    loadRecentJams()
    loadPlaylist()
