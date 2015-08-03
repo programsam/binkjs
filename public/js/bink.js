@@ -63,6 +63,7 @@ function enqueue(setTitle, setPath)
 }
 
 function loadTimeline() {
+	$('#main').addClass('timeline')
 	$.get("/timelineData", function (data) {
 		console.log(data)
 		var data = google.visualization.arrayToDataTable([
