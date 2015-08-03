@@ -572,7 +572,7 @@ app.get('/api/maps/key', function (req,res) {
 app.get('/mapdata', function(req, res) {
 	var client = sql();
 	client.query("SELECT * from locations where lat is not null and lon is not null",
-		function(err, rows, fields) {
+		function(err, locations, fields) {
 		if (err) //error while getting the item
 		{
 			console.log("ERROR: " + err)
@@ -580,39 +580,40 @@ app.get('/mapdata', function(req, res) {
 		}
 		else //no error
 		{
-			if (rows.length > 0) //there is something in the array, return it
+			if (locations.length > 0) //there is something in the array, return it
 			{
 				var toSend = []
 				var client2 = sql();
-				for (var j=0;j<rows.length;j++)
-				{
-					var thisloc = rows[j]
+				async.forEach(locations, function(thislocation, callback) {
 					client2.query("SELECT * from jams where locid = ?",
-							[thisloc.id],
-							function(err, jams, fields) {
-							if (err) //error while getting the item
+						[thislocation.id],
+						function(err, jams, fields) {
+						if (err) //error while getting the item
+						{
+							console.log("ERROR: " + err)
+							client2.end()
+							callback()
+						}
+						else //no error
+						{
+							if (jams.length > 0) //there is something in the array, return it
 							{
-								console.log("ERROR: " + err)
-								client2.end()
+								thislocation.jams = []
+								for (var i=0;i<jams.length;i++)
+								{
+									thislocation.jams.push(jams[i])
+								}
+								toSend.push(thislocation)
+								callback()
 							}
-							else //no error
+							else //nothing in the array, return null
 							{
-								if (jams.length > 0) //there is something in the array, return it
-								{
-									thisloc.jams = []
-									for (var i=0;i<jams.length;i++)
-									{
-										thisloc.jams.push(jams[i])
-									}
-									toSend.push(thisloc)
-								}
-								else //nothing in the array, return null
-								{
-									toSend.push(thisloc)
-								}
-							} //else
-						}) //query
-				}
+								toSend.push(thislocation)
+								callback()
+							}
+						} //else
+					}) //query
+				})
 				client2.end()
 				client.end()
 				res.send(toSend)
