@@ -77,8 +77,8 @@ function loadTimeline() {
 		
 		var options = {
 		  title: 'Jams these Days',
-		  hAxis: {title: 'Age', minValue: 0, maxValue: 15},
-		  vAxis: {title: 'Weight', minValue: 0, maxValue: 15},
+		  hAxis: {title: 'Date'},
+		  vAxis: {title: 'Jam'},
 		};
 		var chart = new google.visualization.ScatterChart(document.getElementById('main'));
 		chart.draw(data, options);
