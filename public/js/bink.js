@@ -62,17 +62,15 @@ function enqueue(setTitle, setPath)
 	})
 }
 
+function drawChart() {	
+	$.get("/timelineData", function (data) {
+		console.log(data)
+	})
+}
 
 function loadTimeline() {
 	google.load("visualization", "1", {packages:["corechart"]});
 	google.setOnLoadCallback(drawChart);
-	
-	function drawChart() {	
-		$.get("/timelineData", function (data) {
-			console.log(data)
-		})
-	})
-
 }
 
 function loadPlaylist()
