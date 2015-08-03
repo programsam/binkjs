@@ -63,6 +63,7 @@ function enqueue(setTitle, setPath)
 }
 
 function loadTimeline() {
+	unloadMap()
 	$('#main').addClass('timeline')
 	$.get("/timelineData", function (data) {
 		console.log(data)
