@@ -80,7 +80,7 @@ function loadTimeline() {
 		  hAxis: {title: 'Date'},
 		  vAxis: {title: 'Jam'},
 		};
-		var chart = new google.visualization.ScatterChart(document.getElementById('main'));
+		var chart = new google.visualization.AnnotationChart(document.getElementById('main'));
 		chart.draw(data, options);
 	})
 }
