@@ -357,7 +357,7 @@ function loadMap()
 				{
 					content += "<a href='javascript:loadJam(" + data[j].jams[k].id + ")'>" 
 						+ data[j].jams[k].title + "</a>"
-					if (k != data[j].jams.length)
+					if (k != data[j].jams.length-1)
 						content += ", "
 				}
 			}
