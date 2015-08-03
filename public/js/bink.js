@@ -63,7 +63,7 @@ function enqueue(setTitle, setPath)
 }
 
 function loadTimeline() {
-	unloadMap()
+	clearClasses()
 	$("#main").addClass('timeline')
 	$('#main').html('')
 	$.get("/timelineData", function (data) {
@@ -79,6 +79,9 @@ function loadTimeline() {
 
 		  // Create a Timeline
 		  var timeline = new vis.Timeline(container, data, options);
+		  timeline.on('select', function(properties) {
+			  console.log(properties.nodes)
+		  })
 	})
 }
 
@@ -165,7 +168,7 @@ function renderBlogJams(html, data) {
 
 function loadRecentJams()
 {
-	unloadMap()
+	clearClasses()
 	$("#main").html("Loading...")
 	$.get( "/recent", recentCallback)
 	.fail(function()
@@ -176,7 +179,7 @@ function loadRecentJams()
 
 function loadHistoricJams()
 {
-	unloadMap()
+	clearClasses()
 	$("#main").html("Loading...")
 	$.get( "/history", historicCallback)
 	.fail(function()
@@ -203,7 +206,7 @@ var nums = [3, 5, 10, 25, 50, 100]
 
 function browse(size, page)
 {
-	unloadMap()
+	clearClasses()
 	getBrowseResults(size, page)
 	$.get("/total/jams", function(data) {
 		var html = ""
@@ -350,9 +353,10 @@ function browseCallback( data ) {
 	genPages(data.size, data.page, data.total)
 }
 
-function unloadMap()
+function clearClasses()
 {
 	$("#main").removeClass('mapviewer')
+	$("#main").removeClass('timeline')
 	$("#main")[0].style.removeProperty("background-color")
 }
 
@@ -405,7 +409,7 @@ function dropMarker(coordinates, name, content, map) {
 
 function loadJam(id)
 {
-	unloadMap()
+	clearClasses()
 	$.get( "/jam/" + id, function( thisjam ) {
 		console.log(thisjam)
 		var html = "";
