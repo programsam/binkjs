@@ -350,9 +350,12 @@ function loadMap()
 		{
 			var coordinates = new google.maps.LatLng(parseFloat(data[j].lat), parseFloat(data[j].lon));
 			var content = data[j].name
-			for (var k=0;k<data[j].jams.length;k++)
+			if (null != data[j].jams)
 			{
-				content += data[j].jams[k].title
+				for (var k=0;k<data[j].jams.length;k++)
+				{
+					content += data[j].jams[k].title
+				}
 			}
 			dropMarker(coordinates, data[j].name, content, map)
 		}
