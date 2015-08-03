@@ -65,7 +65,7 @@ function enqueue(setTitle, setPath)
 function loadTimeline() {
 	clearClasses()
 	$("#main").addClass('timeline')
-	$('#main').html('')
+	$('#main').html('Loading...')
 	$.get("/timelineData", function (data) {
 		console.log(data)
 		  // DOM element where the Timeline will be attached
@@ -80,7 +80,8 @@ function loadTimeline() {
 		  // Create a Timeline
 		  var timeline = new vis.Timeline(container, data, options);
 		  timeline.on('select', function(properties) {
-			  console.log(properties.nodes)
+			  console.log(properties.items)
+			  loadJam(properties.items[0])
 		  })
 	})
 }
