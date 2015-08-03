@@ -18,12 +18,6 @@
 	height: 80%;
 }
 
-.timeline {
-	width: 100%;
-	max-width: 100%;'
-	height: 80%;
-}
-
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
   padding-top: 50px;
