@@ -499,6 +499,10 @@ app.get('/timelineData', function(req, res) {
 		{
 			if (rows.length > 0) //there is something in the array, return it
 			{
+				for (var j=0;j<rows.length;j++)
+				{
+					rows[j].type = "point"
+				}
 				client.end()
 				res.send(rows)
 			}
