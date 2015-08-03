@@ -349,7 +349,12 @@ function loadMap()
 		for (var j=0;j<data.length;j++)
 		{
 			var coordinates = new google.maps.LatLng(parseFloat(data[j].lat), parseFloat(data[j].lon));
-			dropMarker(coordinates, data[j].name, data[j].name, map)
+			var content = data[j].name
+			for (var k=0;k<data[j].jams.length;k++)
+			{
+				content += data[j].jams[k].title
+			}
+			dropMarker(coordinates, data[j].name, content, map)
 		}
 	})
 }
