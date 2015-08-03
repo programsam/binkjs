@@ -64,11 +64,11 @@ function enqueue(setTitle, setPath)
 
 function loadTimeline() {
 	unloadMap()
-	$("#main").html("<div id='timeline'></div>")
+	$("#main").addClass('timeline')
 	$.get("/timelineData", function (data) {
 		console.log(data)
 		  // DOM element where the Timeline will be attached
-		  var container = document.getElementById('timeline');
+		  var container = document.getElementById('main');
 
 		  // Configuration for the Timeline
 		  var options = {
