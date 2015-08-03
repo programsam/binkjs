@@ -67,7 +67,7 @@ function loadTimeline() {
 	$('#main').addClass('timeline')
 	$.get("/timelineData", function (data) {
 		console.log(data)
-		var data = google.visualization.DataTable();
+		var data = new google.visualization.DataTable();
 		data.addColumn('string', 'Title');
 		data.addColumn('date', 'Date');
 		
