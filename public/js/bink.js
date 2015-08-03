@@ -11,6 +11,7 @@ $(document).ready(function(){
 
    loadRecentJams()
    loadPlaylist()
+   google.load("visualization", "1", {packages:["corechart"]});
    
   $("#jquery_jplayer_1").jPlayer({
     cssSelectorAncestor: "#jp_container_1",
@@ -62,17 +63,10 @@ function enqueue(setTitle, setPath)
 	})
 }
 
-function drawChart() {	
-	console.log("Draw chart!")
+function loadTimeline() {
 	$.get("/timelineData", function (data) {
 		console.log(data)
 	})
-}
-
-function loadTimeline() {
-	console.log("Button clicked!")
-	google.load("visualization", "1", {packages:["corechart"]});
-	google.setOnLoadCallback(drawChart);
 }
 
 function loadPlaylist()
