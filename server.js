@@ -585,6 +585,7 @@ app.get('/mapdata', function(req, res) {
 				var toSend = []
 				var client2 = sql();
 				async.forEach(locations, function(thislocation, callback) {
+					console.log("Looking up jams for location: " + thislocation.id)
 					client2.query("SELECT * from jams where locid = ?",
 						[thislocation.id],
 						function(err, jams, fields) {
