@@ -18,8 +18,9 @@
 	height: 80%;
 }
 
-a.twitter-timeline {
+.timeline {
 	width: 100%;
+	max-width: 100%;'
 	height: 80%;
 }
 
