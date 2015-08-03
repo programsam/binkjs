@@ -72,7 +72,7 @@ function loadTimeline() {
 		data.addColumn('date', 'Date');
 		
 		data.addRows([
-		  [new Date(2008, 5, 3), "Test"]
+		  ["Test", new Date(2008, 5, 3)]
 		])
 		
 		var options = {
