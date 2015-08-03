@@ -72,7 +72,10 @@ function loadTimeline() {
 		  var container = document.getElementById('main');
 
 		  // Configuration for the Timeline
-		  var options = {};
+		  var options = {
+				  height: "100%",
+				  width: "100%"
+		  };
 
 		  // Create a Timeline
 		  var timeline = new vis.Timeline(container, data, options);
