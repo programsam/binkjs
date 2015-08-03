@@ -67,26 +67,24 @@ function loadTimeline() {
 	$('#main').addClass('timeline')
 	$.get("/timelineData", function (data) {
 		console.log(data)
-		var data = new google.visualization.DataTable();
-		data.addColumn('date', 'Date');
-		data.addColumn('number', 'vPosition')
-		data.addColumn('string', 'Title');
-		
-		data.addRows([
-		  [new Date(2008, 5, 3), 5, "Test"],
-		  [new Date(2010, 5, 5), 4, "Test2"],
-		  [new Date(2011, 4, 7), 3, "Test3"],
-		  [new Date(2014, 1, 5), 2, "Test4"],
-		  [new Date(2001, 9, 1), 1, "Test5"]
-		])
-		
-		var options = {
-		  title: 'Jams these Days',
-		  hAxis: {title: 'Date'},
-		  vAxis: {title: 'Jam'},
-		};
-		var chart = new google.visualization.AnnotationChart(document.getElementById('main'));
-		chart.draw(data, options);
+		  // DOM element where the Timeline will be attached
+		  var container = document.getElementById('main');
+
+		  // Create a DataSet (allows two way data-binding)
+		  var items = new vis.DataSet([
+		    {id: 1, content: 'item 1', start: '2013-04-20'},
+		    {id: 2, content: 'item 2', start: '2013-04-14'},
+		    {id: 3, content: 'item 3', start: '2013-04-18'},
+		    {id: 4, content: 'item 4', start: '2013-04-16', end: '2013-04-19'},
+		    {id: 5, content: 'item 5', start: '2013-04-25'},
+		    {id: 6, content: 'item 6', start: '2013-04-27'}
+		  ]);
+
+		  // Configuration for the Timeline
+		  var options = {};
+
+		  // Create a Timeline
+		  var timeline = new vis.Timeline(container, items, options);
 	})
 }
 
