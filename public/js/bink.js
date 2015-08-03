@@ -64,10 +64,15 @@ function enqueue(setTitle, setPath)
 
 
 function loadTimeline() {
-//	$.get("/timeline", function (data) {
-//		
-//	})
-	$("#main").html(html)
+	google.load("visualization", "1", {packages:["corechart"]});
+	google.setOnLoadCallback(drawChart);
+	
+	function drawChart() {	
+		$.get("/timelineData", function (data) {
+			console.log(data)
+		})
+	})
+
 }
 
 function loadPlaylist()
