@@ -73,10 +73,10 @@ function loadTimeline() {
 		data.addColumn('string', 'Title');
 		
 		data.addRows([
-		  [new Date(2008, 5, 3), 5, "Test"]
-		  [new Date(2010, 5, 5), 4, "Test2"]
-		  [new Date(2011, 4, 7), 3, "Test3"]
-		  [new Date(2014, 1, 5), 2, "Test4"]
+		  [new Date(2008, 5, 3), 5, "Test"],
+		  [new Date(2010, 5, 5), 4, "Test2"],
+		  [new Date(2011, 4, 7), 3, "Test3"],
+		  [new Date(2014, 1, 5), 2, "Test4"],
 		  [new Date(2001, 9, 1), 1, "Test5"]
 		])
 		
