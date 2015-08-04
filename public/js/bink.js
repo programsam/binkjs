@@ -357,18 +357,21 @@ function search(size, page, query)
 	html += "<div id='pages'></div>"
     html += "<div class='panel'><div class='btn-group' data-toggle='buttons'>"
     
-    query = query.replace(/"/g, "")
-    query = query.replace(/'/g, "")
-    
     for (var j=0;j<nums.length;j++)
     {
     	if (query != null)
+    	{
+    		query = query.replace(/"/g, '')
+    	    query = query.replace(/'/g, '')
     		html += "<label class='btn btn-primary' id='num" + nums[j] + "' onclick=\"javascript:getSearchResults(" + 
     				nums[j] + ", " + page + ", '" + query + "\")'>"
+    	}
     	else
+    	{
     		html += "<label class='btn btn-primary' id='num" + nums[j] + "' onclick=\"javascript:getSearchResults(" + 
 				nums[j] + ", " + page + ")\">"
-    					
+    	}
+    	
 	    html += "<input type='radio' autocomplete='off'> " + nums[j]
 	    html += "</label>"
     }
