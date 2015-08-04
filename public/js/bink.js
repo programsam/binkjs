@@ -75,7 +75,6 @@ function loadTimeline() {
 	$("#main").addClass('timeline')
 	$('#main').html('Loading...')
 	$.get("/timelineData", function (data) {
-		console.log(data)
 		  // DOM element where the Timeline will be attached
 		  var container = document.getElementById('main');
 
