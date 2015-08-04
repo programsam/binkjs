@@ -361,10 +361,10 @@ function search(size, page, query)
     for (var j=0;j<nums.length;j++)
     {
     	if (query != null)
-    		html += "<label class='btn btn-primary' id='num" + nums[j] + "' onclick=\"getSearchResults(" + 
+    		html += "<label class='btn btn-primary' id='num" + nums[j] + "' onclick=\"javascript:getSearchResults(" + 
     				size + ", " + page + ", '" + query + "')\">"
     	else
-    		html += "<label class='btn btn-primary' id='num" + nums[j] + "' onclick=\"getSearchResults(" + 
+    		html += "<label class='btn btn-primary' id='num" + nums[j] + "' onclick=\"javascript:getSearchResults(" + 
 				size + ", " + page + ")\">"
     					
 	    html += "<input type='radio' autocomplete='off'> " + nums[j]
