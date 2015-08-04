@@ -360,8 +360,12 @@ function search(size, page, query)
     html += "<div class='panel'><div class='btn-group' data-toggle='buttons'>"
     for (var j=0;j<nums.length;j++)
     {
-    	html += "<label class='btn btn-primary' id='num" + nums[j] + 
-    		"' onclick=\"getSearchResults(" + nums[j] + ", " + page + ", '" + query + "')\">" 
+    	if (null != query)
+    		html += "<label class='btn btn-primary' id='num" + nums[j] + 
+    			"' onclick=\"getSearchResults(" + nums[j] + ", " + page + ", '" + query + "')\">"
+    	else
+    		html += "<label class='btn btn-primary' id='num" + nums[j] + 
+			"' onclick=\"getSearchResults(" + nums[j] + ", " + page + ")\">"			
 	    html += "<input type='radio' autocomplete='off'> " + nums[j]
 	    html += "</label>"
     }
