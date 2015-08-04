@@ -203,6 +203,25 @@ function renderBlogJams(html, data) {
 	$("#main").html(html)
 }
 
+function loadMusician(id)
+{
+	clearClasses()
+	$.get("/entity/musicians/" + id, function (data) {
+		var html = "<h1>Musician: " + data.name + "</h1>"
+		if (null != data.link && data.link != "")
+		{
+			html += "Website: <a href='" + data.link + "'>" + data.link + "</a>"
+		}
+		html += "<hr />Appears on collections: <ul>"
+		for (var j=0;j<data.jams.length;j++)
+		{
+			html += "<li><a href='javascript:loadJam(" + data.jams[j].id + ")'>" +
+					data.jams[j].title + "</a></li>"
+		}
+		html += "</ul>"
+	})
+}
+
 function loadRecentJams()
 {
 	clearClasses()
