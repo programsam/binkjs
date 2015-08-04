@@ -366,10 +366,11 @@ function search(size, page, query)
     
     html += "</div></div>"
     html += "<div id='results'></div>"
-  	$(".btn").click(function (element) {
-  		console.log(element)
-  	})
   	$("#main").html(html)
+  	$(".btn").click(function (event) {
+  		var buttonClicked = event.toElement
+  		console.log(buttonClicked.getAttribute("query"))
+  	})
 }
 
 function genPages(size, page, total, query) {
