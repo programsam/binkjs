@@ -368,7 +368,9 @@ function search(size, page, query)
     html += "</div></div>"
     html += "<div id='results'></div>"
   	$("#main").html(html)
-  	$(".btn").setAttribute("query", query)
+  	$(".btn").forEach(function (element, index, array) {
+  		element.setAttribute("query", query)
+  	})
   	$(".btn").click(function (event) {
   		var buttonClicked = event.toElement
   		console.log(buttonClicked.getAttribute("query"))
