@@ -855,7 +855,7 @@ app.get('/search/:size/:page/:query', function (req, res) {
 		page = parseInt(req.params.page)
 	}
 	var offset = page * size
-	var query = req.params.query
+	var query = "%" + req.params.query + "%"
 	
 	var client = sql();
 	var toRet = {"page": page, "size": size}
