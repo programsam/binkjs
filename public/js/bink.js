@@ -527,7 +527,7 @@ function loadJam(id)
 		if (thisjam.hasOwnProperty("location"))
 		{
 			html += "<a href='javascript:loadLocation(" + thisjam.location.id + ")'>" + 
-			thisjam.location.name + "</a>
+			thisjam.location.name + "</a>"
 		}
 		html += "</h4>"
 		var hasMap = false;
