@@ -548,6 +548,35 @@ app.get('/entity/:type/:id', function(req, res) {
 							client.end()
 						}) //query	
 					}
+					else if (req.params.type == "locations")
+					{
+						var client2 = sql()
+						client2.query("select jams.id as id, jams.title as title from jams, " +
+								"locations where locations.id = jams.locid and locations.id = ?",
+							[req.params.id],
+							function(err, jams, fields) {
+							if (err) //error while getting the item
+							{
+								console.log("ERROR: " + err)
+								client2.end()
+							}
+							else //no error
+							{
+								if (jams.length > 0) //there is something in the array, return it
+								{
+									client2.end()
+									entity.jams = jams
+									res.send(entity)
+								}
+								else //nothing in the array, return null
+								{
+									res.send(entity)
+									client2.end()
+								}
+							} //else
+							client.end()
+						}) //query	
+					}
 					else
 					{
 						res.send(entity)
