@@ -371,7 +371,7 @@ function search(size, page, query)
   	var buttons = $(".btn")
   	for (var i=0;i<buttons.length;i++)
   	{
-  		buttons[i].setElement("query", query)
+  		buttons[i].setAttribute("query", query)
   		buttons[i].click(function (event) {
 	  	  	var buttonClicked = event.toElement
 	  	  	console.log(buttonClicked.getAttribute("query"))
