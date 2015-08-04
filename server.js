@@ -27,11 +27,6 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
 })
 
-function getMusicianJams(id, musician)
-{
-	
-}
-
 function getJamMusicians(thisjam, overallCallback)
 {
 	var client = sql();
@@ -526,7 +521,7 @@ app.get('/entity/:type/:id', function(req, res) {
 					if (req.params.type == "musicians")
 					{
 						var client2 = sql()
-						client2.query("select distinct jams.title as title, jams.id as jamid from musiciansoncollection, " +
+						client2.query("select distinct jams.title as title, jams.id as id from musiciansoncollection, " +
 								"jams, musicians where musicians.id = ? and jams.id = musiciansoncollection.jamid and " +
 								"musiciansoncollection.musicianid = musicians.id",
 							[req.params.id],
