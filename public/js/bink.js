@@ -366,7 +366,9 @@ function search(size, page, query)
     
     html += "</div></div>"
     html += "<div id='results'></div>"
-  	
+  	$(".btn").click(function (element) {
+  		console.log(element)
+  	})
   	$("#main").html(html)
 }
 
