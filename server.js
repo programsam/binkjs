@@ -35,7 +35,7 @@ function getMusicianJams(id, musician)
 				"locations where musicians.id = ? and jams.id = musiciansoncollection.jamid and " +
 				"musiciansoncollection.musicianid = musicians.id and musiciansoncollection.instrumentid = " +
 				"instruments.id and jams.locid = locations.id",
-			[req.params.id],
+			[id],
 			function(err, rows, fields) {
 			if (err) //error while getting the item
 			{
