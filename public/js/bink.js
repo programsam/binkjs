@@ -362,10 +362,10 @@ function search(size, page, query)
     {
     	if (query != null)
     		html += "<label class='btn btn-primary' id='num" + nums[j] + "' onclick=\"javascript:getSearchResults(" + 
-    				size + ", " + page + ", '" + query + "')\">"
+    				nums[j] + ", " + page + ", '" + query + "')\">"
     	else
     		html += "<label class='btn btn-primary' id='num" + nums[j] + "' onclick=\"javascript:getSearchResults(" + 
-				size + ", " + page + ")\">"
+				nums[j] + ", " + page + ")\">"
     					
 	    html += "<input type='radio' autocomplete='off'> " + nums[j]
 	    html += "</label>"
