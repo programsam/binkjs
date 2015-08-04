@@ -27,6 +27,35 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
 })
 
+function getMusicianJams(id, musician)
+{
+	client.query("select jams.title as title, jams.date as date, jams.id as jamid, instruments.name as " +
+				"instrument, locations.name as location from musiciansoncollection, jams, musicians, instruments, " +
+				"locations where musicians.id = ? and jams.id = musiciansoncollection.jamid and " +
+				"musiciansoncollection.musicianid = musicians.id and musiciansoncollection.instrumentid = " +
+				"instruments.id and jams.locid = locations.id",
+			[req.params.id],
+			function(err, rows, fields) {
+			if (err) //error while getting the item
+			{
+				console.log("ERROR: " + err)
+				client.end()
+			}
+			else //no error
+			{
+				if (rows.length > 0) //there is something in the array, return it
+				{
+					client.end()
+					musician.jams = rows
+				}
+				else //nothing in the array, return null
+				{
+					client.end()
+				}
+			} //else
+		}) //query	
+}
+
 function getJamMusicians(thisjam, overallCallback)
 {
 	var client = sql();
@@ -506,10 +535,19 @@ app.get('/entity/:type/:id', function(req, res) {
 			}
 			else //no error
 			{
-				if (rows.length > 0) //there is something in the array, return it
+				if (rows.length > 1) //there is something in the array, return it
 				{
 					client.end()
-					res.send(rows)
+					res.send("More than one entity matches that ID! WHAT?")
+				}
+				else if (rows.length == 1)
+				{
+					var entity = rows[0]
+					if (req.params.type == "musician")
+					{
+						getMusicianJams(req.params.id, entity)
+						res.send(entity)
+					}
 				}
 				else //nothing in the array, return null
 				{
