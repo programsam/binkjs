@@ -580,7 +580,7 @@ app.get('/entity/:type/:id', function(req, res) {
 					else if (req.params.type == "bands")
 					{
 						var client2 = sql()
-						client2.query("select bands.id as id, bands.name as name from jams, " +
+						client2.query("select jams.id as id, jams.title as title from jams, " +
 								"bands where bands.id = jams.bandid and bands.id = ?",
 							[req.params.id],
 							function(err, jams, fields) {
