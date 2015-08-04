@@ -196,7 +196,7 @@ function getJamStaff(thisjam, overallCallback)
 {
 	var client = sql();
 	var mystaff = []
-	client.query("SELECT productiononcollection.jamid, productiononcollection.staffid, " +
+	client.query("SELECT productiononcollection.jamid, productiononcollection.staffid as id, " +
 				 "productiononcollection.roleid, staff.name as staffname, roles.name as rolename " +  
 				 "FROM productiononcollection, staff, roles where staff.id = productiononcollection.staffid " + 
 				 "and roles.id = productiononcollection.roleid " +
@@ -224,6 +224,7 @@ function getJamStaff(thisjam, overallCallback)
 					 if (found == false)
 					 {
 						 var staff = {"name":thisstaff.staffname,
+								 "id": thisstaff.id,
 								 "roles": [thisstaff.rolename]}
 						 mystaff.push(staff)
 					 }
