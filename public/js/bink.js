@@ -433,7 +433,7 @@ function genPages(size, page, total, query) {
 }
 
 function searchCallback( data ) {
-	if (data.length > 0)
+	if (JSON.parse(data).length > 0)
 	{
 		var html = "<table class='table table-bordered'>";
 		html += "<tr>"
