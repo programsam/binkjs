@@ -487,6 +487,32 @@ app.get('/playlist', function(req, res) {
 	res.send(JSON.stringify(req.session.playlist))
 })
 
+app.get('/entity/:type/:id', function(req, res) {
+	var client = sql();
+	client.query("SELECT * from ? where id = ?",
+		[req.params.type, req.params.id]
+		function(err, rows, fields) {
+		if (err) //error while getting the item
+		{
+			console.log("ERROR: " + err)
+			client.end()
+		}
+		else //no error
+		{
+			if (rows.length > 0) //there is something in the array, return it
+			{
+				client.end()
+				res.send(rows)
+			}
+			else //nothing in the array, return null
+			{
+				client.end()
+				res.send("[]")
+			}
+		} //else
+	}) //query
+})
+
 app.get('/timelineData', function(req, res) {
 	var client = sql();
 	client.query("SELECT id, title as content, date as start from jams", 
