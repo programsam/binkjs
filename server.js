@@ -36,9 +36,12 @@ function getJamMusicians(thisjam, overallCallback)
 {
 	var client = sql();
 	var mymusicians = []
-	client.query("SELECT musiciansoncollection.musicianid, musiciansoncollection.jamid, musiciansoncollection.instrumentid, " +
-			"musicians.name as musicianname, instruments.name as instrumentname FROM musiciansoncollection, musicians, " +
-			"instruments where instruments.id = musiciansoncollection.instrumentid and musicians.id = musicianid and " +
+	client.query("SELECT musiciansoncollection.musicianid as musicianid, musiciansoncollection.jamid, " +
+			"musiciansoncollection.instrumentid, " +
+			"musicians.name as musicianname, instruments.name as instrumentname " +
+			"FROM musiciansoncollection, musicians, " +
+			"instruments where instruments.id = musiciansoncollection.instrumentid and musicians.id = " +
+			"musicianid and " +
 			"musiciansoncollection.jamid = ?", [thisjam.id], function(err, musicians, fields) {
 		if (err) //error while getting the item
 		{
@@ -62,7 +65,7 @@ function getJamMusicians(thisjam, overallCallback)
 					 if (found == false)
 					 {
 						 var musician = {"name":thismusician.musicianname,
-								 "id": thismusician.id,
+								 "id": thismusician.musicianid,
 								 "instruments": [thismusician.instrumentname]}
 						 mymusicians.push(musician)
 					 }
