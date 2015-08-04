@@ -382,15 +382,23 @@ function genPages(size, page, total, query) {
 	else
 	{
   		html += "<li>"
+  		if (null != query)
   			html += "<a href=\"javascript:getSearchResults(" + size + "," + (page - 1) + ", '" + query + "')\" aria-label='Previous'>" +
-  					"<span aria-hidden='true'>&laquo;</span>" +
-  					"</a>"
+				"<span aria-hidden='true'>&laquo;</span>" +
+				"</a>"
+		else
+			html += "<a href=\"javascript:getSearchResults(" + size + "," + (page - 1) + ")\" aria-label='Previous'>" +
+				"<span aria-hidden='true'>&laquo;</span>" +
+				"</a>"			
   		html += "</li>"
 	}
   	
   	for (var j=0;j<pageCount;j++)
   	{
+  		if (null != query)
 			html += "<li id='page" + j + "'><a href=\"javascript:getSearchResults(" + size + "," + j + ", '" + query + "')\">" + (j+1) + "</a></li>"
+		else
+			html += "<li id='page" + j + "'><a href=\"javascript:getSearchResults(" + size + "," + j + ")\">" + (j+1) + "</a></li>"
   	}
   	
   	if (page >= (pageCount-1))
@@ -400,9 +408,14 @@ function genPages(size, page, total, query) {
   	else
   	{
 	  	html += "<li>"
-	  		html += "<a href=\"javascript:getSearchResults(" + size + "," + (page + 1) + ", '" + query + "')\" aria-label='Next'>" +
+	  		if (null != query)
+	  			html += "<a href=\"javascript:getSearchResults(" + size + "," + (page + 1) + ", '" + query + "')\" aria-label='Next'>" +
 	  				"<span aria-hidden='true'>&raquo;</span>" + 
 	  				"</a>"
+	  		else
+	  			html += "<a href=\"javascript:getSearchResults(" + size + "," + (page + 1) + ")\" aria-label='Next'>" +
+  				"<span aria-hidden='true'>&raquo;</span>" + 
+  				"</a>"
 	  	html += "</li>"
   	}
 	 html += "</ul>"
