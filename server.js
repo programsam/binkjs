@@ -490,7 +490,7 @@ app.get('/playlist', function(req, res) {
 app.get('/entity/:type/:id', function(req, res) {
 	var client = sql();
 	client.query("SELECT * from ? where id = ?",
-		[req.params.type, req.params.id]
+		[req.params.type, req.params.id],
 		function(err, rows, fields) {
 		if (err) //error while getting the item
 		{
