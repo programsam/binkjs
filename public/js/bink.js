@@ -65,7 +65,9 @@ function enqueue(setTitle, setPath)
 
 function loadTweets() {
 	clearClasses()
-	
+	$.get("/tweets", function(data) {
+		console.log(data)
+	})
 }
 
 function loadTimeline() {
