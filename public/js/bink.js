@@ -355,9 +355,10 @@ function search(size, page, query)
 	getSearchResults(size, page, query)
 	var html = ""
 	html += "<div id='pages'></div>"
-	  	
-
     html += "<div class='panel'><div class='btn-group' data-toggle='buttons'>"
+    	
+    query = query.replace(/"/g, "&#34;");
+	query = query.replace(/'/g, "&#39;");
     for (var j=0;j<nums.length;j++)
     {
     	if (null != query)
