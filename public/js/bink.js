@@ -257,7 +257,7 @@ function loadLocation(id)
 			var marker = new google.maps.Marker({
 			      position: coordinates,
 			      map: map,
-			      title: thisjam.location.name
+			      title: data.name
 			  });
 		}
 	})
