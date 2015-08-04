@@ -722,7 +722,7 @@ function getTotalJams(toRet, callback) {
 
 function getTotalSearchJams(query, toRet, callback) {
 	var client = sql();
-	client.query("SELECT COUNT(*) as num from jams where title like (?)",
+	client.query("SELECT COUNT(*) as num from jams where private = 0 and title like (?)",
 		[query],
 		function(err, rows) {
 		if (err) //error while getting the item
