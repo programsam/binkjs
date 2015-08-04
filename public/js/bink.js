@@ -204,6 +204,26 @@ function renderBlogJams(html, data) {
 	$("#main").html(html)
 }
 
+function loadBand(id)
+{
+	clearClasses()
+	$.get("/entity/bands/" + id, function (data) {
+		var html = "<h1>Band: " + data.name + "</h1>"
+		if (data.link != null && data.link.indexOf("http") == 0)
+		{
+			html += "Website: <a target='_blank' href='" + data.link + "'>" + data.link + "</a>"
+		}
+		html += "<hr />Appears on collections: <ul>"
+		for (var j=0;j<data.jams.length;j++)
+		{
+			html += "<li><a href='javascript:loadJam(" + data.jams[j].id + ")'>" +
+					data.jams[j].title + "</a></li>"
+		}
+		html += "</ul>"
+		$("#main").html(html)
+	})
+}
+
 function loadMusician(id)
 {
 	clearClasses()
@@ -396,7 +416,8 @@ function browseCallback( data ) {
 
 			if (thisjam.hasOwnProperty("band"))
 			{
-				html += "<td>" + thisjam.band.name + "</td>"
+				html += "<td><a href='javascript:loadBand(" + thisjam.band.id + ")'>" + 
+				thisjam.band.name + "</a></td>"
 			}
 			else
 			{

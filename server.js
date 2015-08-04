@@ -577,6 +577,35 @@ app.get('/entity/:type/:id', function(req, res) {
 							client.end()
 						}) //query	
 					}
+					else if (req.params.type == "bands")
+					{
+						var client2 = sql()
+						client2.query("select bands.id as id, bands.name as name from jams, " +
+								"bands where bands.id = jams.bandid and bands.id = ?",
+							[req.params.id],
+							function(err, jams, fields) {
+							if (err) //error while getting the item
+							{
+								console.log("ERROR: " + err)
+								client2.end()
+							}
+							else //no error
+							{
+								if (jams.length > 0) //there is something in the array, return it
+								{
+									client2.end()
+									entity.jams = jams
+									res.send(entity)
+								}
+								else //nothing in the array, return null
+								{
+									res.send(entity)
+									client2.end()
+								}
+							} //else
+							client.end()
+						}) //query	
+					}
 					else
 					{
 						res.send(entity)
