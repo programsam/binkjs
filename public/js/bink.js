@@ -361,8 +361,8 @@ function search(size, page, query)
     {
     	if (query != null)
     	{
-    		query = query.replace(/"/g, '')
-    	    query = query.replace(/'/g, '')
+    		query = query.replace(/"/g, '\\\"')
+    	    query = query.replace(/'/g, '\\\'')
     		html += "<label class='btn btn-primary' id='num" + nums[j] + "' onclick=\"javascript:getSearchResults(" + 
     				nums[j] + ", " + page + ", '" + query + "')\">"
     	}
