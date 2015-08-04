@@ -358,12 +358,13 @@ function search(size, page, query)
     html += "<div class='panel'><div class='btn-group' data-toggle='buttons'>"
     
     query = query.replace(/"/g, "")
+    query = query.replace(/'/g, "")
     
     for (var j=0;j<nums.length;j++)
     {
     	if (query != null)
     		html += "<label class='btn btn-primary' id='num" + nums[j] + "' onclick=\"javascript:getSearchResults(" + 
-    				nums[j] + ", " + page + ", \"" + query + "\")\">"
+    				nums[j] + ", " + page + ", '" + query + "\")'>"
     	else
     		html += "<label class='btn btn-primary' id='num" + nums[j] + "' onclick=\"javascript:getSearchResults(" + 
 				nums[j] + ", " + page + ")\">"
