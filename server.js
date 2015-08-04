@@ -527,7 +527,7 @@ app.get('/entity/:type/:id', function(req, res) {
 								"locations where musicians.id = ? and jams.id = musiciansoncollection.jamid and " +
 								"musiciansoncollection.musicianid = musicians.id and musiciansoncollection.instrumentid = " +
 								"instruments.id and jams.locid = locations.id",
-							[id],
+							[req.params.id],
 							function(err, jams, fields) {
 							if (err) //error while getting the item
 							{
