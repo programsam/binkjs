@@ -356,10 +356,11 @@ function search(size, page, query)
 	var html = ""
 	html += "<div id='pages'></div>"
     html += "<div class='panel'><div class='btn-group' data-toggle='buttons'>"
-    	
+    
+    
     for (var j=0;j<nums.length;j++)
     {
-    	html += "<label class='btn btn-primary' id='num" + nums[j] + "' number=" + nums[j] + " page=" + page + " query=\"" + query + "\" >"			
+    	html += "<label class='btn btn-primary' id='num" + nums[j] + "' number=" + nums[j] + " page=" + page + ">"			
 	    html += "<input type='radio' autocomplete='off'> " + nums[j]
 	    html += "</label>"
     }
@@ -367,6 +368,7 @@ function search(size, page, query)
     html += "</div></div>"
     html += "<div id='results'></div>"
   	$("#main").html(html)
+  	$(".btn").setAttribute("query", query)
   	$(".btn").click(function (event) {
   		var buttonClicked = event.toElement
   		console.log(buttonClicked.getAttribute("query"))
