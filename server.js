@@ -860,7 +860,51 @@ app.get('/search/:size/:page/:query', function (req, res) {
 	var toRet = {"page": page, "size": size}
 	getTotalJams(toRet)
 	client.query("SELECT * from jams where private = 0 and title like (?) order by date desc limit ?,?",
-			[query, offset, size], handleSearchResults)
+				[query, offset, size], function (err, jams) {
+					  if (err)
+					  {
+						  console.log("ERROR Getting recent jams: " + err)
+						  res.status(500).end()
+						  client.end()
+					  }
+					  else
+					  {
+						  async.forEach(jams, function(thisjam, mainCallback) {
+							async.series([
+							    function(callback)
+							    {
+							    	getBand(thisjam, callback)
+							    },
+							    function(callback)
+							    {
+							    	getLocation(thisjam, callback)
+							    },
+							    function(callback)
+							    {
+							    	hasTracks(thisjam, callback)
+							    },
+							    function(callback)
+							    {
+							    	hasVids(thisjam, callback)
+							    },
+							    function(callback)
+							    {
+							    	hasPics(thisjam, callback)
+							    }
+							],
+							function (err, results) {
+								mainCallback()
+							})
+					  }, //got everything, return now
+					  function (err)
+					  {
+						  toRet.results = jams
+						  res.send(toRet)
+						  client.end()
+					  }
+					  ) //jams are done
+				  	} //else the database command was successful
+				}) //client.query
 }) //get /recent
 
 app.get('/search/:size/:page', function (req, res) {
@@ -881,54 +925,55 @@ app.get('/search/:size/:page', function (req, res) {
 	var toRet = {"page": page, "size": size}
 	getTotalJams(toRet)
 	client.query("SELECT * from jams where private = 0 order by date desc limit ?,?", 
-				[offset, size], handleSearchResults)
+				[offset, size], 
+				function(err, jams) {
+					  if (err)
+					  {
+						  console.log("ERROR Getting recent jams: " + err)
+						  res.status(500).end()
+						  client.end()
+					  }
+					  else
+					  {
+						  async.forEach(jams, function(thisjam, mainCallback) {
+							async.series([
+							    function(callback)
+							    {
+							    	getBand(thisjam, callback)
+							    },
+							    function(callback)
+							    {
+							    	getLocation(thisjam, callback)
+							    },
+							    function(callback)
+							    {
+							    	hasTracks(thisjam, callback)
+							    },
+							    function(callback)
+							    {
+							    	hasVids(thisjam, callback)
+							    },
+							    function(callback)
+							    {
+							    	hasPics(thisjam, callback)
+							    }
+							],
+							function (err, results) {
+								mainCallback()
+							})
+					  }, //got everything, return now
+					  function (err)
+					  {
+						  toRet.results = jams
+						  res.send(toRet)
+						  client.end()
+					  }
+					  ) //jams are done
+				  	} //else the database command was successful
+				} //client.query)
 }) //get /recent
 
-function handleSearchResults(err, jams) {
-	  if (err)
-	  {
-		  console.log("ERROR Getting recent jams: " + err)
-		  res.status(500).end()
-		  client.end()
-	  }
-	  else
-	  {
-		  async.forEach(jams, function(thisjam, mainCallback) {
-			async.series([
-			    function(callback)
-			    {
-			    	getBand(thisjam, callback)
-			    },
-			    function(callback)
-			    {
-			    	getLocation(thisjam, callback)
-			    },
-			    function(callback)
-			    {
-			    	hasTracks(thisjam, callback)
-			    },
-			    function(callback)
-			    {
-			    	hasVids(thisjam, callback)
-			    },
-			    function(callback)
-			    {
-			    	hasPics(thisjam, callback)
-			    }
-			],
-			function (err, results) {
-				mainCallback()
-			})
-	  }, //got everything, return now
-	  function (err)
-	  {
-		  toRet.results = jams
-		  res.send(toRet)
-		  client.end()
-	  }
-	  ) //jams are done
-  	} //else the database command was successful
-} //client.query
+
 
 app.use(express.static(__dirname + '/public'));
 
