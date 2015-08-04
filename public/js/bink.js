@@ -348,7 +348,7 @@ function getSearchResults(size, page, query)
 	}
 }
 
-var nums = [3, 5, 10, 25, 50, 100]
+var nums = [3, 5, 10, 25, 50]
 function search(size, page, query)
 {
 	clearClasses()
