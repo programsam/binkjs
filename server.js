@@ -720,6 +720,35 @@ function getTotalJams(toRet, callback) {
 	}) //query
 }
 
+function getTotalSearchJams(query, toRet, callback) {
+	var client = sql();
+	client.query("SELECT COUNT(*) as num from jams where title like (?)",
+		[query],
+		function(err, rows) {
+		if (err) //error while getting the item
+		{
+			console.log("ERROR: " + err)
+			client.end()
+		}
+		else //no error
+		{
+			if (rows.length > 0) //there is something in the array, return it
+			{
+				client.end()
+				toRet.total = rows[0].num
+				if (null != callback)
+					callback()
+			}
+			else //nothing in the array, return null
+			{
+				client.end()
+				if (null != callback)
+					callback()
+			}
+		} //else
+	}) //query
+}
+
 app.get('/total/jams', function (req, res) {
 	toRet = {}
 	async.series([
@@ -841,7 +870,6 @@ app.get('/mapdata', function(req, res) {
 	}) //query
 })
 
-
 app.get('/search/:size/:page/:query', function (req, res) {
 	res.set('Content-Type','application/json')
 	var size = 10
@@ -859,7 +887,7 @@ app.get('/search/:size/:page/:query', function (req, res) {
 	
 	var client = sql();
 	var toRet = {"page": page, "size": size, "query": req.params.query}
-	getTotalJams(toRet)
+	getTotalSearchJams(query, toRet)
 	client.query("SELECT * from jams where private = 0 and title like (?) order by date desc limit ?,?",
 				[query, offset, size], function (err, jams) {
 					  if (err)
