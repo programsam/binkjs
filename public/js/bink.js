@@ -175,7 +175,8 @@ function renderBlogJams(html, data) {
 		html += "<div class='pull-right'>"
 		if (thisjam.hasOwnProperty("band"))
 		{
-			html += thisjam.band.name
+			"<a href='javascript:loadBand(" + thisjam.band.id + ")'>" + 
+			thisjam.band.name + "</a>"
 		}
 		if (thisjam.hasOwnProperty("band") && thisjam.hasOwnProperty("location"))
 		{
