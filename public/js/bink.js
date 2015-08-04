@@ -245,6 +245,7 @@ function loadLocation(id)
 					data.jams[j].title + "</a></li>"
 		}
 		html += "</ul>"
+		$("#main").html(html)
 		if (hasMap)
 		{
 			var coordinates = new google.maps.LatLng(parseFloat(data.lat), parseFloat(data.lon));
@@ -259,7 +260,6 @@ function loadLocation(id)
 			      title: thisjam.location.name
 			  });
 		}
-		$("#main").html(html)
 	})
 }
 
