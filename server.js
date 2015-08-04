@@ -538,6 +538,25 @@ app.get('/entity/:type/:id', function(req, res) {
 							{
 								if (jams.length > 0) //there is something in the array, return it
 								{
+									var prevId = -1
+									var result = []
+									var thisjam = null
+									for (var j=0;j<jams.length;j++)
+									{
+										if (prevId != jams[j].id)
+										{
+											if (null != thisjam)
+											{
+												result.push(thisjam)
+											}
+											thisjam = jams[j]
+											thisjam.instruments = [jams[j].instrument]
+										}
+										else
+										{
+											thisjam.instruments.push(jams[j].instrument)
+										}
+									}
 									client2.end()
 									entity.jams = jams
 									console.log("Rows found. Returning.")
