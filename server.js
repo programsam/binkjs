@@ -6,6 +6,7 @@ var mysql		= require('mysql');
 var async		= require('async');
 var bodyParser 	= require('body-parser')
 var settings	= require('./settings.json')
+var twitter		= require('twitter')
 
 function sql() {
 	return client = mysql.createClient(settings.mysql);
@@ -596,6 +597,10 @@ app.get('/history', function(req, res) {
 
 app.get('/api/maps/key', function (req,res) {
 	res.send(settings.maps)
+})
+
+app.get('/tweets', function (req, res) {
+	var twitter = new twitter(settings.twitter)
 })
 
 app.get('/mapdata', function(req, res) {
