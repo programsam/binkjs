@@ -546,16 +546,20 @@ app.get('/entity/:type/:id', function(req, res) {
 				else if (rows.length == 1)
 				{
 					var entity = rows[0]
-					if (req.params.type == "musician")
+					if (req.params.type == "musicians")
 					{
 						getMusicianJams(req.params.id, entity)
+						res.send(entity)
+					}
+					else
+					{
 						res.send(entity)
 					}
 				}
 				else //nothing in the array, return null
 				{
 					client.end()
-					res.send("[]")
+					res.send("{}")
 				}
 			} //else
 		}) //query
