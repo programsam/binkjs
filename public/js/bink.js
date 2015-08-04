@@ -140,7 +140,7 @@ function historicCallback(data) {
 	else
 	{
 		html += "<em>There were no collections that happened today in previous years.</em>"
-		$("#m").html(html)
+		$("#main").html(html)
 	}	
 }
 
