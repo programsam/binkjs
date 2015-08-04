@@ -551,6 +551,7 @@ app.get('/entity/:type/:id', function(req, res) {
 											}
 											thisjam = jams[j]
 											thisjam.instruments = [jams[j].instrument]
+											prevId = thisjam.id
 										}
 										else
 										{
