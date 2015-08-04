@@ -506,7 +506,8 @@ function loadJam(id)
 			html += "<div class='panel panel-default'><div class='panel-heading'>Musicians</div>"
 			html += "<ul class='list-group'>"
 			thisjam.musicians.forEach(function (musician, mi, ma) {
-				html += "<li class='list-group-item'>" + musician.name + " - "
+				html += "<li class='list-group-item'><a href='javascript:loadMusician(" +
+						musician.id + ")'>" + musician.name + "</a> - "
 				musician.instruments.forEach(function (instrument, instindex, instarray) {
 					if (instindex == (instarray.length - 1))
 					{
