@@ -433,83 +433,89 @@ function genPages(size, page, total, query) {
 }
 
 function searchCallback( data ) {
+	if (data.length > 0)
+	{
+		var html = "<table class='table table-bordered'>";
+		html += "<tr>"
+		html += "<th><span style='cursor: pointer' class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></th>"
+		html += "<th>Date</th><th>Title</th><th>Band</th><th>Location</th>"
+		html += "<th><span class='glyphicon glyphicon-music' aria-hidden='true'></span></th>"
+		html += "<th><span class='glyphicon glyphicon-picture' aria-hidden='true'></span></th>"
+		html += "<th><span class='glyphicon glyphicon-facetime-video' aria-hidden='true'></span></th>"
+		html += "</tr>"
+		data.results.forEach(function (thisjam, index, array) {
+	  			var d = new Date(thisjam.date)
+	  			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
+				html += "<tr>"
+				
+				html += "<td><span onclick='loadJam(" + thisjam.id + ")' style='cursor: pointer' class='glyphicon glyphicon-folder-open'" +
+						" aria-hidden='true'></span></td>"
+				
+				html += "<td>" + mydate + "</td>"
+				html += "<td><a href='javascript:loadJam(" + thisjam.id + ")'>" + thisjam.title + "</a></td>"
 	
-	var html = "<table class='table table-bordered'>";
-	html += "<tr>"
-	html += "<th><span style='cursor: pointer' class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></th>"
-	html += "<th>Date</th><th>Title</th><th>Band</th><th>Location</th>"
-	html += "<th><span class='glyphicon glyphicon-music' aria-hidden='true'></span></th>"
-	html += "<th><span class='glyphicon glyphicon-picture' aria-hidden='true'></span></th>"
-	html += "<th><span class='glyphicon glyphicon-facetime-video' aria-hidden='true'></span></th>"
-	html += "</tr>"
-	data.results.forEach(function (thisjam, index, array) {
-  			var d = new Date(thisjam.date)
-  			var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
-			html += "<tr>"
-			
-			html += "<td><span onclick='loadJam(" + thisjam.id + ")' style='cursor: pointer' class='glyphicon glyphicon-folder-open'" +
-					" aria-hidden='true'></span></td>"
-			
-			html += "<td>" + mydate + "</td>"
-			html += "<td><a href='javascript:loadJam(" + thisjam.id + ")'>" + thisjam.title + "</a></td>"
-
-			if (thisjam.hasOwnProperty("band"))
-			{
-				html += "<td><a href='javascript:loadBand(" + thisjam.band.id + ")'>" + 
-				thisjam.band.name + "</a></td>"
-			}
-			else
-			{
-				html += "<td></td>"
-			}
-
-			if (thisjam.hasOwnProperty("location"))
-			{
-				html += "<td><a href='javascript:loadLocation(" + thisjam.location.id + ")'>" + 
-						thisjam.location.name + "</a></td>"
-			}
-			else
-			{
-				html += "<td></td>"
-			}
-
-			if (thisjam.hasTracks)
-			{
-				html += "<td><span class='glyphicon glyphicon-music' aria-hidden='true'></td>"
-			}
-			else
-			{
-				html += "<td></td>"
-			}
-			
-			if (thisjam.hasPics)
-			{
-				html += "<td><span class='glyphicon glyphicon-picture' aria-hidden='true'></td>"
-			}
-			else
-			{
-				html += "<td></td>"
-			}
-			
-			if (thisjam.hasVids)
-			{
-				html += "<td><span class='glyphicon glyphicon-facetime-video' aria-hidden='true'></td>"
-			}
-			else
-			{
-				html += "<td></td>"
-			}
-  		})
-  	html += "</table>"
-
-  	$("#results").html(html)
+				if (thisjam.hasOwnProperty("band"))
+				{
+					html += "<td><a href='javascript:loadBand(" + thisjam.band.id + ")'>" + 
+					thisjam.band.name + "</a></td>"
+				}
+				else
+				{
+					html += "<td></td>"
+				}
+	
+				if (thisjam.hasOwnProperty("location"))
+				{
+					html += "<td><a href='javascript:loadLocation(" + thisjam.location.id + ")'>" + 
+							thisjam.location.name + "</a></td>"
+				}
+				else
+				{
+					html += "<td></td>"
+				}
+	
+				if (thisjam.hasTracks)
+				{
+					html += "<td><span class='glyphicon glyphicon-music' aria-hidden='true'></td>"
+				}
+				else
+				{
+					html += "<td></td>"
+				}
+				
+				if (thisjam.hasPics)
+				{
+					html += "<td><span class='glyphicon glyphicon-picture' aria-hidden='true'></td>"
+				}
+				else
+				{
+					html += "<td></td>"
+				}
+				
+				if (thisjam.hasVids)
+				{
+					html += "<td><span class='glyphicon glyphicon-facetime-video' aria-hidden='true'></td>"
+				}
+				else
+				{
+					html += "<td></td>"
+				}
+	  		})
+	  	html += "</table>"
+	
+	  	$("#results").html(html)
+	  	genPages(data.size, data.page, data.total, data.query)
+	}
+	else
+	{
+		$("#results").html("<em>There were no collections that match your query</em>")
+	}
+	
   	for (var j=0;j<nums.length;j++)
 	{
 		$("#num" + nums[j]).removeClass("active")
 	}
 	$("#num" + data.size).addClass("active")
-	
-	genPages(data.size, data.page, data.total, data.query)
 }
 
 function clearClasses()
