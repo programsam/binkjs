@@ -9,7 +9,14 @@ $(document).ready(function(){
    $("a#mapButton").click(loadMap)
    $("a#timelineButton").click(loadTimeline)
    $("a#twitterButton").click(loadTweets)
-
+   $( "input#search" ).keypress(function( event ) {
+		if ( event.which == 13 ) {
+			event.preventDefault();
+			search = $("input#search")
+			console.log(search.val())
+		}  
+	})
+	  
    loadRecentJams()
    loadPlaylist()
    
