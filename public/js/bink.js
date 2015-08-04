@@ -374,7 +374,9 @@ function search(size, page, query)
   		buttons[i].setAttribute("query", query)
   		buttons[i].click(function (event) {
 	  	  	var buttonClicked = event.toElement
-	  	  	console.log(buttonClicked.getAttribute("query"))
+	  	  	getSearchResults(buttonClicked.getAttribute("size"), 
+	  	  					buttonClick.getAttribute("page"),
+	  	  					buttonClick.getAttribute("query"))
 	  	})
   	}
 }
