@@ -600,7 +600,9 @@ app.get('/api/maps/key', function (req,res) {
 })
 
 app.get('/tweets', function (req, res) {
-	var twitter = new twitter(settings.twitter)
+	var client = new twitter(settings.twitter)
+	console.log(settings.twitter)
+	res.send("{}")
 })
 
 app.get('/mapdata', function(req, res) {
