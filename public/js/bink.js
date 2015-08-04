@@ -368,13 +368,15 @@ function search(size, page, query)
     html += "</div></div>"
     html += "<div id='results'></div>"
   	$("#main").html(html)
-  	$(".btn").forEach(function (element, index, array) {
-  		element.setAttribute("query", query)
-  	})
-  	$(".btn").click(function (event) {
-  		var buttonClicked = event.toElement
-  		console.log(buttonClicked.getAttribute("query"))
-  	})
+  	var buttons = $(".btn")
+  	for (var i=0;i<buttons.length;i++)
+  	{
+  		buttons[i].setElement("query", query)
+  		buttons[i].click(function (event) {
+	  	  	var buttonClicked = event.toElement
+	  	  	console.log(buttonClicked.getAttribute("query"))
+	  	})
+  	}
 }
 
 function genPages(size, page, total, query) {
