@@ -245,6 +245,22 @@ function loadMusician(id)
 	})
 }
 
+function loadStaff(id)
+{
+	clearClasses()
+	$.get("/entity/staff/" + id, function (data) {
+		var html = "<h1>Staff: " + data.name + "</h1>"
+		html += "<hr />Appears on collections: <ul>"
+		for (var j=0;j<data.jams.length;j++)
+		{
+			html += "<li><a href='javascript:loadJam(" + data.jams[j].id + ")'>" +
+					data.jams[j].title + "</a></li>"
+		}
+		html += "</ul>"
+		$("#main").html(html)
+	})
+}
+
 function loadLocation(id)
 {
 	clearClasses()
