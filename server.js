@@ -522,11 +522,9 @@ app.get('/entity/:type/:id', function(req, res) {
 					if (req.params.type == "musicians")
 					{
 						var client2 = sql()
-						client2.query("select jams.title as title, jams.date as date, jams.id as jamid, instruments.name as " +
-								"instrument, locations.name as location from musiciansoncollection, jams, musicians, instruments, " +
-								"locations where musicians.id = ? and jams.id = musiciansoncollection.jamid and " +
-								"musiciansoncollection.musicianid = musicians.id and musiciansoncollection.instrumentid = " +
-								"instruments.id and jams.locid = locations.id",
+						client2.query("select distinct jams.title as title, jams.id as jamid from musiciansoncollection, " +
+								"jams, musicians where musicians.id = ? and jams.id = musiciansoncollection.jamid and " +
+								"musiciansoncollection.musicianid = musicians.id",
 							[req.params.id],
 							function(err, jams, fields) {
 							if (err) //error while getting the item
@@ -538,36 +536,12 @@ app.get('/entity/:type/:id', function(req, res) {
 							{
 								if (jams.length > 0) //there is something in the array, return it
 								{
-									var result = []
-									var thisjam = null
-									for (var j=0;j<jams.length;j++)
-									{
-										if (null != thisjam && thisjam.id != jams[j].id)
-										{
-											result.push(thisjam)
-											thisjam = jams[j]
-											thisjam.instrument = null
-											thisjam.instruments = [jams[j].instrument]
-										}
-										else if (null == thisjam)
-										{
-											thisjam = jams[j]
-											thisjam.instrument = null
-											thisjam.instruments = [jams[j].instrument]
-										}
-										else
-										{
-											thisjam.instruments.push(jams[j].instrument)
-										}
-									}
 									client2.end()
 									entity.jams = jams
-									console.log("Rows found. Returning.")
 									res.send(entity)
 								}
 								else //nothing in the array, return null
 								{
-									console.log("No rows.")
 									res.send(entity)
 									client2.end()
 								}
