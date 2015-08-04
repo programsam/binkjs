@@ -538,20 +538,22 @@ app.get('/entity/:type/:id', function(req, res) {
 							{
 								if (jams.length > 0) //there is something in the array, return it
 								{
-									var prevId = -1
 									var result = []
 									var thisjam = null
 									for (var j=0;j<jams.length;j++)
 									{
-										if (prevId != jams[j].id)
+										if (null != thisjam && thisjam.id != jams[j].id)
 										{
-											if (null != thisjam)
-											{
-												result.push(thisjam)
-											}
+											result.push(thisjam)
 											thisjam = jams[j]
+											thisjam.instrument = null
 											thisjam.instruments = [jams[j].instrument]
-											prevId = thisjam.id
+										}
+										else if (null == thisjam)
+										{
+											thisjam = jams[j]
+											thisjam.instrument = null
+											thisjam.instruments = [jams[j].instrument]
 										}
 										else
 										{
