@@ -1,53 +1,56 @@
 var lastOpenMarker = null;
 
 $(document).ready(function(){
-   $("a#recentButton").click(loadRecentJams)
-   $("a#browseButton").click(function() { 
-	   browse(10, 0);
-   })
-   $("a#historyButton").click(loadHistoricJams)
-   $("a#mapButton").click(loadMap)
-   $("a#timelineButton").click(loadTimeline)
-   $("a#twitterButton").click(loadTweets)
-   $( "input#search" ).keypress(function( event ) {
+	
+	$('a.navbarlink').click(function() {
+		$('#navbar').collapse('hide')
+	});
+	
+	$("a#recentButton").click(loadRecentJams)
+	$("a#browseButton").click(function() { 
+		browse(10, 0);
+	})
+	$("a#historyButton").click(loadHistoricJams)
+	$("a#mapButton").click(loadMap)
+	$("a#timelineButton").click(loadTimeline)
+	$("a#twitterButton").click(loadTweets)
+	$( "input#search" ).keypress(function( event ) {
 		if ( event.which == 13 ) {
 			event.preventDefault();
 			search = $("input#search")
 			console.log(search.val())
 		}  
 	})
+	$("#playlistButton").click( function () {
+		$("#sidebar-wrapper").collapse('toggle')
+	})
 	  
-   loadRecentJams()
-   loadPlaylist()
+	loadRecentJams()
+	loadPlaylist()
    
-  $("#jquery_jplayer_1").jPlayer({
-    cssSelectorAncestor: "#jp_container_1",
-    swfPath: "/js",
-    supplied: "mp3",
-    useStateClassSkin: true,
-    autoBlur: false,
-    smoothPlayBar: true,
-    keyEnabled: true,
-    remainingDuration: true,
-    toggleDuration: true
-  });
-  
-$('#sidebar-wrapper').on('hidden.bs.collapse', function () {
-	$( "#main" ).css( "padding-left", function( paddingleft ) {
-  		return 40;
+	$("#jquery_jplayer_1").jPlayer({
+		cssSelectorAncestor: "#jp_container_1",
+		swfPath: "/js",
+		supplied: "mp3",
+		useStateClassSkin: true,
+		autoBlur: false,
+		smoothPlayBar: true,
+		keyEnabled: true,
+		remainingDuration: true,
+		toggleDuration: true
 	});
-})
+  
+	$('#sidebar-wrapper').on('hidden.bs.collapse', function () {
+		$( "#main" ).css( "padding-left", function( paddingleft ) {
+	  		return 40;
+		});
+	})
 
-$('#sidebar-wrapper').on('shown.bs.collapse', function () {
-  	$( "#main" ).css( "padding-left", function( paddingleft ) {
-  		return 265;
-	});
-})
-  
-  $("#playlistButton").click( function () {
-  	$("#sidebar-wrapper").collapse('toggle')
-  })
-  
+	$('#sidebar-wrapper').on('shown.bs.collapse', function () {
+	  	$( "#main" ).css( "padding-left", function( paddingleft ) {
+	  		return 265;
+		});
+	})
 })
 
 function enqueue(setTitle, setPath)
