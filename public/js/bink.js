@@ -609,7 +609,8 @@ function loadJam(id)
 			html += "<div class='panel panel-default'><div class='panel-heading'>Staff</div>"
 			html += "<ul class='list-group'>"
 			thisjam.staff.forEach(function (staff, staffi, staffa) {
-				html += "<li class='list-group-item'>" + staff.name + " - "
+				html += "<li class='list-group-item'><a href='javascript:loadStaff(" + staff.id + ")'>" + 
+						staff.name + "</a> - "
 				staff.roles.forEach(function (role, roleindex, rolearray) {
 					if (roleindex == (rolearray.length - 1))
 					{
