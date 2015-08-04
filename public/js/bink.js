@@ -360,7 +360,13 @@ function search(size, page, query)
     
     for (var j=0;j<nums.length;j++)
     {
-    	html += "<label class='btn btn-primary' id='num" + nums[j] + "' number=" + nums[j] + " page=" + page + ">"			
+    	if (query != null)
+    		html += "<label class='btn btn-primary' id='num" + nums[j] + "' onclick=\"getSearchResults(" + 
+    				size + ", " + page + ", '" + query + "')\">"
+    	else
+    		html += "<label class='btn btn-primary' id='num" + nums[j] + "' onclick=\"getSearchResults(" + 
+				size + ", " + page + ")\">"
+    					
 	    html += "<input type='radio' autocomplete='off'> " + nums[j]
 	    html += "</label>"
     }
@@ -368,17 +374,6 @@ function search(size, page, query)
     html += "</div></div>"
     html += "<div id='results'></div>"
   	$("#main").html(html)
-  	var buttons = $(".btn")
-  	for (var i=0;i<buttons.length;i++)
-  	{
-  		buttons[i].setAttribute("query", query)
-  		buttons[i].click(function (event) {
-	  	  	var buttonClicked = event.toElement
-	  	  	getSearchResults(buttonClicked.getAttribute("size"), 
-	  	  					buttonClick.getAttribute("page"),
-	  	  					buttonClick.getAttribute("query"))
-	  	})
-  	}
 }
 
 function genPages(size, page, total, query) {
