@@ -377,7 +377,7 @@ function search(size, page, query)
 }
 
 function genPages(size, page, total, query) {
-	var pageCount = Math.floor(total / size)
+	var pageCount = Math.floor((total - 1) / size)
 	if ((total % size) > 0)
 		pageCount++
 		
