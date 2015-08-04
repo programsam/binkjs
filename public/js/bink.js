@@ -359,21 +359,9 @@ function search(size, page, query)
     	
     for (var j=0;j<nums.length;j++)
     {
-    	html += "<label class='btn btn-primary' id='num" + nums[j] + "'>"			
+    	html += "<label class='btn btn-primary' id='num" + nums[j] + "' number=" + nums[j] + " page=" + page + " query=" + query + " >"			
 	    html += "<input type='radio' autocomplete='off'> " + nums[j]
 	    html += "</label>"
-	    if (query != null)
-	    {
-	    	$("#num" + nums[j]).click(function() {
-	    		getSearchResults(nums[j], page, query)
-	    	})
-	    }
-	    else
-	    {
-	    	$("#num" + nums[j]).click(function() {
-	    		getSearchResults(nums[j], page)
-	    	})
-	    }
     }
     
     html += "</div></div>"
