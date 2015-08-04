@@ -29,34 +29,7 @@ app.get('/', function (req, res) {
 
 function getMusicianJams(id, musician)
 {
-	console.log("Getting jams for musician: " + id + ", details: " + musician)
-	client.query("select jams.title as title, jams.date as date, jams.id as jamid, instruments.name as " +
-				"instrument, locations.name as location from musiciansoncollection, jams, musicians, instruments, " +
-				"locations where musicians.id = ? and jams.id = musiciansoncollection.jamid and " +
-				"musiciansoncollection.musicianid = musicians.id and musiciansoncollection.instrumentid = " +
-				"instruments.id and jams.locid = locations.id",
-			[id],
-			function(err, rows, fields) {
-			if (err) //error while getting the item
-			{
-				console.log("ERROR: " + err)
-				client.end()
-			}
-			else //no error
-			{
-				if (rows.length > 0) //there is something in the array, return it
-				{
-					client.end()
-					musician.jams = rows
-					console.log("Rows found. Returning.")
-				}
-				else //nothing in the array, return null
-				{
-					console.log("No rows.")
-					client.end()
-				}
-			} //else
-		}) //query	
+	
 }
 
 function getJamMusicians(thisjam, overallCallback)
@@ -548,12 +521,42 @@ app.get('/entity/:type/:id', function(req, res) {
 					var entity = rows[0]
 					if (req.params.type == "musicians")
 					{
-						getMusicianJams(req.params.id, entity)
-						res.send(entity)
+						var client2 = sql()
+						client2.query("select jams.title as title, jams.date as date, jams.id as jamid, instruments.name as " +
+								"instrument, locations.name as location from musiciansoncollection, jams, musicians, instruments, " +
+								"locations where musicians.id = ? and jams.id = musiciansoncollection.jamid and " +
+								"musiciansoncollection.musicianid = musicians.id and musiciansoncollection.instrumentid = " +
+								"instruments.id and jams.locid = locations.id",
+							[id],
+							function(err, jams, fields) {
+							if (err) //error while getting the item
+							{
+								console.log("ERROR: " + err)
+								client2.end()
+							}
+							else //no error
+							{
+								if (jams.length > 0) //there is something in the array, return it
+								{
+									client2.end()
+									entity.jams = jams
+									console.log("Rows found. Returning.")
+									res.send(entity)
+								}
+								else //nothing in the array, return null
+								{
+									console.log("No rows.")
+									res.send(entity)
+									client2.end()
+								}
+							} //else
+							client.end()
+						}) //query	
 					}
 					else
 					{
 						res.send(entity)
+						client.end()
 					}
 				}
 				else //nothing in the array, return null
