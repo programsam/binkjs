@@ -860,6 +860,7 @@ app.get('/search/:size/:page/:query', function (req, res) {
 	var client = sql();
 	var toRet = {"page": page, "size": size}
 	getTotalJams(toRet)
+	console.log("SELECT * from jams where private = 0 and title like (?) order by date desc limit ?,?")
 	client.query("SELECT * from jams where private = 0 and title like (?) order by date desc limit ?,?",
 				[query, offset, size], function (err, jams) {
 					  if (err)

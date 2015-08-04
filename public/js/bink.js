@@ -18,7 +18,7 @@ $(document).ready(function(){
 		if ( event.which == 13 ) {
 			event.preventDefault();
 			query = $("input#search")
-			search(0, 5, query.val())
+			search(10, 0, query.val())
 		}  
 	})
 	$("#playlistButton").click( function () {
