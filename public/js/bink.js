@@ -8,7 +8,7 @@ $(document).ready(function(){
 	
 	$("a#recentButton").click(loadRecentJams)
 	$("a#browseButton").click(function() { 
-		browse(10, 0);
+		search(10, 0);
 	})
 	$("a#historyButton").click(loadHistoricJams)
 	$("a#mapButton").click(loadMap)
@@ -17,8 +17,8 @@ $(document).ready(function(){
 	$( "input#search" ).keypress(function( event ) {
 		if ( event.which == 13 ) {
 			event.preventDefault();
-			search = $("input#search")
-			console.log(search.val())
+			query = $("input#search")
+			search(0, 5, query)
 		}  
 	})
 	$("#playlistButton").click( function () {
@@ -323,51 +323,57 @@ function loadHistoricJams()
 	})
 }
 
-function getBrowseResults(size, page)
+function getSearchResults(size, page, query)
 {
 	if (size == null || size < 3)
 		size = 10
 	if (page == null)
 		page = 0
-		
-	$.get("/browse/" + size + "/" + page, browseCallback)
-	.fail(function()
+	
+	if (null == query)
 	{
-		alert('Encountered a problem.')
-	})	
+		$.get("/search/" + size + "/" + page, searchCallback)
+		.fail(function()
+		{
+			alert('Encountered a problem.')
+		})	
+	}
+	else
+	{
+		$.get("/search/" + size + "/" + page + "/" + query, searchCallback)
+		.fail(function()
+		{
+			alert('Encountered a problem.')
+		})	
+	}
 }
 
 var nums = [3, 5, 10, 25, 50, 100]
 
-function browse(size, page)
+function search(size, page, query)
 {
 	clearClasses()
-	getBrowseResults(size, page)
-	$.get("/total/jams", function(data) {
-		var html = ""
-		html += "<div id='pages'></div>"
+	getBrowseResults(size, page, query)
+	var html = ""
+	html += "<div id='pages'></div>"
 	  	
 
-	    html += "<div class='panel'><div class='btn-group' data-toggle='buttons'>"
-	    for (var j=0;j<nums.length;j++)
-	    {
-	    	html += "<label class='btn btn-primary' id='num" + nums[j] + 
-	    		"' onclick=\"getBrowseResults(" + nums[j] + ", " + page + ")\">" 
-		    html += "<input type='radio' autocomplete='off'> " + nums[j]
-		    html += "</label>"
-	    }
-	    
-	    html += "</div></div>"
-	    html += "<div id='results'></div>"
-	  	
-	  	$("#main").html(html)
-	}).fail(function()
-	{
-		alert('Encountered a problem.')
-	})
+    html += "<div class='panel'><div class='btn-group' data-toggle='buttons'>"
+    for (var j=0;j<nums.length;j++)
+    {
+    	html += "<label class='btn btn-primary' id='num" + nums[j] + 
+    		"' onclick=\"getSearchResults(" + nums[j] + ", " + page + ")\">" 
+	    html += "<input type='radio' autocomplete='off'> " + nums[j]
+	    html += "</label>"
+    }
+    
+    html += "</div></div>"
+    html += "<div id='results'></div>"
+  	
+  	$("#main").html(html)
 }
 
-function genPages(size, page, total) {
+function genPages(size, page, total, query) {
 	var pageCount = (total / size) - 1
 	var html = "<ul class='pagination'>"
 	if (page == 0)
@@ -377,7 +383,7 @@ function genPages(size, page, total) {
 	else
 	{
   		html += "<li>"
-  			html += "<a href=\"javascript:getBrowseResults(" + size + "," + (page - 1) + ")\" aria-label='Previous'>" +
+  			html += "<a href=\"javascript:getSearchResults(" + size + "," + (page - 1) + ")\" aria-label='Previous'>" +
   					"<span aria-hidden='true'>&laquo;</span>" +
   					"</a>"
   		html += "</li>"
@@ -385,7 +391,7 @@ function genPages(size, page, total) {
   	
   	for (var j=0;j<pageCount;j++)
   	{
-			html += "<li id='page" + j + "'><a href=\"javascript:getBrowseResults(" + size + "," + j + ")\">" + (j+1) + "</a></li>"
+			html += "<li id='page" + j + "'><a href=\"javascript:getSearchResults(" + size + "," + j + ")\">" + (j+1) + "</a></li>"
   	}
   	
   	if (page >= (pageCount-1))
@@ -395,7 +401,7 @@ function genPages(size, page, total) {
   	else
   	{
 	  	html += "<li>"
-	  		html += "<a href=\"javascript:getBrowseResults(" + size + "," + (page + 1) + ")\" aria-label='Next'>" +
+	  		html += "<a href=\"javascript:getSearchResults(" + size + "," + (page + 1) + ")\" aria-label='Next'>" +
 	  				"<span aria-hidden='true'>&raquo;</span>" + 
 	  				"</a>"
 	  	html += "</li>"
@@ -410,7 +416,7 @@ function genPages(size, page, total) {
 	$("#page" + page).addClass("active")
 }
 
-function browseCallback( data ) {
+function searchCallback( data ) {
 	
 	var html = "<table class='table table-bordered'>";
 	html += "<tr>"

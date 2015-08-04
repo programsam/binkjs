@@ -842,7 +842,7 @@ app.get('/mapdata', function(req, res) {
 })
 
 
-app.get('/browse/:size/:page', function (req, res) {
+app.get('/search/:size/:page/:query', function (req, res) {
 	res.set('Content-Type','application/json')
 	var size = 10
 	var page = 0
@@ -859,9 +859,20 @@ app.get('/browse/:size/:page', function (req, res) {
 	var client = sql();
 	var toRet = {"page": page, "size": size}
 	getTotalJams(toRet)
-	client.query('SELECT * from jams where private = 0 order by date desc limit ?,?', 
-	[offset, size],
-	function(err, jams, fields) {
+	query = ""
+	if (null != req.params.query)
+	{
+		client.query("SELECT * from jams where private = 0 and title like (?) order by date desc limit ?,?",
+				[query, offset, size], handleSearchResults)
+	}
+	else
+	{
+		client.query("SELECT * from jams where private = 0 order by date desc limit ?,?", 
+				[offset, size], handleSearchResults)
+	}
+}) //get /recent
+
+function handleSearchResults(err, jams) {
 	  if (err)
 	  {
 		  console.log("ERROR Getting recent jams: " + err)
@@ -871,42 +882,41 @@ app.get('/browse/:size/:page', function (req, res) {
 	  else
 	  {
 		  async.forEach(jams, function(thisjam, mainCallback) {
-				async.series([
-				    function(callback)
-				    {
-				    	getBand(thisjam, callback)
-				    },
-				    function(callback)
-				    {
-				    	getLocation(thisjam, callback)
-				    },
-				    function(callback)
-				    {
-				    	hasTracks(thisjam, callback)
-				    },
-				    function(callback)
-				    {
-				    	hasVids(thisjam, callback)
-				    },
-				    function(callback)
-				    {
-				    	hasPics(thisjam, callback)
-				    }
-				],
-				function (err, results) {
-					mainCallback()
-				})
-		  }, //got everything, return now
-		  function (err)
-		  {
-			  toRet.results = jams
-			  res.send(toRet)
-			  client.end()
-		  }
-		  ) //jams are done
-	  	} //else the database command was successful
-	  })//client.query
-}) //get /recent
+			async.series([
+			    function(callback)
+			    {
+			    	getBand(thisjam, callback)
+			    },
+			    function(callback)
+			    {
+			    	getLocation(thisjam, callback)
+			    },
+			    function(callback)
+			    {
+			    	hasTracks(thisjam, callback)
+			    },
+			    function(callback)
+			    {
+			    	hasVids(thisjam, callback)
+			    },
+			    function(callback)
+			    {
+			    	hasPics(thisjam, callback)
+			    }
+			],
+			function (err, results) {
+				mainCallback()
+			})
+	  }, //got everything, return now
+	  function (err)
+	  {
+		  toRet.results = jams
+		  res.send(toRet)
+		  client.end()
+	  }
+	  ) //jams are done
+  	} //else the database command was successful
+} //client.query
 
 app.use(express.static(__dirname + '/public'));
 
