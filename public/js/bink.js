@@ -66,7 +66,12 @@ function enqueue(setTitle, setPath)
 function loadTweets() {
 	clearClasses()
 	$.get("/tweets", function(data) {
-		console.log(data)
+		var html = ""
+		for (var i=0;i<data.length;i++)
+		{
+			html += data[i].text + "<hr />"
+		}
+		$("#main").html(html)
 	})
 }
 
