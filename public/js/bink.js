@@ -219,6 +219,7 @@ function loadMusician(id)
 					data.jams[j].title + "</a></li>"
 		}
 		html += "</ul>"
+		$("#main").html(html)
 	})
 }
 
