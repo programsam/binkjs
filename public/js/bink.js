@@ -208,7 +208,7 @@ function loadMusician(id)
 	clearClasses()
 	$.get("/entity/musicians/" + id, function (data) {
 		var html = "<h1>Musician: " + data.name + "</h1>"
-		if (null != data.link && data.link != "")
+		if (data.link != null && data.link.indexOf("http") == 0)
 		{
 			html += "Website: <a target='_blank' href='" + data.link + "'>" + data.link + "</a>"
 		}
