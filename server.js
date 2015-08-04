@@ -29,6 +29,7 @@ app.get('/', function (req, res) {
 
 function getMusicianJams(id, musician)
 {
+	console.log("Getting jams for musician: " + id + ", details: " + musician)
 	client.query("select jams.title as title, jams.date as date, jams.id as jamid, instruments.name as " +
 				"instrument, locations.name as location from musiciansoncollection, jams, musicians, instruments, " +
 				"locations where musicians.id = ? and jams.id = musiciansoncollection.jamid and " +
@@ -47,9 +48,11 @@ function getMusicianJams(id, musician)
 				{
 					client.end()
 					musician.jams = rows
+					console.log("Rows found. Returning.")
 				}
 				else //nothing in the array, return null
 				{
+					console.log("No rows.")
 					client.end()
 				}
 			} //else
