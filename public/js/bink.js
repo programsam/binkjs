@@ -349,7 +349,6 @@ function getSearchResults(size, page, query)
 }
 
 var nums = [3, 5, 10, 25, 50, 100]
-
 function search(size, page, query)
 {
 	clearClasses()
@@ -362,7 +361,7 @@ function search(size, page, query)
     for (var j=0;j<nums.length;j++)
     {
     	html += "<label class='btn btn-primary' id='num" + nums[j] + 
-    		"' onclick=\"getSearchResults(" + nums[j] + ", " + page + ")\">" 
+    		"' onclick=\"getSearchResults(" + nums[j] + ", " + page + ", '" + query + "')\">" 
 	    html += "<input type='radio' autocomplete='off'> " + nums[j]
 	    html += "</label>"
     }
