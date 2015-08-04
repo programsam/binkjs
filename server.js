@@ -487,30 +487,38 @@ app.get('/playlist', function(req, res) {
 	res.send(JSON.stringify(req.session.playlist))
 })
 
+var allowed = ['musicians' , 'locations', 'staff', 'bands']
 app.get('/entity/:type/:id', function(req, res) {
-	var client = sql();
-	client.query("SELECT * from ? where id = ?",
-		[req.params.type, req.params.id],
-		function(err, rows, fields) {
-		if (err) //error while getting the item
-		{
-			console.log("ERROR: " + err)
-			client.end()
-		}
-		else //no error
-		{
-			if (rows.length > 0) //there is something in the array, return it
+	if (allowed.indexOf(req.params.type) == -1)
+	{
+		res.send("[]")
+	}
+	else
+	{
+		var client = sql();
+		client.query("SELECT * from " + req.params.type + " where id = ?",
+			[req.params.type, req.params.id],
+			function(err, rows, fields) {
+			if (err) //error while getting the item
 			{
+				console.log("ERROR: " + err)
 				client.end()
-				res.send(rows)
 			}
-			else //nothing in the array, return null
+			else //no error
 			{
-				client.end()
-				res.send("[]")
-			}
-		} //else
-	}) //query
+				if (rows.length > 0) //there is something in the array, return it
+				{
+					client.end()
+					res.send(rows)
+				}
+				else //nothing in the array, return null
+				{
+					client.end()
+					res.send("[]")
+				}
+			} //else
+		}) //query
+	} //else
 })
 
 app.get('/timelineData', function(req, res) {
