@@ -694,7 +694,7 @@ app.put('/playlist', function(req, res) {
 
 function getTotalJams(toRet, callback) {
 	var client = sql();
-	client.query("SELECT COUNT(*) as num from jams", 
+	client.query("SELECT COUNT(*) as num from jams where private = 0", 
 		function(err, rows, fields) {
 		if (err) //error while getting the item
 		{
