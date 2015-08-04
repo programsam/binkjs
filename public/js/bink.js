@@ -492,7 +492,7 @@ function searchCallback( data ) {
 	}
 	$("#num" + data.size).addClass("active")
 	
-	genPages(data.size, data.page, data.total)
+	genPages(data.size, data.page, data.total, data.query)
 }
 
 function clearClasses()
