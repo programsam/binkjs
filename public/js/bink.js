@@ -357,7 +357,7 @@ function search(size, page, query)
 	html += "<div id='pages'></div>"
     html += "<div class='panel'><div class='btn-group' data-toggle='buttons'>"
     
-    query = query.replace(/"//g)
+    query = query.replace(/"/g, "")
     
     for (var j=0;j<nums.length;j++)
     {
