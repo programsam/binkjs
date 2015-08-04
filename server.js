@@ -970,7 +970,7 @@ app.get('/search/:size/:page', function (req, res) {
 					  }
 					  ) //jams are done
 				  	} //else the database command was successful
-				} //client.query)
+				}) //client.query
 }) //get /recent
 
 
