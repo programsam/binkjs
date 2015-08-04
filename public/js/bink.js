@@ -69,7 +69,7 @@ function loadTweets() {
 		var html = ""
 		for (var i=0;i<data.length;i++)
 		{
-			html += "<img src='" + data[i].user.profile_image_url + "' style='float: left' /><strong>&nbsp;" + 
+			html += "<img src='" + data[i].user.profile_image_url + "' style='float: left; margin-right: 10px' /><strong>&nbsp;" + 
 					data[i].user.name + "</strong>"
 			html += "<font color='gray'>@" + data[i].user.screen_name + "</font> &middot; 23 Aug 2012<br />"
 			html += data[i].text + "<hr />"
