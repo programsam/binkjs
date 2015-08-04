@@ -373,7 +373,7 @@ function search(size, page, query)
 }
 
 function genPages(size, page, total, query) {
-	var pageCount = (total / size)
+	var pageCount = (total - 1) / size
 	var html = "<ul class='pagination'>"
 	if (page == 0)
 	{
