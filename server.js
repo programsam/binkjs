@@ -601,7 +601,14 @@ app.get('/api/maps/key', function (req,res) {
 
 app.get('/tweets', function (req, res) {
 	var client = new twitter(settings.twitter)
-	console.log(settings.twitter)
+	client.get("statuses/user_timeline.json?screen_name=binkupdates", function(error, tweets, response){
+	  	if (error)
+	  	{
+	  		console.log("An error occurred retrieving Tweets!")
+	  	}
+	  	console.log(tweets);  // The favorites. 
+	  	console.log(response);  // Raw response object. 
+	});
 	res.send("{}")
 })
 
