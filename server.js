@@ -62,6 +62,7 @@ function getJamMusicians(thisjam, overallCallback)
 					 if (found == false)
 					 {
 						 var musician = {"name":thismusician.musicianname,
+								 "id": thismusician.id,
 								 "instruments": [thismusician.instrumentname]}
 						 mymusicians.push(musician)
 					 }
