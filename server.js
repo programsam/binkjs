@@ -548,7 +548,7 @@ app.get('/entity/:type/:id', function(req, res) {
 							client.end()
 						}) //query	
 					}
-					else if (req.params.type == "musicians")
+					else if (req.params.type == "staff")
 					{
 						var client2 = sql()
 						client2.query("select distinct jams.title as title, jams.id as id from productiononcollection, " +
