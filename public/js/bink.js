@@ -353,7 +353,7 @@ var nums = [3, 5, 10, 25, 50, 100]
 function search(size, page, query)
 {
 	clearClasses()
-	getBrowseResults(size, page, query)
+	getSearchResults(size, page, query)
 	var html = ""
 	html += "<div id='pages'></div>"
 	  	
