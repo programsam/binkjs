@@ -607,11 +607,13 @@ app.get('/tweets', function (req, res) {
 	  	if (error)
 	  	{
 	  		console.log("An error occurred retrieving Tweets!")
+	  		res.send("[]")
 	  	}
-	  	console.log(tweets);  // The favorites. 
-	  	console.log(response);  // Raw response object. 
+	  	else
+	  	{
+	  		res.send(tweets)
+	  	} 
 	});
-	res.send("{}")
 })
 
 app.get('/mapdata', function(req, res) {
