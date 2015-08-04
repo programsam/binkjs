@@ -223,6 +223,26 @@ function loadMusician(id)
 	})
 }
 
+function loadLocation(id)
+{
+	clearClasses()
+	$.get("/entity/locations/" + id, function (data) {
+		var html = "<h1>Location: " + data.name + "</h1>"
+		if (data.link != null && data.link.indexOf("http") == 0)
+		{
+			html += "Website: <a target='_blank' href='" + data.link + "'>" + data.link + "</a>"
+		}
+		html += "<hr />Collections at this location: <ul>"
+		for (var j=0;j<data.jams.length;j++)
+		{
+			html += "<li><a href='javascript:loadJam(" + data.jams[j].id + ")'>" +
+					data.jams[j].title + "</a></li>"
+		}
+		html += "</ul>"
+		$("#main").html(html)
+	})
+}
+
 function loadRecentJams()
 {
 	clearClasses()
@@ -364,7 +384,8 @@ function browseCallback( data ) {
 
 			if (thisjam.hasOwnProperty("location"))
 			{
-				html += "<td>" + thisjam.location.name + "</td>"
+				html += "<td><a href='javascript:loadLocation(" + thisjam.location.id + ")'>" + 
+						thisjam.location.name + "</a></td>"
 			}
 			else
 			{
