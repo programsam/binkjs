@@ -859,17 +859,29 @@ app.get('/search/:size/:page/:query', function (req, res) {
 	var client = sql();
 	var toRet = {"page": page, "size": size}
 	getTotalJams(toRet)
-	query = ""
-	if (null != req.params.query)
+	client.query("SELECT * from jams where private = 0 and title like (?) order by date desc limit ?,?",
+			[query, offset, size], handleSearchResults)
+}) //get /recent
+
+app.get('/search/:size/:page', function (req, res) {
+	res.set('Content-Type','application/json')
+	var size = 10
+	var page = 0
+	if (req.params.size != "" && req.params.size != null)
 	{
-		client.query("SELECT * from jams where private = 0 and title like (?) order by date desc limit ?,?",
-				[query, offset, size], handleSearchResults)
+		size = parseInt(req.params.size)
 	}
-	else
+	if (req.params.page != "" && req.params.page != null)
 	{
-		client.query("SELECT * from jams where private = 0 order by date desc limit ?,?", 
+		page = parseInt(req.params.page)
+	}
+	var offset = page * size
+	
+	var client = sql();
+	var toRet = {"page": page, "size": size}
+	getTotalJams(toRet)
+	client.query("SELECT * from jams where private = 0 order by date desc limit ?,?", 
 				[offset, size], handleSearchResults)
-	}
 }) //get /recent
 
 function handleSearchResults(err, jams) {
