@@ -183,7 +183,8 @@ function renderBlogJams(html, data) {
 		}
 		if (thisjam.hasOwnProperty("location"))
 		{
-			html += thisjam.location.name
+			html += "<a href='javascript:loadLocation(" + thisjam.location.id + ")'>" + 
+						thisjam.location.name + "</a>"
 		}
 		html += "</div>"
 		html += "</div>"
