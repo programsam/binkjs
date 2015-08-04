@@ -69,9 +69,11 @@ function loadTweets() {
 		var html = ""
 		for (var i=0;i<data.length;i++)
 		{
+			var d = new Date(data[i].created_at)
 			html += "<img src='" + data[i].user.profile_image_url + "' style='float: left; margin-right: 10px' /><strong>" + 
 					data[i].user.name + "</strong>&nbsp;&nbsp;"
-			html += "<font color='gray'>@" + data[i].user.screen_name + "</font> &middot; 23 Aug 2012<br />"
+			html += "<font color='gray'>@" + data[i].user.screen_name + "</font> &middot;" + 
+					d.getDate() + " " + d.getMonth() + " " + d.getFullYear() + "<br />"
 			html += data[i].text + "<hr />"
 		}
 		$("#main").html(html)
