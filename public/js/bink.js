@@ -63,6 +63,8 @@ function enqueue(setTitle, setPath)
 	})
 }
 
+var months = ["Jan", "Feb", "Mar", "Apr", "May",
+				"Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 function loadTweets() {
 	clearClasses()
 	$.get("/tweets", function(data) {
@@ -72,8 +74,8 @@ function loadTweets() {
 			var d = new Date(data[i].created_at)
 			html += "<img src='" + data[i].user.profile_image_url + "' style='float: left; margin-right: 10px' /><strong>" + 
 					data[i].user.name + "</strong>&nbsp;&nbsp;"
-			html += "<font color='gray'>@" + data[i].user.screen_name + "</font> &middot;" + 
-					d.getDate() + " " + d.getMonth() + " " + d.getFullYear() + "<br />"
+			html += "<font color='gray'>@" + data[i].user.screen_name + "</font> &middot; " + 
+					d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear() + "<br />"
 			html += data[i].text + "<hr />"
 		}
 		$("#main").html(html)
