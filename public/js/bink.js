@@ -361,14 +361,21 @@ function search(size, page, query)
 	query = query.replace(/'/g, "\\\'");
     for (var j=0;j<nums.length;j++)
     {
-    	if (null != query)
-    		html += "<label class='btn btn-primary' id='num" + nums[j] + 
-    			"' onclick=\"getSearchResults(" + nums[j] + ", " + page + ", '" + query + "')\">"
-    	else
-    		html += "<label class='btn btn-primary' id='num" + nums[j] + 
-			"' onclick=\"getSearchResults(" + nums[j] + ", " + page + ")\">"			
+    	html += "<label class='btn btn-primary' id='num" + nums[j] + "'>"			
 	    html += "<input type='radio' autocomplete='off'> " + nums[j]
 	    html += "</label>"
+	    if (query != null)
+	    {
+	    	$("#num" + nums[j]).click(function() {
+	    		getSearchResults(nums[j], page, query)
+	    	})
+	    }
+	    else
+	    {
+	    	$("#num" + nums[j]).click(function() {
+	    		getSearchResults(nums[j], page)
+	    	})
+	    }
     }
     
     html += "</div></div>"
