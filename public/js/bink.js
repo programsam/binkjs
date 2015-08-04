@@ -236,7 +236,7 @@ function loadLocation(id)
 		if (data.lat != null && data.lon != null)
 		{
 			hasMap = true
-			html += "<div id='map-canvas'></div>"
+			html += "<div id='map-canvas' style='width: 100%; height: 300px'></div>"
 		}
 		html += "<hr />Collections at this location: <ul>"
 		for (var j=0;j<data.jams.length;j++)
