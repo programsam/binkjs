@@ -232,6 +232,12 @@ function loadLocation(id)
 		{
 			html += "Website: <a target='_blank' href='" + data.link + "'>" + data.link + "</a>"
 		}
+		var hasMap = false
+		if (data.lat != null && data.lon != null)
+		{
+			hasMap = true
+			html += "<div id='map-canvas'></div>"
+		}
 		html += "<hr />Collections at this location: <ul>"
 		for (var j=0;j<data.jams.length;j++)
 		{
@@ -239,6 +245,20 @@ function loadLocation(id)
 					data.jams[j].title + "</a></li>"
 		}
 		html += "</ul>"
+		if (hasMap)
+		{
+			var coordinates = new google.maps.LatLng(parseFloat(thisjam.location.lat), parseFloat(thisjam.location.lon));
+			var mapOptions = {
+					center: coordinates,
+					zoom: 9
+				}
+			var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+			var marker = new google.maps.Marker({
+			      position: coordinates,
+			      map: map,
+			      title: thisjam.location.name
+			  });
+		}
 		$("#main").html(html)
 	})
 }
