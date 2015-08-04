@@ -359,7 +359,7 @@ function search(size, page, query)
     	
     for (var j=0;j<nums.length;j++)
     {
-    	html += "<label class='btn btn-primary' id='num" + nums[j] + "' number=" + nums[j] + " page=" + page + " query=" + query + " >"			
+    	html += "<label class='btn btn-primary' id='num" + nums[j] + "' number=" + nums[j] + " page=" + page + " query=\"" + query + "\" >"			
 	    html += "<input type='radio' autocomplete='off'> " + nums[j]
 	    html += "</label>"
     }
