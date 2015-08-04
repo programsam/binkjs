@@ -247,7 +247,7 @@ function loadLocation(id)
 		html += "</ul>"
 		if (hasMap)
 		{
-			var coordinates = new google.maps.LatLng(parseFloat(thisjam.location.lat), parseFloat(thisjam.location.lon));
+			var coordinates = new google.maps.LatLng(parseFloat(data.lat), parseFloat(data.lon));
 			var mapOptions = {
 					center: coordinates,
 					zoom: 9
