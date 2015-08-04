@@ -210,7 +210,7 @@ function loadMusician(id)
 		var html = "<h1>Musician: " + data.name + "</h1>"
 		if (null != data.link && data.link != "")
 		{
-			html += "Website: <a href='" + data.link + "'>" + data.link + "</a>"
+			html += "Website: <a target='_blank' href='" + data.link + "'>" + data.link + "</a>"
 		}
 		html += "<hr />Appears on collections: <ul>"
 		for (var j=0;j<data.jams.length;j++)
