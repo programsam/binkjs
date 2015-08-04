@@ -497,7 +497,7 @@ app.get('/entity/:type/:id', function(req, res) {
 	{
 		var client = sql();
 		client.query("SELECT * from " + req.params.type + " where id = ?",
-			[req.params.type, req.params.id],
+			[req.params.id],
 			function(err, rows, fields) {
 			if (err) //error while getting the item
 			{
