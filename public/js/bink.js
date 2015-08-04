@@ -133,6 +133,7 @@ function recentCallback(data) {
 
 function historicCallback(data) {
 	var html = "<h1>Today in BINK! History</h1>";
+	console.log(data)
 	if (data.length > 0)
 	{
 		renderBlogJams(html, data)
@@ -140,7 +141,7 @@ function historicCallback(data) {
 	else
 	{
 		html += "<em>There were no collections that happened today in previous years.</em>"
-		$("#main").html(html)
+		$("#m").html(html)
 	}	
 }
 
