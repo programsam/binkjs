@@ -818,6 +818,7 @@ function loadJam(id)
 		}
 	}).fail(function(error) {
 		binkAlert("Alert", "This item is not in BINK!")
+		loadRecentJams();
 	});
 }
 
