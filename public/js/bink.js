@@ -43,7 +43,7 @@ $(document).ready(
 				$.ajax({
 					method : "PUT",
 					url : "/admin/login",
-					dataType: "application/json",
+					contentType: "application/json",
 					data : JSON.stringify(sendThem)
 				}).done(function(msg) {
 					var data = JSON.parse(msg)
