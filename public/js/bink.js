@@ -35,7 +35,8 @@ $(document).ready(
 				$('#adminPassword').focus();
 			})
 
-			$("#loginButton").click(login)
+			$("#loginButton").click(login);
+			$("#logoutButton").click(logout);
 
 			if (location.hash == "#browse") {
 				search(10, 0);
@@ -88,10 +89,8 @@ $(document).ready(
 			})
 
 			$.get("/admin/loggedin", function(loggedin) {
-				if (loggedin) {
-					$("#adminButton").addClass("hidden")
-					$("#logoutButton").removeClass("hidden")
-				}
+				if (loggedin)
+					showAdmin();
 			})
 		})
 
@@ -99,6 +98,12 @@ var maploaded = false;
 
 function mapcallback() {
 	maploaded = true;
+}
+
+function showAdmin()
+{
+	$("#adminButton").addClass("hidden")
+	$("#logoutButton").removeClass("hidden")	
 }
 
 function login(e) {
@@ -115,6 +120,7 @@ function login(e) {
 		var data = JSON.parse(msg)
 		if (data.valid) {
 			$('#adminModal').modal('hide');
+			showAdmin();
 		} else // invalid password
 		{
 			$("#invalidPassword").removeClass("hidden");
