@@ -805,7 +805,7 @@ function loadJam(id)
 				setTimeout(tryMap, 1000, thisjam)
 			}
 		}
-	}).error(function(error) {
+	}, function(error) {
 		alert("This item was not found!")
 	});
 }
