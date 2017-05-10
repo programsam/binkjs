@@ -29,6 +29,10 @@ $(document).ready(function(){
 		$('#adminModal').modal('show');
 	})
 	
+	$("#loginButton").click( function() {
+		alert("Login pushed.")
+	})
+	
 	if (location.hash == "#browse")
 	{
 		search(10, 0);
