@@ -30,7 +30,8 @@ $(document).ready(function(){
 	})
 	
 	$('#adminModal').on('shown.bs.modal', function () {
-	  $('#adminPassword').focus()
+	  $('#adminPassword').focus();
+	  $('#adminPassword').val('');
 	})
 	
 	$("#loginButton").click( function() {
