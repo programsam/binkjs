@@ -36,7 +36,7 @@ Copy the [settings.example](./settings.example) file to a file called `settings.
 
 ### Bootstrap.css
 
-I used a custom version of [Bootstrap.css](http://getbootstrap.com/css/) to render BINK; not sure or can't remember why this is yet, but when I find out, I will put it here.  Using Bootstrap.css is critical to make life easy and make a webpage visually appealing--I just can't remember why we customized it.
+[Bootstrap.css](http://getbootstrap.com/css/).  We get it from a CDN. It's the thing that makes the page look good.
 
 ### Custom CSS
 
@@ -44,4 +44,8 @@ I used a custom version of [Bootstrap.css](http://getbootstrap.com/css/) to rend
 
 ### JPlayer
 
-I pull [jPlayer](http://jplayer.org/) from a CDN location, but then I use a specific theme to make it fit into the BINK layout as a floating bar down at the bottom.
+BINK uses a custom build/config for  [jPlayer](http://jplayer.org/) so that it fits into the BINK theme--specifically so that it's a floating navbar on the bottom of the page you can deal with. 
+
+### MySQL
+
+[binkjs.sql](./binkjs.sql) is the schema that is required to be in the database for you to use BINK.
