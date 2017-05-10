@@ -160,6 +160,7 @@ function play(setTitle, path)
 }
 
 function recentCallback(data) {
+	var html = "";
 	renderBlogJams(html, data)
 }
 
