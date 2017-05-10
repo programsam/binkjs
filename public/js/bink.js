@@ -76,7 +76,7 @@ function enqueue(setTitle, setPath)
 								)
 	$.ajax({
 	    type: "PUT",
-	    url: "/playlist",
+	    url: "/api/playlist",
 	    contentType: "application/json",
 	    data: JSON.stringify(object),
 	}).done(
@@ -89,7 +89,7 @@ var months = ["Jan", "Feb", "Mar", "Apr", "May",
 				"Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 function loadTweets() {
 	clearClasses()
-	$.get("/tweets", function(data) {
+	$.get("/api/tweets", function(data) {
 		var html = ""
 		for (var i=0;i<data.length;i++)
 		{
@@ -108,7 +108,7 @@ function loadTimeline() {
 	clearClasses()
 	$("#main").addClass('timeline')
 	$('#main').html('Loading...')
-	$.get("/timelineData", function (data) {
+	$.get("/api/timelineData", function (data) {
 		  // DOM element where the Timeline will be attached
 		  var container = document.getElementById('main');
 
@@ -130,7 +130,7 @@ function loadTimeline() {
 
 function loadPlaylist()
 {
-	$.get( "/playlist", function( data ) {
+	$.get( "/api/playlist", function( data ) {
 		var html = "";
 		if (data && typeof data != "undefined")
 		{
@@ -220,7 +220,7 @@ function renderBlogJams(html, data) {
 function loadBand(id)
 {
 	clearClasses()
-	$.get("/entity/bands/" + id, function (data) {
+	$.get("/api/entity/bands/" + id, function (data) {
 		var html = "<h1>Band: " + data.name + "</h1>"
 		if (data.link != null && data.link.indexOf("http") == 0)
 		{
@@ -240,7 +240,7 @@ function loadBand(id)
 function loadMusician(id)
 {
 	clearClasses()
-	$.get("/entity/musicians/" + id, function (data) {
+	$.get("/api/entity/musicians/" + id, function (data) {
 		var html = "<h1>Musician: " + data.name + "</h1>"
 		if (data.link != null && data.link.indexOf("http") == 0)
 		{
@@ -260,7 +260,7 @@ function loadMusician(id)
 function loadStaff(id)
 {
 	clearClasses()
-	$.get("/entity/staff/" + id, function (data) {
+	$.get("/api/entity/staff/" + id, function (data) {
 		var html = "<h1>Staff: " + data.name + "</h1>"
 		html += "<hr />Appears on collections: <ul>"
 		for (var j=0;j<data.jams.length;j++)
@@ -276,7 +276,7 @@ function loadStaff(id)
 function loadLocation(id)
 {
 	clearClasses()
-	$.get("/entity/locations/" + id, function (data) {
+	$.get("/api/entity/locations/" + id, function (data) {
 		var html = "<h1>Location: " + data.name + "</h1>"
 		if (data.link != null && data.link.indexOf("http") == 0)
 		{
@@ -317,7 +317,7 @@ function loadRecentJams()
 {
 	clearClasses()
 	$("#main").html("Loading...")
-	$.get( "/recent", recentCallback)
+	$.get( "/api/recent", recentCallback)
 	.fail(function()
 	{
 		alert('Encountered a problem.')
@@ -328,7 +328,7 @@ function loadHistoricJams()
 {
 	clearClasses()
 	$("#main").html("Loading...")
-	$.get( "/history", historicCallback)
+	$.get( "/api/history", historicCallback)
 	.fail(function()
 	{
 		alert('Encountered a problem.')
@@ -344,7 +344,7 @@ function getSearchResults(size, page, query)
 	
 	if (null == query)
 	{
-		$.get("/search/" + size + "/" + page, searchCallback)
+		$.get("/api/search/" + size + "/" + page, searchCallback)
 		.fail(function()
 		{
 			alert('Encountered a problem.')
@@ -352,7 +352,7 @@ function getSearchResults(size, page, query)
 	}
 	else
 	{
-		$.get("/search/" + size + "/" + page + "/" + query, searchCallback)
+		$.get("/api/search/" + size + "/" + page + "/" + query, searchCallback)
 		.fail(function()
 		{
 			alert('Encountered a problem.')
@@ -550,7 +550,7 @@ function clearClasses()
 
 function loadMap()
 {
-	$.get("/mapdata", function(data) {
+	$.get("/api/mapdata", function(data) {
 		$('#main').addClass('mapviewer')
 		var coordinates = new google.maps.LatLng(39.944465, -97.350595);
 		var mapOptions = {
@@ -598,7 +598,7 @@ function dropMarker(coordinates, name, content, map) {
 function loadJam(id)
 {
 	clearClasses()
-	$.get( "/jam/" + id, function( thisjam ) {
+	$.get( "/api/jam/" + id, function( thisjam ) {
 		console.log(thisjam)
 		var html = "";
 		var d = new Date(thisjam.date)

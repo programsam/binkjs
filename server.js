@@ -9,6 +9,7 @@ var settings	= require('./settings.json')
 var twitter		= require('twitter')
 var Processing 	= require("./lib/processing.js")
 var api			= require("./lib/api.js")
+var api			= require("./lib/adminapi.js")
 
 function sql() {
 	return client = mysql.createClient(settings.mysql);
@@ -26,16 +27,17 @@ app.use(session({
 app.use(bodyParser.json())
 
 app.use(api)
+app.use(adminapi)
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
 })
 
-app.get('/playlist', function(req, res) {
+app.get('api/playlist', function(req, res) {
 	res.send(JSON.stringify(req.session.playlist))
 })
 
-app.put('/playlist', function(req, res) {
+app.put('api/playlist', function(req, res) {
 	if (! req.session.hasOwnProperty("playlist") ||
 		typeof req.session.playlist == "undefined")
 	{ 
@@ -51,7 +53,7 @@ app.get('/api/maps/key', function (req,res) {
 	res.send(settings.maps)
 })
 
-app.get('/tweets', function (req, res) {
+app.get('/api/tweets', function (req, res) {
 	var client = new twitter(settings.twitter)
 	client.get("statuses/user_timeline",
 	{"screen_name": "binkupdates"}, 
@@ -68,7 +70,7 @@ app.get('/tweets', function (req, res) {
 	});
 })
 
-app.get('/mapdata', function(req, res) {
+app.get('/api/mapdata', function(req, res) {
 	var client = sql();
 	client.query("SELECT * from locations where lat is not null and lon is not null",
 		function(err, locations, fields) {
@@ -127,7 +129,7 @@ app.get('/mapdata', function(req, res) {
 	}) //query
 })
 
-app.get('/history', function(req, res) {
+app.get('/api/history', function(req, res) {
 	var client = sql();
 	var d = new Date();
 	var sqlMonth = ('00' + (d.getUTCMonth() + 1)).slice(-2)
