@@ -26,7 +26,7 @@ $(document).ready(function(){
 	})
 	
 	$("a#adminButton").click( function() {
-		$('#login-modal').show();
+		$('#login-modal').modal('show');
 	})
 	
 	if (location.hash == "#browse")
