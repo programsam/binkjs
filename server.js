@@ -778,7 +778,6 @@ app.get('/history', function(req, res) {
 		{
 			if (rows.length > 0) //there is something in the array, return it
 			{
-				client.end()
 				async.forEach(rows, function(thisjam, mainCallback) {
 					async.series([
 					    function(callback)
@@ -808,8 +807,7 @@ app.get('/history', function(req, res) {
 			  }, //got everything, return now
 			  function (err)
 			  {
-				  toRet.results = jams
-				  res.send(toRet)
+				  res.send(rows)
 				  client.end()
 			  }
 			  ) //jams are done
