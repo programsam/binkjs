@@ -103,13 +103,13 @@ function mapcallback() {
 function showAdmin()
 {
 	$("#adminButton").addClass("hidden")
-	$("#logoutButton").removeClass("hidden")	
+	$("#adminMenu").removeClass("hidden")	
 }
 
 function hideAdmin()
 {
 	$("#adminButton").removeClass("hidden")
-	$("#logoutButton").addClass("hidden")	
+	$("#adminMenu").addClass("hidden")	
 }
 
 function logout(e)
