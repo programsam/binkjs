@@ -37,14 +37,13 @@ $(document).ready(
 
 			$("#loginButton").click(function() {
 				$.ajax({
-					method : "POST",
-					url : "some.php",
+					method : "PUT",
+					url : "/admin/login",
 					data : {
-						name : "John",
-						location : "Boston"
+						password: $("#adminPassword")[0].val()
 					}
 				}).done(function(msg) {
-					alert("Data Saved: " + msg);
+					console.log(msg)
 				});
 			})
 
