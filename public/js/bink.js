@@ -43,7 +43,17 @@ $(document).ready(
 						password: $("#adminPassword").val()
 					}
 				}).done(function(msg) {
-					console.log(msg.valid)
+					var data = JSON.parse(msg)
+					if (data.valid)
+					{
+						$('#adminModal').modal('hide');
+					}
+					else //invalid password
+					{
+						$("#invalidPassword").removeClass("hidden");
+						$('#adminPassword').val('');
+						$('#adminPassword').focus();
+					}	
 				});
 			})
 
