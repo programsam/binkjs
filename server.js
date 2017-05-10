@@ -33,11 +33,11 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
 })
 
-app.get('api/playlist', function(req, res) {
+app.get('/api/playlist', function(req, res) {
 	res.send(JSON.stringify(req.session.playlist))
 })
 
-app.put('api/playlist', function(req, res) {
+app.put('/api/playlist', function(req, res) {
 	if (! req.session.hasOwnProperty("playlist") ||
 		typeof req.session.playlist == "undefined")
 	{ 
