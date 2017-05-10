@@ -35,7 +35,9 @@ $(document).ready(function(){
 	})
 	
 	$("#loginButton").click( function() {
-		alert("Login pushed.")
+		$.put("/admin/login", function(data) {
+			console.log(data)
+		})
 	})
 	
 	if (location.hash == "#browse")
