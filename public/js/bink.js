@@ -27,7 +27,10 @@ $(document).ready(function(){
 	
 	$("a#adminButton").click( function() {
 		$('#adminModal').modal('show');
-		$('#adminPassword').focus();
+	})
+	
+	$('#adminModal').on('shown.bs.modal', function () {
+	  $('#adminPassword').focus()
 	})
 	
 	$("#loginButton").click( function() {
