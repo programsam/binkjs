@@ -88,10 +88,10 @@ $(document).ready(function(){
 	  })
 })
 
-var mapload = false;
+var maploaded = false;
 
 function mapcallback() {
-	mapload = true;
+	maploaded = true;
 }
 
 function enqueue(setTitle, setPath)
@@ -797,21 +797,41 @@ function loadJam(id)
 		$("#main").html(html)	
 		if (hasMap)
 		{
-			while (! mapload)
+			if (maploaded)
 			{
-				
+				drawMap(thisjam)
 			}
-			var coordinates = new google.maps.LatLng(parseFloat(thisjam.location.lat), parseFloat(thisjam.location.lon));
-			var mapOptions = {
-					center: coordinates,
-					zoom: 9
-				}
-			var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-			var marker = new google.maps.Marker({
-			      position: coordinates,
-			      map: map,
-			      title: thisjam.location.name
-			  });
+			else
+			{
+				setTimeout(tryMap, 1000, thisjam)
+			}
 		}
 	});
+}
+
+function tryMap(thisjam)
+{
+	if (! maploaded)
+	{
+		setTimeout(tryMap, 1000, thisjam)
+	}
+	else
+	{
+		drawMap(thisjam);
+	}	
+}
+
+function drawMap(thisjam)
+{
+	var coordinates = new google.maps.LatLng(parseFloat(thisjam.location.lat), parseFloat(thisjam.location.lon));
+	var mapOptions = {
+			center: coordinates,
+			zoom: 9
+		}
+	var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+	var marker = new google.maps.Marker({
+	      position: coordinates,
+	      map: map,
+	      title: thisjam.location.name
+	  });	
 }
