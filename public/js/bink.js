@@ -24,10 +24,17 @@ $(document).ready(function(){
 	$("#playlistButton").click( function () {
 		$("#sidebar-wrapper").collapse('toggle')
 	})
-	  
-	loadRecentJams()
-	loadPlaylist()
-   
+	
+	if (location.hash == "browse")
+	{
+		search(10, 0);
+	}
+	else
+	{
+		loadRecentJams();
+	}
+	
+	loadPlaylist();
 	$("#jquery_jplayer_1").jPlayer({
 		cssSelectorAncestor: "#jp_container_1",
 		swfPath: "/js",
