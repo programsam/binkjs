@@ -27,7 +27,7 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
 })
 
-require("lib/functions.js")
+require("lib/functions")
 
 function getJamTracks(thisjam, overallCallback)
 {
