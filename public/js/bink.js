@@ -629,7 +629,6 @@ function loadJam(id)
 	clearClasses()
 	location.hash = "jam-" + id
 	$.get( "/api/jam/" + id, function( thisjam ) {
-		console.log(thisjam)
 		var html = "";
 		var d = new Date(thisjam.date)
 		var mydate = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear()
@@ -806,6 +805,8 @@ function loadJam(id)
 				setTimeout(tryMap, 1000, thisjam)
 			}
 		}
+	}).error(function(error) {
+		alert("This item was not found!")
 	});
 }
 
