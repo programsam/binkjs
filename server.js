@@ -29,10 +29,6 @@ app.use(bodyParser.json())
 app.use(api)
 app.use(adminapi)
 
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/public/index.html');
-})
-
 app.get('/api/playlist', function(req, res) {
 	res.send(JSON.stringify(req.session.playlist))
 })
@@ -190,6 +186,17 @@ app.get('/api/history', function(req, res) {
 	}) //query
 })
 
+/**
+ * By default, just load index.html.
+ */
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/public/index.html');
+})
+
+/**
+ * If they want a specific binary file to be sent, they can send /public in the
+ * URL. Otherwise, we'll assume it's a specific navigation request or an API call.
+ */
 app.use(express.static(__dirname + '/public'));
 
 var server = app.listen(process.env.PORT || 3001, function () {
