@@ -27,7 +27,7 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
 })
 
-require("./lib/functions.js")
+var Processing = require("./lib/processing.js")
 
 function getJamTracks(thisjam, overallCallback)
 {
@@ -371,7 +371,7 @@ app.get('/jam/:id', function (req, res) {
 			    },
 			    function(callback)
 			    {
-			    	getJamMusicians(thisjam, callback)
+			    	Processing.getJamMusicians(thisjam, callback)
 			    },
 			    function(callback)
 			    {
