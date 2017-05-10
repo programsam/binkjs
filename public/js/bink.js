@@ -357,7 +357,7 @@ function loadRecentJams()
 	})
 }
 
-funcion binkAlert(alert)
+function binkAlert(alert)
 {
 	$("#thisAlert").html(alert)
 	$("#alertModal").modal('show')
