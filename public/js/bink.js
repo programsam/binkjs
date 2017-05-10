@@ -26,7 +26,7 @@ $(document).ready(function(){
 	})
 	
 	$("a#adminButton").click( function() {
-		showAdminLogon();
+		$('#login-modal').show();
 	})
 	
 	if (location.hash == "#browse")
@@ -91,13 +91,6 @@ $(document).ready(function(){
 		  document.body.appendChild(script);
 	  })
 })
-
-function showAdminLogon() {
-	var html = "<div class='jumbotron'><h1>Login as Admin</h1><p>"
-		html += "<a class='btn btn-primary btn-lg' role='button'>Login</a></p>"
-		html += "</div>"
-	$("#main").html(html)
-}
 
 var maploaded = false;
 
