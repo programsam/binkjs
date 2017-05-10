@@ -51,7 +51,19 @@ $(document).ready(function(){
 	  		return 265;
 		});
 	})
+	
+	$.get("/api/maps/key", function(data) {
+		  var script = document.createElement('script');
+		  script.type = 'text/javascript';
+		  script.src = 'https://maps.googleapis.com/maps/api/js?key=' + data + '&callback=mapcallback'
+		  document.body.appendChild(script);
+	  })
 })
+
+
+function mapcallback() {
+	console.log("Google Maps API loaded.")
+}
 
 function enqueue(setTitle, setPath)
 {
