@@ -26,7 +26,7 @@ BINK uses the following pieces of technology (dependencies/requirements):
 
 ### Settings.json
 
-Copy the [settings.example] file to a file called `settings.json`.  The BINK Node.js app looks for this file when it starts up and will fail if the file doesn't exist or has the wrong structure.  This file contains things that really shouldn't be hardcoded and stored in Git. Specifically:
+Copy the [settings.example](./settings.example) file to a file called `settings.json`.  The BINK Node.js app looks for this file when it starts up and will fail if the file doesn't exist or has the wrong structure.  This file contains things that really shouldn't be hardcoded and stored in Git. Specifically:
 
 - MySQL host, user, password, port, and database name.
 - The URL for where in S3 the media for BINK is stored.
