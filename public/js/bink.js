@@ -25,7 +25,7 @@ $(document).ready(function(){
 		$("#sidebar-wrapper").collapse('toggle')
 	})
 	
-	if (location.hash == "browse")
+	if (location.hash == "#browse")
 	{
 		search(10, 0);
 	}
