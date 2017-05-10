@@ -781,7 +781,7 @@ app.get('/history', function(req, res) {
 				client.end()
 				res.send(rows)
 			}
-			else //nothing in the array, return null
+			else //nothing in the array, return an empty array
 			{
 				client.end()
 				res.send("[]")

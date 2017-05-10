@@ -165,8 +165,7 @@ function recentCallback(data) {
 
 function historicCallback(data) {
 	var html = "<h1>Today in BINK! History</h1>";
-	console.log("Non-parsed data: " + data)
-	if (data.length > 0 && JSON.parse(data).length > 0)
+	if (data.length > 0)
 	{
 		renderBlogJams(html, data)
 	}
