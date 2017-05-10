@@ -15,5 +15,6 @@
   		"consumer_secret": "SOMETHING",
   		"access_token_key": "SOMETHING",
   		"access_token_secret": "SOMETHING"
-	}
+	},
+	"admin_password": "mypassword"
 }
