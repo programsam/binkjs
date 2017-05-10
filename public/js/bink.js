@@ -88,9 +88,10 @@ $(document).ready(function(){
 	  })
 })
 
+var mapload = false;
 
 function mapcallback() {
-	console.log("Google Maps API loaded.")
+	mapload = true;
 }
 
 function enqueue(setTitle, setPath)
@@ -796,6 +797,10 @@ function loadJam(id)
 		$("#main").html(html)	
 		if (hasMap)
 		{
+			while (! mapload)
+			{
+				
+			}
 			var coordinates = new google.maps.LatLng(parseFloat(thisjam.location.lat), parseFloat(thisjam.location.lon));
 			var mapOptions = {
 					center: coordinates,
