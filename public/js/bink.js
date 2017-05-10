@@ -119,6 +119,7 @@ function logout(e)
 		url : "/admin/logout"
 	}).done(function(msg) {
 		hideAdmin();
+		loadRecentJams();
 	});
 }
 
@@ -137,6 +138,7 @@ function login(e) {
 		if (data.valid) {
 			$('#adminModal').modal('hide');
 			showAdmin();
+			loadRecentJams();
 		} else // invalid password
 		{
 			$("#invalidPassword").removeClass("hidden");
