@@ -550,6 +550,7 @@ function searchCallback(data) {
 		html += "<th><span class='glyphicon glyphicon-music' aria-hidden='true'></span></th>"
 		html += "<th><span class='glyphicon glyphicon-picture' aria-hidden='true'></span></th>"
 		html += "<th><span class='glyphicon glyphicon-facetime-video' aria-hidden='true'></span></th>"
+		html += "<td><span class='glyphicon glyphicon-sunglasses' aria-hidden='true'></span></th>"
 		html += "</tr>"
 		data.results
 				.forEach(function(thisjam, index, array) {
@@ -597,6 +598,12 @@ function searchCallback(data) {
 
 					if (thisjam.hasVids) {
 						html += "<td><span class='glyphicon glyphicon-facetime-video' aria-hidden='true'></td>"
+					} else {
+						html += "<td></td>"
+					}
+					
+					if (thisjam.private != 0) {
+						html += "<td><span class='glyphicon glyphicon-sunglasses' aria-hidden='true'></span></td>"
 					} else {
 						html += "<td></td>"
 					}
