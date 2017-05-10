@@ -94,6 +94,7 @@ $(document).ready(
 					$("logoutButton").removeClass("hidden")
 				}
 			})
+		})
 
 var maploaded = false;
 
