@@ -124,10 +124,6 @@ function login(e) {
 	});
 }
 
-function isLoggedIn() {
-
-}
-
 function enqueue(setTitle, setPath) {
 	var object = {
 		title : setTitle,
