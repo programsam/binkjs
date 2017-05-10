@@ -39,6 +39,7 @@ $(document).ready(
 				$.ajax({
 					method : "PUT",
 					url : "/admin/login",
+					dataType: "application/json",
 					data : {
 						password: $("#adminPassword").val()
 					}
