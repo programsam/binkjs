@@ -278,7 +278,7 @@ function renderBlogJams(html, data) {
 				var mydate = (d.getMonth() + 1) + "/" + d.getDate() + "/"
 						+ d.getFullYear()
 
-				if (thisjam.isPrivate)
+				if (thisjam.private != 0)
 				{
 					mydate += "<span class='glyphicon glyphicon-sunglasses' aria-hidden='true'></span>"
 				}
