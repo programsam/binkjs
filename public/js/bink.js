@@ -86,7 +86,14 @@ $(document).ready(
 						+ data + '&callback=mapcallback'
 				document.body.appendChild(script);
 			})
-		})
+
+			$.get("/admin/loggedin", function(data) {
+				console.log(data)
+				if (data == "true") {
+					$("adminButton").addClass("hidden")
+					$("logoutButton").removeClass("hidden")
+				}
+			})
 
 var maploaded = false;
 
@@ -96,44 +103,29 @@ function mapcallback() {
 
 function login(e) {
 	var sendThem = {
-			password: $("#adminPassword").val()
+		password : $("#adminPassword").val()
 	}
-	
+
 	$.ajax({
 		method : "PUT",
 		url : "/admin/login",
-		contentType: "application/json",
+		contentType : "application/json",
 		data : JSON.stringify(sendThem)
 	}).done(function(msg) {
 		var data = JSON.parse(msg)
-		if (data.valid)
-		{
+		if (data.valid) {
 			$('#adminModal').modal('hide');
-		}
-		else //invalid password
+		} else // invalid password
 		{
 			$("#invalidPassword").removeClass("hidden");
 			$('#adminPassword').val('');
 			$('#adminPassword').focus();
-		}	
+		}
 	});
 }
 
-function isLoggedIn()
-{
-	$.get("/admin/loggedin", function(data) {
-		console.log(data)
-		if (data == "true")
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}).fail(function(data) {
-		return false;
-	})
+function isLoggedIn() {
+
 }
 
 function enqueue(setTitle, setPath) {
