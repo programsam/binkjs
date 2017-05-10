@@ -43,7 +43,7 @@ $(document).ready(
 						password: $("#adminPassword").val()
 					}
 				}).done(function(msg) {
-					console.log(msg)
+					console.log(msg.valid)
 				});
 			})
 
