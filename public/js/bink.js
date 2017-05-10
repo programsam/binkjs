@@ -106,6 +106,22 @@ function showAdmin()
 	$("#logoutButton").removeClass("hidden")	
 }
 
+function hideAdmin()
+{
+	$("#adminButton").removeClass("hidden")
+	$("#logoutButton").addClass("hidden")	
+}
+
+function logout(e)
+{
+	$.ajax({
+		method : "PUT",
+		url : "/admin/logout"
+	}).done(function(msg) {
+		hideAdmin();
+	});
+}
+
 function login(e) {
 	var sendThem = {
 		password : $("#adminPassword").val()
