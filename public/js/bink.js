@@ -626,6 +626,7 @@ function dropMarker(coordinates, name, content, map) {
 function loadJam(id)
 {
 	clearClasses()
+	location.hash = "jam-" + id
 	$.get( "/api/jam/" + id, function( thisjam ) {
 		console.log(thisjam)
 		var html = "";
