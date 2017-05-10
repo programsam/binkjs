@@ -93,7 +93,9 @@ $(document).ready(function(){
 })
 
 function showAdminLogon() {
-	var html = "Yo, you need to login man."
+	var html = "<div class='jumbotron'><h1>Login as Admin</h1><p>"
+		html += "<a class='btn btn-primary btn-lg' role='button'>Login</a></p>"
+		html += "</div>"
 	$("#main").html(html)
 }
 
