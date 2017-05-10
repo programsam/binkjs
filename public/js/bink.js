@@ -277,6 +277,11 @@ function renderBlogJams(html, data) {
 				var d = new Date(thisjam.date)
 				var mydate = (d.getMonth() + 1) + "/" + d.getDate() + "/"
 						+ d.getFullYear()
+
+				if (thisjam.isPrivate)
+				{
+					mydate += "<span class='glyphicon glyphicon-sunglasses' aria-hidden='true'></span>"
+				}
 				html += "<div class='panel panel-default'>"
 				html += "<div class='panel-heading'>" + mydate
 						+ " - <a href='javascript:loadJam(" + thisjam.id
