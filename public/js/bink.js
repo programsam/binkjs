@@ -353,13 +353,14 @@ function loadRecentJams()
 	$.get( "/api/recent", recentCallback)
 	.fail(function()
 	{
-		alert('Encountered a problem.')
+		binkAlert("Problem", "Could not load recent jams.")
 	})
 }
 
-function binkAlert(alert)
+function binkAlert(title, alert)
 {
 	$("#thisAlert").html(alert)
+	$("#thisAlertTitle").html(title)
 	$("#alertModal").modal('show')
 }
 
@@ -370,7 +371,7 @@ function loadHistoricJams()
 	$.get( "/api/history", historicCallback)
 	.fail(function()
 	{
-		alert('Encountered a problem.')
+		binkAlert("Problem", "Could not load historic jams.")
 	})
 }
 
@@ -386,7 +387,7 @@ function getSearchResults(size, page, query)
 		$.get("/api/search/" + size + "/" + page, searchCallback)
 		.fail(function()
 		{
-			alert('Encountered a problem.')
+			binkAlert("Problem", "Failed to browse jams.")
 		})	
 	}
 	else
@@ -394,7 +395,7 @@ function getSearchResults(size, page, query)
 		$.get("/api/search/" + size + "/" + page + "/" + query, searchCallback)
 		.fail(function()
 		{
-			alert('Encountered a problem.')
+			binkAlert("Problem", "Failed to search jams.")
 		})	
 	}
 }
@@ -816,7 +817,7 @@ function loadJam(id)
 			}
 		}
 	}).fail(function(error) {
-		alert("This item was not found!")
+		binkAlert("Alert", "This item is not in BINK!")
 	});
 }
 
