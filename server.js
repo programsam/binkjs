@@ -9,7 +9,7 @@ var settings	= require('./settings.json')
 var twitter		= require('twitter')
 var Processing 	= require("./lib/processing.js")
 var api			= require("./lib/api.js")
-var api			= require("./lib/adminapi.js")
+var adminapi	= require("./lib/adminapi.js")
 
 function sql() {
 	return client = mysql.createClient(settings.mysql);
@@ -46,8 +46,6 @@ app.put('api/playlist', function(req, res) {
 	req.session.playlist.push(req.body)
 	res.send(req.session.playlist)
 })
-
-
 
 app.get('/api/maps/key', function (req,res) {
 	res.send(settings.maps)
