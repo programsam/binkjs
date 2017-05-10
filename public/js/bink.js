@@ -21,8 +21,12 @@ $(document).ready(function(){
 			search(10, 0, query.val())
 		}  
 	})
-	$("#playlistButton").click( function () {
+	$("a#playlistButton").click( function () {
 		$("#sidebar-wrapper").collapse('toggle')
+	})
+	
+	$("a#adminButton").click( function() {
+		showAdminLogon();
 	})
 	
 	if (location.hash == "#browse")
@@ -87,6 +91,11 @@ $(document).ready(function(){
 		  document.body.appendChild(script);
 	  })
 })
+
+function showAdminLogon() {
+	var html = "Yo, you need to login man."
+	$("#main").html(html)
+}
 
 var maploaded = false;
 
