@@ -6,7 +6,6 @@ var mysql		= require('mysql');
 var async		= require('async');
 var bodyParser 	= require('body-parser')
 var settings	= require('./settings.json')
-var twitter		= require('twitter')
 var Processing 	= require("./lib/processing.js")
 var api			= require("./lib/api.js")
 var adminapi	= require("./lib/adminapi.js")
