@@ -45,6 +45,11 @@ $(document).ready(function(){
 	{
 		loadTweets();
 	}
+	else if (location.hash.indexOf("#jam-") != 0)
+	{
+		var jamid = location.hash.split("-")[1];
+		loadJam(jamid);
+	}
 	else
 	{
 		loadRecentJams();
