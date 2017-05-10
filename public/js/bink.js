@@ -35,30 +35,7 @@ $(document).ready(
 				$('#adminPassword').focus();
 			})
 
-			$("#loginButton").click(function() {
-				var sendThem = {
-						password: $("#adminPassword").val()
-				}
-				
-				$.ajax({
-					method : "PUT",
-					url : "/admin/login",
-					contentType: "application/json",
-					data : JSON.stringify(sendThem)
-				}).done(function(msg) {
-					var data = JSON.parse(msg)
-					if (data.valid)
-					{
-						$('#adminModal').modal('hide');
-					}
-					else //invalid password
-					{
-						$("#invalidPassword").removeClass("hidden");
-						$('#adminPassword').val('');
-						$('#adminPassword').focus();
-					}	
-				});
-			})
+			$("#loginButton").click(login)
 
 			if (location.hash == "#browse") {
 				search(10, 0);
@@ -115,6 +92,48 @@ var maploaded = false;
 
 function mapcallback() {
 	maploaded = true;
+}
+
+function login(e) {
+	var sendThem = {
+			password: $("#adminPassword").val()
+	}
+	
+	$.ajax({
+		method : "PUT",
+		url : "/admin/login",
+		contentType: "application/json",
+		data : JSON.stringify(sendThem)
+	}).done(function(msg) {
+		var data = JSON.parse(msg)
+		if (data.valid)
+		{
+			$('#adminModal').modal('hide');
+		}
+		else //invalid password
+		{
+			$("#invalidPassword").removeClass("hidden");
+			$('#adminPassword').val('');
+			$('#adminPassword').focus();
+		}	
+	});
+}
+
+function isLoggedIn()
+{
+	$.get("/admin/loggedin", function(data) {
+		console.log(data)
+		if (data == "true")
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}).fail(function(data) {
+		return false;
+	})
 }
 
 function enqueue(setTitle, setPath) {
