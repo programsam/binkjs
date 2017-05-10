@@ -779,7 +779,40 @@ app.get('/history', function(req, res) {
 			if (rows.length > 0) //there is something in the array, return it
 			{
 				client.end()
-				res.send(rows)
+				async.forEach(rows, function(thisjam, mainCallback) {
+					async.series([
+					    function(callback)
+					    {
+					    	getBand(thisjam, callback)
+					    },
+					    function(callback)
+					    {
+					    	getLocation(thisjam, callback)
+					    },
+					    function(callback)
+					    {
+					    	hasTracks(thisjam, callback)
+					    },
+					    function(callback)
+					    {
+					    	hasVids(thisjam, callback)
+					    },
+					    function(callback)
+					    {
+					    	hasPics(thisjam, callback)
+					    }
+					],
+					function (err, results) {
+						mainCallback()
+					})
+			  }, //got everything, return now
+			  function (err)
+			  {
+				  toRet.results = jams
+				  res.send(toRet)
+				  client.end()
+			  }
+			  ) //jams are done
 			}
 			else //nothing in the array, return an empty array
 			{
