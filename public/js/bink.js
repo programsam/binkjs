@@ -26,12 +26,12 @@ $(document).ready(function(){
 	})
 	
 	$("a#adminButton").click( function() {
+		$('#adminPassword').val('');
 		$('#adminModal').modal('show');
 	})
 	
 	$('#adminModal').on('shown.bs.modal', function () {
 	  $('#adminPassword').focus();
-	  $('#adminPassword').val('');
 	})
 	
 	$("#loginButton").click( function() {
