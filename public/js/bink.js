@@ -40,7 +40,7 @@ $(document).ready(
 					method : "PUT",
 					url : "/admin/login",
 					data : {
-						password: $("#adminPassword")[0].val()
+						password: $("#adminPassword").val();
 					}
 				}).done(function(msg) {
 					console.log(msg)
