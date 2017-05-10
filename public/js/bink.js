@@ -29,6 +29,26 @@ $(document).ready(function(){
 	{
 		search(10, 0);
 	}
+	else if (location.hash == "#history")
+	{
+		loadHistoricJams();
+	}
+	else if (location.hash == "#playlist")
+	{
+		$("#sidebar-wrapper").collapse('toggle')
+	}
+	else if (location.hash == "#timeline")
+	{
+		loadTimeline();
+	}
+	else if (location.hash == "#map")
+	{
+		loadMap();
+	}
+	else if (location.hash == "#tweets")
+	{
+		loadTweets();
+	}
 	else
 	{
 		loadRecentJams();
