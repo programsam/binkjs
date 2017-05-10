@@ -87,9 +87,8 @@ $(document).ready(
 				document.body.appendChild(script);
 			})
 
-			$.get("/admin/loggedin", function(data) {
-				console.log(data)
-				if (data == "true") {
+			$.get("/admin/loggedin", function(loggedin) {
+				if (loggedin) {
 					$("#adminButton").addClass("hidden")
 					$("#logoutButton").removeClass("hidden")
 				}
