@@ -280,7 +280,7 @@ function renderBlogJams(html, data) {
 
 				if (thisjam.private != 0)
 				{
-					mydate += "<span class='glyphicon glyphicon-sunglasses' aria-hidden='true'></span>"
+					mydate = "<span class='glyphicon glyphicon-sunglasses' aria-hidden='true'></span>" + mydate
 				}
 				html += "<div class='panel panel-default'>"
 				html += "<div class='panel-heading'>" + mydate
