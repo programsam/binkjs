@@ -7,6 +7,8 @@ var async		= require('async');
 var bodyParser 	= require('body-parser')
 var settings	= require('./settings.json')
 var twitter		= require('twitter')
+var Processing 	= require("./lib/processing.js")
+
 
 function sql() {
 	return client = mysql.createClient(settings.mysql);
@@ -27,327 +29,6 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
 })
 
-var Processing = require("./lib/processing.js")
-
-function getJamTracks(thisjam, overallCallback)
-{
-	var client = sql();
-	var mytracks = []
-	client.query("SELECT * from tracks where jamid = ? order by num asc", [thisjam.id], 
-		function(err, tracks, fields) {
-		if (err) //error while getting the item
-		{
-			console.log("ERROR: " + err)
-			client.end()
-			overallCallback()
-		}
-		else
-		{
-			async.forEach(tracks, function(thisTrack, trackCallback) {
-				var track = {
-					id: thisTrack.id,
-					title: thisTrack.title,
-					path: settings.media_s3_url + thisTrack.path,
-					notes: thisTrack.notes
-				}
-				mytracks.push(track)
-				trackCallback()
-			}, function (err, results)
-			{
-				thisjam.tracks = mytracks
-				overallCallback()
-			}) //async
-		} //else
-	}) //query
-}
-
-function hasTracks(thisjam, overallCallback)
-{
-	var client = sql();
-	client.query("SELECT * from tracks where jamid = ?", [thisjam.id], 
-		function(err, tracks, fields) {
-		if (err) //error while getting the item
-		{
-			console.log("ERROR: " + err)
-			client.end()
-			overallCallback()
-		}
-		else
-		{
-			client.end()
-			if (tracks.length > 0)
-			{
-				thisjam.hasTracks = true
-				overallCallback()
-			}
-			else
-			{
-				thisjam.hasTracks = false
-				overallCallback()
-			}
-		} //else
-	}) //query
-}
-
-function hasPics(thisjam, overallCallback)
-{
-	var client = sql();
-	client.query("SELECT * from pictures where jamid = ?", [thisjam.id], 
-		function(err, pics, fields) {
-		if (err) //error while getting the item
-		{
-			console.log("ERROR: " + err)
-			client.end()
-			overallCallback()
-		}
-		else
-		{
-			client.end()
-			if (pics.length > 0)
-			{
-				thisjam.hasPics = true
-				overallCallback()
-			}
-			else
-			{
-				thisjam.hasPics = false
-				overallCallback()
-			}
-		} //else
-	}) //query
-}
-
-function hasVids(thisjam, overallCallback)
-{
-	var client = sql();
-	client.query("SELECT * from video where jamid = ?", [thisjam.id], 
-		function(err, vids, fields) {
-		if (err) //error while getting the item
-		{
-			console.log("ERROR: " + err)
-			client.end()
-			overallCallback()
-		}
-		else
-		{
-			client.end()
-			if (vids.length > 0)
-			{
-				thisjam.hasVids = true
-				overallCallback()
-			}
-			else
-			{
-				thisjam.hasVids = false
-				overallCallback()
-			}
-		} //else
-	}) //query
-}
-
-function getJamStaff(thisjam, overallCallback)
-{
-	var client = sql();
-	var mystaff = []
-	client.query("SELECT productiononcollection.jamid, productiononcollection.staffid as id, " +
-				 "productiononcollection.roleid, staff.name as staffname, roles.name as rolename " +  
-				 "FROM productiononcollection, staff, roles where staff.id = productiononcollection.staffid " + 
-				 "and roles.id = productiononcollection.roleid " +
-				 "and jamid = ?", [thisjam.id], 
-		function(err, staff, fields) {
-		if (err) //error while getting the item
-		{
-			console.log("ERROR: " + err)
-			client.end()
-			overallCallback()
-		}
-		else
-		{
-			 async.forEach(staff, function(thisstaff, mainCallback) {
-				 var found = false
-				 async.forEach(mystaff, function(thismystaff, subCallback) {
-				 	 if (thisstaff.staffname == thismystaff.name)
-					 {
-						thismystaff.roles.push(thisstaff.rolename)
-						found = true
-					 }
-					 subCallback()
-				 	}, 
-				 	function (err, results) {
-					 if (found == false)
-					 {
-						 var staff = {"name":thisstaff.staffname,
-								 "id": thisstaff.id,
-								 "roles": [thisstaff.rolename]}
-						 mystaff.push(staff)
-					 }
-					 mainCallback()
-				  })
-			   },
-			   function(err, results) {
-				 thisjam.staff = mystaff
-				 client.end()
-				 overallCallback()
-			   })
-		}
-	})
-}
-
-function getJamPictures(thisjam, overallCallback)
-{
-	var client = sql();
-	client.query("SELECT * from pictures where jamid = ?", [thisjam.id], 
-		function(err, pics, fields) {
-		if (err) //error while getting the item
-		{
-			console.log("ERROR: " + err)
-			client.end()
-			callback()
-		}
-		else
-		{
-			client.end()
-			if (pics.length > 0)
-			{
-				mypics = []
-				async.forEach(pics, function(thisPic, picCallback) {
-					thisPic.path = settings.media_s3_url + "pics/" + thisPic.jamid + "/" + thisPic.filename
-					mypics.push(thisPic)
-					picCallback()
-				}, function (err, results)
-				{
-					thisjam.pictures = mypics
-					overallCallback()
-				}) //async
-			}
-			else
-			{
-				thisjam.pictures = null
-				overallCallback()
-			}
-		} //else
-	}) //query
-}
-
-function getJamVideos(thisjam, callback)
-{
-	var client = sql();
-	client.query("SELECT * from video where jamid = ?", [thisjam.id], 
-		function(err, vids, fields) {
-		if (err) //error while getting the item
-		{
-			console.log("ERROR: " + err)
-			client.end()
-			callback()
-		}
-		else
-		{
-			client.end()
-			if (vids.length > 0)
-			{
-				for (var j=0;j<vids.length;j++)
-				{
-					vids[j].path = settings.media_s3_url + vids[j].path
-				}
-				thisjam.video = vids
-				callback()
-			}
-			else
-			{
-				thisjam.video = null
-				callback()
-			}
-		} //else
-	}) //query
-}
-
-function getBand(thisjam, callback)
-{
-	var client = sql();
-	client.query("SELECT * from bands where id = ?", [thisjam.bandid], 
-    function(err, rows, fields) {
-		if (err) //error while getting the item
-		{
-			console.log("ERROR: " + err)
-			client.end()
-			callback()
-		}
-		else //no error
-		{
-			if (rows.length > 0) //there is something in the array, return it
-			{
-				thisjam.band = rows[0]
-				client.end()
-				callback()
-			}
-			else //nothing in the array, return null
-			{
-				client.end()
-				callback()
-			}
-		} //else
-	}) //query
-} //function
-
-function getDefPic(thisjam, callback)
-{
-	
-	var client = sql();
-	client.query("SELECT * from pictures where id = ?", [thisjam.defpic], 
-		function(err, rows, fields) {
-		if (err) //error while getting the item
-		{
-			console.log("ERROR: " + err)
-			client.end()
-			callback()
-		}
-		else //no error
-		{
-			if (rows.length > 0) //there is something in the array, return it
-			{
-				thisjam.defpic = rows[0]
-				thisjam.defpic.path = settings.media_s3_url + "pics/" + thisjam.id + "/" + thisjam.defpic.filename
-				client.end()
-				callback()
-			}
-			else //nothing in the array, return null
-			{
-				thisjam.defpic = null
-				client.end()
-				callback()
-			}
-		} //else
-	}) //query
-} //function
-
-function getLocation(thisjam, callback)
-{
-	var client = sql();
-	client.query("SELECT * from locations where id = ?", [thisjam.locid], 
-		function(err, rows, fields) {
-		if (err) //error while getting the item
-		{
-			console.log("ERROR: " + err)
-			client.end()
-			callback()
-		}
-		else //no error
-		{
-			if (rows.length > 0) //there is something in the array, return it
-			{
-				thisjam.location = rows[0]
-				client.end()
-				callback()
-			}
-			else //nothing in the array, return null
-			{
-				client.end()
-				callback()
-			}
-		} //else
-	}) //query
-} //function
-
 app.get('/jam/:id', function (req, res) {
 	var client = sql();
 	client.query('SELECT * from jams where id = ?', [req.params.id], 
@@ -363,11 +44,11 @@ app.get('/jam/:id', function (req, res) {
 			async.series([
 			    function(callback)
 			    {
-			    	getBand(thisjam, callback)
+			    	Processing.getBand(thisjam, callback)
 			    },
 			    function(callback)
 			    {
-			    	getLocation(thisjam, callback)
+			    	Processing.getLocation(thisjam, callback)
 			    },
 			    function(callback)
 			    {
@@ -375,19 +56,19 @@ app.get('/jam/:id', function (req, res) {
 			    },
 			    function(callback)
 			    {
-			    	getJamStaff(thisjam, callback)
+			    	Processing.getJamStaff(thisjam, callback)
 			    },
 			    function(callback)
 			    {
-			    	getJamTracks(thisjam, callback)
+			    	Processing.getJamTracks(thisjam, callback)
 			    },
 			    function(callback)
 			    {
-			    	getJamPictures(thisjam, callback)
+			    	Processing.getJamPictures(thisjam, callback)
 			    },
 			    function(callback)
 			    {
-			    	getJamVideos(thisjam, callback)
+			    	Processing.getJamVideos(thisjam, callback)
 			    },
 			    function(callback)
 			    {
@@ -416,15 +97,15 @@ app.get('/recent', function (req, res) {
 				async.series([
 				    function(callback)
 				    {
-				    	getBand(thisjam, callback)
+				    	Processing.getBand(thisjam, callback)
 				    },
 				    function(callback)
 				    {
-				    	getLocation(thisjam, callback)
+				    	Processing.getLocation(thisjam, callback)
 				    },
 				    function(callback)
 				    {
-				    	getDefPic(thisjam, callback)
+				    	Processing.getDefPic(thisjam, callback)
 				    }
 				],
 				function (err, results) {
@@ -645,69 +326,12 @@ app.put('/playlist', function(req, res) {
 	res.send(req.session.playlist)
 })
 
-function getTotalJams(toRet, callback) {
-	var client = sql();
-	client.query("SELECT COUNT(*) as num from jams where private = 0", 
-		function(err, rows, fields) {
-		if (err) //error while getting the item
-		{
-			console.log("ERROR: " + err)
-			client.end()
-		}
-		else //no error
-		{
-			if (rows.length > 0) //there is something in the array, return it
-			{
-				client.end()
-				toRet.total = rows[0].num
-				if (null != callback)
-					callback()
-			}
-			else //nothing in the array, return null
-			{
-				client.end()
-				if (null != callback)
-					callback()
-			}
-		} //else
-	}) //query
-}
-
-function getTotalSearchJams(query, toRet, callback) {
-	var client = sql();
-	client.query("SELECT COUNT(*) as num from jams where private = 0 and title like (?)",
-		[query],
-		function(err, rows) {
-		if (err) //error while getting the item
-		{
-			console.log("ERROR: " + err)
-			client.end()
-		}
-		else //no error
-		{
-			if (rows.length > 0) //there is something in the array, return it
-			{
-				client.end()
-				toRet.total = rows[0].num
-				if (null != callback)
-					callback()
-			}
-			else //nothing in the array, return null
-			{
-				client.end()
-				if (null != callback)
-					callback()
-			}
-		} //else
-	}) //query
-}
-
 app.get('/total/jams', function (req, res) {
 	toRet = {}
 	async.series([
 	function(callback)
 	{
-		getTotalJams(toRet, callback)
+		Processing.getTotalJams(toRet, callback)
 	},
 	function(callback)
 	{
@@ -735,27 +359,27 @@ app.get('/history', function(req, res) {
 					async.series([
 					    function(callback)
 					    {
-					    	getBand(thisjam, callback)
+					    	Processing.getBand(thisjam, callback)
 					    },
 					    function(callback)
 					    {
-					    	getLocation(thisjam, callback)
+					    	Processing.getLocation(thisjam, callback)
 					    },
 					    function(callback)
 					    {
-					    	hasTracks(thisjam, callback)
+					    	Processing.hasTracks(thisjam, callback)
 					    },
 					    function(callback)
 					    {
-					    	hasVids(thisjam, callback)
+					    	Processing.hasVids(thisjam, callback)
 					    },
 					    function(callback)
 					    {
-					    	hasPics(thisjam, callback)
+					    	Processing.hasPics(thisjam, callback)
 					    },
 					    function(callback)
 					    {
-					    	getDefPic(thisjam, callback)
+					    	Processing.getDefPic(thisjam, callback)
 					    }
 					],
 					function (err, results) {
@@ -875,7 +499,7 @@ app.get('/search/:size/:page/:query', function (req, res) {
 	
 	var client = sql();
 	var toRet = {"page": page, "size": size, "query": req.params.query}
-	getTotalSearchJams(query, toRet)
+	Processing.getTotalSearchJams(query, toRet)
 	client.query("SELECT * from jams where private = 0 and title like (?) order by date desc limit ?,?",
 				[query, offset, size], function (err, jams) {
 					  if (err)
@@ -890,23 +514,23 @@ app.get('/search/:size/:page/:query', function (req, res) {
 							async.series([
 							    function(callback)
 							    {
-							    	getBand(thisjam, callback)
+							    	Processing.getBand(thisjam, callback)
 							    },
 							    function(callback)
 							    {
-							    	getLocation(thisjam, callback)
+							    	Processing.getLocation(thisjam, callback)
 							    },
 							    function(callback)
 							    {
-							    	hasTracks(thisjam, callback)
+							    	Processing.hasTracks(thisjam, callback)
 							    },
 							    function(callback)
 							    {
-							    	hasVids(thisjam, callback)
+							    	Processing.hasVids(thisjam, callback)
 							    },
 							    function(callback)
 							    {
-							    	hasPics(thisjam, callback)
+							    	Processing.hasPics(thisjam, callback)
 							    }
 							],
 							function (err, results) {
@@ -940,7 +564,7 @@ app.get('/search/:size/:page', function (req, res) {
 	
 	var client = sql();
 	var toRet = {"page": page, "size": size}
-	getTotalJams(toRet)
+	Processing.getTotalJams(toRet)
 	client.query("SELECT * from jams where private = 0 order by date desc limit ?,?", 
 				[offset, size], 
 				function(err, jams) {
@@ -956,23 +580,23 @@ app.get('/search/:size/:page', function (req, res) {
 							async.series([
 							    function(callback)
 							    {
-							    	getBand(thisjam, callback)
+							    	Processing.getBand(thisjam, callback)
 							    },
 							    function(callback)
 							    {
-							    	getLocation(thisjam, callback)
+							    	Processing.getLocation(thisjam, callback)
 							    },
 							    function(callback)
 							    {
-							    	hasTracks(thisjam, callback)
+							    	Processing.hasTracks(thisjam, callback)
 							    },
 							    function(callback)
 							    {
-							    	hasVids(thisjam, callback)
+							    	Processing.hasVids(thisjam, callback)
 							    },
 							    function(callback)
 							    {
-							    	hasPics(thisjam, callback)
+							    	Processing.hasPics(thisjam, callback)
 							    }
 							],
 							function (err, results) {
@@ -989,8 +613,6 @@ app.get('/search/:size/:page', function (req, res) {
 				  	} //else the database command was successful
 				}) //client.query
 }) //get /recent
-
-
 
 app.use(express.static(__dirname + '/public'));
 
