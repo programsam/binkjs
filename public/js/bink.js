@@ -36,14 +36,15 @@ $(document).ready(
 			})
 
 			$("#loginButton").click(function() {
+				var sendThem = {
+						password: $("#adminPassword").val()
+				}
+				
 				$.ajax({
 					method : "PUT",
 					url : "/admin/login",
-					json: true,
 					dataType: "application/json",
-					data : {
-						password: $("#adminPassword").val()
-					}
+					data : JSON.stringify(sendThem)
 				}).done(function(msg) {
 					var data = JSON.parse(msg)
 					if (data.valid)
