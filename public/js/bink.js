@@ -678,10 +678,10 @@ function loadJam(id) {
 						var d = new Date(thisjam.date)
 						var mydate = (d.getMonth() + 1) + "/" + d.getDate()
 								+ "/" + d.getFullYear()
-						if (thisjam.private != 0)
-							html += "<span class='glyphicon glyphicon-sunglasses' aria-hidden='true'></span>"
 						html += "<h3>" + mydate + " - " + thisjam.title
 								+ "</h3>"
+						if (thisjam.private != 0)
+							html += "<p class='pull-right'><span class='glyphicon glyphicon-sunglasses' aria-hidden='true'></span></p>"
 						html += "<h4>"
 						if (thisjam.hasOwnProperty("band")) {
 							html += "<a href='javascript:loadBand("
