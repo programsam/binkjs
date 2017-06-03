@@ -1,7 +1,6 @@
 [Unit]
 Description=BINK.js System Server
 Requires=After=mysql.service       # Requires the mysql service to run first
-Requires=After=apache2.service
 
 [Service]
 ExecStart=/usr/bin/nodejs /srv/www/js.binkmusic.com/server.js
