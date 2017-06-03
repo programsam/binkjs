@@ -1,19 +1,14 @@
 [Unit]
 Description=BINK.js System Server
-Requires=After=mysql.service       # Requires the mysql service to run first
+After=mysql.service
+Requires=mysql.service
+Wants=apache2.service
 
 [Service]
 ExecStart=/usr/bin/nodejs /srv/www/js.binkmusic.com/server.js
-# Required on some systems
 WorkingDirectory=/srv/www/js.binkmusic.com
 Restart=always
-# Restart service after 10 seconds if node service crashes
 RestartSec=10
 
-StandardOutput=/srv/www/js.binkmusic.com/log/binkjs.stdout.log
-StandardError=/srv/www/js.binkmusic.com/log/binkjs.stdout.log
-User=binkjs
-#Environment=NODE_ENV=production PORT=1337
-
-[Install]
+[Install] 
 WantedBy=multi-user.target
