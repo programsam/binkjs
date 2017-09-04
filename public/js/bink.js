@@ -23,6 +23,12 @@ $(document).ready(function() {
 			search(10, 0, query.val())
 		}
 	})
+	$("input#search").keypress(function(event) {
+		if (event.which == 13) {
+			event.preventDefault();
+			login();
+		}
+	})
 	$("a#playlistButton").click(function() {
 		$("#sidebar-wrapper").collapse('toggle')
 	})
@@ -126,7 +132,7 @@ function logout(e)
 	});
 }
 
-function login(e) {
+function login() {
 	var sendThem = {
 		password : $("#adminPassword").val()
 	}

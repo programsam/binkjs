@@ -92,7 +92,7 @@ html(lang='en')
         li.sidebar-brand
           a  Playlist
     // Modal for Admin Login
-    #adminModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+    #adminModal.modal.fade(tabindex='-1', role='dialog', data-keyboard='false', aria-labelledby='adminModal')
       .modal-dialog(role='document')
         .modal-content
           .modal-header
@@ -101,10 +101,10 @@ html(lang='en')
             h4#adminLoginTitle.modal-title Admin Login
           form
             .modal-body
+              #modalAlert
               .form-group
                 label(for='adminPassword') Password
                 input#adminPassword.form-control(type='password', placeholder='')
-              #invalidPassword.alert.alert-warning.invisible(role='alert') Invalid password! Please try again.
             .modal-footer
               button.btn.btn-default(type='button', data-dismiss='modal') Close
               button#loginButton.btn.btn-primary(type='submit') Login
