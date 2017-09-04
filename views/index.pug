@@ -36,27 +36,27 @@ html(lang='en')
       #navbarSupportedContent.collapse.navbar-collapse
         ul.navbar-nav.mr-auto
           li.nav-item.active
-            arecentButton.nav-link(href='#recent') Recent
+            arecentButton.nav-link.linkish(href='#recent') Recent
           li.nav-item
-            a#browseButton.nav-link(href='#browse') Browse
+            a#browseButton.nav-link.linkish(href='#browse') Browse
           li.nav-item
-            a#historyButton.nav-link(href='#history') History
+            a#historyButton.nav-link.linkish(href='#history') History
           li.nav-item
-            a#playlistButton.nav-link(href='#playlist') Playlist
+            a#playlistButton.nav-link.linkish(href='#playlist') Playlist
           li.nav-item
-            a#timelineButton.nav-link(href='#timeline') Timeline
+            a#timelineButton.nav-link.linkish(href='#timeline') Timeline
           li.nav-item
-            a#mapButton.nav-link(href='#map') Map
+            a#mapButton.nav-link.linkish(href='#map') Map
           li.nav-item
-            a#twitterButton.nav-link(href='#tweets') Tweets
+            a#twitterButton.nav-link.linkish(href='#tweets') Tweets
           li.nav-item
-            a#adminButton.nav-link Admin
+            a#adminButton.nav-link.linkish Admin
           li.nav-item
-          a.nav-link.dropdown-toggle.invisible(data-toggle='dropdown', href='#', role='button', aria-haspopup='true', aria-expanded='false') Admin
+          a.nav-link.dropdown-toggle.linkish.invisible(data-toggle='dropdown', href='#', role='button', aria-haspopup='true', aria-expanded='false') Admin
           .dropdown-menu#adminMenu
-            a.dropdown-item(href='#new') New
+            a.dropdown-item.linkish(href='#new') New
             .dropdown-divider
-            a#logoutButton.dropdown-item(href='#') Logout
+            a#logoutButton.dropdown-item.linkish(href='#') Logout
     #jquery_jplayer_1
     #jp_container_1.jp-audio(role='application', aria-label='media player')
       .jp-type-single
@@ -107,7 +107,7 @@ html(lang='en')
               .form-group
                 label(for='adminPassword') Password
                 input#adminPassword.form-control(type='password', placeholder='')
-              #invalidPassword.alert.alert-warning.hidden(role='alert') Invalid password! Please try again.
+              #invalidPassword.alert.alert-warning.invisible(role='alert') Invalid password! Please try again.
             .modal-footer
               button.btn.btn-default(type='button', data-dismiss='modal') Close
               button#loginButton.btn.btn-primary(type='submit') Login

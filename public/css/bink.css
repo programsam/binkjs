@@ -5,7 +5,7 @@
 /*
  * BINK Styles
  */
-.navbarlink {
+.linkish {
 	cursor: pointer;
 }
 
@@ -189,4 +189,8 @@
 .placeholder img {
   display: inline-block;
   border-radius: 50%;
+}
+
+.invisible {
+  height: 0px;
 }
