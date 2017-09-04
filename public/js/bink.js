@@ -150,7 +150,7 @@ function logout()
 
 function login() {
 	var sendThem = {
-		password : $("#adminPassword").val()
+		password : $("#password").val()
 	}
 
 	$.ajax({
