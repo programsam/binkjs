@@ -282,7 +282,7 @@ function renderBlogJams(html, data) {
 			var mydate = (d.getMonth() + 1) + "/" + d.getDate() + "/"
 				+ d.getFullYear()
 
-				html += '<div class="card" style="width: 20rem;">';
+				html += '<div class="card">';
 				html += '<div class="card-body">';
 				html += '<h4 class="card-title">' + mydate + '-';
 				html += '<a href="javascript:loadJam(' + thisjam.id + ');">';
