@@ -15,5 +15,6 @@
     ,"twitter":"*"
     ,"pug":"*"
     ,"express-robots":"*"
+    ,"helmet":"*"
   }
 }
