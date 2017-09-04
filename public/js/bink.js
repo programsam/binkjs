@@ -15,7 +15,7 @@ $(document).ready(function() {
 	$("a#mapButton").click(loadMap)
 	$("a#timelineButton").click(loadTimeline)
 	$("a#twitterButton").click(loadTweets)
-	$("input#search").keypress(function(event) {
+	$("INPUT#search").keypress(function(event) {
 		if (event.which == 13) {
 			event.preventDefault();
 			query = $("input#search")
@@ -23,11 +23,10 @@ $(document).ready(function() {
 			search(10, 0, query.val())
 		}
 	})
-	$("input#loginButton").keypress(function(event) {
-		console.log(event.which);
-		if (event.which == 13) {
-			event.preventDefault();
-			login();
+	$("INPUT#loginButton").keypress(function(event) {
+		if (event.keyCode == 13 || event.which == 13) {
+				event.preventDefault();
+				login();
 		}
 	})
 	$("a#playlistButton").click(function() {
