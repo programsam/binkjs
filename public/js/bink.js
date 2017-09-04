@@ -102,14 +102,14 @@ function mapcallback() {
 
 function showAdmin()
 {
-	$("#adminButton").addClass("hidden")
-	$("#adminMenu").removeClass("hidden")
+	$("#adminButton").addClass("invisible")
+	$("#adminMenu").removeClass("invisible")
 }
 
 function hideAdmin()
 {
-	$("#adminButton").removeClass("hidden")
-	$("#adminMenu").addClass("hidden")
+	$("#adminButton").removeClass("invisible")
+	$("#adminMenu").addClass("invisible")
 }
 
 function logout(e)
@@ -141,7 +141,7 @@ function login(e) {
 			loadRecentJams();
 		} else // invalid password
 		{
-			$("#invalidPassword").removeClass("hidden");
+			$("#invalidPassword").removeClass("invisible");
 			$('#adminPassword').val('');
 			$('#adminPassword').focus();
 		}
