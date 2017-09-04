@@ -491,7 +491,7 @@ function search(size, page, query) {
 	getSearchResults(size, page, query)
 	var html = ""
 	html += "<div id='pages'></div>"
-	html += "<div class='panel'><div class='btn-group' data-toggle='buttons'>"
+	html += "<div class='card'><div class='btn-group' data-toggle='buttons'>"
 
 	if (null != query) {
 		query = query.replace(/"/g, '\\\"')
@@ -744,22 +744,22 @@ function loadJam(id) {
 						if (thisjam.hasOwnProperty("location")
 								&& thisjam.location.lat != null
 								&& thisjam.location.lon != null) {
-							html += "<div class='panel panel-default'><div class='panel-heading'>Location</div>"
+							html += "<div class='card'><div class='card-title'>Location</div>"
 							html += "<div id='map-canvas' style='width: 100%; height: 300px'></div>"
 							html += "</div>"
 							hasMap = true
 						}
 						if (thisjam.hasOwnProperty("notes")
 								&& thisjam.notes != "") {
-							html += "<div class='panel panel-default'><div class='panel-heading'>Notes</div>"
-							html += "<div class='panel-body'>" + thisjam.notes
-									+ "</div>"
+							html += "<div class='card'><div class='card-title'>Notes</div>"
+							html += "<div class='card-body'><p class='card-body'>" + thisjam.notes
+									+ "</p></div>"
 							html += "</div>"
 						}
 						if (thisjam.hasOwnProperty("musicians")
 								&& thisjam.musicians.length != 0) {
-							html += "<div class='panel panel-default'><div class='panel-heading'>Musicians</div>"
-							html += "<ul class='list-group'>"
+							html += "<div class='card'><div class='card-title'>Musicians</div>"
+							html += "<div class='card-body'><ul class='list-group'>"
 							thisjam.musicians
 									.forEach(function(musician, mi, ma) {
 										html += "<li class='list-group-item'><a href='javascript:loadMusician("
@@ -778,7 +778,7 @@ function loadJam(id) {
 												})
 										html += "</li>"
 									})
-							html += "</ul></div>"
+							html += "</ul></div></div>"
 						}
 						if (thisjam.hasOwnProperty("staff")
 								&& thisjam.staff.length != 0) {
