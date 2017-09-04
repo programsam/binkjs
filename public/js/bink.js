@@ -266,12 +266,18 @@ function play(setTitle, path) {
 }
 
 function recentCallback(data) {
-	var html = "";
-	renderBlogJams(html, data)
+	if (data.length > 0)
+	{
+		renderBlogJams("", data)
+	}
+	else {
+		$("#main").html("<h6>NO JAMS FOUND.</h6>");
+	}
 }
 
 function historicCallback(data) {
 	var html = "<h1>Today in BINK! History</h1>";
+	var data = JSON.parse(data);
 	if (data.length > 0) {
 		renderBlogJams(html, data)
 	} else {
