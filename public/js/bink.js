@@ -103,13 +103,13 @@ function mapcallback() {
 function showAdmin()
 {
 	$("#adminButton").addClass("hidden")
-	$("#adminMenu").removeClass("hidden")	
+	$("#adminMenu").removeClass("hidden")
 }
 
 function hideAdmin()
 {
 	$("#adminButton").removeClass("hidden")
-	$("#adminMenu").addClass("hidden")	
+	$("#adminMenu").addClass("hidden")
 }
 
 function logout(e)
@@ -274,50 +274,98 @@ function historicCallback(data) {
 }
 
 function renderBlogJams(html, data) {
+	var html = "":
 	data
 			.forEach(function(thisjam, index, array) {
-				var d = new Date(thisjam.date)
-				var mydate = (d.getMonth() + 1) + "/" + d.getDate() + "/"
-						+ d.getFullYear()
-
 				if (thisjam.private != 0)
 				{
-					mydate = "<span class='glyphicon glyphicon-sunglasses' aria-hidden='true'></span> " + mydate
+					var d = new Date(thisjam.date)
+					var mydate = (d.getMonth() + 1) + "/" + d.getDate() + "/"
+						+ d.getFullYear()
+
+						html += '<div class="card" style="width: 20rem;">';
+						html += '<div class="card-body">';
+    				html += '<h4 class="card-title">' + mydate + '-';
+						html += '<a href="javascript:loadJam(' + thisjam.id + ');">';
+						html += thisjam.title + '</a>';
+						html += '</h4>';
+						if (thisjam.hasOwnProperty('band') || thisjam.hasOwnProperty('location'))
+						{
+							html += '<h6 class="card-subtitle mb-2 text-muted">';
+							if (thisjam.hasOwnProperty('band') && thisjam.hasOwnProperty('location'))
+							{
+								html += '<a href="javascript:loadBand(' + thisjam.band.id
+											+ ')">' + thisjam.band.name + "</a>";
+								html += ' at ';
+								html += '<a href="javascript:loadLocation(' + thisjam.location.id
+											+ ')">' + thisjam.location.name + "</a>";
+							}
+							else if (thisjam.hasOwnProperty('band'))
+							{
+								html += '<a href="javascript:loadBand(' + thisjam.band.id
+											+ ')">' + thisjam.band.name + "</a>";
+							}
+							else if (thisjam.hasOwnProperty('location'))
+							{
+								html += '<a href="javascript:loadLocation(' + thisjam.location.id
+											+ ')">' + thisjam.location.name + "</a>";
+							}
+							html += '</h6>';
+						}
+
+						if (thisjam.hasOwnProperty('notes') || thisjam.notes != "")
+						{
+							html += '<p class="card-text">';
+							html += thisjam.notes;
+							html += '</p>';
+
+							if (thisjam.hasOwnProperty('defpic') && thisjam.defpic != null
+									&& thisjam.defpic != -1) {
+								html += '<p class="card-text"><img width='200px' src="' + thisjam.defpic.path
+										+ '"></p>'
+							}
+						}
+
+    				html += '<a href="#" class="card-link">Card link</a>';
+    				html += '<a href="#" class="card-link">Another link</a>';
+  					html += '</div></div>';
+					// mydate = "<span class='glyphicon glyphicon-sunglasses' aria-hidden='true'></span> " + mydate
+					//
+					// html += "<div class='panel panel-default'>"
+					// html += "<div class='panel-heading'>" + mydate
+					// 		+ " - <a href='javascript:loadJam(" + thisjam.id
+					// 		+ ")'>" + thisjam.title + "</a>"
+					// html += "<div class='pull-right'>"
+					// if (thisjam.hasOwnProperty("band")) {
+					// 	html += "<a href='javascript:loadBand(" + thisjam.band.id
+					// 			+ ")'>" + thisjam.band.name + "</a>"
+					// }
+					// if (thisjam.hasOwnProperty("band")
+					// 		&& thisjam.hasOwnProperty("location")) {
+					// 	html += " at "
+					// }
+					// if (thisjam.hasOwnProperty("location")) {
+					// 	html += "<a href='javascript:loadLocation("
+					// 			+ thisjam.location.id + ")'>"
+					// 			+ thisjam.location.name + "</a>"
+					// }
+					// html += "</div>"
+					// html += "</div>"
+					// html += "<div class='panel-body'>"
+					// if (thisjam.hasOwnProperty("notes") && thisjam.notes != "") {
+					// 	html += "<p>" + thisjam.notes + "</p>"
+					// }
+					// if (thisjam.hasOwnProperty("defpic") && thisjam.defpic != null
+					// 		&& thisjam.defpic != -1) {
+					// 	html += "<p><img width='200px' src='" + thisjam.defpic.path
+					// 			+ "'></p>"
+					// }
+					// html += "<p class='pull-right'><button onclick='loadJam("
+					// 		+ thisjam.id
+					// 		+ ")' type='button' class='btn btn-default' aria-label='Load this Jam'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button></p>"
+					// html += "</div>"
+					// html += "</div>"
 				}
-				html += "<div class='panel panel-default'>"
-				html += "<div class='panel-heading'>" + mydate
-						+ " - <a href='javascript:loadJam(" + thisjam.id
-						+ ")'>" + thisjam.title + "</a>"
-				html += "<div class='pull-right'>"
-				if (thisjam.hasOwnProperty("band")) {
-					html += "<a href='javascript:loadBand(" + thisjam.band.id
-							+ ")'>" + thisjam.band.name + "</a>"
-				}
-				if (thisjam.hasOwnProperty("band")
-						&& thisjam.hasOwnProperty("location")) {
-					html += " at "
-				}
-				if (thisjam.hasOwnProperty("location")) {
-					html += "<a href='javascript:loadLocation("
-							+ thisjam.location.id + ")'>"
-							+ thisjam.location.name + "</a>"
-				}
-				html += "</div>"
-				html += "</div>"
-				html += "<div class='panel-body'>"
-				if (thisjam.hasOwnProperty("notes") && thisjam.notes != "") {
-					html += "<p>" + thisjam.notes + "</p>"
-				}
-				if (thisjam.hasOwnProperty("defpic") && thisjam.defpic != null
-						&& thisjam.defpic != -1) {
-					html += "<p><img width='200px' src='" + thisjam.defpic.path
-							+ "'></p>"
-				}
-				html += "<p class='pull-right'><button onclick='loadJam("
-						+ thisjam.id
-						+ ")' type='button' class='btn btn-default' aria-label='Load this Jam'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button></p>"
-				html += "</div>"
-				html += "</div>"
 			})
 	$("#main").html(html)
 }
@@ -603,7 +651,7 @@ function searchCallback(data) {
 					} else {
 						html += "<td></td>"
 					}
-					
+
 					if (thisjam.private != 0) {
 						html += "<td><span class='glyphicon glyphicon-sunglasses' aria-hidden='true'></span></td>"
 					} else {
