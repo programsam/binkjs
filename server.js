@@ -14,8 +14,8 @@ var helmet = require('helmet');
 var robots = require('express-robots');
 var app = express();
 
-
-var settings = require('./settings')
+var packagejson = require('./package');
+var settings = require('./settings');
 
 function sql() {
 	return mysql.createConnection(settings.mysql);
@@ -63,12 +63,18 @@ function authenticated(req, res, next) {
 }
 
 app.get('/', function(req, res) {
-	res.render('index')
+	res.render('index', {version: packagejson.version})
 })
 
-app.get('/navbar', function(req, res) {
-	res.render('navbar')
-})
+/*
+Not a good feature to just have lying around, but this
+can be *very* useful for debugging CSS/DHTML/jQuery/Bootstrap
+issues when you want to see how just the basic header should
+look when it gets loaded.
+*/
+// app.get('/navbar', function(req, res) {
+// 	res.render('navbar')
+// })
 
 app.use(api)
 app.use(adminapi)
