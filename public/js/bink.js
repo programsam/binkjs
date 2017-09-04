@@ -23,7 +23,7 @@ $(document).ready(function() {
 			search(10, 0, query.val())
 		}
 	})
-	$("INPUT#loginButton").keypress(function(event) {
+	$("INPUT#password").keypress(function(event) {
 		if (event.keyCode == 13 || event.which == 13) {
 				event.preventDefault();
 				login();
