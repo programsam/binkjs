@@ -150,10 +150,14 @@ function login() {
 			loadRecentJams();
 		} else // invalid password
 		{
-			loginAlert("Failed to authenticate. Reason: " + JSON.stringify(data));
+			loginAlert("Failed to authenticate. Incorrect password.");
 			$('#adminPassword').val('');
 			$('#adminPassword').focus();
 		}
+	}).fail(function(jqXHR) {
+		loginAlert("Error occurred while logging in. Error was: " + jqXHR.responseText);
+		$('#adminPassword').val('');
+		$('#adminPassword').focus();
 	});
 }
 
