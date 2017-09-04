@@ -122,6 +122,7 @@ function showAdmin()
 	html += '<a class="dropdown-item" id="logoutButton" href="#logout">Logout</a>';
 	html += '</div>';
 	$('#adminItem').html(html);
+	$("#logoutButton").click(logout);
 }
 
 function hideAdmin()
