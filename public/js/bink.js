@@ -131,6 +131,8 @@ function hideAdmin()
 	var html = "";
 	html += '<a class="nav-link linkish" id="adminButton">Admin</a>';
 	$('#adminItem').html(html);
+	$('#modalAlert').html('');
+
 	$("a#adminButton").click(function() {
 		$('#password').val('');
 		$('#adminModal').modal('show');
