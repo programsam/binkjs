@@ -274,7 +274,7 @@ function historicCallback(data) {
 }
 
 function renderBlogJams(html, data) {
-	var html = "":
+	var html = "";
 	data
 			.forEach(function(thisjam, index, array) {
 				if (thisjam.private != 0)
