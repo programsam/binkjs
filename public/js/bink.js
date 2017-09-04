@@ -37,6 +37,8 @@ $(document).ready(function() {
 	$("#logoutButton").click(logout);
 
 	if (location.hash == "#browse") {
+		$('.nav-link.active').removeClass('active');
+		$('#browse').addClass('active');
 		search(10, 0);
 	} else if (location.hash == "#history") {
 		loadHistoricJams();
