@@ -325,14 +325,8 @@ function renderBlogJams(html, data) {
 					}
 				}
 
-				html += '<a href="#" class="card-link">Card link</a>';
-				html += '<a href="#" class="card-link">Another link</a>';
+				html += '<a href="javascript:loadJam(' + thisjam.id + ')" class="card-link">View</a>';
 				html += '</div></div>';
-			// html += "<p class='pull-right'><button onclick='loadJam("
-			// 		+ thisjam.id
-			// 		+ ")' type='button' class='btn btn-default' aria-label='Load this Jam'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button></p>"
-			// html += "</div>"
-			// html += "</div>"
 		} //if not private
 	}) //foreach
 	$("#main").html(html);
