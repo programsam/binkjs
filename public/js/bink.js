@@ -111,14 +111,20 @@ function mapcallback() {
 
 function showAdmin()
 {
-	$("#adminButton").addClass("invisible")
-	$("#adminMenu").removeClass("invisible")
+	var html = "";
+	html += '<div class="dropdown-menu">';
+  html += '<a class="dropdown-item" href="#new">Create Jam</a>';
+  html += '<div class="dropdown-divider"></div>';
+  html += '<a class="dropdown-item" href="#logout">Logout</a>';
+	html += '</div>';
+	$('#adminItem').html(html);
 }
 
 function hideAdmin()
 {
-	$("#adminButton").removeClass("invisible")
-	$("#adminMenu").addClass("invisible")
+	var html = "";
+	html += '<a class="nav-link linkish" id="adminButton">Admin</a>';
+	$('#adminItem').html(html);
 }
 
 function logout(e)
