@@ -34,12 +34,12 @@ $(document).ready(function() {
 	})
 
 	$("a#adminButton").click(function() {
-		$('#adminPassword').val('');
-		$('#adminModal').modal('show');
+		$('#password').val('');
+		$('#password').modal('show');
 	})
 
 	$('#adminModal').on('shown.bs.modal', function() {
-		$('#adminPassword').focus();
+		$('#password').focus();
 	})
 
 	$("#loginButton").click(login);
@@ -132,7 +132,7 @@ function hideAdmin()
 	html += '<a class="nav-link linkish" id="adminButton">Admin</a>';
 	$('#adminItem').html(html);
 	$("a#adminButton").click(function() {
-		$('#adminPassword').val('');
+		$('#password').val('');
 		$('#adminModal').modal('show');
 	})
 }
@@ -167,13 +167,13 @@ function login() {
 		} else // invalid password
 		{
 			loginAlert("Failed to authenticate. Incorrect password.");
-			$('#adminPassword').val('');
-			$('#adminPassword').focus();
+			$('#password').val('');
+			$('#password').focus();
 		}
-	}).fail(function(jqXHR) {
+	}).fail(function(jqXHR) { //failure connecting or similar
 		loginAlert("Error occurred while logging in. Error was: " + jqXHR.responseText);
-		$('#adminPassword').val('');
-		$('#adminPassword').focus();
+		$('#password').val('');
+		$('#password').focus();
 	});
 }
 
