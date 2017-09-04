@@ -9,6 +9,10 @@
 	cursor: pointer;
 }
 
+#main {
+  margin-top: auto;
+}
+
 .mapviewer {
 	position: absolute;
 	width: 100%;
