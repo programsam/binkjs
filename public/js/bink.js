@@ -114,12 +114,12 @@ function showAdmin()
 	$('#adminItem').addClass('dropdown');
 	var html = "";
 	html += '<a class="nav-link dropdown-toggle" href="#" ';
-	html += 'id="dropdown01" data-toggle="dropdown" aria-haspopup="true"';
+	html += 'id="adminMenu" data-toggle="dropdown" aria-haspopup="true"';
 	html += 'aria-expanded="false">Admin</a>';
-	html += '<div class="dropdown-menu" aria-labelledby="dropdown01">';
-	html += '<a class="dropdown-item" href="#">Action</a>';
-	html += '<a class="dropdown-item" href="#">Another action</a>';
-	html += '<a class="dropdown-item" href="#">Something else here</a>';
+	html += '<div class="dropdown-menu" aria-labelledby="adminMenu">';
+	html += '<a class="dropdown-item" href="#new">Create New</a>';
+	html += '<div class="dropdown-divider"></div>';
+	html += '<a class="dropdown-item" href="#logout">Logout</a>';
 	html += '</div>';
 	$('#adminItem').html(html);
 }
