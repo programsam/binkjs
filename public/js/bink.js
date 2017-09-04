@@ -1,98 +1,96 @@
 var lastOpenMarker = null;
 
-$(document).ready(
-		function() {
+$(document).ready(function() {
+	$('a.navbarlink').click(function() {
+		$('#navbar').collapse('hide')
+	});
 
-			$('a.navbarlink').click(function() {
-				$('#navbar').collapse('hide')
-			});
+	$("a#recentButton").click(loadRecentJams)
+	$("a#browseButton").click(function() {
+		search(10, 0);
+	})
+	$("a#historyButton").click(loadHistoricJams)
+	$("a#mapButton").click(loadMap)
+	$("a#timelineButton").click(loadTimeline)
+	$("a#twitterButton").click(loadTweets)
+	$("input#search").keypress(function(event) {
+		if (event.which == 13) {
+			event.preventDefault();
+			query = $("input#search")
+			search(10, 0, query.val())
+		}
+	})
+	$("a#playlistButton").click(function() {
+		$("#sidebar-wrapper").collapse('toggle')
+	})
 
-			$("a#recentButton").click(loadRecentJams)
-			$("a#browseButton").click(function() {
-				search(10, 0);
-			})
-			$("a#historyButton").click(loadHistoricJams)
-			$("a#mapButton").click(loadMap)
-			$("a#timelineButton").click(loadTimeline)
-			$("a#twitterButton").click(loadTweets)
-			$("input#search").keypress(function(event) {
-				if (event.which == 13) {
-					event.preventDefault();
-					query = $("input#search")
-					search(10, 0, query.val())
-				}
-			})
-			$("a#playlistButton").click(function() {
-				$("#sidebar-wrapper").collapse('toggle')
-			})
+	$("a#adminButton").click(function() {
+		$('#adminPassword').val('');
+		$('#adminModal').modal('show');
+	})
 
-			$("a#adminButton").click(function() {
-				$('#adminPassword').val('');
-				$('#adminModal').modal('show');
-			})
+	$('#adminModal').on('shown.bs.modal', function() {
+		$('#adminPassword').focus();
+	})
 
-			$('#adminModal').on('shown.bs.modal', function() {
-				$('#adminPassword').focus();
-			})
+	$("#loginButton").click(login);
+	$("#logoutButton").click(logout);
 
-			$("#loginButton").click(login);
-			$("#logoutButton").click(logout);
+	if (location.hash == "#browse") {
+		search(10, 0);
+	} else if (location.hash == "#history") {
+		loadHistoricJams();
+	} else if (location.hash == "#playlist") {
+		$("#sidebar-wrapper").collapse('toggle')
+	} else if (location.hash == "#map") {
+		loadMap();
+	} else if (location.hash == "#tweets") {
+		loadTweets();
+	} else if (location.hash.indexOf("#jam-") == 0) {
+		var jamid = location.hash.split("-")[1];
+		loadJam(jamid);
+	} else {
+		loadRecentJams();
+	}
 
-			if (location.hash == "#browse") {
-				search(10, 0);
-			} else if (location.hash == "#history") {
-				loadHistoricJams();
-			} else if (location.hash == "#playlist") {
-				$("#sidebar-wrapper").collapse('toggle')
-			} else if (location.hash == "#map") {
-				loadMap();
-			} else if (location.hash == "#tweets") {
-				loadTweets();
-			} else if (location.hash.indexOf("#jam-") == 0) {
-				var jamid = location.hash.split("-")[1];
-				loadJam(jamid);
-			} else {
-				loadRecentJams();
-			}
+	loadPlaylist();
+	$("#jquery_jplayer_1").jPlayer({
+		cssSelectorAncestor : "#jp_container_1",
+		swfPath : "/js",
+		supplied : "mp3",
+		useStateClassSkin : true,
+		autoBlur : false,
+		smoothPlayBar : true,
+		keyEnabled : true,
+		remainingDuration : true,
+		toggleDuration : true
+	});
 
-			loadPlaylist();
-			$("#jquery_jplayer_1").jPlayer({
-				cssSelectorAncestor : "#jp_container_1",
-				swfPath : "/js",
-				supplied : "mp3",
-				useStateClassSkin : true,
-				autoBlur : false,
-				smoothPlayBar : true,
-				keyEnabled : true,
-				remainingDuration : true,
-				toggleDuration : true
-			});
+	$('#sidebar-wrapper').on('hidden.bs.collapse', function() {
+		$("#main").css("padding-left", function(paddingleft) {
+			return 40;
+		});
+	})
 
-			$('#sidebar-wrapper').on('hidden.bs.collapse', function() {
-				$("#main").css("padding-left", function(paddingleft) {
-					return 40;
-				});
-			})
+	$('#sidebar-wrapper').on('shown.bs.collapse', function() {
+		$("#main").css("padding-left", function(paddingleft) {
+			return 265;
+		});
+	})
 
-			$('#sidebar-wrapper').on('shown.bs.collapse', function() {
-				$("#main").css("padding-left", function(paddingleft) {
-					return 265;
-				});
-			})
+	$.get("/api/maps/key", function(data) {
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src = 'https://maps.googleapis.com/maps/api/js?key='
+				+ data + '&callback=mapcallback'
+		document.body.appendChild(script);
+	})
 
-			$.get("/api/maps/key", function(data) {
-				var script = document.createElement('script');
-				script.type = 'text/javascript';
-				script.src = 'https://maps.googleapis.com/maps/api/js?key='
-						+ data + '&callback=mapcallback'
-				document.body.appendChild(script);
-			})
-
-			$.get("/admin/loggedin", function(loggedin) {
-				if (loggedin)
-					showAdmin();
-			})
-		})
+	$.get("/admin/loggedin", function(loggedin) {
+		if (loggedin)
+			showAdmin();
+	})
+})
 
 var maploaded = false;
 
@@ -426,6 +424,8 @@ function loadLocation(id) {
 
 function loadRecentJams() {
 	clearClasses()
+	$('.nav-link.active').removeClass('active');
+	$('#recent').addClass('active');
 	$("#main").html("Loading...")
 	$.get("/api/recent", recentCallback).fail(function() {
 		binkAlert("Problem", "Could not load recent jams.")
@@ -440,6 +440,8 @@ function binkAlert(title, alert) {
 
 function loadHistoricJams() {
 	clearClasses()
+	$('.nav-link.active').removeClass('active');
+	$('#history').addClass('active');
 	$("#main").html("Loading...")
 	$.get("/api/history", historicCallback).fail(function() {
 		binkAlert("Problem", "Could not load historic jams.")
@@ -643,6 +645,8 @@ function clearClasses() {
 
 function loadMap() {
 	$.get("/api/mapdata", function(data) {
+		$('.nav-link.active').removeClass('active');
+		$('#map').addClass('active');
 		$('#main').addClass('mapviewer')
 		var coordinates = new google.maps.LatLng(39.944465, -97.350595);
 		var mapOptions = {
