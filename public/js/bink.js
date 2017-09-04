@@ -47,6 +47,8 @@ $(document).ready(function() {
 		$("#sidebar-wrapper").collapse('toggle')
 	} else if (location.hash == "#map") {
 		loadMap();
+	} else if (location.hash == "#timeline") {
+		loadTimeline();
 	} else if (location.hash == "#tweets") {
 		loadTweets();
 	} else if (location.hash.indexOf("#jam-") == 0) {
