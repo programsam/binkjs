@@ -321,7 +321,7 @@ function renderBlogJams(html, data) {
 
 							if (thisjam.hasOwnProperty('defpic') && thisjam.defpic != null
 									&& thisjam.defpic != -1) {
-								html += '<p class="card-text"><img width='200px' src="' + thisjam.defpic.path
+								html += '<p class="card-text"><img width="200px" src="' + thisjam.defpic.path
 										+ '"></p>'
 							}
 						}
