@@ -8,6 +8,8 @@ $(document).ready(function() {
 	$("a#recentButton").click(loadRecentJams)
 	$("a#browseButton").click(function() {
 		search(10, 0);
+		$('.nav-link.active').removeClass('active');
+		$('#browseButton').addClass('active');
 	})
 	$("a#historyButton").click(loadHistoricJams)
 	$("a#mapButton").click(loadMap)
@@ -17,6 +19,7 @@ $(document).ready(function() {
 		if (event.which == 13) {
 			event.preventDefault();
 			query = $("input#search")
+			$('.nav-link.active').removeClass('active');
 			search(10, 0, query.val())
 		}
 	})
