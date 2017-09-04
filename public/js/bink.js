@@ -150,11 +150,26 @@ function login() {
 			loadRecentJams();
 		} else // invalid password
 		{
-			$("#invalidPassword").removeClass("invisible");
+			loginAlert("Failed to authenticate. Reason: " + JSON.stringify(data));
 			$('#adminPassword').val('');
 			$('#adminPassword').focus();
 		}
 	});
+}
+
+function loginAlert(message) {
+	if ($('#modalAlert').html() === "")
+	{
+		var html = "";
+		html += '<div id="loginAlertInstance" class="alert alert-danger alert-dismissible fade show" role="alert">';
+		html += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+	  html += '<span aria-hidden="true">&times;</span>';
+	  html += '</button>';
+	  html += message;
+		html += '</div>';
+		$('#modalAlert').append(html);
+	}
+
 }
 
 function enqueue(setTitle, setPath) {
