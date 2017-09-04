@@ -2,7 +2,7 @@
 Description=BINK.js System Server
 After=mysql.service
 Requires=mysql.service
-Wants=apache2.service
+Wants=nginx.service
 
 [Service]
 ExecStart=/usr/bin/nodejs /srv/www/js.binkmusic.com/server.js
@@ -10,5 +10,5 @@ WorkingDirectory=/srv/www/js.binkmusic.com
 Restart=always
 RestartSec=10
 
-[Install] 
+[Install]
 WantedBy=multi-user.target
