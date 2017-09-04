@@ -96,18 +96,15 @@ html(lang='en')
       .modal-dialog(role='document')
         .modal-content
           .modal-header
-            button.close(type='button', data-dismiss='modal', aria-label='Close')
-              span(aria-hidden='true') ×
-            h4#adminLoginTitle.modal-title Admin Login
-          form
-            .modal-body
-              #modalAlert
+            h5#loginModalLabel.modal-title Login
+          .modal-body
+            #modalAlert
+            form
               .form-group
-                label(for='adminPassword') Password
-                input#adminPassword.form-control(type='password', placeholder='')
-            .modal-footer
-              button.btn.btn-default(type='button', data-dismiss='modal') Close
-              button#loginButton.btn.btn-primary(type='button') Login
+                label.form-control-label(for='password') Password:
+                input#password.form-control(type='password', autofocus="true")
+          .modal-footer
+            button.btn.btn-primary#loginButton(type='button') Login
     #alertModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
       .modal-dialog(role='document')
         .modal-content
