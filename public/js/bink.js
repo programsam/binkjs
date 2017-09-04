@@ -841,7 +841,9 @@ function loadJam(id) {
 						if (thisjam.hasOwnProperty("pictures")
 								&& thisjam.pictures != null
 								&& thisjam.pictures.length != 0) {
-							html += "<div class='panel panel-default'><div class='panel-heading'>Pictures</div>"
+							html += "<div class='card'><div class='card-title'>Pictures</div>"
+							html += "<div class='card-body'>"
+
 							html += "<div id='carousel-example-generic' class='carousel slide' data-ride='carousel' style='width: 400px'>"
 							html += "<ol class='carousel-indicators'>"
 							for (var i = 0; i < thisjam.pictures.length; i++) {
@@ -881,11 +883,13 @@ function loadJam(id) {
 							html += "</a>"
 							html += "</div>"
 							html += "</div>"
+							html += "</div>"
 						}
 						if (thisjam.hasOwnProperty("video")
 								&& thisjam.video != null
 								&& thisjam.video.length != 0) {
-							html += "<div class='panel panel-default'><div class='panel-heading'>Videos</div>"
+							html += "<div class='card'><div class='card-title'>Videos</div>"
+							html += "<div class='card-body'>"
 							html += "<table class='table table-bordered'>"
 							thisjam.video.forEach(function(element, index,
 									array) {
@@ -897,7 +901,7 @@ function loadJam(id) {
 								}
 								html += "</tr>"
 							})
-							html += "</table></div>"
+							html += "</table></div></div>"
 						}
 						$("#main").html(html)
 						if (hasMap) {
