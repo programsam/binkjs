@@ -165,7 +165,7 @@ function enqueue(setTitle, setPath) {
 							+ "', '"
 							+ object.path
 							+ "')\"' "
-							+ "class='glyphicon glyphicon-play' aria-hidden='true'></span>"
+							+ "class='oi oi-media-play' aria-hidden='true'></span>"
 							+ "</button> " + object.title + "</a></li>")
 	$.ajax({
 		type : "PUT",
@@ -245,7 +245,7 @@ function loadPlaylist() {
 																+ "', '"
 																+ element.path
 																+ "')\"' "
-																+ "class='glyphicon glyphicon-play' aria-hidden='true'></span>"
+																+ "class='oi oi-media-play' aria-hidden='true'></span>"
 																+ "</button> "
 																+ element.title
 																+ "</a></li>")
@@ -577,12 +577,17 @@ function searchCallback(data) {
 	if (data.results.length > 0) {
 		var html = "<table class='table table-bordered'>";
 		html += "<tr>"
-		html += "<th><span style='cursor: pointer' class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></th>"
-		html += "<th>Date</th><th>Title</th><th>Band</th><th>Location</th>"
-		html += "<th><span class='glyphicon glyphicon-music' aria-hidden='true'></span></th>"
-		html += "<th><span class='glyphicon glyphicon-picture' aria-hidden='true'></span></th>"
-		html += "<th><span class='glyphicon glyphicon-facetime-video' aria-hidden='true'></span></th>"
-		html += "<td><span class='glyphicon glyphicon-sunglasses' aria-hidden='true'></span></th>"
+		//load
+			html += "<th><span class='oi oi-folder' aria-hidden='true'></span></th>"
+			html += "<th>Date</th><th>Title</th><th>Band</th><th>Location</th>"
+		//music
+			html += "<th><span class='oi oi-musical-note' aria-hidden='true'></span></th>"
+		//pictures
+			html += "<th><span class='oi oi-image' aria-hidden='true'></span></th>"
+		//images
+			html += "<th><span class='oi oi-video' aria-hidden='true'></span></th>"
+		//private
+			html += "<td><span class='oi oi-key' aria-hidden='true'></span></th>"
 		html += "</tr>"
 		data.results
 				.forEach(function(thisjam, index, array) {
@@ -593,7 +598,7 @@ function searchCallback(data) {
 
 					html += "<td><span onclick='loadJam("
 							+ thisjam.id
-							+ ")' style='cursor: pointer' class='glyphicon glyphicon-folder-open'"
+							+ ")' class='oi oi-folder linkish'"
 							+ " aria-hidden='true'></span></td>"
 
 					html += "<td>" + mydate + "</td>"
@@ -617,25 +622,25 @@ function searchCallback(data) {
 					}
 
 					if (thisjam.hasTracks) {
-						html += "<td><span class='glyphicon glyphicon-music' aria-hidden='true'></td>"
+						html += "<td><span class='oi oi-musical-note' aria-hidden='true'></td>"
 					} else {
 						html += "<td></td>"
 					}
 
 					if (thisjam.hasPics) {
-						html += "<td><span class='glyphicon glyphicon-picture' aria-hidden='true'></td>"
+						html += "<td><span class='oi oi-image' aria-hidden='true'></td>"
 					} else {
 						html += "<td></td>"
 					}
 
 					if (thisjam.hasVids) {
-						html += "<td><span class='glyphicon glyphicon-facetime-video' aria-hidden='true'></td>"
+						html += "<td><span class='oi oi-video' aria-hidden='true'></td>"
 					} else {
 						html += "<td></td>"
 					}
 
 					if (thisjam.private != 0) {
-						html += "<td><span class='glyphicon glyphicon-sunglasses' aria-hidden='true'></span></td>"
+						html += "<td><span class='oi oi-key' aria-hidden='true'></span></td>"
 					} else {
 						html += "<td></td>"
 					}
@@ -723,7 +728,7 @@ function loadJam(id) {
 						html += "<h3>" + mydate + " - " + thisjam.title
 								+ "</h3>"
 						if (thisjam.private != 0)
-							html += "<p class='pull-right'><span class='glyphicon glyphicon-sunglasses' aria-hidden='true'></span></p>"
+							html += "<p class='pull-right'><span class='oi oi-key' aria-hidden='true'></span></p>"
 						html += "<h4>"
 						if (thisjam.hasOwnProperty("band")) {
 							html += "<a href='javascript:loadBand("
@@ -814,16 +819,16 @@ function loadJam(id) {
 											html += "<tr><td colspan='4'>&nbsp</td></tr>"
 										} else {
 											html += "<tr>"
-											html += "<td width='15px'><span style='cursor: pointer' onclick=\"play('"
+											html += "<td width='15px'><span onclick=\"play('"
 													+ tracks.title
 													+ "', '"
 													+ tracks.path
-													+ "')\"  class='glyphicon glyphicon-play-circle' aria-hidden='true'></span></td>"
-											html += "<td width='15px'><span style='cursor: pointer' onclick=\"enqueue('"
+													+ "')\"  class='oi oi-media-play linkish' aria-hidden='true'></span></td>"
+											html += "<td width='15px'><span onclick=\"enqueue('"
 													+ tracks.title
 													+ "', '"
 													+ tracks.path
-													+ "')\"  class='glyphicon glyphicon-plus' aria-hidden='true'></span></td>"
+													+ "')\"  class='oi oi-plus' aria-hidden='true'></span></td>"
 
 											html += "<td><a href='"
 													+ tracks.path + "'>"
@@ -874,11 +879,11 @@ function loadJam(id) {
 							html += "</div>"
 
 							html += "<a class='left carousel-control' href='#carousel-example-generic' role='button' data-slide='prev'>"
-							html += "<span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span>"
+							html += "<span class='oi oi-chevron-left' aria-hidden='true'></span>"
 							html += "<span class='sr-only'>Previous</span>"
 							html += "</a>"
 							html += "<a class='right carousel-control' href='#carousel-example-generic' role='button' data-slide='next'>"
-							html += "<span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span>"
+							html += "<span class='oi oi-chevron-right' aria-hidden='true'></span>"
 							html += "<span class='sr-only'>Next</span>"
 							html += "</a>"
 							html += "</div>"
