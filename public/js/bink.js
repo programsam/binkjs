@@ -35,11 +35,11 @@ $(document).ready(function() {
 
 	$("a#adminButton").click(function() {
 		$('#password').val('');
-		$('#password').modal('show');
+		$('#adminModal').modal('show');
 	})
 
-	$('#adminModal').on('shown.bs.modal', function() {
-		$('#password').focus();
+	$('body').on('shown.bs.modal', '#adminModal', function () {
+	    $('input:visible:enabled:first', this).focus();
 	})
 
 	$("#loginButton").click(login);
