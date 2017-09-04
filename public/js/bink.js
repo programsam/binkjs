@@ -338,7 +338,8 @@ function renderBlogJams(html, data) {
 					}
 				}
 
-				html += '<a href="javascript:loadJam(' + thisjam.id + ')" class="card-link">View</a>';
+				html += '<a href="javascript:loadJam(' + thisjam.id + ')" class="card-link">';
+				html += '<span class="oi oi-folder linkish" aria-hidden="true" /></a>'
 				html += '</div></div>';
 		} //if not private
 	}) //foreach
