@@ -44,7 +44,7 @@ html(lang='en')
           li.nav-item
             a#playlistButton.nav-link(href='#playlist') Playlist
           li.nav-item
-            a#timelineButton.nav-link Timeline
+            a#timelineButton.nav-link(href='#timeline') Timeline
           li.nav-item
             a#mapButton.nav-link(href='#map') Map
           li.nav-item
@@ -52,6 +52,13 @@ html(lang='en')
           li.nav-item
             a#adminButton.nav-link Admin
           li.nav-item
+          a.nav-link.dropdown-toggle.invisible(data-toggle='dropdown', href='#', role='button', aria-haspopup='true', aria-expanded='false') Admin
+          .dropdown-menu#adminMenu
+            a.dropdown-item(href='#new') New
+            .dropdown-divider
+            a#logoutButton.dropdown-item(href='#') Logout
+
+
             a#adminMenu.nav-link.dropdown-toggle.hidden(data-toggle='dropdown')
               | Admin
               span.caret
