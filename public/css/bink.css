@@ -9,8 +9,9 @@
 	cursor: pointer;
 }
 
-#main {
-  margin-top: 60px;
+body {
+  min-height: 75rem;
+  padding-top: 4.5rem;
 }
 
 .mapviewer {
