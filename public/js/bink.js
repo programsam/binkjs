@@ -24,6 +24,7 @@ $(document).ready(function() {
 		}
 	})
 	$("input#loginButton").keypress(function(event) {
+		console.log(event.which);
 		if (event.which == 13) {
 			event.preventDefault();
 			login();
