@@ -33,35 +33,33 @@ html(lang='en')
       span.navbar-toggler-icon
     a.navbar-brand BINK.js
     #navbar.navbar-collapse.collapse
-      form.navbar-form.navbar-right
-        input#search.form-control(type='text', placeholder='Search...')
-      ul.nav.navbar-nav.navbar-right
-        li
-          a#recentButton.navbarlink(href='#recent') Recent
-        li
-          a#browseButton.navbarlink(href='#browse') Browse
-        li
-          a#historyButton.navbarlink(href='#history') History
-        li
-          a#playlistButton.navbarlink(href='#playlist') Playlist
-        li
-          a#timelineButton.navbarlink Timeline
-        li
-          a#mapButton.navbarlink(href='#map') Map
-        li
-          a#twitterButton.navbarlink(href='#tweets') Tweets
-        li
-          a#adminButton.navbarlink Admin
-        li
-          a#adminMenu.navbarlink.dropdown-toggle.hidden(data-toggle='dropdown')
+      ul.navbar-nav
+        li.nav-item
+          arecentButton.nav-link(href='#recent') Recent
+        li.nav-item
+          a#browseButton.nav-link(href='#browse') Browse
+        li.nav-item
+          a#historyButton.nav-link(href='#history') History
+        li.nav-item
+          a#playlistButton.nav-link(href='#playlist') Playlist
+        li.nav-item
+          a#timelineButton.nav-link Timeline
+        li.nav-item
+          a#mapButton.nav-link(href='#map') Map
+        li.nav-item
+          a#twitterButton.nav-link(href='#tweets') Tweets
+        li.nav-item
+          a#adminButton.nav-link Admin
+        li.nav-item
+          a#adminMenu.nav-link.dropdown-toggle.hidden(data-toggle='dropdown')
             | Admin
             span.caret
           ul.dropdown-menu
             li
-              a.navbarlink(href='#new') New
+              a.nav-link(href='#new') New
             li.divider(role='separator')
             li
-              a#logoutButton.navbarlink Logout
+              a#logoutButton.nav-link Logout
     #jquery_jplayer_1
     #jp_container_1.jp-audio(role='application', aria-label='media player')
       .jp-type-single
