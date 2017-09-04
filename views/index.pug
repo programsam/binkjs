@@ -50,16 +50,15 @@ html(lang='en')
             a#mapButton.nav-link.linkish(href='#map') Map
           li.nav-item
             a#twitterButton.nav-link.linkish(href='#tweets') Tweets
+          form.form-inline.my-2.my-lg-0
+            input#search.form-control.mr-sm-2(type='text', placeholder='Search', aria-label='Search')
           li.nav-item
             a#adminButton.nav-link.linkish Admin
-          li.nav-item
-            a#adminMenu.nav-link.dropdown-toggle.linkish.invisible(data-toggle='dropdown', href='#', role='button', aria-haspopup='true', aria-expanded='false') Admin
+          a#adminMenu.nav-link.dropdown-toggle.linkish.invisible(data-toggle='dropdown', href='#', role='button', aria-haspopup='true', aria-expanded='false') Admin
             .dropdown-menu
             a.dropdown-item.linkish(href='#new') New
             .dropdown-divider
             a#logoutButton.dropdown-item.linkish(href='#') Logout
-          form.form-inline.my-2.my-lg-0
-            input#search.form-control.mr-sm-2(type='text', placeholder='Search', aria-label='Search')
     #jquery_jplayer_1
     #jp_container_1.jp-audio(role='application', aria-label='media player')
       .jp-type-single
