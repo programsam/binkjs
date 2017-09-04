@@ -7,7 +7,7 @@
   "keywords": [],
   "dependencies": {
     "express":"*"
-    ,"mysql":"0.9.5"
+    ,"mysql":"*"
     ,"async":"*"
     ,"express-session":"*"
     ,"node-uuid":"*"
