@@ -4,41 +4,71 @@ var uuid		= require('node-uuid')
 var app 		= express()
 var mysql		= require('mysql');
 var async		= require('async');
-var bodyParser 	= require('body-parser')
-var settings	= require('./settings.json')
-var Processing 	= require("./lib/processing.js")
-var api			= require("./lib/api.js")
-var adminapi	= require("./lib/adminapi.js")
+var bodyParser 	= require('body-parser');
+var pug = require('pug');
+var settings	= require('./settings.json');
+var Processing 	= require("./lib/processing.js");
+var api			= require("./lib/api.js");
+var adminapi	= require("./lib/adminapi.js");
+var helmet = require('helmet');
+var robots = require('express-robots');
+var app = express();
+
+
+var settings = require('./settings')
 
 function sql() {
-	return client = mysql.createClient(settings.mysql);
+	return mysql.createConnection(settings.mysql);
 }
 
+var connection = sql();
+connection.query('SELECT * FROM jams', function(err, rows) {
+	if (err)
+	{
+		console.log("Issue connecting to database: " + err)
+		connection.end();
+		exit;
+	}
+	else
+	{
+		console.log("Successfully queried database.")
+		connection.end();
+	}
+});
+
+app.set('trust proxy', 1) // trust first proxy
 app.use(session({
+  secret: settings.session_secret,
   resave: false,
-  saveUninitialized: false,
-  genid: function(req) {
-    return uuid.v4(); // use UUIDs for session IDs
-  },
-  secret: 'keyboard cat'
+  saveUninitialized: true,
+  cookie: { secure: true }
 }))
 
+app.use(helmet());
+
+app.use(robots({UserAgent: '*', Disallow: '/'}))
+
+app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.json())
+app.set('view engine','pug')
+
+function authenticated(req, res, next) {
+	if (req.session.authenticated)
+	{
+		next();
+	}
+	else {
+		res.status(401).send("Not allowed!");
+	}
+}
+
+app.get('/', function(req, res) {
+	res.render('index')
+})
 
 app.use(api)
 app.use(adminapi)
 
-/**
- * By default, just load index.html.
- */
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/public/index.html');
-})
-
-/**
- * If they want a specific binary file to be sent, they can send /public in the
- * URL. Otherwise, we'll assume it's a specific navigation request or an API call.
- */
 app.use(express.static(__dirname + '/public'));
 
 var server = app.listen(process.env.PORT || 3001, function () {

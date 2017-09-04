@@ -13,5 +13,7 @@
     ,"node-uuid":"*"
     ,"body-parser":"*"
     ,"twitter":"*"
+    ,"pug":"*"
+    ,"express-robots":"*"
   }
 }
