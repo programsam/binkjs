@@ -5,6 +5,7 @@ $(document).ready(function() {
 		$('#navbar').collapse('hide')
 	});
 
+	/*
 	$("a#recentButton").click(loadRecentJams)
 	$("a#browseButton").click(function() {
 		search(10, 0);
@@ -13,6 +14,7 @@ $(document).ready(function() {
 	$("a#mapButton").click(loadMap)
 	$("a#timelineButton").click(loadTimeline)
 	$("a#twitterButton").click(loadTweets)
+	*/
 	$("input#search").keypress(function(event) {
 		if (event.which == 13) {
 			event.preventDefault();
@@ -38,17 +40,24 @@ $(document).ready(function() {
 
 	if (location.hash == "#browse") {
 		$('.nav-link.active').removeClass('active');
-		$('#browse').addClass('active');
+		$('#browseButton').addClass('active');
 		search(10, 0);
 	} else if (location.hash == "#history") {
+		$('.nav-link.active').removeClass('active');
+		$('#historyButton').addClass('active');
 		loadHistoricJams();
 	} else if (location.hash == "#playlist") {
 		$("#sidebar-wrapper").collapse('toggle')
 	} else if (location.hash == "#map") {
+		$('.nav-link.active').removeClass('active');
+		$('#mapButton').addClass('active');
 		loadMap();
 	} else if (location.hash == "#tweets") {
+		$('.nav-link.active').removeClass('active');
+		$('#twitterButton').addClass('active');
 		loadTweets();
 	} else if (location.hash.indexOf("#jam-") == 0) {
+		$('.nav-link.active').removeClass('active');
 		var jamid = location.hash.split("-")[1];
 		loadJam(jamid);
 	} else {
