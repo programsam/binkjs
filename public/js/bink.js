@@ -782,8 +782,8 @@ function loadJam(id) {
 						}
 						if (thisjam.hasOwnProperty("staff")
 								&& thisjam.staff.length != 0) {
-							html += "<div class='panel panel-default'><div class='panel-heading'>Staff</div>"
-							html += "<ul class='list-group'>"
+							html += "<div class='card'><div class='card-title'>Staff</div>"
+							html += "<div class='card-body'><ul class='list-group'>"
 							thisjam.staff
 									.forEach(function(staff, staffi, staffa) {
 										html += "<li class='list-group-item'><a href='javascript:loadStaff("
@@ -802,12 +802,12 @@ function loadJam(id) {
 												})
 										html += "</li>"
 									})
-							html += "</ul></div>"
+							html += "</ul></div></div>"
 						}
 						if (thisjam.hasOwnProperty("tracks")
 								&& thisjam.tracks.length != 0) {
-							html += "<div class='panel panel-default'><div class='panel-heading'>Music</div>"
-							html += "<table class='table table-bordered'>"
+							html += "<div class='card'><div class='card-title'>Music</div>"
+							html += "<div class='card-body'><table class='table table-bordered'>"
 							thisjam.tracks
 									.forEach(function(tracks, tracksi, tracksa) {
 										if (tracks.title == "--------------------") {
@@ -836,7 +836,7 @@ function loadJam(id) {
 											html += "</tr>"
 										}
 									})
-							html += "</table></div>"
+							html += "</table></div></div>"
 						}
 						if (thisjam.hasOwnProperty("pictures")
 								&& thisjam.pictures != null
