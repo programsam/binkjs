@@ -5,7 +5,6 @@ $(document).ready(function() {
 		$('#navbar').collapse('hide')
 	});
 
-	/*
 	$("a#recentButton").click(loadRecentJams)
 	$("a#browseButton").click(function() {
 		search(10, 0);
@@ -14,7 +13,6 @@ $(document).ready(function() {
 	$("a#mapButton").click(loadMap)
 	$("a#timelineButton").click(loadTimeline)
 	$("a#twitterButton").click(loadTweets)
-	*/
 	$("input#search").keypress(function(event) {
 		if (event.which == 13) {
 			event.preventDefault();
@@ -39,25 +37,16 @@ $(document).ready(function() {
 	$("#logoutButton").click(logout);
 
 	if (location.hash == "#browse") {
-		$('.nav-link.active').removeClass('active');
-		$('#browseButton').addClass('active');
 		search(10, 0);
 	} else if (location.hash == "#history") {
-		$('.nav-link.active').removeClass('active');
-		$('#historyButton').addClass('active');
 		loadHistoricJams();
 	} else if (location.hash == "#playlist") {
 		$("#sidebar-wrapper").collapse('toggle')
 	} else if (location.hash == "#map") {
-		$('.nav-link.active').removeClass('active');
-		$('#mapButton').addClass('active');
 		loadMap();
 	} else if (location.hash == "#tweets") {
-		$('.nav-link.active').removeClass('active');
-		$('#twitterButton').addClass('active');
 		loadTweets();
 	} else if (location.hash.indexOf("#jam-") == 0) {
-		$('.nav-link.active').removeClass('active');
 		var jamid = location.hash.split("-")[1];
 		loadJam(jamid);
 	} else {
@@ -187,6 +176,8 @@ var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
 		"Oct", "Nov", "Dec" ]
 function loadTweets() {
 	clearClasses()
+	$('.nav-link.active').removeClass('active');
+	$('#twitterButton').addClass('active');
 	$.get("/api/tweets", function(data) {
 		var html = ""
 		for (var i = 0; i < data.length; i++) {
@@ -205,6 +196,8 @@ function loadTweets() {
 
 function loadTimeline() {
 	clearClasses()
+	$('.nav-link.active').removeClass('active');
+	$('#timelineButton').addClass('active');
 	$("#main").addClass('timeline')
 	$('#main').html('Loading...')
 	$.get("/api/timelineData", function(data) {
@@ -343,6 +336,7 @@ function renderBlogJams(html, data) {
 
 function loadBand(id) {
 	clearClasses()
+	$('.nav-link.active').removeClass('active');
 	$.get("/api/entity/bands/" + id, function(data) {
 		var html = "<h1>Band: " + data.name + "</h1>"
 		if (data.link != null && data.link.indexOf("http") == 0) {
@@ -361,6 +355,7 @@ function loadBand(id) {
 
 function loadMusician(id) {
 	clearClasses()
+	$('.nav-link.active').removeClass('active');
 	$.get("/api/entity/musicians/" + id, function(data) {
 		var html = "<h1>Musician: " + data.name + "</h1>"
 		if (data.link != null && data.link.indexOf("http") == 0) {
@@ -379,6 +374,7 @@ function loadMusician(id) {
 
 function loadStaff(id) {
 	clearClasses()
+	$('.nav-link.active').removeClass('active');
 	$.get("/api/entity/staff/" + id, function(data) {
 		var html = "<h1>Staff: " + data.name + "</h1>"
 		html += "<hr />Appears on collections: <ul>"
@@ -392,7 +388,7 @@ function loadStaff(id) {
 }
 
 function loadLocation(id) {
-	clearClasses()
+	$('.nav-link.active').removeClass('active');
 	$
 			.get(
 					"/api/entity/locations/" + id,
@@ -436,7 +432,7 @@ function loadLocation(id) {
 function loadRecentJams() {
 	clearClasses()
 	$('.nav-link.active').removeClass('active');
-	$('#recent').addClass('active');
+	$('#recentButton').addClass('active');
 	$("#main").html("Loading...")
 	$.get("/api/recent", recentCallback).fail(function() {
 		binkAlert("Problem", "Could not load recent jams.")
@@ -452,7 +448,7 @@ function binkAlert(title, alert) {
 function loadHistoricJams() {
 	clearClasses()
 	$('.nav-link.active').removeClass('active');
-	$('#history').addClass('active');
+	$('#historyButton').addClass('active');
 	$("#main").html("Loading...")
 	$.get("/api/history", historicCallback).fail(function() {
 		binkAlert("Problem", "Could not load historic jams.")
@@ -657,7 +653,7 @@ function clearClasses() {
 function loadMap() {
 	$.get("/api/mapdata", function(data) {
 		$('.nav-link.active').removeClass('active');
-		$('#map').addClass('active');
+		$('#mapButton').addClass('active');
 		$('#main').addClass('mapviewer')
 		var coordinates = new google.maps.LatLng(39.944465, -97.350595);
 		var mapOptions = {
@@ -703,6 +699,7 @@ function dropMarker(coordinates, name, content, map) {
 
 function loadJam(id) {
 	clearClasses()
+	$('.nav-link.active').removeClass('active');
 	location.hash = "jam-" + id
 	$
 			.get(
