@@ -89,22 +89,22 @@ $(document).ready(function() {
 		document.body.appendChild(script);
 	})
 
-	$.get("/admin/loggedin").done(function(data) {
-		console.log(JSON.stringify(data))
+	$("#logoutButton").click(logout);
+	$("#loginButton").click(login);
+	$("a#adminButton").click(function() {
+		$('#password').val('');
+		$('#adminModal').modal('show');
 	})
-		// if (loggedin)
-		// {
-		// 	$("#loginButton").click(login);
-		// 	$("#logoutButton").click(logout);
-		//
-		// 	$("a#adminButton").click(function() {
-		// 		$('#password').val('');
-		// 		$('#adminModal').modal('show');
-		// 	})
-		// }
-		// if ()
-		// 	showAdmin();
-		
+
+	$.get("/admin/loggedin").done(function(data) {
+		if (data.admin) {
+			showAdmin();
+		}
+		else {
+			hideAdmin();
+		}
+	}) //get logged in
+
 }) //document.ready
 
 var maploaded = false;
