@@ -540,7 +540,7 @@ function search(size, page, query) {
 	getSearchResults(size, page, query)
 	var html = ""
 	html += "<div class='row'>"
-	html += "<div class='col-12'">
+	html += "<div class='col-12'>";
 	html += "<div class='btn-group' data-toggle='buttons'>"
 
 	if (null != query) {
