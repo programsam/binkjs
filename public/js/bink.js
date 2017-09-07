@@ -775,9 +775,9 @@ function loadJam(id) {
 						var mydate = (d.getMonth() + 1) + "/" + d.getDate()
 								+ "/" + d.getFullYear()
 						html += "<h3>" + mydate + " - " + thisjam.title
-								+ "</h3>"
 						if (thisjam.private != 0)
-							html += "<p class='float-right'><span class='oi oi-key' aria-hidden='true'></span></p>"
+							html += "<span class='oi oi-key float-right' aria-hidden='true'></span>"
+						html += "</h3>"
 						html += "<h4>"
 						if (thisjam.hasOwnProperty("band")) {
 							html += "<a href='javascript:loadBand("
