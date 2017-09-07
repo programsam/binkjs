@@ -539,6 +539,7 @@ function search(size, page, query) {
 	clearClasses()
 	getSearchResults(size, page, query)
 	var html = ""
+	html += "<div class='container-fluid'>"
 	html += "<div class='btn-group' data-toggle='buttons'>"
 
 	if (null != query) {
@@ -562,6 +563,7 @@ function search(size, page, query) {
 
 	html += "</div>"
 	html += "<nav id='pages' aria-label='Pages'></nav>"
+	html += "</div>"
 	html += "<div id='results'></div>"
 	$("#main").html(html)
 }
