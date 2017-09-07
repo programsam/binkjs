@@ -597,7 +597,7 @@ function genPages(size, page, total, query) {
 					+ "'><a class='page-link' href=\"javascript:getSearchResults(" + size + ","
 					+ j + ", '" + query + "')\">" + (j + 1) + "</a></li>"
 		else
-			html += "<li id='page" + j
+			html += "<li class='page-item' id='page" + j
 					+ "'><a class='page-link' href=\"javascript:getSearchResults(" + size + ","
 					+ j + ")\">" + (j + 1) + "</a></li>"
 	}
