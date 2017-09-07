@@ -347,7 +347,7 @@ function renderBlogJams(html, data) {
 			html += thisjam.title + '</a>';
 			if (thisjam.private == 1)
 			{
-				html += "<span class='oi oi-key align-right' aria-hidden='true'></span>"
+				html += "<span class='oi oi-key float-right' aria-hidden='true'></span>"
 			}
 			html += '</h4>';
 			if (thisjam.hasOwnProperty('band') || thisjam.hasOwnProperty('location'))
@@ -777,7 +777,7 @@ function loadJam(id) {
 						html += "<h3>" + mydate + " - " + thisjam.title
 								+ "</h3>"
 						if (thisjam.private != 0)
-							html += "<p class='pull-right'><span class='oi oi-key' aria-hidden='true'></span></p>"
+							html += "<p class='float-right'><span class='oi oi-key' aria-hidden='true'></span></p>"
 						html += "<h4>"
 						if (thisjam.hasOwnProperty("band")) {
 							html += "<a href='javascript:loadBand("
