@@ -590,17 +590,17 @@ function genPages(size, page, total, query) {
 
 	for (var j = 0; j < pageCount; j++) {
 		if (null != query)
-			html += "<li id='page" + j
-					+ "'><a href=\"javascript:getSearchResults(" + size + ","
+			html += "<li class='page-item' id='page" + j
+					+ "'><a class='page-link' href=\"javascript:getSearchResults(" + size + ","
 					+ j + ", '" + query + "')\">" + (j + 1) + "</a></li>"
 		else
 			html += "<li id='page" + j
-					+ "'><a href=\"javascript:getSearchResults(" + size + ","
+					+ "'><a class='page-link' href=\"javascript:getSearchResults(" + size + ","
 					+ j + ")\">" + (j + 1) + "</a></li>"
 	}
 
 	if (page >= (pageCount - 1)) {
-		html += "<li class='disabled'><a href='#' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>"
+		html += "<li class='disabled page-item'><a href='#' class='page-link' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>"
 	} else {
 		html += "<li>"
 		if (null != query)
