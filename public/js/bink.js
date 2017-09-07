@@ -160,7 +160,7 @@ function login() {
 	}
 
 	$.ajax({
-		method : "PUT",
+		method : "POST",
 		url : "/admin/login",
 		contentType : "application/json",
 		data : JSON.stringify(sendThem)
