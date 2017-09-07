@@ -345,6 +345,10 @@ function renderBlogJams(html, data) {
 			html += '<h4 class="card-title">' + mydate + '-';
 			html += '<a href="javascript:loadJam(' + thisjam.id + ');">';
 			html += thisjam.title + '</a>';
+			if (thisjam.private == 1)
+			{
+				html += "<span class='oi oi-key align-right' aria-hidden='true'></span>"
+			}
 			html += '</h4>';
 			if (thisjam.hasOwnProperty('band') || thisjam.hasOwnProperty('location'))
 			{
