@@ -336,59 +336,56 @@ function historicCallback(data) {
 function renderBlogJams(html, data) {
 	var html = "";
 	data.forEach(function(thisjam, index, array) {
-		if (thisjam.private == 0)
-		{
-			var d = new Date(thisjam.date)
-			var mydate = (d.getMonth() + 1) + "/" + d.getDate() + "/"
-				+ d.getFullYear()
+		var d = new Date(thisjam.date)
+		var mydate = (d.getMonth() + 1) + "/" + d.getDate() + "/"
+			+ d.getFullYear()
 
-				html += '<div class="card">';
-				html += '<div class="card-body">';
-				html += '<h4 class="card-title">' + mydate + '-';
-				html += '<a href="javascript:loadJam(' + thisjam.id + ');">';
-				html += thisjam.title + '</a>';
-				html += '</h4>';
-				if (thisjam.hasOwnProperty('band') || thisjam.hasOwnProperty('location'))
+			html += '<div class="card">';
+			html += '<div class="card-body">';
+			html += '<h4 class="card-title">' + mydate + '-';
+			html += '<a href="javascript:loadJam(' + thisjam.id + ');">';
+			html += thisjam.title + '</a>';
+			html += '</h4>';
+			if (thisjam.hasOwnProperty('band') || thisjam.hasOwnProperty('location'))
+			{
+				html += '<h6 class="card-subtitle mb-2 text-muted">';
+				if (thisjam.hasOwnProperty('band') && thisjam.hasOwnProperty('location'))
 				{
-					html += '<h6 class="card-subtitle mb-2 text-muted">';
-					if (thisjam.hasOwnProperty('band') && thisjam.hasOwnProperty('location'))
-					{
-						html += '<a href="javascript:loadBand(' + thisjam.band.id
-									+ ')">' + thisjam.band.name + "</a>";
-						html += ' at ';
-						html += '<a href="javascript:loadLocation(' + thisjam.location.id
-									+ ')">' + thisjam.location.name + "</a>";
-					}
-					else if (thisjam.hasOwnProperty('band'))
-					{
-						html += '<a href="javascript:loadBand(' + thisjam.band.id
-									+ ')">' + thisjam.band.name + "</a>";
-					}
-					else if (thisjam.hasOwnProperty('location'))
-					{
-						html += '<a href="javascript:loadLocation(' + thisjam.location.id
-									+ ')">' + thisjam.location.name + "</a>";
-					}
-					html += '</h6>';
+					html += '<a href="javascript:loadBand(' + thisjam.band.id
+								+ ')">' + thisjam.band.name + "</a>";
+					html += ' at ';
+					html += '<a href="javascript:loadLocation(' + thisjam.location.id
+								+ ')">' + thisjam.location.name + "</a>";
 				}
-
-				if (thisjam.hasOwnProperty('notes') || thisjam.notes != "")
+				else if (thisjam.hasOwnProperty('band'))
 				{
-					html += '<p class="card-text">';
-					html += thisjam.notes;
-					html += '</p>';
-
-					if (thisjam.hasOwnProperty('defpic') && thisjam.defpic != null
-							&& thisjam.defpic != -1) {
-						html += '<p class="card-text"><img width="200px" src="' + thisjam.defpic.path
-								+ '"></p>'
-					}
+					html += '<a href="javascript:loadBand(' + thisjam.band.id
+								+ ')">' + thisjam.band.name + "</a>";
 				}
+				else if (thisjam.hasOwnProperty('location'))
+				{
+					html += '<a href="javascript:loadLocation(' + thisjam.location.id
+								+ ')">' + thisjam.location.name + "</a>";
+				}
+				html += '</h6>';
+			}
 
-				html += '<a href="javascript:loadJam(' + thisjam.id + ')" class="card-link">';
-				html += '<span class="oi oi-folder linkish" aria-hidden="true" /></a>'
-				html += '</div></div>';
-		} //if not private
+			if (thisjam.hasOwnProperty('notes') || thisjam.notes != "")
+			{
+				html += '<p class="card-text">';
+				html += thisjam.notes;
+				html += '</p>';
+
+				if (thisjam.hasOwnProperty('defpic') && thisjam.defpic != null
+						&& thisjam.defpic != -1) {
+					html += '<p class="card-text"><img width="200px" src="' + thisjam.defpic.path
+							+ '"></p>'
+				}
+			}
+
+			html += '<a href="javascript:loadJam(' + thisjam.id + ')" class="card-link">';
+			html += '<span class="oi oi-folder linkish" aria-hidden="true" /></a>'
+			html += '</div></div>';
 	}) //foreach
 	$("#main").html(html);
 }
