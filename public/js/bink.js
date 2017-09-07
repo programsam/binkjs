@@ -539,7 +539,7 @@ function search(size, page, query) {
 	clearClasses()
 	getSearchResults(size, page, query)
 	var html = ""
-	html += "<div class='btn-group' data-toggle='buttons'>"
+	html += "<div class=<div class='btn-group mb-3' data-toggle='buttons'>"
 
 	if (null != query) {
 		query = query.replace(/"/g, '\\\"')
