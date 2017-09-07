@@ -33,17 +33,9 @@ $(document).ready(function() {
 		$("#sidebar-wrapper").collapse('toggle')
 	})
 
-	$("a#adminButton").click(function() {
-		$('#password').val('');
-		$('#adminModal').modal('show');
-	})
-
 	$('body').on('shown.bs.modal', '#adminModal', function () {
 	    $('input:visible:enabled:first', this).focus();
 	})
-
-	$("#loginButton").click(login);
-	$("#logoutButton").click(logout);
 
 	if (location.hash == "#browse") {
 		search(10, 0);
@@ -97,11 +89,23 @@ $(document).ready(function() {
 		document.body.appendChild(script);
 	})
 
-	$.get("/admin/loggedin", function(loggedin) {
-		if (loggedin)
-			showAdmin();
+	$.get("/admin/loggedin").done(function(data) {
+		console.log(JSON.stringify(data))
 	})
-})
+		// if (loggedin)
+		// {
+		// 	$("#loginButton").click(login);
+		// 	$("#logoutButton").click(logout);
+		//
+		// 	$("a#adminButton").click(function() {
+		// 		$('#password').val('');
+		// 		$('#adminModal').modal('show');
+		// 	})
+		// }
+		// if ()
+		// 	showAdmin();
+		
+}) //document.ready
 
 var maploaded = false;
 
