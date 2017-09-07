@@ -573,7 +573,7 @@ function genPages(size, page, total, query) {
 
 	var html = "<ul class='pagination'>"
 	if (page == 0) {
-		html += "<li class='disabled'><a href='#' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>"
+		html += "<li class='page-item disabled'><a href='#' class='page-link' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>"
 	} else {
 		html += "<li>"
 		if (null != query)
