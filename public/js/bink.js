@@ -539,7 +539,7 @@ function search(size, page, query) {
 	clearClasses()
 	getSearchResults(size, page, query)
 	var html = ""
-	html += "<div id='pages'></div>"
+	html += "<nav aria-label='Browse Pages'>";
 	html += "<div class='card'><div class='btn-group' data-toggle='buttons'>"
 
 	if (null != query) {
