@@ -539,8 +539,6 @@ function search(size, page, query) {
 	clearClasses()
 	getSearchResults(size, page, query)
 	var html = ""
-	html += "<div class='row'>"
-	html += "<div class='col-12'>";
 	html += "<div class='btn-group' data-toggle='buttons'>"
 
 	if (null != query) {
@@ -574,7 +572,7 @@ function genPages(size, page, total, query) {
 	if ((total % size) > 0)
 		pageCount++
 
-	var html = "<ul class='pagination'>"
+	var html = "<ul class='pagination d-flex flex-wrap'>"
 	//If we're on the first page, you cannot go backwards.
 	if (page == 0) {
 		html += "<li class='page-item disabled'>";
