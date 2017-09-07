@@ -539,8 +539,7 @@ function search(size, page, query) {
 	clearClasses()
 	getSearchResults(size, page, query)
 	var html = ""
-	html += "<nav aria-label='Browse Pages'>";
-	html += "<div class='card'><div class='btn-group' data-toggle='buttons'>"
+	html += "<div class='btn-group' data-toggle='buttons'>"
 
 	if (null != query) {
 		query = query.replace(/"/g, '\\\"')
@@ -561,7 +560,8 @@ function search(size, page, query) {
 		html += "</label>"
 	}
 
-	html += "</div></div>"
+	html += "</div>"
+	html += "<nav id='pages' aria-label='Pages'></nav>"
 	html += "<div id='results'></div>"
 	$("#main").html(html)
 }
