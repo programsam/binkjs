@@ -572,17 +572,20 @@ function genPages(size, page, total, query) {
 		pageCount++
 
 	var html = "<ul class='pagination'>"
+	//If we're on the first page, you cannot go backwards.
 	if (page == 0) {
-		html += "<li class='page-item disabled'><a href='#' class='page-link' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>"
-	} else {
-		html += "<li>"
-		if (null != query)
-			html += "<a href=\"javascript:getSearchResults(" + size + ","
+		html += "<li class='page-item disabled'>";
+		html += "<a href='#' class='page-link' aria-label='Previous'>";
+		html += "<span aria-hidden='true'>&laquo;</span></a></li>";
+	} else { //we are on a different page, so it's enabled
+		html += "<li class='page-item'>"
+		if (null != query)  //are we searching or just browsing?
+			html += "<a class='page-link' href=\"javascript:getSearchResults(" + size + ","
 					+ (page - 1) + ", '" + query
 					+ "')\" aria-label='Previous'>"
 					+ "<span aria-hidden='true'>&laquo;</span>" + "</a>"
 		else
-			html += "<a href=\"javascript:getSearchResults(" + size + ","
+			html += "<a class='page-link' href=\"javascript:getSearchResults(" + size + ","
 					+ (page - 1) + ")\" aria-label='Previous'>"
 					+ "<span aria-hidden='true'>&laquo;</span>" + "</a>"
 		html += "</li>"
@@ -602,13 +605,13 @@ function genPages(size, page, total, query) {
 	if (page >= (pageCount - 1)) {
 		html += "<li class='disabled page-item'><a href='#' class='page-link' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>"
 	} else {
-		html += "<li>"
+		html += "<li class='page-item'>"
 		if (null != query)
-			html += "<a href=\"javascript:getSearchResults(" + size + ","
+			html += "<a class='page-link' href=\"javascript:getSearchResults(" + size + ","
 					+ (page + 1) + ", '" + query + "')\" aria-label='Next'>"
 					+ "<span aria-hidden='true'>&raquo;</span>" + "</a>"
 		else
-			html += "<a href=\"javascript:getSearchResults(" + size + ","
+			html += "<a class='page-link' href=\"javascript:getSearchResults(" + size + ","
 					+ (page + 1) + ")\" aria-label='Next'>"
 					+ "<span aria-hidden='true'>&raquo;</span>" + "</a>"
 		html += "</li>"
