@@ -902,31 +902,28 @@ function loadJam(id) {
 							html += "<div class='card'><div class='card-title'>Pictures</div>"
 							html += "<div class='card-body'>"
 
-							html += "<div id='carousel-example-generic' class='carousel slide' data-ride='carousel' style='width: 400px'>"
+							html += "<div id='bink-carousel' class='carousel slide' data-ride='carousel' style='width: 400px'>"
 							html += "<ol class='carousel-indicators'>"
 							for (var i = 0; i < thisjam.pictures.length; i++) {
 								if (thisjam.pictures[i].id == thisjam.defpic) {
-									html += "<li data-target='#carousel-example-generic' data-slide-to='"
+									html += "<li data-target='#bink-carousel' data-slide-to='"
 											+ i + "' class='active'></li>"
 								} else {
-									html += "<li data-target='#carousel-example-generic' data-slide-to='"
+									html += "<li data-target='#bink-carousel' data-slide-to='"
 											+ i + "'></li>"
 								}
 							}
 							html += "</ol>"
 
-							html += "<div class='carousel-inner' role='listbox'>"
+							html += "<div class='carousel-inner'>"
 							for (var i = 0; i < thisjam.pictures.length; i++) {
 								if (thisjam.pictures[i].id == thisjam.defpic) {
-									html += "<div class='item active'>"
+									html += "<div class='carousel-item active'>"
 								} else {
-									html += "<div class='item'>"
+									html += "<div class='carousel-item'>"
 								}
 
-								html += "<img src='" + thisjam.pictures[i].path
-										+ "' width='400px'>"
-								html += "<div class='carousel-caption'>"
-								html += "</div>"
+								html += "<img src='" + thisjam.pictures[i].path + "' />"
 								html += "</div>"
 							}
 							html += "</div>"
