@@ -923,7 +923,7 @@ function loadJam(id) {
 									html += "<div class='carousel-item'>"
 								}
 
-								html += "<img src='" + thisjam.pictures[i].path + "' />"
+								html += "<img class='d-block w-100' src='" + thisjam.pictures[i].path + "' />"
 								html += "</div>"
 							}
 							html += "</div>"
