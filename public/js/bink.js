@@ -928,11 +928,11 @@ function loadJam(id) {
 							}
 							html += "</div>"
 
-							html += "<a class='carousel-control-prev' href='#' role='button' data-slide='prev'>"
+							html += "<a class='carousel-control-prev' href='#bink-carousel' role='button' data-slide='prev'>"
 							html += "<span class='carousel-control-prev-icon' aria-hidden='true'></span>"
 							html += "<span class='sr-only'>Previous</span>"
 							html += "</a>"
-							html += "<a class='carousel-control-next' href='#' role='button' data-slide='next'>"
+							html += "<a class='carousel-control-next' href='#bink-carousel' role='button' data-slide='next'>"
 							html += "<span class='carousel-control-next-icon' aria-hidden='true'></span>"
 							html += "<span class='sr-only'>Next</span>"
 							html += "</a>"
