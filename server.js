@@ -41,7 +41,7 @@ app.use(session({
   secret: settings.session_secret,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true }
+  cookie: { secure: settings.secureCookie }
 }))
 
 app.use(helmet());
