@@ -52,16 +52,6 @@ app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.json())
 app.set('view engine','pug')
 
-function authenticated(req, res, next) {
-	if (req.session.authenticated)
-	{
-		next();
-	}
-	else {
-		res.status(401).send("Not allowed!");
-	}
-}
-
 app.get('/', function(req, res) {
 	res.render('index', {version: packagejson.version})
 })
