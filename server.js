@@ -27,7 +27,7 @@ connection.query('SELECT * FROM jams', function(err, rows) {
 	{
 		console.log("Issue connecting to database: " + err)
 		connection.end();
-		exit;
+		process.exit(1);
 	}
 	else
 	{
