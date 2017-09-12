@@ -104,13 +104,25 @@ $(document).ready(function() {
 			hideAdmin();
 		}
 	}) //get logged in
-
 }) //document.ready
 
 var maploaded = false;
 
 function mapcallback() {
 	maploaded = true;
+}
+
+function createNew() {
+	$.ajax({
+		method : "POST",
+		url : "/admin/jam",
+		contentType : "application/json"
+	}).done(function(msg) {
+		var data = JSON.parse(msg)
+		console.log(data);
+	}).fail(function(jqXHR) { //failure connecting or similar
+		binkAlert("Error occurred while creating jam. Error was: " + jqXHR.responseText);
+	});
 }
 
 function showAdmin()
@@ -127,6 +139,7 @@ function showAdmin()
 	html += '</div>';
 	$('#adminItem').html(html);
 	$("#logoutButton").click(logout);
+	$('#newButton').click(createNew);
 }
 
 function hideAdmin()
