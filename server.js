@@ -69,8 +69,6 @@ look when it gets loaded.
 app.use(api)
 app.use(adminapi)
 
-app.use(express.static(__dirname + '/public'));
-
 var server = app.listen(process.env.PORT || 3001, function () {
 
   var host = server.address().address
