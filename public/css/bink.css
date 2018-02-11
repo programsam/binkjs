@@ -1,32 +1,3 @@
 /*
- * Base structure
- */
-
-/*
  * BINK Styles
  */
-.linkish {
-	cursor: pointer;
-}
-
-body {
-  min-height: 75rem;
-  padding-top: 4.5rem;
-	padding-bottom: 4rem;
-}
-
-.mapviewer {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-}
-
-.timeline {
-	position: absolute;
-	width: 100%;
-	height: 80%;
-}
-
-.invisible {
-  height: 0px;
-}
