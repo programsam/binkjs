@@ -127,19 +127,12 @@ function createNew() {
 
 function showAdmin()
 {
-	$('#adminItem').addClass('dropdown');
-	var html = "";
-	html += '<a class="nav-link dropdown-toggle" href="#" ';
-	html += 'id="adminMenu" data-toggle="dropdown" aria-haspopup="true"';
-	html += 'aria-expanded="false">Admin</a>';
-	html += '<div class="dropdown-menu" aria-labelledby="adminMenu">';
-	html += '<a class="dropdown-item" id="newButton" href="#new">Create New</a>';
-	html += '<div class="dropdown-divider"></div>';
-	html += '<a class="dropdown-item" id="logoutButton" href="#logout">Logout</a>';
-	html += '</div>';
-	$('#adminItem').html(html);
-	$("#logoutButton").click(logout);
-	$('#newButton').click(createNew);
+	$.get('/views/admin/dropdown', function(view) {
+		$('#adminItem').addClass('dropdown');
+		$('#adminItem').html(view);
+		$("#logoutButton").click(logout);
+		$('#newButton').click(createNew);
+	})
 }
 
 function hideAdmin()
