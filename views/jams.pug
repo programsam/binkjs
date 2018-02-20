@@ -1,0 +1,16 @@
+//code
+//  | #{JSON.stringify(jams)}
+for jam in jams
+  .card
+    .card-body
+      h4.card-title
+        | #{jam.mydate}
+        a(href='javascript:loadJam(' + jam.id + ');') #{jam.title}
+      h6.card-subtitle.mb-2.text-muted
+        if jam.band
+          a(href='javascript:loadBand(' + jam.id + ');') #{jam.band.name}
+          |  at&nbsp;
+          if jam.location
+            a(href='javascript:loadLocation(' + jam.location.id + ');') #{jam.location.name}
+      p.card-text
+        | #{jam.notes}

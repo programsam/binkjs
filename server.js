@@ -10,11 +10,11 @@ var settings	= require('./settings.json');
 var Processing 	= require("./lib/processing.js");
 var api			= require("./lib/api.js");
 var adminapi	= require("./lib/adminapi.js");
+var views	= require("./lib/views.js");
 var helmet = require('helmet');
 var robots = require('express-robots');
 var app = express();
 
-var packagejson = require('./package');
 var settings = require('./settings');
 
 function sql() {
@@ -46,28 +46,15 @@ app.use(session({
 
 app.use(helmet());
 
-app.use(robots({UserAgent: '*', Disallow: '/'}))
+app.use(robots({UserAgent: '*', Disallow: '/'}));
 
-app.use(express.static(__dirname + '/public'))
-app.use(bodyParser.json())
-app.set('view engine','pug')
+app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
+app.set('view engine','pug');
 
-app.get('/', function(req, res) {
-	res.render('index', {version: packagejson.version})
-})
-
-/*
-Not a good feature to just have lying around, but this
-can be *very* useful for debugging CSS/DHTML/jQuery/Bootstrap
-issues when you want to see how just the basic header should
-look when it gets loaded.
-*/
-// app.get('/navbar', function(req, res) {
-// 	res.render('navbar')
-// })
-
-app.use(api)
-app.use(adminapi)
+app.use(api);
+app.use(adminapi);
+app.use(views);
 
 var server = app.listen(process.env.PORT || 3001, function () {
 
