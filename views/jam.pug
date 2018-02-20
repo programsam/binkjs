@@ -1,0 +1,57 @@
+.card
+  .card-body
+    h4.card-title
+      | #{jam.mydate} - #{jam.title}
+      if (jam.private)
+        p
+          i.fa.fa-key.fa-sm.pull-right
+    h6.card-subtitle.mb-2.text-muted
+      if jam.band
+        a(href='javascript:loadBand(' + jam.id + ');') #{jam.band.name}
+        |  at&nbsp;
+        if jam.location
+          a(href='javascript:loadLocation(' + jam.location.id + ');') #{jam.location.name}
+    if (jam.notes)
+      p.card-text
+        | #{jam.notes}
+if (jam.location && jam.location.lat && jam.location.lon)
+.card
+  .card-body
+    h5.card-title Location
+    .map-canvas(style='width:100%; height:100px')
+if (jam.musicians && jam.musicians.length > 0)
+  .card
+    .card-body
+      h5.card-title Musicians
+      ul.list-group
+      for musician in jam.musicians
+        li.list-group-item
+          a(href='javascript:loadMusician(' + musician.id + ');') #{musician.name}
+          |&nbsp;-&nbsp;
+          for instrument in musician.instruments
+            | #{instrument},&nbsp
+if (jam.staff && jam.staff.length > 0)
+  .card
+    .card-body
+      h5.card-title Staff
+      ul.list-group
+      for staff in jam.staff
+        li.list-group-item
+          a(href='javascript:loadStaff(' + staff.id + ');') #{staff.name}
+          |&nbsp;-&nbsp;
+          for role in staff.roles
+            | #{role},&nbsp
+if (jam.tracks && jam.tracks.length > 0)
+  .card
+    .card-body
+      h5.card-title Music
+      ul.list-group
+      for track in jam.tracks
+        li.list-group-item
+          a(href=track.path) #{track.title}
+          p.pull-right
+            a(href='javascript:play("' + track.title + '", "' + track.path + '");')
+              i.fa.fa-play.fa-sm
+            | &nbsp;&nbsp;
+            a(href='javascript:enqueue("' + track.title + '", "' + track.path + '");')
+              i.fa.fa-plus.fa-sm

@@ -702,208 +702,212 @@ function dropMarker(coordinates, name, content, map) {
 function loadJam(id) {
 	clearClasses()
 	$('.nav-link.active').removeClass('active');
-	location.hash = "jam-" + id
-	$
-			.get(
-					"/api/jam/" + id,
-					function(thisjam) {
-						var html = "";
-						var d = new Date(thisjam.date)
-						var mydate = (d.getMonth() + 1) + "/" + d.getDate()
-								+ "/" + d.getFullYear()
-						html += "<h3>" + mydate + " - " + thisjam.title
-						if (thisjam.private != 0)
-							html += "<span class='oi oi-key float-right' aria-hidden='true'></span>"
-						html += "</h3>"
-						html += "<h4>"
-						if (thisjam.hasOwnProperty("band")) {
-							html += "<a href='javascript:loadBand("
-									+ thisjam.band.id + ")'>"
-									+ thisjam.band.name + "</a>"
-						}
-						if (thisjam.hasOwnProperty("band")
-								&& thisjam.hasOwnProperty("location")) {
-							html += " at "
-						}
-						if (thisjam.hasOwnProperty("location")) {
-							html += "<a href='javascript:loadLocation("
-									+ thisjam.location.id + ")'>"
-									+ thisjam.location.name + "</a>"
-						}
-						html += "</h4>"
-						var hasMap = false;
-						if (thisjam.hasOwnProperty("location")
-								&& thisjam.location.lat != null
-								&& thisjam.location.lon != null) {
-							html += "<div class='card'><div class='card-title'>Location</div>"
-							html += "<div id='map-canvas' style='width: 100%; height: 300px'></div>"
-							html += "</div>"
-							hasMap = true
-						}
-						if (thisjam.hasOwnProperty("notes")
-								&& thisjam.notes != "") {
-							html += "<div class='card'><div class='card-title'>Notes</div>"
-							html += "<div class='card-body'><p class='card-body'>" + thisjam.notes
-									+ "</p></div>"
-							html += "</div>"
-						}
-						if (thisjam.hasOwnProperty("musicians")
-								&& thisjam.musicians.length != 0) {
-							html += "<div class='card'><div class='card-title'>Musicians</div>"
-							html += "<div class='card-body'><ul class='list-group'>"
-							thisjam.musicians
-									.forEach(function(musician, mi, ma) {
-										html += "<li class='list-group-item'><a href='javascript:loadMusician("
-												+ musician.id
-												+ ")'>"
-												+ musician.name + "</a> - "
-										musician.instruments
-												.forEach(function(instrument,
-														instindex, instarray) {
-													if (instindex == (instarray.length - 1)) {
-														html += instrument
-													} else {
-														html += instrument
-																+ ", "
-													}
-												})
-										html += "</li>"
-									})
-							html += "</ul></div></div>"
-						}
-						if (thisjam.hasOwnProperty("staff")
-								&& thisjam.staff.length != 0) {
-							html += "<div class='card'><div class='card-title'>Staff</div>"
-							html += "<div class='card-body'><ul class='list-group'>"
-							thisjam.staff
-									.forEach(function(staff, staffi, staffa) {
-										html += "<li class='list-group-item'><a href='javascript:loadStaff("
-												+ staff.id
-												+ ")'>"
-												+ staff.name
-												+ "</a> - "
-										staff.roles
-												.forEach(function(role,
-														roleindex, rolearray) {
-													if (roleindex == (rolearray.length - 1)) {
-														html += role
-													} else {
-														html += role + ", "
-													}
-												})
-										html += "</li>"
-									})
-							html += "</ul></div></div>"
-						}
-						if (thisjam.hasOwnProperty("tracks")
-								&& thisjam.tracks.length != 0) {
-							html += "<div class='card'><div class='card-title'>Music</div>"
-							html += "<div class='card-body'><table class='table table-bordered'>"
-							thisjam.tracks
-									.forEach(function(tracks, tracksi, tracksa) {
-										if (tracks.title == "--------------------") {
-											html += "<tr><td colspan='4'>&nbsp</td></tr>"
-										} else {
-											html += "<tr>"
-											html += "<td width='15px'><span onclick=\"play('"
-													+ tracks.title
-													+ "', '"
-													+ tracks.path
-													+ "')\"  class='oi oi-media-play linkish' aria-hidden='true'></span></td>"
-											html += "<td width='15px'><span onclick=\"enqueue('"
-													+ tracks.title
-													+ "', '"
-													+ tracks.path
-													+ "')\"  class='oi oi-plus' aria-hidden='true'></span></td>"
-
-											html += "<td><a href='"
-													+ tracks.path + "'>"
-													+ tracks.title
-													+ "</a></td>"
-											if (tracks.notes) {
-												html += "<td>" + tracks.notes
-														+ "</td>"
-											}
-											html += "</tr>"
-										}
-									})
-							html += "</table></div></div>"
-						}
-						if (thisjam.hasOwnProperty("pictures")
-								&& thisjam.pictures != null
-								&& thisjam.pictures.length != 0) {
-							html += "<div class='card'><div class='card-title'>Pictures</div>"
-							html += "<div class='card-body'>"
-
-							html += "<div id='bink-carousel' class='carousel slide' data-ride='carousel' style='width: 400px'>"
-							html += "<ol class='carousel-indicators'>"
-							for (var i = 0; i < thisjam.pictures.length; i++) {
-								if (thisjam.pictures[i].id == thisjam.defpic) {
-									html += "<li data-target='#bink-carousel' data-slide-to='"
-											+ i + "' class='active'></li>"
-								} else {
-									html += "<li data-target='#bink-carousel' data-slide-to='"
-											+ i + "'></li>"
-								}
-							}
-							html += "</ol>"
-
-							html += "<div class='carousel-inner'>"
-							for (var i = 0; i < thisjam.pictures.length; i++) {
-								if (thisjam.pictures[i].id == thisjam.defpic) {
-									html += "<div class='carousel-item active'>"
-								} else {
-									html += "<div class='carousel-item'>"
-								}
-
-								html += "<img class='d-block w-100' src='" + thisjam.pictures[i].path + "' />"
-								html += "</div>"
-							}
-							html += "</div>"
-
-							html += "<a class='carousel-control-prev' href='#bink-carousel' role='button' data-slide='prev'>"
-							html += "<span class='carousel-control-prev-icon' aria-hidden='true'></span>"
-							html += "<span class='sr-only'>Previous</span>"
-							html += "</a>"
-							html += "<a class='carousel-control-next' href='#bink-carousel' role='button' data-slide='next'>"
-							html += "<span class='carousel-control-next-icon' aria-hidden='true'></span>"
-							html += "<span class='sr-only'>Next</span>"
-							html += "</a>"
-							html += "</div>"
-							html += "</div>"
-							html += "</div>"
-						}
-						if (thisjam.hasOwnProperty("video")
-								&& thisjam.video != null
-								&& thisjam.video.length != 0) {
-							html += "<div class='card'><div class='card-title'>Videos</div>"
-							html += "<div class='card-body'>"
-							html += "<table class='table table-bordered'>"
-							thisjam.video.forEach(function(element, index,
-									array) {
-								html += "<tr>"
-								html += "<td><a href='" + element.path + "'>"
-										+ element.title + "</a></td>"
-								if (element.notes) {
-									html += "<td>" + element.notes + "</td>"
-								}
-								html += "</tr>"
-							})
-							html += "</table></div></div>"
-						}
-						$("#main").html(html)
-						if (hasMap) {
-							if (maploaded) {
-								drawMap(thisjam)
-							} else {
-								setTimeout(tryMap, 1000, thisjam)
-							}
-						}
-					}).fail(function(error) {
-				binkAlert("Alert", "This item is not in BINK!")
-				loadRecentJams();
-			});
+	$.get(`/views/jam/${id}`, function(view) {
+		$('#main').html(view);
+	})
 }
+
+// location.hash = "jam-" + id
+// $
+// 		.get(
+// 				"/api/jam/" + id,
+// 				function(thisjam) {
+// 					var html = "";
+// 					var d = new Date(thisjam.date)
+// 					var mydate = (d.getMonth() + 1) + "/" + d.getDate()
+// 							+ "/" + d.getFullYear()
+// 					html += "<h3>" + mydate + " - " + thisjam.title
+// 					if (thisjam.private != 0)
+// 						html += "<span class='oi oi-key float-right' aria-hidden='true'></span>"
+// 					html += "</h3>"
+// 					html += "<h4>"
+// 					if (thisjam.hasOwnProperty("band")) {
+// 						html += "<a href='javascript:loadBand("
+// 								+ thisjam.band.id + ")'>"
+// 								+ thisjam.band.name + "</a>"
+// 					}
+// 					if (thisjam.hasOwnProperty("band")
+// 							&& thisjam.hasOwnProperty("location")) {
+// 						html += " at "
+// 					}
+// 					if (thisjam.hasOwnProperty("location")) {
+// 						html += "<a href='javascript:loadLocation("
+// 								+ thisjam.location.id + ")'>"
+// 								+ thisjam.location.name + "</a>"
+// 					}
+// 					html += "</h4>"
+// 					var hasMap = false;
+// 					if (thisjam.hasOwnProperty("location")
+// 							&& thisjam.location.lat != null
+// 							&& thisjam.location.lon != null) {
+// 						html += "<div class='card'><div class='card-title'>Location</div>"
+// 						html += "<div id='map-canvas' style='width: 100%; height: 300px'></div>"
+// 						html += "</div>"
+// 						hasMap = true
+// 					}
+// 					if (thisjam.hasOwnProperty("notes")
+// 							&& thisjam.notes != "") {
+// 						html += "<div class='card'><div class='card-title'>Notes</div>"
+// 						html += "<div class='card-body'><p class='card-body'>" + thisjam.notes
+// 								+ "</p></div>"
+// 						html += "</div>"
+// 					}
+// 					if (thisjam.hasOwnProperty("musicians")
+// 							&& thisjam.musicians.length != 0) {
+// 						html += "<div class='card'><div class='card-title'>Musicians</div>"
+// 						html += "<div class='card-body'><ul class='list-group'>"
+// 						thisjam.musicians
+// 								.forEach(function(musician, mi, ma) {
+// 									html += "<li class='list-group-item'><a href='javascript:loadMusician("
+// 											+ musician.id
+// 											+ ")'>"
+// 											+ musician.name + "</a> - "
+// 									musician.instruments
+// 											.forEach(function(instrument,
+// 													instindex, instarray) {
+// 												if (instindex == (instarray.length - 1)) {
+// 													html += instrument
+// 												} else {
+// 													html += instrument
+// 															+ ", "
+// 												}
+// 											})
+// 									html += "</li>"
+// 								})
+// 						html += "</ul></div></div>"
+// 					}
+// 					if (thisjam.hasOwnProperty("staff")
+// 							&& thisjam.staff.length != 0) {
+// 						html += "<div class='card'><div class='card-title'>Staff</div>"
+// 						html += "<div class='card-body'><ul class='list-group'>"
+// 						thisjam.staff
+// 								.forEach(function(staff, staffi, staffa) {
+// 									html += "<li class='list-group-item'><a href='javascript:loadStaff("
+// 											+ staff.id
+// 											+ ")'>"
+// 											+ staff.name
+// 											+ "</a> - "
+// 									staff.roles
+// 											.forEach(function(role,
+// 													roleindex, rolearray) {
+// 												if (roleindex == (rolearray.length - 1)) {
+// 													html += role
+// 												} else {
+// 													html += role + ", "
+// 												}
+// 											})
+// 									html += "</li>"
+// 								})
+// 						html += "</ul></div></div>"
+// 					}
+// 					if (thisjam.hasOwnProperty("tracks")
+// 							&& thisjam.tracks.length != 0) {
+// 						html += "<div class='card'><div class='card-title'>Music</div>"
+// 						html += "<div class='card-body'><table class='table table-bordered'>"
+// 						thisjam.tracks
+// 								.forEach(function(tracks, tracksi, tracksa) {
+// 									if (tracks.title == "--------------------") {
+// 										html += "<tr><td colspan='4'>&nbsp</td></tr>"
+// 									} else {
+// 										html += "<tr>"
+// 										html += "<td width='15px'><span onclick=\"play('"
+// 												+ tracks.title
+// 												+ "', '"
+// 												+ tracks.path
+// 												+ "')\"  class='oi oi-media-play linkish' aria-hidden='true'></span></td>"
+// 										html += "<td width='15px'><span onclick=\"enqueue('"
+// 												+ tracks.title
+// 												+ "', '"
+// 												+ tracks.path
+// 												+ "')\"  class='oi oi-plus' aria-hidden='true'></span></td>"
+//
+// 										html += "<td><a href='"
+// 												+ tracks.path + "'>"
+// 												+ tracks.title
+// 												+ "</a></td>"
+// 										if (tracks.notes) {
+// 											html += "<td>" + tracks.notes
+// 													+ "</td>"
+// 										}
+// 										html += "</tr>"
+// 									}
+// 								})
+// 						html += "</table></div></div>"
+// 					}
+// 					if (thisjam.hasOwnProperty("pictures")
+// 							&& thisjam.pictures != null
+// 							&& thisjam.pictures.length != 0) {
+// 						html += "<div class='card'><div class='card-title'>Pictures</div>"
+// 						html += "<div class='card-body'>"
+//
+// 						html += "<div id='bink-carousel' class='carousel slide' data-ride='carousel' style='width: 400px'>"
+// 						html += "<ol class='carousel-indicators'>"
+// 						for (var i = 0; i < thisjam.pictures.length; i++) {
+// 							if (thisjam.pictures[i].id == thisjam.defpic) {
+// 								html += "<li data-target='#bink-carousel' data-slide-to='"
+// 										+ i + "' class='active'></li>"
+// 							} else {
+// 								html += "<li data-target='#bink-carousel' data-slide-to='"
+// 										+ i + "'></li>"
+// 							}
+// 						}
+// 						html += "</ol>"
+//
+// 						html += "<div class='carousel-inner'>"
+// 						for (var i = 0; i < thisjam.pictures.length; i++) {
+// 							if (thisjam.pictures[i].id == thisjam.defpic) {
+// 								html += "<div class='carousel-item active'>"
+// 							} else {
+// 								html += "<div class='carousel-item'>"
+// 							}
+//
+// 							html += "<img class='d-block w-100' src='" + thisjam.pictures[i].path + "' />"
+// 							html += "</div>"
+// 						}
+// 						html += "</div>"
+//
+// 						html += "<a class='carousel-control-prev' href='#bink-carousel' role='button' data-slide='prev'>"
+// 						html += "<span class='carousel-control-prev-icon' aria-hidden='true'></span>"
+// 						html += "<span class='sr-only'>Previous</span>"
+// 						html += "</a>"
+// 						html += "<a class='carousel-control-next' href='#bink-carousel' role='button' data-slide='next'>"
+// 						html += "<span class='carousel-control-next-icon' aria-hidden='true'></span>"
+// 						html += "<span class='sr-only'>Next</span>"
+// 						html += "</a>"
+// 						html += "</div>"
+// 						html += "</div>"
+// 						html += "</div>"
+// 					}
+// 					if (thisjam.hasOwnProperty("video")
+// 							&& thisjam.video != null
+// 							&& thisjam.video.length != 0) {
+// 						html += "<div class='card'><div class='card-title'>Videos</div>"
+// 						html += "<div class='card-body'>"
+// 						html += "<table class='table table-bordered'>"
+// 						thisjam.video.forEach(function(element, index,
+// 								array) {
+// 							html += "<tr>"
+// 							html += "<td><a href='" + element.path + "'>"
+// 									+ element.title + "</a></td>"
+// 							if (element.notes) {
+// 								html += "<td>" + element.notes + "</td>"
+// 							}
+// 							html += "</tr>"
+// 						})
+// 						html += "</table></div></div>"
+// 					}
+// 					$("#main").html(html)
+// 					if (hasMap) {
+// 						if (maploaded) {
+// 							drawMap(thisjam)
+// 						} else {
+// 							setTimeout(tryMap, 1000, thisjam)
+// 						}
+// 					}
+// 				}).fail(function(error) {
+// 			binkAlert("Alert", "This item is not in BINK!")
+// 			loadRecentJams();
+// 		});
 
 function tryMap(thisjam) {
 	if (!maploaded) {
