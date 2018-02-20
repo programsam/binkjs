@@ -4,7 +4,7 @@ for jam in jams
   .card
     .card-body
       h4.card-title
-        | #{jam.mydate}
+        | #{jam.mydate} -&nbsp;
         a(href='javascript:loadJam(' + jam.id + ');') #{jam.title}
       h6.card-subtitle.mb-2.text-muted
         if jam.band
