@@ -28,8 +28,11 @@ if (jam.musicians && jam.musicians.length > 0)
         li.list-group-item
           a(href='javascript:loadMusician(' + musician.id + ');') #{musician.name}
           |&nbsp;-&nbsp;
-          for instrument in musician.instruments
-            | #{instrument},&nbsp
+          each instrument, index in musician.instruments
+            if (index === (musician.instruments.length - 1))
+              | #{instrument}
+            else
+              | #{instrument},&nbsp
 if (jam.staff && jam.staff.length > 0)
   .card
     .card-body
@@ -39,8 +42,11 @@ if (jam.staff && jam.staff.length > 0)
         li.list-group-item
           a(href='javascript:loadStaff(' + staff.id + ');') #{staff.name}
           |&nbsp;-&nbsp;
-          for role in staff.roles
-            | #{role},&nbsp
+          each role, index in staff.roles
+            if (index === (staff.roles.length - 1))
+              | #{role}
+            else
+              | #{role},&nbsp
 if (jam.pictures && jam.pictures.length > 0)
   .card
     .card-body
@@ -67,13 +73,18 @@ if (jam.tracks && jam.tracks.length > 0)
       ul.list-group
       for track in jam.tracks
         li.list-group-item
-          a(href=track.path) #{track.title}
-          p.pull-right
-            a(href='javascript:play("' + track.title + '", "' + track.path + '");')
-              i.fa.fa-play.fa-sm
-            | &nbsp;&nbsp;
-            a(href='javascript:enqueue("' + track.title + '", "' + track.path + '");')
-              i.fa.fa-plus.fa-sm
+          if (track.title === "--------------------")
+            | &nbsp;
+          else
+            a(href=track.path) #{track.title}
+            if (track.notes)
+              | &nbsp;- #{track.notes}
+            p.pull-right
+              a(href='javascript:play("' + track.title + '", "' + track.path + '");')
+                i.fa.fa-play.fa-sm
+              | &nbsp;&nbsp;
+              a(href='javascript:enqueue("' + track.title + '", "' + track.path + '");')
+                i.fa.fa-plus.fa-sm
 if (jam.video && jam.video.length > 0)
   .card
     .card-body
