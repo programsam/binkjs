@@ -138,11 +138,12 @@ function browseJams() {
 						title:'',
 						formatter: hasVidsFormatter}
 				],
-				pagination: true
+				url: '/api/search',
+				sidePagination: 'server',
+				pagination: true,
+				sortOrder: 'desc',
+				search: true
 			});
-			$.get('/api/search/10/0', function(data) {
-				$('#jamTable').bootstrapTable('load', data.results);
-			})
 		})
 	})
 }
