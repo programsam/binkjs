@@ -81,13 +81,13 @@ $(document).ready(function() {
 		});
 	})
 
-	$.get("/api/maps/key", function(data) {
-		var script = document.createElement('script');
-		script.type = 'text/javascript';
-		script.src = 'https://maps.googleapis.com/maps/api/js?key='
-				+ data + '&callback=mapcallback'
-		document.body.appendChild(script);
-	})
+	// $.get("/api/maps/key", function(data) {
+	// 	var script = document.createElement('script');
+	// 	script.type = 'text/javascript';
+	// 	script.src = 'https://maps.googleapis.com/maps/api/js?key='
+	// 			+ data + '&callback=mapcallback'
+	// 	document.body.appendChild(script);
+	// })
 
 	$("#logoutButton").click(logout);
 	$("#loginButton").click(login);
@@ -704,8 +704,39 @@ function loadJam(id) {
 	$('.nav-link.active').removeClass('active');
 	$.get(`/views/jam/${id}`, function(view) {
 		$('#main').html(view);
+		$.get(`/api/jam/${id}/location`, function(loc) {
+			loadMapsAPI(function() {
+				mapLocation(loc);
+			})
+		})
 	})
 }
+
+function loadMapsAPI(callback) {
+	$.get("/api/maps/key", function(data) {
+		$.getScript(`https://maps.googleapis.com/maps/api/js?key=${data}`,
+			function(script, textStatus, jqXhr) {
+				callback();
+		})
+	})
+}
+
+function mapLocation(loc) {
+	var coordinates = new google.maps.LatLng(parseFloat(loc.lat),
+			parseFloat(loc.lon));
+	var mapOptions = {
+		center : coordinates,
+		zoom : 9
+	}
+	var map = new google.maps.Map($('#map-canvas')[0],
+			mapOptions);
+	var marker = new google.maps.Marker({
+		position : coordinates,
+		map : map,
+		title : location.name
+	});
+}
+
 
 // location.hash = "jam-" + id
 // $
@@ -908,27 +939,3 @@ function loadJam(id) {
 // 			binkAlert("Alert", "This item is not in BINK!")
 // 			loadRecentJams();
 // 		});
-
-function tryMap(thisjam) {
-	if (!maploaded) {
-		setTimeout(tryMap, 1000, thisjam)
-	} else {
-		drawMap(thisjam);
-	}
-}
-
-function drawMap(thisjam) {
-	var coordinates = new google.maps.LatLng(parseFloat(thisjam.location.lat),
-			parseFloat(thisjam.location.lon));
-	var mapOptions = {
-		center : coordinates,
-		zoom : 9
-	}
-	var map = new google.maps.Map(document.getElementById('map-canvas'),
-			mapOptions);
-	var marker = new google.maps.Marker({
-		position : coordinates,
-		map : map,
-		title : thisjam.location.name
-	});
-}
