@@ -7,9 +7,10 @@ $(document).ready(function() {
 
 	$("a#recentButton").click(loadRecentJams)
 	$("a#browseButton").click(function() {
-		search(10, 0);
+		// search(10, 0);
 		$('.nav-link.active').removeClass('active');
 		$('#browseButton').addClass('active');
+		browseJams();
 	})
 	$("a#historyButton").click(loadHistoricJams)
 	$("a#mapButton").click(loadMap)
@@ -79,15 +80,7 @@ $(document).ready(function() {
 		$("#main").css("padding-left", function(paddingleft) {
 			return 265;
 		});
-	})
-
-	// $.get("/api/maps/key", function(data) {
-	// 	var script = document.createElement('script');
-	// 	script.type = 'text/javascript';
-	// 	script.src = 'https://maps.googleapis.com/maps/api/js?key='
-	// 			+ data + '&callback=mapcallback'
-	// 	document.body.appendChild(script);
-	// })
+	});
 
 	$("#logoutButton").click(logout);
 	$("#loginButton").click(login);
@@ -106,12 +99,6 @@ $(document).ready(function() {
 	}) //get logged in
 }) //document.ready
 
-var maploaded = false;
-
-function mapcallback() {
-	maploaded = true;
-}
-
 function createNew() {
 	$.ajax({
 		method : "POST",
@@ -123,6 +110,77 @@ function createNew() {
 	}).fail(function(jqXHR) { //failure connecting or similar
 		binkAlert("Error occurred while creating jam. Error was: " + jqXHR.responseText);
 	});
+}
+
+function browseJams() {
+	$.get('/views/browse', function(view) {
+		$('#main').html(view);
+		$.getScript('https://cdn.jsdelivr.net/npm/bootstrap-table@1.11.2/dist/bootstrap-table.min.js', function(data, status, jqXhr) {
+			$('#jamTable').bootstrapTable({
+				columns: [
+					{field:'date',
+						title:'Date',
+						formatter: dateFormatter},
+					{field:'title',
+							title:'Title',
+						formatter: titleFormatter},
+					{field:'location.name',
+						title:'Location'},
+					{field:'band.name',
+						title:'Band'},
+					{field:'hasTracks',
+						title:'',
+						formatter: hasTracksFormatter},
+					{field:'hasPics',
+						title:'',
+						formatter: hasPicsFormatter},
+					{field:'hasVids',
+						title:'',
+						formatter: hasVidsFormatter}
+				],
+				pagination: true
+			});
+			$.get('/api/search/10/0', function(data) {
+				$('#jamTable').bootstrapTable('load', data.results);
+			})
+		})
+	})
+}
+
+function titleFormatter(value, row) {
+	return `<a href="javascript:loadJam(${row.id})">${value}</a>`;
+}
+
+function dateFormatter(value) {
+	let d = new Date(value);
+	return `${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}`;
+}
+
+function hasTracksFormatter(value) {
+	if (value === true) {
+    return '<i class="fa fa-music"></i>';
+  } else {
+		return '';
+	}
+  return value;
+}
+
+function hasPicsFormatter(value) {
+	if (value === true) {
+    return '<i class="fa fa-camera"></i>';
+  } else {
+		return '';
+	}
+  return value;
+}
+
+function hasVidsFormatter(value) {
+	if (value === true) {
+    return '<i class="fa fa-video"></i>';
+  } else {
+		return '';
+	}
+  return value;
 }
 
 function showAdmin()
@@ -448,203 +506,205 @@ function loadHistoricJams() {
 	})
 }
 
-function getSearchResults(size, page, query) {
-	if (size == null || size < 3)
-		size = 10
-	if (page == null)
-		page = 0
 
-	if (null == query) {
-		$.get("/api/search/" + size + "/" + page, searchCallback).fail(
-				function() {
-					binkAlert("Problem", "Failed to browse jams.")
-				})
-	} else {
-		$.get("/api/search/" + size + "/" + page + "/" + query, searchCallback)
-				.fail(function() {
-					binkAlert("Problem", "Failed to search jams.")
-				})
-	}
-}
 
-var nums = [ 3, 5, 10, 25, 50 ]
-function search(size, page, query) {
-	clearClasses()
-	getSearchResults(size, page, query)
-	var html = ""
-	html += "<div class=<div class='btn-group mb-3' data-toggle='buttons'>"
-
-	if (null != query) {
-		query = query.replace(/"/g, '\\\"')
-		query = query.replace(/'/g, '\\\'')
-	}
-	for (var j = 0; j < nums.length; j++) {
-		if (query != null) {
-			html += "<label class='btn btn-primary' id='num" + nums[j]
-					+ "' onclick=\"javascript:getSearchResults(" + nums[j]
-					+ ", " + page + ", '" + query + "')\">"
-		} else {
-			html += "<label class='btn btn-primary' id='num" + nums[j]
-					+ "' onclick=\"javascript:getSearchResults(" + nums[j]
-					+ ", " + page + ")\">"
-		}
-
-		html += "<input type='radio' autocomplete='off'> " + nums[j]
-		html += "</label>"
-	}
-
-	html += "</div>"
-	html += "<nav id='pages' aria-label='Pages'></nav>"
-	html += "</div></div>"
-	html += "<div id='results'></div>"
-	$("#main").html(html)
-}
-
-function genPages(size, page, total, query) {
-	var pageCount = Math.floor(total / size)
-	if ((total % size) > 0)
-		pageCount++
-
-	var html = "<ul class='pagination d-flex flex-wrap'>"
-	//If we're on the first page, you cannot go backwards.
-	if (page == 0) {
-		html += "<li class='page-item disabled'>";
-		html += "<a href='#' class='page-link' aria-label='Previous'>";
-		html += "<span aria-hidden='true'>&laquo;</span></a></li>";
-	} else { //we are on a different page, so it's enabled
-		html += "<li class='page-item'>"
-		if (null != query)  //are we searching or just browsing?
-			html += "<a class='page-link' href=\"javascript:getSearchResults(" + size + ","
-					+ (page - 1) + ", '" + query
-					+ "')\" aria-label='Previous'>"
-					+ "<span aria-hidden='true'>&laquo;</span>" + "</a>"
-		else
-			html += "<a class='page-link' href=\"javascript:getSearchResults(" + size + ","
-					+ (page - 1) + ")\" aria-label='Previous'>"
-					+ "<span aria-hidden='true'>&laquo;</span>" + "</a>"
-		html += "</li>"
-	}
-
-	for (var j = 0; j < pageCount; j++) {
-		if (null != query)
-			html += "<li class='page-item' id='page" + j
-					+ "'><a class='page-link' href=\"javascript:getSearchResults(" + size + ","
-					+ j + ", '" + query + "')\">" + (j + 1) + "</a></li>"
-		else
-			html += "<li class='page-item' id='page" + j
-					+ "'><a class='page-link' href=\"javascript:getSearchResults(" + size + ","
-					+ j + ")\">" + (j + 1) + "</a></li>"
-	}
-
-	if (page >= (pageCount - 1)) {
-		html += "<li class='disabled page-item'><a href='#' class='page-link' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>"
-	} else {
-		html += "<li class='page-item'>"
-		if (null != query)
-			html += "<a class='page-link' href=\"javascript:getSearchResults(" + size + ","
-					+ (page + 1) + ", '" + query + "')\" aria-label='Next'>"
-					+ "<span aria-hidden='true'>&raquo;</span>" + "</a>"
-		else
-			html += "<a class='page-link' href=\"javascript:getSearchResults(" + size + ","
-					+ (page + 1) + ")\" aria-label='Next'>"
-					+ "<span aria-hidden='true'>&raquo;</span>" + "</a>"
-		html += "</li>"
-	}
-	html += "</ul>"
-	html += "</nav>"
-	$("#pages").html(html)
-	for (var j = 0; j < pageCount; j++) {
-		$("#page" + j).removeClass("active")
-	}
-	$("#page" + page).addClass("active")
-}
-
-function searchCallback(data) {
-	if (data.results.length > 0) {
-		var html = "<table class='table table-bordered'>";
-		html += "<tr>"
-		//load
-			html += "<th><span class='oi oi-folder' aria-hidden='true'></span></th>"
-			html += "<th>Date</th><th>Title</th><th>Band</th><th>Location</th>"
-		//music
-			html += "<th><span class='oi oi-musical-note' aria-hidden='true'></span></th>"
-		//pictures
-			html += "<th><span class='oi oi-image' aria-hidden='true'></span></th>"
-		//images
-			html += "<th><span class='oi oi-video' aria-hidden='true'></span></th>"
-		//private
-			html += "<td><span class='oi oi-key' aria-hidden='true'></span></th>"
-		html += "</tr>"
-		data.results
-				.forEach(function(thisjam, index, array) {
-					var d = new Date(thisjam.date)
-					var mydate = (d.getMonth() + 1) + "/" + d.getDate() + "/"
-							+ d.getFullYear()
-					html += "<tr>"
-
-					html += "<td><span onclick='loadJam("
-							+ thisjam.id
-							+ ")' class='oi oi-folder linkish'"
-							+ " aria-hidden='true'></span></td>"
-
-					html += "<td>" + mydate + "</td>"
-					html += "<td><a href='javascript:loadJam(" + thisjam.id
-							+ ")'>" + thisjam.title + "</a></td>"
-
-					if (thisjam.hasOwnProperty("band")) {
-						html += "<td><a href='javascript:loadBand("
-								+ thisjam.band.id + ")'>" + thisjam.band.name
-								+ "</a></td>"
-					} else {
-						html += "<td></td>"
-					}
-
-					if (thisjam.hasOwnProperty("location")) {
-						html += "<td><a href='javascript:loadLocation("
-								+ thisjam.location.id + ")'>"
-								+ thisjam.location.name + "</a></td>"
-					} else {
-						html += "<td></td>"
-					}
-
-					if (thisjam.hasTracks) {
-						html += "<td><span class='oi oi-musical-note' aria-hidden='true'></td>"
-					} else {
-						html += "<td></td>"
-					}
-
-					if (thisjam.hasPics) {
-						html += "<td><span class='oi oi-image' aria-hidden='true'></td>"
-					} else {
-						html += "<td></td>"
-					}
-
-					if (thisjam.hasVids) {
-						html += "<td><span class='oi oi-video' aria-hidden='true'></td>"
-					} else {
-						html += "<td></td>"
-					}
-
-					if (thisjam.private != 0) {
-						html += "<td><span class='oi oi-key' aria-hidden='true'></span></td>"
-					} else {
-						html += "<td></td>"
-					}
-				})
-		html += "</table>"
-
-		$("#results").html(html)
-		genPages(data.size, data.page, data.total, data.query)
-	} else {
-		$("#results").html(
-				"<em>There were no collections that match your query</em>")
-	}
-
-	for (var j = 0; j < nums.length; j++) {
-		$("#num" + nums[j]).removeClass("active")
-	}
-	$("#num" + data.size).addClass("active")
-}
+// function getSearchResults(size, page, query) {
+// 	if (size == null || size < 3)
+// 		size = 10
+// 	if (page == null)
+// 		page = 0
+//
+// 	if (null == query) {
+// 		$.get("/api/search/" + size + "/" + page, searchCallback).fail(
+// 				function() {
+// 					binkAlert("Problem", "Failed to browse jams.")
+// 				})
+// 	} else {
+// 		$.get("/api/search/" + size + "/" + page + "/" + query, searchCallback)
+// 				.fail(function() {
+// 					binkAlert("Problem", "Failed to search jams.")
+// 				})
+// 	}
+// }
+//
+// var nums = [ 3, 5, 10, 25, 50 ]
+// function search(size, page, query) {
+// 	clearClasses()
+// 	getSearchResults(size, page, query)
+// 	var html = ""
+// 	html += "<div class=<div class='btn-group mb-3' data-toggle='buttons'>"
+//
+// 	if (null != query) {
+// 		query = query.replace(/"/g, '\\\"')
+// 		query = query.replace(/'/g, '\\\'')
+// 	}
+// 	for (var j = 0; j < nums.length; j++) {
+// 		if (query != null) {
+// 			html += "<label class='btn btn-primary' id='num" + nums[j]
+// 					+ "' onclick=\"javascript:getSearchResults(" + nums[j]
+// 					+ ", " + page + ", '" + query + "')\">"
+// 		} else {
+// 			html += "<label class='btn btn-primary' id='num" + nums[j]
+// 					+ "' onclick=\"javascript:getSearchResults(" + nums[j]
+// 					+ ", " + page + ")\">"
+// 		}
+//
+// 		html += "<input type='radio' autocomplete='off'> " + nums[j]
+// 		html += "</label>"
+// 	}
+//
+// 	html += "</div>"
+// 	html += "<nav id='pages' aria-label='Pages'></nav>"
+// 	html += "</div></div>"
+// 	html += "<div id='results'></div>"
+// 	$("#main").html(html)
+// }
+//
+// function genPages(size, page, total, query) {
+// 	var pageCount = Math.floor(total / size)
+// 	if ((total % size) > 0)
+// 		pageCount++
+//
+// 	var html = "<ul class='pagination d-flex flex-wrap'>"
+// 	//If we're on the first page, you cannot go backwards.
+// 	if (page == 0) {
+// 		html += "<li class='page-item disabled'>";
+// 		html += "<a href='#' class='page-link' aria-label='Previous'>";
+// 		html += "<span aria-hidden='true'>&laquo;</span></a></li>";
+// 	} else { //we are on a different page, so it's enabled
+// 		html += "<li class='page-item'>"
+// 		if (null != query)  //are we searching or just browsing?
+// 			html += "<a class='page-link' href=\"javascript:getSearchResults(" + size + ","
+// 					+ (page - 1) + ", '" + query
+// 					+ "')\" aria-label='Previous'>"
+// 					+ "<span aria-hidden='true'>&laquo;</span>" + "</a>"
+// 		else
+// 			html += "<a class='page-link' href=\"javascript:getSearchResults(" + size + ","
+// 					+ (page - 1) + ")\" aria-label='Previous'>"
+// 					+ "<span aria-hidden='true'>&laquo;</span>" + "</a>"
+// 		html += "</li>"
+// 	}
+//
+// 	for (var j = 0; j < pageCount; j++) {
+// 		if (null != query)
+// 			html += "<li class='page-item' id='page" + j
+// 					+ "'><a class='page-link' href=\"javascript:getSearchResults(" + size + ","
+// 					+ j + ", '" + query + "')\">" + (j + 1) + "</a></li>"
+// 		else
+// 			html += "<li class='page-item' id='page" + j
+// 					+ "'><a class='page-link' href=\"javascript:getSearchResults(" + size + ","
+// 					+ j + ")\">" + (j + 1) + "</a></li>"
+// 	}
+//
+// 	if (page >= (pageCount - 1)) {
+// 		html += "<li class='disabled page-item'><a href='#' class='page-link' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>"
+// 	} else {
+// 		html += "<li class='page-item'>"
+// 		if (null != query)
+// 			html += "<a class='page-link' href=\"javascript:getSearchResults(" + size + ","
+// 					+ (page + 1) + ", '" + query + "')\" aria-label='Next'>"
+// 					+ "<span aria-hidden='true'>&raquo;</span>" + "</a>"
+// 		else
+// 			html += "<a class='page-link' href=\"javascript:getSearchResults(" + size + ","
+// 					+ (page + 1) + ")\" aria-label='Next'>"
+// 					+ "<span aria-hidden='true'>&raquo;</span>" + "</a>"
+// 		html += "</li>"
+// 	}
+// 	html += "</ul>"
+// 	html += "</nav>"
+// 	$("#pages").html(html)
+// 	for (var j = 0; j < pageCount; j++) {
+// 		$("#page" + j).removeClass("active")
+// 	}
+// 	$("#page" + page).addClass("active")
+// }
+//
+// function searchCallback(data) {
+// 	if (data.results.length > 0) {
+// 		var html = "<table class='table table-bordered'>";
+// 		html += "<tr>"
+// 		//load
+// 			html += "<th><span class='oi oi-folder' aria-hidden='true'></span></th>"
+// 			html += "<th>Date</th><th>Title</th><th>Band</th><th>Location</th>"
+// 		//music
+// 			html += "<th><span class='oi oi-musical-note' aria-hidden='true'></span></th>"
+// 		//pictures
+// 			html += "<th><span class='oi oi-image' aria-hidden='true'></span></th>"
+// 		//images
+// 			html += "<th><span class='oi oi-video' aria-hidden='true'></span></th>"
+// 		//private
+// 			html += "<td><span class='oi oi-key' aria-hidden='true'></span></th>"
+// 		html += "</tr>"
+// 		data.results
+// 				.forEach(function(thisjam, index, array) {
+// 					var d = new Date(thisjam.date)
+// 					var mydate = (d.getMonth() + 1) + "/" + d.getDate() + "/"
+// 							+ d.getFullYear()
+// 					html += "<tr>"
+//
+// 					html += "<td><span onclick='loadJam("
+// 							+ thisjam.id
+// 							+ ")' class='oi oi-folder linkish'"
+// 							+ " aria-hidden='true'></span></td>"
+//
+// 					html += "<td>" + mydate + "</td>"
+// 					html += "<td><a href='javascript:loadJam(" + thisjam.id
+// 							+ ")'>" + thisjam.title + "</a></td>"
+//
+// 					if (thisjam.hasOwnProperty("band")) {
+// 						html += "<td><a href='javascript:loadBand("
+// 								+ thisjam.band.id + ")'>" + thisjam.band.name
+// 								+ "</a></td>"
+// 					} else {
+// 						html += "<td></td>"
+// 					}
+//
+// 					if (thisjam.hasOwnProperty("location")) {
+// 						html += "<td><a href='javascript:loadLocation("
+// 								+ thisjam.location.id + ")'>"
+// 								+ thisjam.location.name + "</a></td>"
+// 					} else {
+// 						html += "<td></td>"
+// 					}
+//
+// 					if (thisjam.hasTracks) {
+// 						html += "<td><span class='oi oi-musical-note' aria-hidden='true'></td>"
+// 					} else {
+// 						html += "<td></td>"
+// 					}
+//
+// 					if (thisjam.hasPics) {
+// 						html += "<td><span class='oi oi-image' aria-hidden='true'></td>"
+// 					} else {
+// 						html += "<td></td>"
+// 					}
+//
+// 					if (thisjam.hasVids) {
+// 						html += "<td><span class='oi oi-video' aria-hidden='true'></td>"
+// 					} else {
+// 						html += "<td></td>"
+// 					}
+//
+// 					if (thisjam.private != 0) {
+// 						html += "<td><span class='oi oi-key' aria-hidden='true'></span></td>"
+// 					} else {
+// 						html += "<td></td>"
+// 					}
+// 				})
+// 		html += "</table>"
+//
+// 		$("#results").html(html)
+// 		genPages(data.size, data.page, data.total, data.query)
+// 	} else {
+// 		$("#results").html(
+// 				"<em>There were no collections that match your query</em>")
+// 	}
+//
+// 	for (var j = 0; j < nums.length; j++) {
+// 		$("#num" + nums[j]).removeClass("active")
+// 	}
+// 	$("#num" + data.size).addClass("active")
+// }
 
 function clearClasses() {
 	$("#main").removeClass('mapviewer')
