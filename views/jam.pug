@@ -60,7 +60,6 @@ if (jam.pictures && jam.pictures.length > 0)
           a.carousel-control-next(href='#binkPictureCarousel', role='button', data-slide='next')
             span.carousel-control-next-icon(aria-hidden='true')
             span.sr-only Next
-
 if (jam.tracks && jam.tracks.length > 0)
   .card
     .card-body
@@ -75,3 +74,11 @@ if (jam.tracks && jam.tracks.length > 0)
             | &nbsp;&nbsp;
             a(href='javascript:enqueue("' + track.title + '", "' + track.path + '");')
               i.fa.fa-plus.fa-sm
+if (jam.video && jam.video.length > 0)
+  .card
+    .card-body
+      h5.card-title Video
+      ul.list-group
+      for video in jam.video
+        li.list-group-item
+          a(href=video.path) #{video.title}
