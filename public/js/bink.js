@@ -141,7 +141,7 @@ function loadBrowse() {
 				search: true,
 				showRefresh: true,
 				showColumns: true,
-				pageList: [5,10,20,50,100],
+				pageList: [3,5,10,20,50,100],
 				sortOrder: 'desc',
 				icons: {
 					refresh: 'fas fa-sync',

@@ -4,7 +4,7 @@
       | #{jam.mydate} - #{jam.title}
       if (jam.private)
         p
-          i.fa.fa-key.fa-sm.pull-right
+          i.fa.fa-key.fa-sm.float-right
     h6.card-subtitle.mb-2.text-muted
       if jam.band
         a(href='javascript:loadBand(' + jam.id + ');') #{jam.band.name}
@@ -79,7 +79,7 @@ if (jam.tracks && jam.tracks.length > 0)
             a(href=track.path) #{track.title}
             if (track.notes)
               | &nbsp;- #{track.notes}
-            p.pull-right
+            p.float-right
               a(href='javascript:play("' + track.title + '", "' + track.path + '");')
                 i.fa.fa-play.fa-sm
               | &nbsp;&nbsp;
