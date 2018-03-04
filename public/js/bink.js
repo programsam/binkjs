@@ -120,6 +120,8 @@ function browseJams() {
 				columns: [
 					{field:'date',
 						title:'Date',
+						sortable: true,
+						order: 'desc',
 						formatter: dateFormatter},
 					{field:'title',
 							title:'Title',
