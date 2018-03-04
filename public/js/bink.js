@@ -530,9 +530,9 @@ function loadHistoricJams() {
 	$('.nav-link.active').removeClass('active');
 	$('#historyButton').addClass('active');
 	$("#main").html("Loading...")
-	$.get("/api/history", historicCallback).fail(function() {
-		binkAlert("Problem", "Could not load historic jams.")
-	})
+	$.get("/views/history", function(view) {
+		$('#main').html(view);
+	});
 }
 
 function clearClasses() {
