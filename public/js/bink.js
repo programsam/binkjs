@@ -535,7 +535,7 @@ function loadMap() {
 			center : coordinates,
 			zoom : 5
 		}
-		$('#main').html('<div class="row"><div class="col-xs-12" id="map-canvas"></div></div>');
+		$('#main').html('<div class="position-absolute w-100 h-100" id="map-canvas"></div>');
 		var map = new google.maps.Map($("#map-canvas")[0], mapOptions);
 		$.get("/api/mapdata", function(data) {
 			$('.nav-link.active').removeClass('active');
