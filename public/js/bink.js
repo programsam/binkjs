@@ -312,7 +312,6 @@ function enqueue(setTitle, setPath) {
 var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
 		"Oct", "Nov", "Dec" ]
 function loadTweets() {
-	clearClasses()
 	$('.nav-link.active').removeClass('active');
 	$('#twitterButton').addClass('active');
 	$.get("/api/tweets", function(data) {
@@ -332,7 +331,6 @@ function loadTweets() {
 }
 
 function loadTimeline() {
-	clearClasses()
 	$('.nav-link.active').removeClass('active');
 	$('#timelineButton').addClass('active');
 	$("#main").addClass('timeline')
@@ -415,7 +413,6 @@ function historicCallback(data) {
 }
 
 function loadBand(id) {
-	clearClasses()
 	$('.nav-link.active').removeClass('active');
 	$.get("/api/entity/bands/" + id, function(data) {
 		var html = "<h1>Band: " + data.name + "</h1>"
@@ -434,7 +431,6 @@ function loadBand(id) {
 }
 
 function loadMusician(id) {
-	clearClasses()
 	$('.nav-link.active').removeClass('active');
 	$.get("/api/entity/musicians/" + id, function(data) {
 		var html = "<h1>Musician: " + data.name + "</h1>"
@@ -453,7 +449,6 @@ function loadMusician(id) {
 }
 
 function loadStaff(id) {
-	clearClasses()
 	$('.nav-link.active').removeClass('active');
 	$.get("/api/entity/staff/" + id, function(data) {
 		var html = "<h1>Staff: " + data.name + "</h1>"
@@ -481,7 +476,7 @@ function loadLocation(id) {
 						var hasMap = false
 						if (data.lat != null && data.lon != null) {
 							hasMap = true
-							html += "<div id='map-canvas' style='width: 100%; height: 300px'></div>"
+							html += "<div id='map-canvas' style='width: 100%; height: 100%'></div>"
 						}
 						html += "<hr />Collections at this location: <ul>"
 						for (var j = 0; j < data.jams.length; j++) {
@@ -510,7 +505,6 @@ function loadLocation(id) {
 }
 
 function loadRecentJams() {
-	clearClasses()
 	$('.nav-link.active').removeClass('active');
 	$('#recentButton').addClass('active');
 	$("#main").html("Loading...")
@@ -526,7 +520,6 @@ function binkAlert(title, alert) {
 }
 
 function loadHistoricJams() {
-	clearClasses()
 	$('.nav-link.active').removeClass('active');
 	$('#historyButton').addClass('active');
 	$("#main").html("Loading...")
@@ -535,39 +528,36 @@ function loadHistoricJams() {
 	});
 }
 
-function clearClasses() {
-	$("#main").removeClass('mapviewer')
-	$("#main").removeClass('timeline')
-	$("#main")[0].style.removeProperty("background-color")
-}
-
 function loadMap() {
-	$.get("/api/mapdata", function(data) {
-		$('.nav-link.active').removeClass('active');
-		$('#mapButton').addClass('active');
-		$('#main').addClass('mapviewer')
+	loadMapsAPI(function() {
 		var coordinates = new google.maps.LatLng(39.944465, -97.350595);
 		var mapOptions = {
 			center : coordinates,
 			zoom : 5
 		}
-		var map = new google.maps.Map($("#main")[0], mapOptions);
-		for (var j = 0; j < data.length; j++) {
-			var coordinates = new google.maps.LatLng(parseFloat(data[j].lat),
-					parseFloat(data[j].lon));
-			var content = data[j].name
-			if (null != data[j].jams) {
-				content += "<hr />"
-				for (var k = 0; k < data[j].jams.length; k++) {
-					content += "<a href='javascript:loadJam("
-							+ data[j].jams[k].id + ")'>"
-							+ data[j].jams[k].title + "</a>"
-					if (k != data[j].jams.length - 1)
-						content += ", "
+		$('#main').html('<div class="row"><div class="col-xs-12" id="map-canvas"></div></div>');
+		var map = new google.maps.Map($("#map-canvas")[0], mapOptions);
+		$.get("/api/mapdata", function(data) {
+			$('.nav-link.active').removeClass('active');
+			$('#mapButton').addClass('active');
+
+			for (var j = 0; j < data.length; j++) {
+				var coordinates = new google.maps.LatLng(parseFloat(data[j].lat),
+						parseFloat(data[j].lon));
+				var content = data[j].name
+				if (null != data[j].jams) {
+					content += "<hr />"
+					for (var k = 0; k < data[j].jams.length; k++) {
+						content += "<a href='javascript:loadJam("
+								+ data[j].jams[k].id + ")'>"
+								+ data[j].jams[k].title + "</a>"
+						if (k != data[j].jams.length - 1)
+							content += ", "
+					}
 				}
+				dropMarker(coordinates, data[j].name, content, map)
 			}
-			dropMarker(coordinates, data[j].name, content, map)
-		}
+		})
 	})
 }
 
@@ -589,7 +579,6 @@ function dropMarker(coordinates, name, content, map) {
 }
 
 function loadJam(id) {
-	clearClasses();
 	location.hash = "jam-" + id;
 	$('.nav-link.active').removeClass('active');
 	$.get(`/views/jam/${id}`, function(view) {
