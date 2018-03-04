@@ -6,24 +6,11 @@ $(document).ready(function() {
 	});
 
 	$("a#recentButton").click(loadRecentJams)
-	$("a#browseButton").click(function() {
-		// search(10, 0);
-		$('.nav-link.active').removeClass('active');
-		$('#browseButton').addClass('active');
-		browseJams();
-	})
+	$("a#browseButton").click(loadBrowse)
 	$("a#historyButton").click(loadHistoricJams)
 	$("a#mapButton").click(loadMap)
 	$("a#timelineButton").click(loadTimeline)
 	$("a#twitterButton").click(loadTweets)
-	$("INPUT#search").keypress(function(event) {
-		if (event.which == 13) {
-			event.preventDefault();
-			query = $("input#search")
-			$('.nav-link.active').removeClass('active');
-			search(10, 0, query.val())
-		}
-	})
 	$("INPUT#password").keypress(function(event) {
 		if (event.keyCode == 13 || event.which == 13) {
 				event.preventDefault();
@@ -39,7 +26,7 @@ $(document).ready(function() {
 	})
 
 	if (location.hash == "#browse") {
-		search(10, 0);
+		loadBrowse();
 	} else if (location.hash == "#history") {
 		loadHistoricJams();
 	} else if (location.hash == "#playlist") {
@@ -112,7 +99,10 @@ function createNew() {
 	});
 }
 
-function browseJams() {
+function loadBrowse() {
+	$('.nav-link.active').removeClass('active');
+	$('#browseButton').addClass('active');
+
 	$.get('/views/browse', function(view) {
 		$('#main').html(view);
 		$.getScript('/js/bootstrapTable.js', function(data, status, jqXhr) {
