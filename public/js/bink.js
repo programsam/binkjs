@@ -140,11 +140,15 @@ function browseJams() {
 						formatter: hasPicsFormatter},
 					{field:'hasVids',
 						title:'Vids',
-						formatter: hasVidsFormatter}
+						formatter: hasVidsFormatter},
+					{field:'private',
+						title:'Private',
+						formatter: privateFormatter}
 				],
 				url: '/api/search',
 				sidePagination: 'server',
 				pagination: true,
+				search: true,
 				showRefresh: true,
 				showColumns: true,
 				pageList: [5,10,20,50,100],
@@ -156,6 +160,14 @@ function browseJams() {
 			});
 		})
 	})
+}
+
+function privateFormatter(value, row) {
+	if (row.private) {
+		return '<i class="fas fa-key"></i>';
+	} else {
+		return '-';
+	}
 }
 
 function locationFormatter(value, row) {
