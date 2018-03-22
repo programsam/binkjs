@@ -3,18 +3,18 @@
   "description": "BINK! rewritten in Node.js",
   "version": "0.6.0",
   "author": "Ben Smith",
-  "repository": "git@github.com:programsam/binkjs.git",
+  "repository": "https://github.com/programsam/binkjs.git",
   "keywords": [],
   "dependencies": {
-    "express":"*"
-    ,"mysql":"*"
-    ,"async":"*"
-    ,"express-session":"*"
-    ,"node-uuid":"*"
-    ,"body-parser":"*"
-    ,"twitter":"*"
-    ,"pug":"*"
-    ,"express-robots":"*"
-    ,"helmet":"*"
+    "async": "^2.6.0",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "express-robots": "^0.2.0",
+    "express-session": "^1.15.6",
+    "helmet": "^3.12.0",
+    "mysql": "^2.15.0",
+    "node-uuid": "*",
+    "pug": "^2.0.3",
+    "twitter": "*"
   }
 }
