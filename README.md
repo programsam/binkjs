@@ -17,12 +17,12 @@ This is a section where I will put notes about BINK that are useful for mostly f
 BINK uses the following pieces of technology (dependencies/requirements):
 
 - MySQL (`mysql  Ver 14.14 Distrib 5.7.19`)
-- Node.js  (`v4.2.6`)
+- Node.js  (`v9.9.0`)
 - Amazon S3
 - jQuery (`v3.2.1`)
 - jPlayer (`v2.9.2`)
 - Google Maps
-- Bootstrap.css (`v4 Beta`)
+- Bootstrap.css (`v4 - Darkly Theme`)
 - Nginx (`1.10.3 (Ubuntu)`)
 
 ### Settings.json
