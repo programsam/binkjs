@@ -9,7 +9,6 @@ $(document).ready(function() {
 	$("a#browseButton").click(loadBrowse)
 	$("a#historyButton").click(loadHistoricJams)
 	$("a#mapButton").click(loadMap)
-	$("a#timelineButton").click(loadTimeline)
 	$("a#twitterButton").click(loadTweets)
 	$("INPUT#password").keypress(function(event) {
 		if (event.keyCode == 13 || event.which == 13) {
@@ -33,8 +32,6 @@ $(document).ready(function() {
 		$("#sidebar-wrapper").collapse('toggle')
 	} else if (location.hash == "#map") {
 		loadMap();
-	} else if (location.hash == "#timeline") {
-		loadTimeline();
 	} else if (location.hash == "#tweets") {
 		loadTweets();
 	} else if (location.hash.indexOf("#jam-") == 0) {
@@ -327,32 +324,6 @@ function loadTweets() {
 			html += data[i].text + "<hr />"
 		}
 		$("#main").html(html)
-	})
-}
-
-function loadTimeline() {
-	$('.nav-link.active').removeClass('active');
-	$('#timelineButton').addClass('active');
-	$("#main").addClass('timeline')
-	$('#main').html('Loading...')
-	$.get("/api/timelineData", function(data) {
-		// DOM element where the Timeline will be attached
-		var container = document.getElementById('main');
-
-		// Configuration for the Timeline
-		var options = {
-			height : "100%",
-			width : "100%"
-		};
-
-		// Create a Timeline
-		$('#main')
-				.html('Drag left/right or zoom to manipulate the timeline...')
-		var timeline = new vis.Timeline(container, data, options);
-		timeline.on('select', function(properties) {
-			console.log(properties.items)
-			loadJam(properties.items[0])
-		})
 	})
 }
 
