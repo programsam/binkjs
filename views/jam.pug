@@ -7,10 +7,10 @@
           i.fa.fa-key.fa-sm.float-right
     h6.card-subtitle.mb-2.text-muted
       if jam.band
-        a(href='javascript:loadBand(' + jam.id + ');') #{jam.band.name}
+        a(href=`javascript:loadEntity('bands', ${jam.band.id});`) #{jam.band.name}
         |  at&nbsp;
-        if jam.location
-          a(href='javascript:loadLocation(' + jam.location.id + ');') #{jam.location.name}
+      if jam.location
+        a(href=`javascript:loadEntity('locations', ${jam.location.id});`) #{jam.location.name}
     if (jam.notes)
       p.card-text
         | #{jam.notes}
@@ -26,7 +26,7 @@ if (jam.musicians && jam.musicians.length > 0)
       ul.list-group
       for musician in jam.musicians
         li.list-group-item
-          a(href='javascript:loadMusician(' + musician.id + ');') #{musician.name}
+          a(href=`javascript:loadEntity('musicians', ${musician.id});`) #{musician.name}
           |&nbsp;-&nbsp;
           each instrument, index in musician.instruments
             if (index === (musician.instruments.length - 1))
@@ -40,7 +40,7 @@ if (jam.staff && jam.staff.length > 0)
       ul.list-group
       for staff in jam.staff
         li.list-group-item
-          a(href='javascript:loadStaff(' + staff.id + ');') #{staff.name}
+          a(href=`javascript:loadEntity('staff', ${staff.id});`) #{staff.name}
           |&nbsp;-&nbsp;
           each role, index in staff.roles
             if (index === (staff.roles.length - 1))

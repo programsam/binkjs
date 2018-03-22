@@ -1,0 +1,18 @@
+if (type === "bands")
+  .card
+    .card-body
+      h4.card-title
+        | #{displayName} #{name}
+      if (link && link.indexOf('http://') === 0)
+        a(href=link, target="_blank") #{link}
+  .card
+    .card-body
+      h4.card-title
+        | Appears on jams
+      table.table#band-jam-table
+else if (type === "locations")
+  p only locations get this treatment
+else if (type === "staff")
+  p only staff get this treatment
+else if (type === "musicians")
+  p only musicians get this treatment

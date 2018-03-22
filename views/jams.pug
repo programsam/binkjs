@@ -8,9 +8,9 @@ for jam in jams
         a(href='javascript:loadJam(' + jam.id + ');') #{jam.title}
       h6.card-subtitle.mb-2.text-muted
         if jam.band
-          a(href='javascript:loadBand(' + jam.band.id + ');') #{jam.band.name}
+          a(href=`javascript:loadEntity('bands', ${jam.band.id});`) #{jam.band.name}
           |  at&nbsp;
-          if jam.location
-            a(href='javascript:loadLocation(' + jam.location.id + ');') #{jam.location.name}
+        if jam.location
+          a(href=`javascript:loadEntity('locations', ${jam.location.id});`) #{jam.location.name}
       p.card-text
         | #{jam.notes}

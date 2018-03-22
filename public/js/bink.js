@@ -153,7 +153,7 @@ function privateFormatter(value, row) {
 
 function locationFormatter(value, row) {
 	if (row.location) {
-		return `<a href="javascript:loadLocation(${row.location.id})">${value}</a>`;
+		return `<a href="javascript:loadEntity('locations', ${row.location.id})">${value}</a>`;
 	} else {
 		return '-'
 	}
@@ -161,7 +161,7 @@ function locationFormatter(value, row) {
 
 function bandFormatter(value, row) {
 	if (row.band) {
-		return `<a href="javascript:loadBand(${row.band.id})">${value}</a>`;
+		return `<a href="javascript:loadEntity('bands', ${row.band.id})">${value}</a>`;
 	} else {
 		return '-';
 	}
@@ -290,108 +290,87 @@ function recentCallback(data) {
 	})
 }
 
-function historicCallback(data) {
-	var html = "<h1>Today in BINK! History</h1>";
-	var data = JSON.parse(data);
-	if (data.length > 0) {
-		renderBlogJams(html, data)
-	} else {
-		html += "<em>There were no collections that happened today in previous years.</em>"
-		$("#main").html(html)
-	}
-}
 
-function loadBand(id) {
+function loadEntity(type, id) {
 	$('.nav-link.active').removeClass('active');
-	$.get("/api/entity/bands/" + id, function(data) {
-		var html = "<h1>Band: " + data.name + "</h1>"
-		if (data.link != null && data.link.indexOf("http") == 0) {
-			html += "Website: <a target='_blank' href='" + data.link + "'>"
-					+ data.link + "</a>"
-		}
-		html += "<hr />Appears on collections: <ul>"
-		for (var j = 0; j < data.jams.length; j++) {
-			html += "<li><a href='javascript:loadJam(" + data.jams[j].id
-					+ ")'>" + data.jams[j].title + "</a></li>"
-		}
-		html += "</ul>"
-		$("#main").html(html)
+	$.get(`/views/entity/${type}/${id}`, function(view) {
+		$('#main').html(view);
 	})
 }
 
-function loadMusician(id) {
-	$('.nav-link.active').removeClass('active');
-	$.get("/api/entity/musicians/" + id, function(data) {
-		var html = "<h1>Musician: " + data.name + "</h1>"
-		if (data.link != null && data.link.indexOf("http") == 0) {
-			html += "Website: <a target='_blank' href='" + data.link + "'>"
-					+ data.link + "</a>"
-		}
-		html += "<hr />Appears on collections: <ul>"
-		for (var j = 0; j < data.jams.length; j++) {
-			html += "<li><a href='javascript:loadJam(" + data.jams[j].id
-					+ ")'>" + data.jams[j].title + "</a></li>"
-		}
-		html += "</ul>"
-		$("#main").html(html)
-	})
-}
-
-function loadStaff(id) {
-	$('.nav-link.active').removeClass('active');
-	$.get("/api/entity/staff/" + id, function(data) {
-		var html = "<h1>Staff: " + data.name + "</h1>"
-		html += "<hr />Appears on collections: <ul>"
-		for (var j = 0; j < data.jams.length; j++) {
-			html += "<li><a href='javascript:loadJam(" + data.jams[j].id
-					+ ")'>" + data.jams[j].title + "</a></li>"
-		}
-		html += "</ul>"
-		$("#main").html(html)
-	})
-}
-
-function loadLocation(id) {
-	$('.nav-link.active').removeClass('active');
-	$
-			.get(
-					"/api/entity/locations/" + id,
-					function(data) {
-						var html = "<h1>Location: " + data.name + "</h1>"
-						if (data.link != null && data.link.indexOf("http") == 0) {
-							html += "Website: <a target='_blank' href='"
-									+ data.link + "'>" + data.link + "</a>"
-						}
-						var hasMap = false
-						if (data.lat != null && data.lon != null) {
-							hasMap = true
-							html += "<div id='map-canvas' style='width: 100%; height: 100%'></div>"
-						}
-						html += "<hr />Collections at this location: <ul>"
-						for (var j = 0; j < data.jams.length; j++) {
-							html += "<li><a href='javascript:loadJam("
-									+ data.jams[j].id + ")'>"
-									+ data.jams[j].title + "</a></li>"
-						}
-						html += "</ul>"
-						$("#main").html(html)
-						if (hasMap) {
-							var coordinates = new google.maps.LatLng(
-									parseFloat(data.lat), parseFloat(data.lon));
-							var mapOptions = {
-								center : coordinates,
-								zoom : 9
-							}
-							var map = new google.maps.Map(document
-									.getElementById('map-canvas'), mapOptions);
-							var marker = new google.maps.Marker({
-								position : coordinates,
-								map : map,
-								title : data.name
-							});
-						}
-					})
-}
+// function loadMusician(id) {
+// 	$('.nav-link.active').removeClass('active');
+// 	$.get("/api/entity/musicians/" + id, function(data) {
+// 		var html = "<h1>Musician: " + data.name + "</h1>"
+// 		if (data.link != null && data.link.indexOf("http") == 0) {
+// 			html += "Website: <a target='_blank' href='" + data.link + "'>"
+// 					+ data.link + "</a>"
+// 		}
+// 		html += "<hr />Appears on collections: <ul>"
+// 		for (var j = 0; j < data.jams.length; j++) {
+// 			html += "<li><a href='javascript:loadJam(" + data.jams[j].id
+// 					+ ")'>" + data.jams[j].title + "</a></li>"
+// 		}
+// 		html += "</ul>"
+// 		$("#main").html(html)
+// 	})
+// }
+//
+// function loadStaff(id) {
+// 	$('.nav-link.active').removeClass('active');
+// 	$.get("/api/entity/staff/" + id, function(data) {
+// 		var html = "<h1>Staff: " + data.name + "</h1>"
+// 		html += "<hr />Appears on collections: <ul>"
+// 		for (var j = 0; j < data.jams.length; j++) {
+// 			html += "<li><a href='javascript:loadJam(" + data.jams[j].id
+// 					+ ")'>" + data.jams[j].title + "</a></li>"
+// 		}
+// 		html += "</ul>"
+// 		$("#main").html(html)
+// 	})
+// }
+//
+// function loadLocation(id) {
+// 	$('.nav-link.active').removeClass('active');
+// 	$
+// 			.get(
+// 					"/api/entity/locations/" + id,
+// 					function(data) {
+// 						var html = "<h1>Location: " + data.name + "</h1>"
+// 						if (data.link != null && data.link.indexOf("http") == 0) {
+// 							html += "Website: <a target='_blank' href='"
+// 									+ data.link + "'>" + data.link + "</a>"
+// 						}
+// 						var hasMap = false
+// 						if (data.lat != null && data.lon != null) {
+// 							hasMap = true
+// 							html += "<div id='map-canvas' style='width: 100%; height: 100%'></div>"
+// 						}
+// 						html += "<hr />Collections at this location: <ul>"
+// 						for (var j = 0; j < data.jams.length; j++) {
+// 							html += "<li><a href='javascript:loadJam("
+// 									+ data.jams[j].id + ")'>"
+// 									+ data.jams[j].title + "</a></li>"
+// 						}
+// 						html += "</ul>"
+// 						$("#main").html(html)
+// 						if (hasMap) {
+// 							var coordinates = new google.maps.LatLng(
+// 									parseFloat(data.lat), parseFloat(data.lon));
+// 							var mapOptions = {
+// 								center : coordinates,
+// 								zoom : 9
+// 							}
+// 							var map = new google.maps.Map(document
+// 									.getElementById('map-canvas'), mapOptions);
+// 							var marker = new google.maps.Marker({
+// 								position : coordinates,
+// 								map : map,
+// 								title : data.name
+// 							});
+// 						}
+// 					})
+// }
 
 function loadRecentJams() {
 	$('.nav-link.active').removeClass('active');
