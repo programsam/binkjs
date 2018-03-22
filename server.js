@@ -17,6 +17,8 @@ var app = express();
 
 var settings = require('./settings');
 
+settings.mysql.multipleStatements = true;
+
 function sql() {
 	return mysql.createConnection(settings.mysql);
 }
