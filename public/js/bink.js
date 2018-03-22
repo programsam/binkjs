@@ -9,15 +9,11 @@ $(document).ready(function() {
 	$("a#browseButton").click(loadBrowse)
 	$("a#historyButton").click(loadHistoricJams)
 	$("a#mapButton").click(loadMap)
-	$("a#twitterButton").click(loadTweets)
 	$("INPUT#password").keypress(function(event) {
 		if (event.keyCode == 13 || event.which == 13) {
 				event.preventDefault();
 				login();
 		}
-	})
-	$("a#playlistButton").click(function() {
-		$("#sidebar-wrapper").collapse('toggle')
 	})
 
 	$('body').on('shown.bs.modal', '#adminModal', function () {
@@ -28,8 +24,6 @@ $(document).ready(function() {
 		loadBrowse();
 	} else if (location.hash == "#history") {
 		loadHistoricJams();
-	} else if (location.hash == "#playlist") {
-		$("#sidebar-wrapper").collapse('toggle')
 	} else if (location.hash == "#map") {
 		loadMap();
 	} else if (location.hash == "#tweets") {
@@ -41,7 +35,6 @@ $(document).ready(function() {
 		loadRecentJams();
 	}
 
-	loadPlaylist();
 	$("#jquery_jplayer_1").jPlayer({
 		cssSelectorAncestor : "#jp_container_1",
 		swfPath : "/js",
@@ -278,82 +271,6 @@ function loginAlert(message) {
 		$('#modalAlert').append(view);
 		$('#messageHolder').html(message);
 	})
-}
-
-function enqueue(setTitle, setPath) {
-	var object = {
-		title : setTitle,
-		path : setPath
-	}
-	$("#the-playlist")
-			.append(
-					"<li><a>"
-							+ "<button type='button' class='btn btn-default btn-xs' aria-label='Play Button'>"
-							+ "<span onclick=\"play('"
-							+ object.title
-							+ "', '"
-							+ object.path
-							+ "')\"' "
-							+ "class='oi oi-media-play' aria-hidden='true'></span>"
-							+ "</button> " + object.title + "</a></li>")
-	$.ajax({
-		type : "PUT",
-		url : "/api/playlist",
-		contentType : "application/json",
-		data : JSON.stringify(object),
-	}).done(function(data) {
-		console.log("Got updated playlist data: " + data)
-	})
-}
-
-var months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-		"Oct", "Nov", "Dec" ]
-function loadTweets() {
-	$('.nav-link.active').removeClass('active');
-	$('#twitterButton').addClass('active');
-	$.get("/api/tweets", function(data) {
-		var html = ""
-		for (var i = 0; i < data.length; i++) {
-			var d = new Date(data[i].created_at)
-			html += "<img src='" + data[i].user.profile_image_url
-					+ "' style='float: left; margin-right: 10px' /><strong>"
-					+ data[i].user.name + "</strong>&nbsp;&nbsp;"
-			html += "<font color='gray'>@" + data[i].user.screen_name
-					+ "</font> &middot; " + d.getDate() + " "
-					+ months[d.getMonth()] + " " + d.getFullYear() + "<br />"
-			html += data[i].text + "<hr />"
-		}
-		$("#main").html(html)
-	})
-}
-
-function loadPlaylist() {
-	$
-			.get(
-					"/api/playlist",
-					function(data) {
-						var html = "";
-						if (data && typeof data != "undefined") {
-							var array = JSON.parse(data)
-							array
-									.forEach(function(element, index, array) {
-										$("#the-playlist")
-												.append(
-														"<li><a>"
-																+ "<button type='button' class='btn btn-default btn-xs' aria-label='Play Button'>"
-																+ "<span onclick=\"play('"
-																+ element.title
-																+ "', '"
-																+ element.path
-																+ "')\"' "
-																+ "class='oi oi-media-play' aria-hidden='true'></span>"
-																+ "</button> "
-																+ element.title
-																+ "</a></li>")
-									})
-						}
-
-					})
 }
 
 function play(setTitle, path) {
