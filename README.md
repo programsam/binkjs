@@ -18,10 +18,11 @@ BINK uses the following pieces of technology (dependencies/requirements):
 
 - MySQL (`mysql  Ver 14.14 Distrib 5.7.19`)
 - Node.js  (`v9.9.0`)
+- Twitter (disabled temporarily)
 - Amazon S3
-- jQuery (`v3.2.1`)
+- jQuery (`v3.3.1`)
 - jPlayer (`v2.9.2`)
-- Google Maps
+- Google Maps Javascript API
 - Bootstrap.css (`v4 - Darkly Theme`)
 - Nginx (`1.10.3 (Ubuntu)`)
 
@@ -63,11 +64,11 @@ Otherwise, BINK.js won't get the cookies it needs.
 
 ### Bootstrap.css
 
-[Bootstrap.css 4 Beta](https://getbootstrap.com/docs/4.0/getting-started/introduction/).  We get it from a CDN. It's the thing that makes the page look good.  The version is important -- some significant things have changed from v3 to v4.  We use the latest beta v4.
+[Bootstrap.css v4](https://getbootstrap.com/docs/4.0/getting-started/introduction/).  We get it from a CDN. It's the thing that makes the page look good.  The version is important -- some significant things have changed from v3 to v4.  We use the latest beta v4.
 
 ### Custom CSS
 
-[custom.css](public/css/bink.css) contains custom and specific CSS for BINK that goes beyond the Bootstrap CSS.
+[custom.css](public/css/bink.css) contains custom and specific CSS for BINK that goes beyond the Bootstrap CSS. We try to keep this as short and simple as possible — relying on Bootstrap to do most of the style sheet control.
 
 ### Pug
 
