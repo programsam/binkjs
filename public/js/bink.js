@@ -95,7 +95,8 @@ function loadBrowse() {
 
 	$.get('/views/browse', function(view) {
 		$('#main').html(view);
-		$.getScript('/js/bootstrapTable.js', function(data, status, jqXhr) {
+		$.getScript('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js',
+			function(data, status, jqXhr) {
 			$('#jamTable').bootstrapTable({
 				columns: [
 					{field:'date',
