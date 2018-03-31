@@ -47,18 +47,6 @@ $(document).ready(function() {
 		toggleDuration : true
 	});
 
-	$('#sidebar-wrapper').on('hidden.bs.collapse', function() {
-		$("#main").css("padding-left", function(paddingleft) {
-			return 40;
-		});
-	})
-
-	$('#sidebar-wrapper').on('shown.bs.collapse', function() {
-		$("#main").css("padding-left", function(paddingleft) {
-			return 265;
-		});
-	});
-
 	$("#logoutButton").click(logout);
 	$("#loginButton").click(login);
 	$("a#adminButton").click(function() {
