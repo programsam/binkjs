@@ -5,6 +5,8 @@ if (jams.length > 0)
     .card
       .card-body
         h4.card-title
+          if (jam.private)
+            i.fas.fa-key.m-1
           | #{jam.mydate} -&nbsp;
           a(href='javascript:loadJam(' + jam.id + ');') #{jam.title}
         h6.card-subtitle.mb-2.text-muted
