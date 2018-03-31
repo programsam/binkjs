@@ -1,5 +1,12 @@
 var lastOpenMarker = null;
 
+$( document ).ajaxError(function(event, request, settings) {
+	$('#alertTitle').html('Error!')
+	$('#alertText').html(`An error occurred.`)
+	$('#alertModal').modal('show');
+});
+
+
 $(document).ready(function() {
 	$("a#recentButton").click(loadRecentJams)
 	$("a#browseButton").click(loadBrowse)

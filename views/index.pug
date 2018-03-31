@@ -52,7 +52,8 @@ html(lang='en')
             a#mapButton.nav-link
               | Map
           li#adminItem.nav-item.dropdown
-            a#adminButton.nav-link Admin
+            a#adminButton.nav-link
+              | Admin
     #jquery_jplayer_1
     #jp_container_1.jp-audio(role='application', aria-label='media player')
       .jp-type-single
@@ -87,3 +88,14 @@ html(lang='en')
             | plugin
           | .
     #main.main.pb-5
+    #alertModal.modal(tabindex='-1', role='dialog')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            h5#alertTitle.modal-title ...
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+          .modal-body
+            p#alertText ...
+          .modal-footer
+            button.btn.btn-secondary(type='button', data-dismiss='modal') Close
