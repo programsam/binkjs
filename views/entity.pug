@@ -2,17 +2,49 @@ if (type === "bands")
   .card
     .card-body
       h4.card-title
-        | #{displayName} #{name}
+        | #{displayType} #{name}
       if (link && link.indexOf('http://') === 0)
         a(href=link, target="_blank") #{link}
   .card
     .card-body
       h4.card-title
         | Appears on jams
-      table.table#band-jam-table
+      table.table#entityJamTable
 else if (type === "locations")
-  p only locations get this treatment
+  .card
+    .card-body
+      h4.card-title
+        | #{displayType} #{name}
+      if (link && link.indexOf('http://') === 0)
+        a(href=link, target="_blank") #{link}
+  .card
+    .card-body
+      h4.card-title
+        | Appears on jams
+      table.table#entityJamTable
 else if (type === "staff")
-  p only staff get this treatment
+  .card
+    .card-body
+      h4.card-title
+        | #{displayType} #{name}
+      if (link && link.indexOf('http://') === 0)
+        a(href=link, target="_blank") #{link}
+  .card
+    .card-body
+      h4.card-title
+        | Appears on jams
+      table.table#entityJamTable
 else if (type === "musicians")
-  p only musicians get this treatment
+  .card
+    .card-body
+      h4.card-title
+        | #{displayType} #{name}
+      if (link && link.indexOf('http://') === 0)
+        a(href=link, target="_blank") #{link}
+  .card
+    .card-body
+      h4.card-title
+        | Appears on jams
+      table.table#entityJamTable
+else
+  p There must be some confusion; we don't track this type.

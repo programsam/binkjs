@@ -283,82 +283,53 @@ function loadEntity(type, id) {
 	$('.nav-link.active').removeClass('active');
 	$.get(`/views/entity/${type}/${id}`, function(view) {
 		$('#main').html(view);
+		$.getScript('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js',
+			function(data, status, jqXhr) {
+			$('#entityJamTable').bootstrapTable({
+				columns: [
+					{field:'date',
+						title:'Date',
+						sortable: true,
+						order: 'desc',
+						formatter: dateFormatter},
+					{field:'title',
+							title:'Title',
+						formatter: titleFormatter},
+					{field:'location.name',
+						title:'Location',
+						formatter: locationFormatter},
+					{field:'band.name',
+						title:'Band',
+						formatter: bandFormatter},
+					{field:'hasTracks',
+						title:'Tracks',
+						formatter: hasTracksFormatter},
+					{field:'hasPics',
+						title:'Pics',
+						formatter: hasPicsFormatter},
+					{field:'hasVids',
+						title:'Vids',
+						formatter: hasVidsFormatter},
+					{field:'private',
+						title:'Private',
+						formatter: privateFormatter}
+				],
+				url: `/api/entity/${type}/${id}/search`,
+				sidePagination: 'server',
+				pagination: true,
+				search: true,
+				showRefresh: true,
+				showColumns: true,
+				pageList: [3,5,10,20,50,100],
+				sortOrder: 'desc',
+				icons: {
+					refresh: 'fas fa-sync',
+					columns: 'fas fa-columns'
+				}
+			});
+		})
 	})
 }
-
-// function loadMusician(id) {
-// 	$('.nav-link.active').removeClass('active');
-// 	$.get("/api/entity/musicians/" + id, function(data) {
-// 		var html = "<h1>Musician: " + data.name + "</h1>"
-// 		if (data.link != null && data.link.indexOf("http") == 0) {
-// 			html += "Website: <a target='_blank' href='" + data.link + "'>"
-// 					+ data.link + "</a>"
-// 		}
-// 		html += "<hr />Appears on collections: <ul>"
-// 		for (var j = 0; j < data.jams.length; j++) {
-// 			html += "<li><a href='javascript:loadJam(" + data.jams[j].id
-// 					+ ")'>" + data.jams[j].title + "</a></li>"
-// 		}
-// 		html += "</ul>"
-// 		$("#main").html(html)
-// 	})
-// }
-//
-// function loadStaff(id) {
-// 	$('.nav-link.active').removeClass('active');
-// 	$.get("/api/entity/staff/" + id, function(data) {
-// 		var html = "<h1>Staff: " + data.name + "</h1>"
-// 		html += "<hr />Appears on collections: <ul>"
-// 		for (var j = 0; j < data.jams.length; j++) {
-// 			html += "<li><a href='javascript:loadJam(" + data.jams[j].id
-// 					+ ")'>" + data.jams[j].title + "</a></li>"
-// 		}
-// 		html += "</ul>"
-// 		$("#main").html(html)
-// 	})
-// }
-//
-// function loadLocation(id) {
-// 	$('.nav-link.active').removeClass('active');
-// 	$
-// 			.get(
-// 					"/api/entity/locations/" + id,
-// 					function(data) {
-// 						var html = "<h1>Location: " + data.name + "</h1>"
-// 						if (data.link != null && data.link.indexOf("http") == 0) {
-// 							html += "Website: <a target='_blank' href='"
-// 									+ data.link + "'>" + data.link + "</a>"
-// 						}
-// 						var hasMap = false
-// 						if (data.lat != null && data.lon != null) {
-// 							hasMap = true
-// 							html += "<div id='map-canvas' style='width: 100%; height: 100%'></div>"
-// 						}
-// 						html += "<hr />Collections at this location: <ul>"
-// 						for (var j = 0; j < data.jams.length; j++) {
-// 							html += "<li><a href='javascript:loadJam("
-// 									+ data.jams[j].id + ")'>"
-// 									+ data.jams[j].title + "</a></li>"
-// 						}
-// 						html += "</ul>"
-// 						$("#main").html(html)
-// 						if (hasMap) {
-// 							var coordinates = new google.maps.LatLng(
-// 									parseFloat(data.lat), parseFloat(data.lon));
-// 							var mapOptions = {
-// 								center : coordinates,
-// 								zoom : 9
-// 							}
-// 							var map = new google.maps.Map(document
-// 									.getElementById('map-canvas'), mapOptions);
-// 							var marker = new google.maps.Marker({
-// 								position : coordinates,
-// 								map : map,
-// 								title : data.name
-// 							});
-// 						}
-// 					})
-// }
 
 function loadRecentJams() {
 	$('.nav-link.active').removeClass('active');
