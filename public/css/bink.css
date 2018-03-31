@@ -1,3 +1,6 @@
 /*
  * BINK Styles
  */
+.nav-item {
+  cursor: pointer;
+}

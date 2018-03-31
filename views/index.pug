@@ -33,23 +33,23 @@ html(lang='en')
       script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
   body
     nav.navbar.navbar-expand-lg.navbar-light.bg-primary
-      a.navbar-brand(href='#') BINK v#{version}
+      a.navbar-brand BINK v#{version}
       button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
       #navbarSupportedContent.collapse.navbar-collapse
         ul.navbar-nav.mr-auto
           li.nav-item
-            a#recentButton.active.nav-link(href='#recent')
+            a#recentButton.active.nav-link
               | Recent
               span.sr-only (current)
           li.nav-item
-            a#browseButton.nav-link(href='#browse')
+            a#browseButton.nav-link
               | Browse
           li.nav-item
-            a#historyButton.nav-link(href='#history')
+            a#historyButton.nav-link
               | History
           li.nav-item
-            a#mapButton.nav-link(href='#map')
+            a#mapButton.nav-link
               | Map
           li#adminItem.nav-item.dropdown
             a#adminButton.nav-link.dropdown-toggle(href='#admin', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
@@ -87,28 +87,4 @@ html(lang='en')
             | Flash
             | plugin
           | .
-    // Modal for Admin Login
-    #adminModal.modal.fade(tabindex='-1', role='dialog', data-keyboard='false', aria-labelledby='adminModal')
-      .modal-dialog(role='document')
-        .modal-content
-          .modal-header
-            h5#loginModalLabel.modal-title Login
-          .modal-body
-            #modalAlert
-            form
-              .form-group
-                label.form-control-label(for='password') Password:
-                input#password.form-control(type='password', autofocus="true")
-          .modal-footer
-            button.btn.btn-primary#loginButton(type='button') Login
-    #alertModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
-      .modal-dialog(role='document')
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal', aria-label='Close')
-              span(aria-hidden='true') ×
-            h4#thisAlertTitle.modal-title Alert
-          #thisAlert.modal-body ...
-          .modal-footer
-            button.btn.btn-default(type='button', data-dismiss='modal') Close
     #main.main.pb-5
