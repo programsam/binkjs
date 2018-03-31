@@ -1,24 +1,10 @@
 var lastOpenMarker = null;
 
 $(document).ready(function() {
-	$('a.navbarlink').click(function() {
-		$('#navbar').collapse('hide')
-	});
-
 	$("a#recentButton").click(loadRecentJams)
 	$("a#browseButton").click(loadBrowse)
 	$("a#historyButton").click(loadHistoricJams)
 	$("a#mapButton").click(loadMap)
-	$("INPUT#password").keypress(function(event) {
-		if (event.keyCode == 13 || event.which == 13) {
-				event.preventDefault();
-				login();
-		}
-	})
-
-	$('body').on('shown.bs.modal', '#adminModal', function () {
-	    $('input:visible:enabled:first', this).focus();
-	})
 
 	if (location.hash == "#browse") {
 		loadBrowse();
@@ -209,10 +195,7 @@ function hideAdmin()
 	$('#adminItem').html(html);
 	$('#modalAlert').html('');
 
-	$("a#adminButton").click(function() {
-		$('#password').val('');
-		$('#adminModal').modal('show');
-	})
+	$("a#adminButton").click(showLoginModal);
 }
 
 function logout()
@@ -239,26 +222,36 @@ function login() {
 	}).done(function(msg) {
 		var data = JSON.parse(msg)
 		if (data.valid) {
-			$('#adminModal').modal('hide');
+			$('#loginModal').modal('hide');
 			showAdmin();
 			loadRecentJams();
 		} else // invalid password
 		{
-			loginAlert("Failed to authenticate. Incorrect password.");
+			$('#alert-container').children().remove();
+			$('#alert-container').append('<div class="alert alert-primary" role="alert">Incorrect password! Try again!</div>')
 			$('#password').val('');
 			$('#password').focus();
 		}
 	}).fail(function(jqXHR) { //failure connecting or similar
-		loginAlert("Error occurred while logging in. Error was: " + jqXHR.responseText);
+		$('#alert-container').children().remove();
+		$('#alert-container').append(`<div class="alert alert-primary" role="alert">Error occurred while logging in: ${jqXHR.responseText}</div>`)
 		$('#password').val('');
 		$('#password').focus();
 	});
 }
 
-function loginAlert(message) {
-	$.get('/views/loginAlert', function(view) {
-		$('#modalAlert').append(view);
-		$('#messageHolder').html(message);
+function showLoginModal() {
+	$.get('/views/loginModal', function(view) {
+		$('#main').append(view);
+		$('#loginModal').modal('show', { keyboard:true});
+		$('#loginButton').click(login);
+		$('#password').focus();
+		$("INPUT#password").keypress(function(event) {
+			if (event.keyCode == 13 || event.which == 13) {
+					event.preventDefault();
+					login();
+			}
+		})
 	})
 }
 

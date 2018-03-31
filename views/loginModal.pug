@@ -1,4 +1,17 @@
-#loginAlertInstance.alert.alert-danger.alert-dismissible.fade.show(role="alert")
-  button.close(type="button" data-dismiss="alert" aria-label="Close")
-    span(aria-hidden="true") ×
-  #messageHolder
+#loginModal.modal(tabindex='-1', role='dialog')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5.modal-title Modal title
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') ×
+      .modal-body
+        p Please login for BINK! Administration.
+        #alert-container
+        form
+          .form-group
+            label.col-form-label(for='password') Password:
+            input#password.form-control(type='password')
+      .modal-footer
+        button.btn.btn-secondary#loginButton(type='button') Login
+        button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel

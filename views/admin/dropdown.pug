@@ -1,8 +1,6 @@
-html
-  head
-  body
-    a#adminMenu.nav-link.dropdown-toggle(href='#', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Admin
-    .dropdown-menu(aria-labelledby='adminMenu')
-      a#newButton.dropdown-item(href='#new') Create New
-      .dropdown-divider
-      a#logoutButton.dropdown-item(href='#logout') Logout
+a#adminMenu.nav-link.dropdown-toggle(role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+  | Admin
+.dropdown-menu(aria-labelledby='adminMenu')
+  a#newButton.dropdown-item Create New
+  .dropdown-divider
+  a#logoutButton.dropdown-item Logout
