@@ -1,4 +1,4 @@
-var lastOpenMarker = null;
+let lastOpenMarker = null;
 
 $.ajaxSetup({
   cache: true
@@ -26,7 +26,7 @@ $(document).ready(function() {
 	} else if (location.hash == "#tweets") {
 		loadTweets();
 	} else if (location.hash.indexOf("#jam-") == 0) {
-		var jamid = location.hash.split("-")[1];
+		let jamid = location.hash.split("-")[1];
 		loadJam(jamid);
 	} else {
 		loadRecentJams();
@@ -67,7 +67,7 @@ function createNew() {
 		url : "/admin/jam",
 		contentType : "application/json"
 	}).done(function(msg) {
-		var data = JSON.parse(msg)
+		let data = JSON.parse(msg)
 		console.log(data);
 	}).fail(function(jqXHR) { //failure connecting or similar
 		binkAlert("Error occurred while creating jam. Error was: " + jqXHR.responseText);
@@ -202,7 +202,7 @@ function showAdmin()
 function hideAdmin()
 {
 	$('#adminItem').removeClass('dropdown');
-	var html = "";
+	let html = "";
 	html += '<a class="nav-link linkish" id="adminButton">Admin</a>';
 	$('#adminItem').html(html);
 	$('#modalAlert').html('');
@@ -222,7 +222,7 @@ function logout()
 }
 
 function login() {
-	var sendThem = {
+	let sendThem = {
 		password : $("#password").val()
 	}
 
@@ -232,7 +232,7 @@ function login() {
 		contentType : "application/json",
 		data : JSON.stringify(sendThem)
 	}).done(function(msg) {
-		var data = JSON.parse(msg)
+		let data = JSON.parse(msg)
 		if (data.valid) {
 			$('#loginModal').modal('hide');
 			showAdmin();
@@ -369,13 +369,13 @@ function loadMap() {
   location.hash = "map";
   $("#main").html("Loading...")
 	loadClustererAPI(function() {
-		var coordinates = new google.maps.LatLng(39.944465, -97.350595);
-		var mapOptions = {
+		let coordinates = new google.maps.LatLng(39.944465, -97.350595);
+		let mapOptions = {
 			center : coordinates,
 			zoom : 5
 		}
 		$('#main').html('<div class="position-absolute w-100 h-100" id="map-canvas"></div>');
-		var map = new google.maps.Map($("#map-canvas")[0], mapOptions);
+		let map = new google.maps.Map($("#map-canvas")[0], mapOptions);
     $.get('/api/maplocations', function(data) {
       let markers = [];
       data.forEach(function(thislocation) {
@@ -396,7 +396,7 @@ function loadMap() {
         })
         markers.push(thismarker);
       })
-      var mcOptions = {
+      let mcOptions = {
         imagePath: '/img/m'
       };
       let markercluster = new MarkerClusterer(map, markers, mcOptions);
@@ -446,15 +446,15 @@ function loadMapsAPI(callback) {
 }
 
 function mapLocation(loc) {
-	var coordinates = new google.maps.LatLng(parseFloat(loc.lat),
+	let coordinates = new google.maps.LatLng(parseFloat(loc.lat),
 			parseFloat(loc.lon));
-	var mapOptions = {
+	let mapOptions = {
 		center : coordinates,
 		zoom : 9
 	}
-	var map = new google.maps.Map($('#map-canvas')[0],
+	let map = new google.maps.Map($('#map-canvas')[0],
 			mapOptions);
-	var marker = new google.maps.Marker({
+	let marker = new google.maps.Marker({
 		position : coordinates,
 		map : map,
 		title : location.name

@@ -1,22 +1,20 @@
-var express 	= require('express')
-var session 	= require('express-session')
-var MySQLStore = require('express-mysql-session')(session);
-var uuid		= require('node-uuid')
-var app 		= express()
-var mysql		= require('mysql');
-var async		= require('async');
-var bodyParser 	= require('body-parser');
-var pug = require('pug');
-var settings	= require('./settings.json');
-var Processing 	= require("./lib/processing.js");
-var api			= require("./lib/api.js");
-var adminapi	= require("./lib/adminapi.js");
-var views	= require("./lib/views.js");
-var helmet = require('helmet');
-var robots = require('express-robots');
-var app = express();
+let express 		= require('express');
+let session 		= require('express-session');
+let MySQLStore 	= require('express-mysql-session')(session);
+let uuid				= require('node-uuid');
+let app 				= express();
+let mysql				= require('mysql');
+let async				= require('async');
+let bodyParser 	= require('body-parser');
+let pug					= require('pug');
+let Processing 	= require("./lib/processing.js");
+let api					= require("./lib/api.js");
+let adminapi		= require("./lib/adminapi.js");
+let views				= require("./lib/views.js");
+let helmet 			= require('helmet');
+let robots 			= require('express-robots');
 
-var settings = require('./settings');
+let settings = require('./settings');
 
 settings.mysql.multipleStatements = true;
 
@@ -24,7 +22,7 @@ function sql() {
 	return mysql.createConnection(settings.mysql);
 }
 
-var connection = sql();
+let connection = sql();
 connection.query('SELECT * FROM jams', function(err, rows) {
 	if (err)
 	{
@@ -63,10 +61,10 @@ app.use(api);
 app.use(adminapi);
 app.use(views);
 
-var server = app.listen(process.env.PORT || 3001, function () {
+let server = app.listen(process.env.PORT || 3001, function () {
 
-  var host = server.address().address
-  var port = server.address().port
+  let host = server.address().address
+  let port = server.address().port
 
   console.log('BINK.js is listening at http://%s:%s', host, port)
 
