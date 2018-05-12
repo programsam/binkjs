@@ -368,7 +368,7 @@ function loadMap() {
   $('#mapButton').addClass('active');
   location.hash = "map";
   $("#main").html("Loading...")
-	loadMapsAPI(function() {
+	loadClustererAPI(function() {
 		var coordinates = new google.maps.LatLng(39.944465, -97.350595);
 		var mapOptions = {
 			center : coordinates,
@@ -405,34 +405,6 @@ function loadMap() {
   })
 }
 
-// let infowindow = null;
-// function loadMap() {
-//   $('.nav-link.active').removeClass('active');
-//   $('#mapButton').addClass('active');
-//   location.hash = "map";
-//   $("#main").html("Loading...")
-// 	loadMapsAPI(function() {
-// 		var coordinates = new google.maps.LatLng(39.944465, -97.350595);
-// 		var mapOptions = {
-// 			center : coordinates,
-// 			zoom : 5
-// 		}
-// 		$('#main').html('<div class="position-absolute w-100 h-100" id="map-canvas"></div>');
-// 		var map = new google.maps.Map($("#map-canvas")[0], mapOptions);
-// 		map.data.loadGeoJson('/api/geojson');
-// 		map.data.addListener('click', function(event) {
-// 			if (infowindow)
-// 				infowindow.close();
-// 			infowindow = new google.maps.InfoWindow();
-// 			infowindow.setPosition(event.feature.getGeometry().get());
-// 			infowindow.setOptions({pixelOffset: new google.maps.Size(0,-30)});
-// 			$.get(`/views/infowindow/${event.feature.getProperty('id')}`, function(html) {
-//         infowindow.setContent(html);
-//   			infowindow.open(map);
-//       })
-// 		});
-// 	})
-// }
 
 function loadJam(id) {
 	location.hash = "jam-" + id;
