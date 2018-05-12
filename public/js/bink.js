@@ -1,5 +1,9 @@
 var lastOpenMarker = null;
 
+$.ajaxSetup({
+  cache: true
+});
+
 $( document ).ajaxError(function(event, request, settings) {
 	$('#alertTitle').html('Error!')
 	$('#alertText').html(`An error occurred.`)
@@ -73,6 +77,7 @@ function createNew() {
 function loadBrowse() {
 	$('.nav-link.active').removeClass('active');
 	$('#browseButton').addClass('active');
+  location.hash = "browse";
 
 	$.get('/views/browse', function(view) {
 		$('#main').html(view);
@@ -335,6 +340,7 @@ function loadRecentJams() {
 	$('.nav-link.active').removeClass('active');
 	$('#recentButton').addClass('active');
 	$("#main").html("Loading...")
+  location.hash = "recent";
 	$.get("/api/recent", recentCallback).fail(function() {
 		binkAlert("Problem", "Could not load recent jams.")
 	})
@@ -350,12 +356,18 @@ function loadHistoricJams() {
 	$('.nav-link.active').removeClass('active');
 	$('#historyButton').addClass('active');
 	$("#main").html("Loading...")
+  location.hash = "history";
 	$.get("/views/history", function(view) {
 		$('#main').html(view);
 	});
 }
 
+let infowindow = null;
 function loadMap() {
+  $('.nav-link.active').removeClass('active');
+  $('#mapButton').addClass('active');
+  location.hash = "map";
+  $("#main").html("Loading...")
 	loadMapsAPI(function() {
 		var coordinates = new google.maps.LatLng(39.944465, -97.350595);
 		var mapOptions = {
@@ -364,45 +376,19 @@ function loadMap() {
 		}
 		$('#main').html('<div class="position-absolute w-100 h-100" id="map-canvas"></div>');
 		var map = new google.maps.Map($("#map-canvas")[0], mapOptions);
-		$.get("/api/mapdata", function(data) {
-			$('.nav-link.active').removeClass('active');
-			$('#mapButton').addClass('active');
-
-			for (var j = 0; j < data.length; j++) {
-				var coordinates = new google.maps.LatLng(parseFloat(data[j].lat),
-						parseFloat(data[j].lon));
-				var content = data[j].name
-				if (null != data[j].jams) {
-					content += "<hr />"
-					for (var k = 0; k < data[j].jams.length; k++) {
-						content += "<a href='javascript:loadJam("
-								+ data[j].jams[k].id + ")'>"
-								+ data[j].jams[k].title + "</a>"
-						if (k != data[j].jams.length - 1)
-							content += ", "
-					}
-				}
-				dropMarker(coordinates, data[j].name, content, map)
-			}
-		})
+		map.data.loadGeoJson('/api/geojson');
+		map.data.addListener('click', function(event) {
+			if (infowindow)
+				infowindow.close();
+			infowindow = new google.maps.InfoWindow();
+			infowindow.setPosition(event.feature.getGeometry().get());
+			infowindow.setOptions({pixelOffset: new google.maps.Size(0,-30)});
+			$.get(`/views/infowindow/${event.feature.getProperty('id')}`, function(html) {
+        infowindow.setContent(html);
+  			infowindow.open(map);
+      })
+		});
 	})
-}
-
-function dropMarker(coordinates, name, content, map) {
-	var thismarker = new google.maps.Marker({
-		position : coordinates,
-		map : map,
-		title : name
-	});
-	var thiswindow = new google.maps.InfoWindow({
-		content : content
-	})
-	google.maps.event.addListener(thismarker, 'click', function() {
-		if (lastOpenMarker != null)
-			lastOpenMarker.close()
-		thiswindow.open(map, thismarker);
-		lastOpenMarker = thiswindow
-	});
 }
 
 function loadJam(id) {
@@ -419,12 +405,16 @@ function loadJam(id) {
 }
 
 function loadMapsAPI(callback) {
-	$.get("/api/maps/key", function(data) {
-		$.getScript(`https://maps.googleapis.com/maps/api/js?key=${data}`,
-			function(script, textStatus, jqXhr) {
-				callback();
+	if (this.hasOwnProperty('google') && google.hasOwnProperty('maps')) {
+		callback();
+	} else {
+		$.get("/api/maps/key", function(data) {
+			$.getScript(`https://maps.googleapis.com/maps/api/js?key=${data}`,
+				function(script, textStatus, jqXhr) {
+					callback();
+				})
 		})
-	})
+	}
 }
 
 function mapLocation(loc) {

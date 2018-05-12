@@ -1,0 +1,9 @@
+div(style='color:black')
+  h6 #{name}
+  hr
+  p Located at #{address}
+  p
+    a(href=`javascript:loadEntity('locations', ${id})`) Details
+  if (link)
+    p
+      a(href=link) Visit the webpage!
