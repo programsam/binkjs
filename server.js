@@ -1,5 +1,6 @@
 var express 	= require('express')
 var session 	= require('express-session')
+var MySQLStore = require('express-mysql-session')(session);
 var uuid		= require('node-uuid')
 var app 		= express()
 var mysql		= require('mysql');
@@ -39,9 +40,13 @@ connection.query('SELECT * FROM jams', function(err, rows) {
 });
 
 app.set('trust proxy', 1) // trust first proxy
+
+let sessionstore = new MySQLStore(settings.mysql);
+
 app.use(session({
   secret: settings.session_secret,
   resave: false,
+	store: sessionstore,
   saveUninitialized: true,
   cookie: { secure: settings.secureCookie }
 }))
