@@ -3,7 +3,7 @@
   "description": "BINK! rewritten in Node.js",
   "version": "0.8.0",
   "author": "Ben Smith",
-  "license":"Beerware",
+  "license": "Beerware",
   "repository": "https://github.com/programsam/binkjs.git",
   "keywords": [],
   "dependencies": {
