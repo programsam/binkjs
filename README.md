@@ -20,6 +20,7 @@ BINK uses the following pieces of technology (dependencies/requirements):
 - Node.js  (`v9.9.0`)
 - Twitter (disabled temporarily)
 - Amazon S3
+- FontAwesome
 - jQuery (`v3.3.1`)
 - jPlayer (`v2.9.2`)
 - Google Maps Javascript API
