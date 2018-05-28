@@ -7,13 +7,13 @@
   "repository": "https://github.com/programsam/binkjs.git",
   "keywords": [],
   "dependencies": {
-    "async": "^2.6.0",
-    "body-parser": "^1.18.2",
+    "async": "^2.6.1",
+    "body-parser": "^1.18.3",
     "express": "^4.16.3",
+    "express-mysql-session": "*",
     "express-robots": "^0.2.0",
     "express-session": "^1.15.6",
-    "express-mysql-session": "*",
-    "helmet": "^3.12.0",
+    "helmet": "^3.12.1",
     "mysql": "^2.15.0",
     "node-uuid": "*",
     "pug": "^2.0.3"
