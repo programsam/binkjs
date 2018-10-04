@@ -1,3 +1,4 @@
+const path				= require('path');
 const express 		= require('express');
 const session 		= require('express-session');
 const MySQLStore 	= require('express-mysql-session')(session);
@@ -11,6 +12,7 @@ const Processing 	= require("./lib/processing.js");
 const api					= require("./lib/api.js");
 const adminapi		= require("./lib/adminapi.js");
 const views				= require("./lib/views.js");
+const makeLogger = require("./lib/loggerfactory.js");
 const helmet 			= require('helmet');
 const robots 			= require('express-robots');
 
@@ -26,13 +28,13 @@ let connection = sql();
 connection.query('SELECT * FROM jams', function(err, rows) {
 	if (err)
 	{
-		console.log("Issue connecting to database: " + err)
+		logger.error("Issue connecting to database: " + err)
 		connection.end();
 		process.exit(1);
 	}
 	else
 	{
-		console.log("Successfully queried database.")
+		logger.info("Successfully queried database.")
 		connection.end();
 	}
 });
@@ -48,6 +50,14 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: settings.secureCookie }
 }))
+
+const logger = makeLogger(path.basename(__filename));
+
+const webLogger = makeLogger('req');
+app.use(function(req, res, next) {
+	webLogger.info(`${req.method} ${req.path}`)
+	next();
+});
 
 app.use(helmet());
 
@@ -66,6 +76,6 @@ let server = app.listen(process.env.PORT || 3001, function () {
   let host = server.address().address
   let port = server.address().port
 
-  console.log('BINK.js is listening at http://%s:%s', host, port)
+  logger.info('BINK.js is listening at http://%s:%s', host, port)
 
 })

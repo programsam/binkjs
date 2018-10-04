@@ -9,6 +9,7 @@
   "dependencies": {
     "async": "^2.6.1",
     "body-parser": "^1.18.3",
+    "winston": "^3.0.0",
     "express": "^4.16.3",
     "express-mysql-session": "^2.0.1",
     "express-robots": "^0.2.0",
