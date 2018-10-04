@@ -1,0 +1,11 @@
+#jamid(data-id=jam.id)
+.card
+  .card-body
+    h4.card-title
+      //| #{jam.mydate} - #{jam.title}
+      input#date(type='text' value=jam.mydate)
+      input#title(type='text' value=jam.title)
+    p.float-right
+      button#deleteJamButton.float-right.btn.btn-default Delete
+      button#saveJamButton.float-right.btn.btn-default.mr-2 Save
+      button#cancelJamButton.float-right.btn.btn-default.mr-2 Cancel

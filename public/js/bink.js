@@ -67,7 +67,7 @@ function createNew() {
 		url : "/admin/jam",
 		contentType : "application/json"
 	}).done(function(msg) {
-		loadJam(msg.id);
+		editJam(msg.id);
 	}).fail(function(jqXHR) { //failure connecting or similar
 		binkAlert("Error occurred while creating jam. Error was: " + jqXHR.responseText);
 	});
@@ -424,7 +424,9 @@ function loadJam(id) {
 	$.get(`/views/jam/${id}`, function(view) {
 		$('#main').html(view);
     $('#deleteJamButton').click(deleteJam);
-    $('#editJamButton').click(editJam);
+    $('#editJamButton').click(function() {
+      editJam(id);
+    });
 		$.get(`/api/jam/${id}/location`, function(loc) {
       if (loc.lat && loc.lon) {
         loadMapsAPI(function() {
@@ -454,8 +456,42 @@ function deleteJam() {
 	});
 }
 
-function editJam() {
+function editJam(id) {
+	location.hash = "edit-" + id;
+	$('.nav-link.active').removeClass('active');
+	$.get(`/views/jam/edit/${id}`, function(view) {
+		$('#main').html(view);
+    $('#deleteJamButton').click(deleteJam);
+    $('#saveJamButton').click(saveJam);
+    $('#cancelJamButton').click(cancelEditJam);
+    $(window).scrollTop(0);
+	})
+}
 
+function cancelEditJam() {
+  var id = $('#jamid').data('id');
+  loadJam(id);
+}
+
+function saveJam() {
+  var id = $('#jamid').data('id');
+  var mydate = Date.parse($('#date').val());
+  var toSend = {
+    date: $('#date').val(),
+    title: $('#title').val(),
+  };
+
+  $.ajax({
+		method : "PUT",
+		url : `/admin/jam/${id}`,
+		contentType : "application/json",
+    json: true,
+    data: JSON.stringify(toSend)
+	}).done(function(msg) {
+    console.log(msg);
+	}).fail(function(jqXHR) { //failure connecting or similar
+		binkAlert("Error occurred while creating jam. Error was: " + jqXHR.responseText);
+	});
 }
 
 function loadClustererAPI(callback) {
