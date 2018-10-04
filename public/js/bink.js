@@ -67,8 +67,7 @@ function createNew() {
 		url : "/admin/jam",
 		contentType : "application/json"
 	}).done(function(msg) {
-		let data = JSON.parse(msg)
-		console.log(data);
+		loadJam(msg.id);
 	}).fail(function(jqXHR) { //failure connecting or similar
 		binkAlert("Error occurred while creating jam. Error was: " + jqXHR.responseText);
 	});
