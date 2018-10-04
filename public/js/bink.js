@@ -412,9 +412,11 @@ function loadJam(id) {
 	$.get(`/views/jam/${id}`, function(view) {
 		$('#main').html(view);
 		$.get(`/api/jam/${id}/location`, function(loc) {
-			loadMapsAPI(function() {
-				mapLocation(loc);
-			})
+      if (loc.lat && loc.lon) {
+        loadMapsAPI(function() {
+  				mapLocation(loc);
+  			})
+      }
 		})
 	})
 }

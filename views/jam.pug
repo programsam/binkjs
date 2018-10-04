@@ -15,10 +15,10 @@
       p.card-text
         | #{jam.notes}
 if (jam.location && jam.location.lat && jam.location.lon)
-.card
-  .card-body
-    h5.card-title Location
-    #map-canvas(style='width:100%; height:100px')
+  .card
+    .card-body
+      h5.card-title Location
+      #map-canvas(style='width:100%; height:100px')
 if (jam.musicians && jam.musicians.length > 0)
   .card
     .card-body
