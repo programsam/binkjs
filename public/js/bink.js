@@ -423,6 +423,8 @@ function loadJam(id) {
 	$('.nav-link.active').removeClass('active');
 	$.get(`/views/jam/${id}`, function(view) {
 		$('#main').html(view);
+    $('#deleteJamButton').click(deleteJam);
+    $('#editJamButton').click(editJam);
 		$.get(`/api/jam/${id}/location`, function(loc) {
       if (loc.lat && loc.lon) {
         loadMapsAPI(function() {
@@ -432,6 +434,28 @@ function loadJam(id) {
       }
 		})
 	})
+}
+
+function deleteJam() {
+  var id = $('#jamid').data('id');
+  $.ajax({
+		method : "DELETE",
+		url : `/admin/jam/${id}`,
+		contentType : "application/json"
+	}).done(function(msg) {
+    $('#alertTitle').html('Deleted')
+  	$('#alertText').html(`Successfully deleted jam #${id}!`)
+  	$('#alertModal').modal('show');
+    $('#alertModal').on('hide.bs.modal', function(e) {
+      loadRecentJams();
+    })
+	}).fail(function(jqXHR) { //failure connecting or similar
+		binkAlert("Error occurred while deleting jam. Error was: " + jqXHR.responseText);
+	});
+}
+
+function editJam() {
+
 }
 
 function loadClustererAPI(callback) {
