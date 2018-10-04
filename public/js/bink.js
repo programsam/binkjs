@@ -125,6 +125,7 @@ function loadBrowse() {
 					columns: 'fas fa-columns'
 				}
 			});
+      $(window).scrollTop(0);
 		})
 	})
 }
@@ -280,6 +281,7 @@ function play(setTitle, path) {
 function recentCallback(data) {
 	$.get('/views/recent', function(view) {
 		$('#main').html(view);
+    $(window).scrollTop(0);
 	})
 }
 
@@ -341,6 +343,7 @@ function loadEntity(type, id) {
 					columns: 'fas fa-columns'
 				}
 			});
+      $(window).scrollTop(0);
 		})
 	})
 }
@@ -368,6 +371,7 @@ function loadHistoricJams() {
   location.hash = "history";
 	$.get("/views/history", function(view) {
 		$('#main').html(view);
+    $(window).scrollTop(0);
 	});
 }
 
@@ -425,6 +429,7 @@ function loadJam(id) {
         loadMapsAPI(function() {
   				mapLocation(loc);
   			})
+        $(window).scrollTop(0);
       }
 		})
 	})
