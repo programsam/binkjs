@@ -10,11 +10,11 @@
     "async": "^2.6.1",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "express-mysql-session": "*",
+    "express-mysql-session": "^2.0.1",
     "express-robots": "^0.2.0",
     "express-session": "^1.15.6",
-    "helmet": "^3.12.1",
-    "mysql": "^2.15.0",
+    "helmet": "^3.13.0",
+    "mysql": "^2.16.0",
     "node-uuid": "*",
     "pug": "^2.0.3"
   }
