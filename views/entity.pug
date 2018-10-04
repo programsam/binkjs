@@ -17,6 +17,10 @@ else if (type === "locations")
         | #{displayType} #{name}
       if (link && link.indexOf('http://') === 0)
         a(href=link, target="_blank") #{link}
+      if (address)
+        p Address: #{address}
+      if (lat && lon)
+        #map-canvas(style='width:100%; height:100px')
   .card
     .card-body
       h4.card-title
@@ -27,8 +31,6 @@ else if (type === "staff")
     .card-body
       h4.card-title
         | #{displayType} #{name}
-      if (link && link.indexOf('http://') === 0)
-        a(href=link, target="_blank") #{link}
   .card
     .card-body
       h4.card-title

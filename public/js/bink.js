@@ -288,6 +288,15 @@ function loadEntity(type, id) {
 	$('.nav-link.active').removeClass('active');
 	$.get(`/views/entity/${type}/${id}`, function(view) {
 		$('#main').html(view);
+    if (type === "locations") {
+      $.get(`/api/entity/locations/${id}`, function(location) {
+        if (location.lat && location.lon) {
+          loadMapsAPI(function() {
+            mapLocation(location);
+          })
+        }
+      })
+    }
 		$.getScript('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js',
 			function(data, status, jqXhr) {
 			$('#entityJamTable').bootstrapTable({
