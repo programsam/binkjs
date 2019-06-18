@@ -1,4 +1,6 @@
+let currentHowl = null;
 let lastOpenMarker = null;
+let currentTimer = null;
 
 $.ajaxSetup({
   cache: true
@@ -16,6 +18,11 @@ $(document).ready(function() {
 	$("a#browseButton").click(loadBrowse)
 	$("a#historyButton").click(loadHistoricJams)
 	$("a#mapButton").click(loadMap)
+  $("#playButton").click(playCurrentHowl);
+  $("#stopButton").click(stopCurrentHowl);
+  $("#pauseButton").click(pauseCurrentHowl);
+  // $("#nextButton").click(nextCurrentHowl);
+  // $("#prevButton").click(prevCurrentHowl);
 
 	if (location.hash == "#browse") {
 		loadBrowse();
@@ -31,18 +38,6 @@ $(document).ready(function() {
 	} else {
 		loadRecentJams();
 	}
-
-	$("#jquery_jplayer_1").jPlayer({
-		cssSelectorAncestor : "#jp_container_1",
-		swfPath : "/js",
-		supplied : "mp3",
-		useStateClassSkin : true,
-		autoBlur : false,
-		smoothPlayBar : true,
-		keyEnabled : true,
-		remainingDuration : true,
-		toggleDuration : true
-	});
 
 	$("#logoutButton").click(logout);
 	$("#loginButton").click(login);
@@ -203,7 +198,7 @@ function hideAdmin()
 {
 	$('#adminItem').removeClass('dropdown');
 	let html = "";
-	html += '<a class="nav-link linkish" id="adminButton">Admin</a>';
+	html += '<a href="javascript:" class="nav-link" id="adminButton">Admin</a>';
 	$('#adminItem').html(html);
 	$('#modalAlert').html('');
 
@@ -267,14 +262,73 @@ function showLoginModal() {
 	})
 }
 
-function play(setTitle, path) {
+function playImmediately(setTitle, path) {
 	console.log("Title: " + setTitle)
 	console.log("Path: " + path)
-	$("#jquery_jplayer_1").jPlayer("setMedia", {
-		title : setTitle,
-		mp3 : path
-	});
-	$("#jquery_jplayer_1").jPlayer("play")
+  $("#currentlyPlaying").text(`${setTitle}`);
+  if (currentHowl !== null) {
+    currentHowl.stop();
+    currentHowl.unload();
+    currentHowl = null;
+  }
+  currentHowl = new Howl({
+    html5: true,
+    preload: true,
+    autoplay: true,
+    src: [path]
+  })
+  playCurrentHowl();
+}
+
+function updatePosition() {
+  var seekTime = currentHowl.seek();
+  var currentPosition = formatSecondsIntoTime(Math.round(seekTime));
+  var duration = currentHowl.duration();
+  var durationTime = formatSecondsIntoTime(Math.round(duration));
+  $('#currentPosition').html(`${currentPosition} / ${durationTime}`)
+}
+
+function formatSecondsIntoTime(secs) {
+  var minutes = Math.floor(secs / 60) || 0;
+  var seconds = (secs - minutes * 60) || 0;
+
+  return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+}
+
+function playCurrentHowl() {
+  if (currentHowl && ! currentHowl.playing()) {
+    currentHowl.play();
+    $("#pauseButton").removeClass("disabled");
+    $("#playButton").addClass("disabled");
+    currentTime = setInterval(updatePosition, 500);
+  } if (currentHowl && currentHowl.playing()) {
+    console.log(`Cannot play because the howl is currently playing.`);
+  } else {
+    console.log(`Cannot play because: ${currentHowl}`);
+  }
+}
+
+function stopCurrentHowl() {
+  if (currentHowl) {
+    $("#pauseButton").addClass("disabled");
+    $("#playButton").removeClass("disabled");
+    currentHowl.stop();
+    clearInterval(currentTimer);
+    $('#currentPosition').html('0:00 / 0:00')
+  } else {
+    console.log(`Cannot stop because: ${currentHowl}`);
+  }
+}
+
+function pauseCurrentHowl() {
+  if (currentHowl) {
+    $("#pauseButton").addClass("disabled");
+    $("#playButton").removeClass("disabled");
+    currentHowl.pause();
+    clearInterval(currentTimer);
+  } else {
+    console.log(`Cannot pause because: ${currentHowl}`);
+  }
 }
 
 function recentCallback(data) {

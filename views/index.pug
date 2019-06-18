@@ -18,10 +18,8 @@ html(lang='en')
     //link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css', integrity='sha256-UP+6xezmmsC027u61a8Ks+Xnp+TftBfw4PcrNyPXC40=', crossorigin='anonymous')
     //FontAwesome Icons/Sprites usable with Bootstrap
     script(defer='', src='https://use.fontawesome.com/releases/v5.3.1/js/all.js')
-    // jPlayer from CDN
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.9.2/jplayer/jquery.jplayer.min.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.9.2/add-on/jplayer.playlist.js')
-    link(href='css/jplayer.blue.monday.css', rel='stylesheet')
+    //Howler.js import
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.min.js", integrity="sha256-El7dyxdVp1e1v0xgjrrpzr5+BO29pwP0Qfl40VDffiI=", crossorigin="anonymous")
     // Custom CSS that BINK uses
     link(href='css/bink.css', rel='stylesheet')
     // The BINK Client-side JavaScript Application
@@ -34,55 +32,41 @@ html(lang='en')
       #navbarSupportedContent.collapse.navbar-collapse
         ul.navbar-nav.mr-auto
           li.nav-item
-            a#recentButton.active.nav-link
+            a#recentButton(href="javascript:").active.nav-link
               | Recent
               span.sr-only (current)
           li.nav-item
-            a#browseButton.nav-link
+            a#browseButton(href="javascript:").nav-link
               | Browse
           li.nav-item
-            a#historyButton.nav-link
+            a#historyButton(href="javascript:").nav-link
               | History
           li.nav-item
-            a#mapButton.nav-link
+            a#mapButton(href="javascript:").nav-link
               | Map
           li#adminItem.nav-item.dropdown
-            a#adminButton.nav-link
+            a#adminButton(href="javascript:").nav-link
               | Admin
-    #jquery_jplayer_1
-    #jp_container_1.jp-audio(role='application', aria-label='media player')
-      .jp-type-single
-        .jp-gui.jp-interface
-          .jp-controls-holder
-            .jp-volume-controls
-              button.jp-mute(role='button', tabindex='0') mute
-              button.jp-volume-max(role='button', tabindex='0')
-                | max
-                | volume
-              .jp-volume-bar
-                .jp-volume-bar-value
-            .jp-controls
-              button.jp-play(role='button', tabindex='0') play
-              button.jp-stop(role='button', tabindex='0') stop
-            .jp-other
-              .jp-current-time(role='timer', aria-label='time')  
-              .jp-duration(role='timer', aria-label='duration')  
-              .jp-toggles
-                button.jp-repeat(role='button', tabindex='0') repeat
-            .jp-progress
-              .jp-seek-bar
-                .jp-play-bar
-        .jp-details
-          .jp-title(aria-label='title')  
-        .jp-no-solution
-          span Update Required
-          |  To play the media you will need to
-          | 				either update your browser to a recent version or update your
-          a(href='http://get.adobe.com/flashplayer/', target='_blank')
-            | Flash
-            | plugin
-          | .
-    #main.main.pb-5
+
+    #main.main
+    container-fluid.bg-primary.fixed-bottom.pt-2.pl-1
+      .row
+        .col-xl-7.col-lg-7.col-md-7.col-sm-7.col-7
+          #playButton.btn.btn-primary(type=button)
+            i.fas.fa-play
+          #pauseButton.btn.btn-primary.disabled(type=button)
+            i.fas.fa-pause
+          #stopButton.btn.btn-primary(type=button)
+            i.fas.fa-stop
+          #backwardButton.btn.btn-primary(type=button)
+            i.fas.fa-step-backward
+          #forwardButton.btn.btn-primary(type=button)
+            i.fas.fa-step-forward
+        .col-xl-2.col-lg-2.col-md-2.col-sm-2.col-5
+          p#currentPosition.mt-2 0:00 / 0:00
+        .col-xl-3.col-lg-3.col-md-3.col-sm-3.col-12
+          p#currentlyPlaying.ml-3.mt-2
+            em Nothing playing...
     #alertModal.modal(tabindex='-1', role='dialog')
       .modal-dialog(role='document')
         .modal-content

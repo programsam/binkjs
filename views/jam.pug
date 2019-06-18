@@ -84,7 +84,7 @@ if (jam.tracks && jam.tracks.length > 0)
             if (track.notes)
               | &nbsp;- #{track.notes}
             p.float-right
-              a(href='javascript:play("' + track.title + '", "' + track.path + '");')
+              a(href='javascript:playImmediately("' + track.title + '", "' + track.path + '");')
                 i.fa.fa-play.fa-sm
               | &nbsp;&nbsp;
               a(href='javascript:enqueue("' + track.title + '", "' + track.path + '");')
