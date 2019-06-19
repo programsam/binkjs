@@ -9,6 +9,10 @@ if (jam.location)
   #locid(data-id=jam.location.id)
 else
   #locid(data-id=-1)
+if (jam.band)
+  #bandid(data-id=jam.band.id)
+else
+  #bandid(data-id=-1)
 .card
   .card-body
     h5.card-header
@@ -37,11 +41,10 @@ else
           .col
             p Band
             h6
-              if (jam.band && jam.band.name)
-                a(href='javascript:') #{jam.band.name}
+              if (jam.band)
+                select#jamband.form-control(placeholder=jam.band.name, autocomplete="off")
               else
-                em
-                  a(href='javascript:')  No Location
+                select#jamband.form-control(placeholder="No Band Selected", autocomplete="off")
     p.float-right
       button#deleteJamButton.float-right.btn.btn-default Delete
       button#saveJamButton.float-right.btn.btn-default.mr-2 Save

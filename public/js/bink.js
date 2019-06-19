@@ -531,6 +531,16 @@ function editJam(id) {
         console.log(`Location selected: ${JSON.stringify(item)}`)
         $('#locid').attr('data-id', `${item.value}`);
       })
+    $('#jamband').autoComplete({
+      resolverSettings: {
+        url: '/api/entity/search/bands'
+      }
+    })
+    $('#jamband').on('autocomplete.select',
+      function(event, item) {
+        console.log(`Band selected: ${JSON.stringify(item)}`)
+        $('#bandid').attr('data-id', `${item.value}`);
+      })
     $(window).scrollTop(0);
 	})
 }
@@ -546,7 +556,8 @@ function saveJam() {
   var toSend = {
     date: $('#jamdate').val(),
     title: $('#jamtitle').val(),
-    locid: $('#locid').data('id')
+    locid: $('#locid').data('id'),
+    bandid: $('#bandid').data('id')
   };
 
   $.ajax({
