@@ -518,6 +518,16 @@ function editJam(id) {
     $('#deleteJamButton').click(deleteJam);
     $('#saveJamButton').click(saveJam);
     $('#cancelJamButton').click(cancelEditJam);
+    $('#jamlocation').autoComplete({
+      resolverSettings: {
+        url: '/api/entity/search/locations'
+      }
+    })
+    $('#jamlocation').on('autocomplete.select',
+      function(event, item) {
+        console.log(`Location selected: ${JSON.stringify(item)}`)
+        $('#locid').attr('data-id', `${item.value}`);
+      })
     $(window).scrollTop(0);
 	})
 }
@@ -531,8 +541,8 @@ function saveJam() {
   var id = $('#jamid').data('id');
   var mydate = Date.parse($('#date').val());
   var toSend = {
-    date: $('#date').val(),
-    title: $('#title').val(),
+    date: $('#jamdate').val(),
+    title: $('#jamtitle').val(),
   };
 
   $.ajax({
@@ -542,7 +552,8 @@ function saveJam() {
     json: true,
     data: JSON.stringify(toSend)
 	}).done(function(msg) {
-    console.log(msg);
+    var id = $('#jamid').data('id');
+    loadJam(id);
 	}).fail(function(jqXHR) { //failure connecting or similar
 		binkAlert("Error occurred while creating jam. Error was: " + jqXHR.responseText);
 	});

@@ -1,10 +1,47 @@
+script(type="text/javascript")
+  |  $('#jamdatepicker').datetimepicker({
+  |    format: 'L',
+  |     date: new Date(Date.parse("#{jam.date}"))
+  |    });
+
 #jamid(data-id=jam.id)
+if (jam.location)
+  #locid(data-id=jam.location.id)
+else
+  #locid(data-id=-1)
 .card
   .card-body
-    h4.card-title
-      //| #{jam.mydate} - #{jam.title}
-      input#date(type='text' value=jam.mydate)
-      input#title(type='text' value=jam.title)
+    h5.card-header
+      .row
+        .col
+          p Date
+          .form-group
+            #jamdatepicker.input-group.date(data-target-input='nearest')
+              input#jamdate.form-control.datetimepicker-input(type='text', data-target='#jamdatepicker')
+              .input-group-append(data-target='#jamdatepicker', data-toggle='datetimepicker')
+                .input-group-text
+                  i.fa.fa-calendar
+        .col
+          p Title
+          input.form-control#jamtitle(type='text' value=jam.title)
+    .card-body
+      h5.card-title
+        .row
+          .col
+            p Location
+            h6
+              if (jam.location)
+                select#jamlocation.form-control(placeholder=jam.location.name, autocomplete="off")
+              else
+                select#jamlocation.form-control(placeholder="No Location Selected", autocomplete="off")
+          .col
+            p Band
+            h6
+              if (jam.band && jam.band.name)
+                a(href='javascript:') #{jam.band.name}
+              else
+                em
+                  a(href='javascript:')  No Location
     p.float-right
       button#deleteJamButton.float-right.btn.btn-default Delete
       button#saveJamButton.float-right.btn.btn-default.mr-2 Save

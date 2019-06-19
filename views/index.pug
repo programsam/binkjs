@@ -24,6 +24,13 @@ html(lang='en')
     link(href='css/bink.css', rel='stylesheet')
     // The BINK Client-side JavaScript Application
     script(src='js/bink.js')
+    // Moment.js -- used for handling the dates in date selection in the Admin UI
+    script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js")
+    // Tempus Dominus -- a great little Bootstrap-oriented date selector for the admin UI
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css")
+    script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js")
+    // Bootstrap Autocomplete -- musicians, bands, instruments, producers, locations
+    script(type="text/javascript", src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.2.1/dist/latest/bootstrap-autocomplete.min.js")
   body
     nav.navbar.navbar-expand-lg.navbar-light.bg-primary
       a.navbar-brand BINK v#{version}
