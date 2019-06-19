@@ -543,6 +543,7 @@ function saveJam() {
   var toSend = {
     date: $('#jamdate').val(),
     title: $('#jamtitle').val(),
+    locid: $('#locid').data('id')
   };
 
   $.ajax({
