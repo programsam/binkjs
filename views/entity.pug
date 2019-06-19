@@ -2,7 +2,7 @@ if (type === "bands")
   .card
     .card-body
       h4.card-title
-        | #{displayType} #{name}
+        | #{displayType}: #{name}
       if (link && link.indexOf('http://') === 0)
         a(href=link, target="_blank") #{link}
   .card
@@ -14,7 +14,7 @@ else if (type === "locations")
   .card
     .card-body
       h4.card-title
-        | #{displayType} #{name}
+        | #{displayType}: #{name}
       if (link && link.indexOf('http://') === 0)
         a(href=link, target="_blank") #{link}
       if (address)
@@ -30,7 +30,7 @@ else if (type === "staff")
   .card
     .card-body
       h4.card-title
-        | #{displayType} #{name}
+        | #{displayType}: #{name}
   .card
     .card-body
       h4.card-title
@@ -40,7 +40,7 @@ else if (type === "musicians")
   .card
     .card-body
       h4.card-title
-        | #{displayType} #{name}
+        | #{displayType}: #{name}
       if (link && link.indexOf('http://') === 0)
         a(href=link, target="_blank") #{link}
   .card
