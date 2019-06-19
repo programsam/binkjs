@@ -35,6 +35,9 @@ $(document).ready(function() {
 	} else if (location.hash.indexOf("#jam-") == 0) {
 		let jamid = location.hash.split("-")[1];
 		loadJam(jamid);
+  } else if (location.hash.indexOf("#edit-") == 0) {
+		let jamid = location.hash.split("-")[1];
+		editJam(jamid);
 	} else {
 		loadRecentJams();
 	}
