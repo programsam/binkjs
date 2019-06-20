@@ -8,8 +8,8 @@
           i.fa.fa-key.fa-sm
     h6.card-subtitle.mb-2.text-muted
       if (admin)
-        button#editJamButton.float-right.btn.btn-default.ml-2 Edit
-        button#deleteJamButton.float-right.btn.btn-default Delete
+        button#editJamButton.float-right.btn.btn-primary.ml-2 Edit
+        button#deleteJamButton.float-right.btn.btn-secondary Delete
       if jam.band
         a(href=`javascript:loadEntity('bands', ${jam.band.id});`) #{jam.band.name}
         |  at&nbsp;
