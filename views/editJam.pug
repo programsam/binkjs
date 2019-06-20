@@ -48,6 +48,15 @@ else
                 select#jamband.form-control(placeholder=jam.band.name, autocomplete="off")
               else
                 select#jamband.form-control(placeholder="No Band Selected", autocomplete="off")
+      h5.card-title
+        .row
+          .col
+            p Notes
+            if (jam.notes)
+              textarea#jamnotes.form-control
+                | #{jam.notes}
+            else
+              textarea#jamnotes.form-control(placeholder="Enter notes about this jam here")
     p.float-right
       button#deleteJamButton.float-right.btn.btn-secondary Delete
       button#cancelJamButton.float-right.btn.btn-secondary.mr-2 Cancel

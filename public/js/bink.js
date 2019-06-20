@@ -639,7 +639,8 @@ function saveJam() {
     date: $('#jamdate').val(),
     title: $('#jamtitle').val(),
     locid: $('#locid').data('id'),
-    bandid: $('#bandid').data('id')
+    bandid: $('#bandid').data('id'),
+    notes: $('#jamnotes').val()
   };
 
   $.ajax({
