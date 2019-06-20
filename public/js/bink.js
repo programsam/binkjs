@@ -269,6 +269,7 @@ function showLoginModal() {
 	})
 }
 
+
 function playImmediately(setTitle, path) {
 	console.log("Title: " + setTitle)
 	console.log("Path: " + path)
@@ -525,29 +526,105 @@ function editJam(id) {
     $('#deleteJamButton').click(deleteJam);
     $('#saveJamButton').click(saveJam);
     $('#cancelJamButton').click(cancelEditJam);
+
+    $(window).scrollTop(0);
+
+    //Setup location autocomplete
     $('#jamlocation').autoComplete({
       resolverSettings: {
         url: '/api/entity/search/locations'
       }
     })
+
+    //When the user selects a location
     $('#jamlocation').on('autocomplete.select',
       function(event, item) {
         console.log(`Location selected: ${JSON.stringify(item)}`)
         $('#locid').attr('data-id', `${item.value}`);
-      })
+    })
+
+    //When the user adds a new location
+    $('#jamlocation').on('autocomplete.freevalue', addNewLocation)
+
+    //Setup band autocomplete
     $('#jamband').autoComplete({
       resolverSettings: {
         url: '/api/entity/search/bands'
       }
     })
+
+    //when the user selects a band
     $('#jamband').on('autocomplete.select',
       function(event, item) {
         console.log(`Band selected: ${JSON.stringify(item)}`)
         $('#bandid').attr('data-id', `${item.value}`);
-      })
-    $(window).scrollTop(0);
+    })
+
+    //When the user adds a new band
+    $('#jamband').on('autocomplete.freevalue', addNewBand)
+
 	})
 }
+
+function addNewLocation(event, item) {
+  console.log(`New location was indicated: ${JSON.stringify(item)}`)
+  showConfirmModal(
+    `Are you sure you'd like to create the location "${item}" and select it for this jam?`,
+  function() {
+    $('#confirmModal').modal('hide');
+    createEntity("locations", item, function(reply) {
+      console.log(`Location created: ${JSON.stringify(reply)}`)
+      $('#locid').attr('data-id', `${reply.id}`);
+      $('#jamlocation').autoComplete('set', { value: reply.id, text: reply.name });
+    });
+  })
+}
+
+function addNewBand(event, item) {
+  console.log(`New band was indicated: ${JSON.stringify(item)}`)
+  showConfirmModal(
+    `Are you sure you'd like to create the band "${item}" and select it for this jam?`,
+  function() {
+    $('#confirmModal').modal('hide');
+    createEntity("bands", item, function(reply) {
+      console.log(`Band created: ${JSON.stringify(reply)}`)
+      $('#bandid').attr('data-id', `${reply.id}`);
+      $('#jamband').autoComplete('set', { value: reply.id, text: reply.name });
+    });
+  })
+}
+
+function createEntity(type, incomingName, callback) {
+  var toSend = {
+    name: incomingName
+  }
+
+  $.ajax({
+    method : "POST",
+    url : `/admin/entity/${type}`,
+    contentType : "application/json",
+    json: true,
+    data: JSON.stringify(toSend),
+    success: function(msg) {
+      callback(msg);
+    }
+  });
+}
+
+function showConfirmModal(message, yesFunction) {
+  $.get("/admin/confirmModal").done(function(view) {
+    $('#main').append(view);
+    $('#confirm-text').text(message)
+    $('#yesButton').off();
+    $('#yesButton').click(function() {
+      if (yesFunction) {
+        yesFunction();
+      }
+    })
+    $('#confirmModal').modal('show', { keyboard:true});
+  }) //get the confirmation modal
+}
+
 
 function cancelEditJam() {
   var id = $('#jamid').data('id');
@@ -557,6 +634,7 @@ function cancelEditJam() {
 function saveJam() {
   var id = $('#jamid').data('id');
   var mydate = Date.parse($('#date').val());
+
   var toSend = {
     date: $('#jamdate').val(),
     title: $('#jamtitle').val(),
@@ -569,13 +647,15 @@ function saveJam() {
 		url : `/admin/jam/${id}`,
 		contentType : "application/json",
     json: true,
-    data: JSON.stringify(toSend)
-	}).done(function(msg) {
-    var id = $('#jamid').data('id');
-    loadJam(id);
-	}).fail(function(jqXHR) { //failure connecting or similar
-		binkAlert("Error occurred while creating jam. Error was: " + jqXHR.responseText);
-	});
+    data: JSON.stringify(toSend),
+    success: function(msg) {
+      var id = $('#jamid').data('id');
+      loadJam(id);
+    },
+    error: function(jqXHR) { //failure connecting or similar
+		   binkAlert("Error occurred while creating jam. Error was: " + jqXHR.responseText);
+    }
+  });
 }
 
 function loadClustererAPI(callback) {
