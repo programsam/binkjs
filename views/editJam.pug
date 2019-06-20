@@ -27,7 +27,10 @@ else
                   i.fa.fa-calendar
         .col
           p Title
-          input.form-control#jamtitle(type='text' value=jam.title)
+          if (jam.title !== "")
+            input.form-control#jamtitle(type='text' value=jam.title)
+          else if (jam.title === "")
+            input.form-control#jamtitle(type='text' placeholder="Untitled")
     .card-body
       h5.card-title
         .row
