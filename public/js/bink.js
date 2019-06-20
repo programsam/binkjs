@@ -6,10 +6,14 @@ $.ajaxSetup({
   cache: true
 });
 
-$( document ).ajaxError(function(event, request, settings) {
-	$('#alertTitle').html('Error!')
-	$('#alertText').html(`An error occurred.`)
-	$('#alertModal').modal('show');
+$( document ).ajaxError(function(event, request, settings, thrownError) {
+  if (thrownError === "abort") {
+    console.log(`The request was aborted because they continue to type.`)
+  } else {
+    $('#alertTitle').html('Error!')
+  	$('#alertText').html(`An error occurred.`)
+  	$('#alertModal').modal('show');
+  }
 });
 
 
