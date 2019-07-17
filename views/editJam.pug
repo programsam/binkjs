@@ -15,10 +15,10 @@ else
   #bandid(data-id=-1)
 .card
   .card-body
-    h5.card-header
+    .card-header
       .row
         .col
-          p Date
+          h5 Date
           .form-group
             #jamdatepicker.input-group.date(data-target-input='nearest')
               input#jamdate.form-control.datetimepicker-input(type='text', data-target='#jamdatepicker')
@@ -26,37 +26,37 @@ else
                 .input-group-text
                   i.fa.fa-calendar
         .col
-          p Title
+          h5 Title
           if (jam.title !== "")
             input.form-control#jamtitle(type='text' value=jam.title)
           else if (jam.title === "")
             input.form-control#jamtitle(type='text' placeholder="Untitled")
     .card-body
-      h5.card-title
-        .row
-          .col
-            p Location
-            h6
-              if (jam.location)
-                select#jamlocation.form-control(placeholder=jam.location.name, autocomplete="off")
-              else
-                select#jamlocation.form-control(placeholder="No Location Selected", autocomplete="off")
-          .col
-            p Band
-            h6
-              if (jam.band)
-                select#jamband.form-control(placeholder=jam.band.name, autocomplete="off")
-              else
-                select#jamband.form-control(placeholder="No Band Selected", autocomplete="off")
-      h5.card-title
-        .row
-          .col
-            p Notes
-            if (jam.notes)
-              textarea#jamnotes.form-control
-                | #{jam.notes}
-            else
-              textarea#jamnotes.form-control(placeholder="Enter notes about this jam here")
+      .row
+        .col
+          h5 Location
+          if (jam.location)
+            select#jamlocation.form-control(name="location", placeholder=jam.location.name, autocomplete="off")
+          else
+            select#jamlocation.form-control(name="location", placeholder="No Location Selected", autocomplete="off")
+        .col
+          h5 Band
+          if (jam.band)
+            select#jamband.form-control(name="band", placeholder=jam.band.name, autocomplete="off")
+          else
+            select#jamband.form-control(name="band", placeholder="No Band Selected", autocomplete="off")
+      .row.mt-3
+        .col
+          h5 Notes
+          if (jam.notes)
+            textarea#jamnotes.form-control
+              | #{jam.notes}
+          else
+            textarea#jamnotes.form-control(placeholder="Enter notes about this jam here")
+      .row.mt-3
+        .col
+          h5 Musicians
+          #musicianHolder
     p.float-right
       button#deleteJamButton.float-right.btn.btn-secondary Delete
       button#cancelJamButton.float-right.btn.btn-secondary.mr-2 Cancel

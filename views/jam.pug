@@ -34,9 +34,9 @@ if (jam.musicians && jam.musicians.length > 0)
           |&nbsp;-&nbsp;
           each instrument, index in musician.instruments
             if (index === (musician.instruments.length - 1))
-              | #{instrument}
+              | #{instrument.name}
             else
-              | #{instrument},&nbsp
+              | #{instrument.name},&nbsp
 if (jam.staff && jam.staff.length > 0)
   .card
     .card-body
