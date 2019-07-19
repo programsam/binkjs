@@ -48,9 +48,9 @@ if (jam.staff && jam.staff.length > 0)
           |&nbsp;-&nbsp;
           each role, index in staff.roles
             if (index === (staff.roles.length - 1))
-              | #{role}
+              | #{role.name}
             else
-              | #{role},&nbsp
+              | #{role.name},&nbsp
 if (jam.pictures && jam.pictures.length > 0)
   .card
     .card-body
