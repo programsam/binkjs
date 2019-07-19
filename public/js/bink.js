@@ -564,12 +564,57 @@ function reloadMusicians(id, focus) {
   })
 }
 
+function reloadStaff(id, focus) {
+  $.get(`/views/jam/${id}/edit/staff`, function(staffView) {
+    $('#staffHolder').html(staffView)
+
+    //Setup staff autocomplete
+    $('#addstaff').autoComplete({
+      resolverSettings: {
+        url: '/api/entity/search/staff'
+      }
+    })
+
+    //when the user selects a staff
+    $('#addstaff').on('autocomplete.select',
+      function(event, item) {
+        console.log(`Staff selected: ${JSON.stringify(item)}`)
+        checkAddStaffForm();
+    })
+
+    //When the user creates a new staff
+    $('#addstaff').on('autocomplete.freevalue', addNewStaff)
+
+    //Setup role autocomplete
+    $('#addrole').autoComplete({
+      resolverSettings: {
+        url: '/api/entity/search/roles'
+      }
+    })
+
+    //when the user selects a role
+    $('#addrole').on('autocomplete.select',
+      function(event, item) {
+        console.log(`Role selected: ${JSON.stringify(item)}`)
+        checkAddStaffForm();
+    })
+
+    //When the user creates a new role
+    $('#addrole').on('autocomplete.freevalue', addNewRole)
+
+    if (focus) {
+      $('#addstaff').focus();
+    }
+  })
+}
+
 function editJam(id) {
 	location.hash = "edit-" + id;
 	$('.nav-link.active').removeClass('active');
 	$.get(`/views/jam/edit/${id}`, function(view) {
 		$('#main').html(view);
     reloadMusicians(id);
+    reloadStaff(id);
     $('#deleteJamButton').click(deleteJam);
     $('#saveJamButton').click(saveJam);
     $('#cancelJamButton').click(cancelEditJam);
@@ -612,6 +657,92 @@ function editJam(id) {
 	})
 }
 
+//STAFF ACTIONS
+function removeStaffRole(staffid, roleid) {
+  var id = $('#jamid').data('id');
+  $.ajax({
+		method : "DELETE",
+		url : `/admin/jam/${id}/staff/${staffid}/roles/${roleid}`,
+    success: function(msg) {
+      reloadStaff(id);
+    }
+	});
+}
+
+function removeEntireStaff(staffid) {
+  var id = $('#jamid').data('id');
+  $.ajax({
+    method : "DELETE",
+    url : `/admin/jam/${id}/staff/${staffid}/all`,
+    success: function(msg) {
+      reloadStaff(id);
+    }
+  });
+}
+
+function checkAddStaffForm() {
+  var staffid = $('[name="addstaff"]').val();
+  var roleid = $('[name="addrole"]').val();
+  console.log(`Staff: ${staffid}, Role: ${roleid} `)
+  if (staffid > 0 && roleid > 0) {
+    console.log(`Based on that, I'm adding a new staff member!`);
+    var id = $('#jamid').data('id');
+    addStaffToJam(id, staffid, roleid);
+  }
+}
+
+function addStaffToJam(jamid, staffid, roleid) {
+  var toSend = {
+    staffid: staffid,
+    roleid: roleid
+  }
+
+  $.ajax({
+    method : "POST",
+    url : `/admin/jam/${jamid}/staff`,
+    contentType : "application/json",
+    json: true,
+    data: JSON.stringify(toSend),
+    success: function(msg) {
+      reloadStaff(jamid, true);
+    }
+  });
+}
+
+function addNewStaff(event, item) {
+  console.log(`New staff was indicated: ${JSON.stringify(item)}`)
+  showConfirmModal(
+    `Are you sure you'd like to create the staff member "${item}" and select them for this jam?`,
+  function() {
+    $('#confirmModal').modal('hide');
+    createEntity("staff", item, function(reply) {
+      console.log(`Staff created: ${JSON.stringify(reply)}`)
+      $('#addstaff').autoComplete('set', { value: reply.id, text: reply.name });
+      checkAddStaffForm();
+    });
+  })
+}
+
+function addNewRole(event, item) {
+  console.log(`New role was indicated: ${JSON.stringify(item)}`)
+  showConfirmModal(
+    `Are you sure you'd like to create the role "${item}" and select it for this jam?`,
+  function() {
+    $('#confirmModal').modal('hide');
+    var staffid = $('[name="addstaff"]').val();
+    var jamid = $('#jamid').data('id');
+    createEntity("roles", item, function(reply) {
+      console.log(`Role created: ${JSON.stringify(reply)}`)
+      if (staffid) {
+        addStaffToJam(jamid, staffid, reply.id);
+      } else {
+        $('#addrole').autoComplete('set', { value: reply.id, text: reply.name });
+      }
+    });
+  })
+}
+
+//MUSICIAN ACTIONS
 function removeMusicianInstrument(musicianid, instrumentid) {
   var id = $('#jamid').data('id');
   $.ajax({
@@ -646,7 +777,6 @@ function checkAddMusicianForm() {
 }
 
 function addMusicianToJam(jamid, musicianid, instrumentid) {
-  var jamid = $('#jamid').data('id');
   var toSend = {
     musicianid: musicianid,
     instrumentid: instrumentid
@@ -664,6 +794,20 @@ function addMusicianToJam(jamid, musicianid, instrumentid) {
   });
 }
 
+function addNewMusician(event, item) {
+  console.log(`New musician was indicated: ${JSON.stringify(item)}`)
+  showConfirmModal(
+    `Are you sure you'd like to create the musician "${item}" and select them for this jam?`,
+  function() {
+    $('#confirmModal').modal('hide');
+    createEntity("musicians", item, function(reply) {
+      console.log(`Musician created: ${JSON.stringify(reply)}`)
+      $('#addmusician').autoComplete('set', { value: reply.id, text: reply.name });
+      checkAddMusicianForm();
+    });
+  })
+}
+
 function addNewInstrument(event, item) {
   console.log(`New instrument was indicated: ${JSON.stringify(item)}`)
   showConfirmModal(
@@ -679,20 +823,6 @@ function addNewInstrument(event, item) {
       } else {
         $('#addinstrument').autoComplete('set', { value: reply.id, text: reply.name });
       }
-    });
-  })
-}
-
-function addNewMusician(event, item) {
-  console.log(`New musician was indicated: ${JSON.stringify(item)}`)
-  showConfirmModal(
-    `Are you sure you'd like to create the musician "${item}" and select them for this jam?`,
-  function() {
-    $('#confirmModal').modal('hide');
-    createEntity("musicians", item, function(reply) {
-      console.log(`Musician created: ${JSON.stringify(reply)}`)
-      $('#addmusician').autoComplete('set', { value: reply.id, text: reply.name });
-      checkAddMusicianForm();
     });
   })
 }
