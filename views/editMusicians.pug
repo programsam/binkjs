@@ -18,8 +18,11 @@ else
   em No musicians.
 .row.mt-3
   .col
-    h5 Add New Musician
-    p Name:
-      select#addmusician.form-control(name="addmusician", placeholder="Start typing a musician's name", autocomplete="off")
-    p Instrument:
-      select#addinstrument.form-control(name="addinstrument", placeholder="Select at least one instrument", autocomplete="off")
+    h6 Add New Musician
+    .row
+      .col
+        p Name:
+        select#addmusician.form-control(name="addmusician", placeholder="Start typing a musician's name", autocomplete="off")
+      .col
+        p Instrument:
+        select#addinstrument.form-control(name="addinstrument", placeholder="Select at least one instrument", autocomplete="off")
