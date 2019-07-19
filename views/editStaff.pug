@@ -1,0 +1,28 @@
+if (jam.staff && jam.staff.length > 0)
+  for staff in jam.staff
+    li.list-group-item
+      a(href=`javascript:loadEntity('staff', ${staff.id});`) #{staff.name}
+      |&nbsp;-&nbsp;
+      each role, index in staff.roles
+        | #{role.name}&nbsp;
+        a(href=`javascript:removeStaffRole(${staff.id}, ${role.id})`)
+          i.fas.fa-trash
+        if (index === (staff.roles.length - 1))
+          | &nbsp;
+        else
+          | ,&nbsp;
+      p.float-right
+        a(href=`javascript:removeEntireStaff(${staff.id})`)
+          i.fas.fa-user-minus
+else
+  em No staff.
+.row.mt-3
+  .col
+    h6 Add New Staff
+    .row
+      .col
+        p Name:
+        select#addstaff.form-control(name="addstaff", placeholder="Start typing a staff member's name", autocomplete="off")
+      .col
+        p Role:
+        select#addrole.form-control(name="addrole", placeholder="Select at least one role", autocomplete="off")
