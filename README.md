@@ -27,6 +27,49 @@ BINK uses the following pieces of technology (dependencies/requirements):
 - Bootstrap.css (`v4 - Darkly Theme`)
 - Nginx (`1.10.3 (Ubuntu)`)
 
+#### fsevents on MacOS
+
+```
+npm upgrade
+
+> fsevents@1.2.11 install /Users/programsam/git/binkjs/node_modules/fsevents
+> node-gyp rebuild
+
+No receipt for 'com.apple.pkg.CLTools_Executables' found at '/'.
+
+No receipt for 'com.apple.pkg.DeveloperToolsCLILeo' found at '/'.
+
+No receipt for 'com.apple.pkg.DeveloperToolsCLI' found at '/'.
+
+gyp: No Xcode or CLT version detected!
+gyp ERR! configure error
+gyp ERR! stack Error: `gyp` failed with exit code: 1
+gyp ERR! stack     at ChildProcess.onCpExit (/usr/local/lib/node_modules/npm/node_modules/node-gyp/lib/configure.js:351:16)
+gyp ERR! stack     at ChildProcess.emit (events.js:210:5)
+gyp ERR! stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:272:12)
+gyp ERR! System Darwin 19.2.0
+gyp ERR! command "/usr/local/bin/node" "/usr/local/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js" "rebuild"
+gyp ERR! cwd /Users/programsam/git/binkjs/node_modules/fsevents
+gyp ERR! node -v v12.14.0
+gyp ERR! node-gyp -v v5.0.5
+gyp ERR! not ok
+
+> nodemon@1.19.4 postinstall /Users/programsam/git/binkjs/node_modules/nodemon
+> node bin/postinstall || exit 0
+
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.11 (node_modules/fsevents):
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.11 install: `node-gyp rebuild`
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: Exit status 1
+
+```
+
+Seeing this error when you run `npm install`?  This is due to an incompatibility issue with macos Catalina and [fsevents](https://www.npmjs.com/package/fsevents), which is the native file system events for macos.
+
+Note that in the above text it says `WARN optional SKIPPING OPTIONAL DEPENDENCY`.  For now, the advice is just to ignore this warning.  Here are the reasons:
+
+- It only affects development installations.
+- It doesn't affect `nodemon` usage -- dig it!  You can still run `npx nodemon server.js` and it will watch the filesystem for changes just fine.
+
 ### Settings.json
 
 Copy the [settings.example](./settings.example) file to a file called `settings.json`.  The BINK Node.js app looks for this file when it starts up and will fail if the file doesn't exist or has the wrong structure.  This file contains things that really shouldn't be hardcoded and stored in Git. Specifically:
@@ -78,10 +121,6 @@ Otherwise, BINK.js won't get the cookies it needs.
 ### Express
 
 [Express](https://expressjs.com/) is a standard, popular way of providing web applications in Node.js.
-
-### JPlayer
-
-BINK uses a custom build/config for  [jPlayer](http://jplayer.org/) so that it fits into the BINK theme--specifically so that it's a floating navbar on the bottom of the page you can deal with.
 
 ### MySQL
 
