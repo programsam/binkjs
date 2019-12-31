@@ -6,6 +6,9 @@
   "license": "Beerware",
   "repository": "https://github.com/programsam/binkjs.git",
   "keywords": [],
+  "scripts": {
+    "start": "npx nodemon server.js"
+  },
   "dependencies": {
     "async": "^2.6.3",
     "body-parser": "^1.19.0",
