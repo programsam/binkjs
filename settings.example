@@ -1,22 +1,20 @@
 {
-	"mysql":
-	{
+	"mysql": {
 		"host": "localhost",
 		"user": "user",
 		"port": 3306,
 		"password": "password",
-		"database": "bink"
+		"database": "binkjs"
 	},
-	"media_s3_url": "https://s3.amazonaws.com/binkmedia/public/",
+	"media_s3_url": "https://s3.amazonaws.com/binkmedia-test/public/",
 	"maps": "INSERT_GOOGLE_API_KEY_HERE",
-	"twitter":
-	{
+	"twitter": {
 		"consumer_key": "SOMETHING",
   		"consumer_secret": "SOMETHING",
   		"access_token_key": "SOMETHING",
   		"access_token_secret": "SOMETHING"
 	},
 	"admin_password": "mypassword",
-	"session_secret": ""
-	"secureCookie":true
+	"session_secret": "INSERT RANDOMIZED STRING",
+	"secureCookie": true
 }
