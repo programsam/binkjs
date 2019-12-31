@@ -8,87 +8,169 @@ Where is SoundCloud's feature that shows you what each musician played on this r
 
 Searching also makes it quite easy to find out "what was that I thing I played last spring with those guys from college?" and so on.
 
-## Developer Notes
+## Developer Setup
 
-This is a section where I will put notes about BINK that are useful for mostly for me later on when I look at it and can't remember what I was doing.  Plus, eventually, maybe BINK! will be exciting enough to some people that they will also want to go deploy it on their servers and then boom, it's an open source project now.  But I sincerely doubt it will ever get that popular because nothing I do ever does.
+Overview:
 
-### Setup
+1. Install Node.js for your OS.
+1. Install MySQL for your OS.
+1. Setup MySQL for BINK.js.
+1. Configure BINK.js for development.
+1. Install dependencies.
+1. Run.
 
-BINK uses the following pieces of technology (dependencies/requirements):
+### Install Node.js and MySQL
 
-- MySQL (`mysql  Ver 14.14 Distrib 5.7.19`)
-- Node.js  (`v9.9.0`)
-- Twitter (disabled temporarily)
-- Amazon S3
-- FontAwesome
-- jQuery (`v3.3.1`)
-- jPlayer (`v2.9.2`)
-- Google Maps Javascript API
-- Bootstrap.css (`v4 - Darkly Theme`)
-- Nginx (`1.10.3 (Ubuntu)`)
+Outside the scope of this README; if you can't install these packages, BINK.js probably isn't something you should run for yourself.
 
-#### fsevents on MacOS
+### Setup MySQL
 
-```
-npm upgrade
+BINK.js needs access to a running instance of MySQL that has a database set aside specifically for BINK.  It's recommended that you install BINK.js with an application user and password that is reserved just for BINK operations, for added security.
 
-> fsevents@1.2.11 install /Users/programsam/git/binkjs/node_modules/fsevents
-> node-gyp rebuild
+* **NB**: BINK.js uses the [MySQL NPM](https://www.npmjs.com/package/mysql), which provides a MySQL driver that allows TCP/IP input to any instance of MySQL, but currently does not provide MySQL authentication using the SHA2 or Caching pluggable auth modules.  There **are** specific instructions for what to do about this here below.
 
-No receipt for 'com.apple.pkg.CLTools_Executables' found at '/'.
+On a macos system using [MySQL Shell](https://dev.mysql.com/downloads/shell/),
 
-No receipt for 'com.apple.pkg.DeveloperToolsCLILeo' found at '/'.
+* Execute the macos command line interface and `cd` to this repository's directory:
 
-No receipt for 'com.apple.pkg.DeveloperToolsCLI' found at '/'.
+  ```
+  % cd ~/git/binkjs
+  ```
 
-gyp: No Xcode or CLT version detected!
-gyp ERR! configure error
-gyp ERR! stack Error: `gyp` failed with exit code: 1
-gyp ERR! stack     at ChildProcess.onCpExit (/usr/local/lib/node_modules/npm/node_modules/node-gyp/lib/configure.js:351:16)
-gyp ERR! stack     at ChildProcess.emit (events.js:210:5)
-gyp ERR! stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:272:12)
-gyp ERR! System Darwin 19.2.0
-gyp ERR! command "/usr/local/bin/node" "/usr/local/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js" "rebuild"
-gyp ERR! cwd /Users/programsam/git/binkjs/node_modules/fsevents
-gyp ERR! node -v v12.14.0
-gyp ERR! node-gyp -v v5.0.5
-gyp ERR! not ok
+  **NB**: Your directory name may be different!
 
-> nodemon@1.19.4 postinstall /Users/programsam/git/binkjs/node_modules/nodemon
-> node bin/postinstall || exit 0
+* Run the shell at the Mac command line interface:
 
-npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.11 (node_modules/fsevents):
-npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.11 install: `node-gyp rebuild`
-npm WARN optional SKIPPING OPTIONAL DEPENDENCY: Exit status 1
+  ```
+  % mysqlsh
+  MySQL Shell 8.0.18
 
-```
+  Copyright (c) 2016, 2019, Oracle and/or its affiliates. All rights reserved.
+  Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+  Other names may be trademarks of their respective owners.
 
-Seeing this error when you run `npm install`?  This is due to an incompatibility issue with macos Catalina and [fsevents](https://www.npmjs.com/package/fsevents), which is the native file system events for macos.
+  Type '\help' or '\?' for help; '\quit' to exit.
+  MySQL  JS >
+  ```
 
-Note that in the above text it says `WARN optional SKIPPING OPTIONAL DEPENDENCY`.  For now, the advice is just to ignore this warning.  Here are the reasons:
+* Connect to the local MySQL server installation (you will need the MySQL **root password** which you should have provided when you installed the server):
 
-- It only affects development installations.
-- It doesn't affect `nodemon` usage -- dig it!  You can still run `npx nodemon server.js` and it will watch the filesystem for changes just fine.
+  ```
+  MySQL  JS >  \connect root@localhost;
+  Creating a session to 'root@localhost'
+  Please provide the password for 'root@localhost':
+  Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): v
+  Fetching schema names for autocompletion... Press ^C to stop.
+  Your MySQL connection id is 140 (X protocol)
+  Server version: 8.0.18 MySQL Community Server - GPL
+  No default schema selected; type \use <schema> to set one.
+  MySQL  localhost:33060+ ssl  JS >
+  ```
 
-### Settings.json
+  **NB**: We recommend **NEVER** saving your root password to your disk.
 
-Copy the [settings.example](./settings.example) file to a file called `settings.json`.  The BINK Node.js app looks for this file when it starts up and will fail if the file doesn't exist or has the wrong structure.  This file contains things that really shouldn't be hardcoded and stored in Git. Specifically:
+* Switch to "SQL mode". It's ironic that you have to do this in a program called "SQL shell", but you are currently in Javascript mode and the next commands are easier to express in SQL.  Execute this:
 
-- `mysql`: The settings for the MySQL connections the Node.js app will use to grab BINK! data.
-  - `mysql.host`: The hostname of the database (usually `localhost`)
-  - `mysql.user`: The username of a MySQL user who has access to the database below.
-  - `mysql.port`: The port used to connect to the MySQL server.
-  - `mysql.password`: The password associated with the user above.
-  - `database`: The name of a database within MySQL that the `mysql.user` above has _write_ access to.
-- `media_s3_url`: The base URL that is used in constructing links/downloading files from Amazon S3, which is where BINK stores its media.
-- `maps`: Google Maps is integrated into BINK; you'll need to go grab a Google API key, give it access to Google Maps, and insert it here.
-- `twitter`: An object for configuring access to the Twitter APIs.
-  - `consumer_key`: Something Twitter uses to authenticate to their APIs.
-  - `consumer_secret`: Something Twitter uses to authenticate to their APIs.
-  - `access_token_key`: Something Twitter uses to authenticate to their APIs.
-  - `access_token_secret`: Something Twitter uses to authenticate to their APIs.
-- `admin_password`: Historically, to make things easy, there has been just one password for administering BINK.  It is shared amongst friends.  This may be changing but for now, you need to set this so that friends can get in and edit jams, etc.
-- `session_secret`: Used to Salt/Hash the session IDs for BINK.  Best if set to a really hard-to-guess string.
+  ```
+  MySQL  localhost:33060+ ssl  JS > \sql
+  Switching to SQL mode... Commands end with ;
+  MySQL  localhost:33060+ ssl  SQL >
+  ```
+
+* Setup a `binkjs` database using the [provided schema](./binkjs.sql):
+
+  ```
+  MySQL  localhost:33060+ ssl  SQL > \source binkjs.sql
+  Query OK, 0 rows affected (0.0003 sec)
+  ...
+  Query OK, 0 rows affected (0.0002 sec)
+  Query OK, 0 rows affected (0.0002 sec)
+  Query OK, 0 rows affected (0.0002 sec)
+  Warning (code 3719): 'utf8' is currently an alias for the character set UTF8MB3, but will be an alias for UTF8MB4 in a future release. Please consider using UTF8MB4 in order to be unambiguous.
+  ...
+  ```
+
+  **NB**: You may see some warnings similar to the ones above; until we see a specific operation problem with the current syntax; we are safe ignoring these warnings.
+
+* Check that the database successfully created:
+
+  ```
+  MySQL  localhost:33060+ ssl  binkjs  SQL > select * from binkjs.jams;
+  Empty set (0.0017 sec)
+  ```
+
+  This is good; there are no jams yet, but the jams table and binkjs database exist.
+
+* Create a user identified with the MySQL native password pluggable authentication module for use with BINK.js:
+
+  ```
+  MySQL  localhost:33060+ ssl  binkjs  SQL > CREATE USER binkjsuser@localhost IDENTIFIED WITH mysql_native_password BY '1234';
+  Query OK, 0 rows affected (0.0028 sec)
+  ```
+
+  **NB**: Here it's good to use your own username instead of `binkjsuser` and your own password (preferably one that's hard to guess) instead of `1234`.  You probably want to leave the host as `localhost`. The clause `IDENTIFIED WITH mysql_native_password` is **THE MOST IMPORTANT THING** about this query and should not be left out.
+
+* Grant the newly-created user all access on the `binkjs` database:
+
+  ```
+  MySQL  localhost:33060+ ssl  binkjs  SQL > GRANT ALL PRIVILEGES ON binkjs.* TO binkjsuser@localhost;
+  Query OK, 0 rows affected (0.0030 sec)
+  ```
+
+* Congratulations, MySQL is now properly configured to use.  If you followed these instructions exactly, you would need the following MySQL settings object in `settings.json` (see below).  But note that you'd probably want to change your password and user for your deployment:
+
+  ```json
+  "mysql": {
+    "host": "localhost",
+    "user": "binkjsuser",
+    "port": 3306,
+    "password": "1234",
+    "database": "binkjs"
+  }
+  ```
+
+### Configure BINK.js for Development
+
+* Open the MacOS command line terminal if it's not already open.
+
+* `cd` to this repository's directory if you aren't already there.
+
+* Run `npm install --all` and wait for the command to finish executing.
+
+* Copy the [settings.example](./settings.example) file to a file called `settings.json`.  The BINK Node.js app looks for this file when it starts up and will fail if the file doesn't exist or has the wrong structure.  This file contains things that really shouldn't be hardcoded and stored in Git. Specifically:
+
+  - `mysql`: The settings for the MySQL connections the Node.js app will use to grab BINK! data.
+    - `mysql.host`: The hostname of the database (usually `localhost`)
+    - `mysql.user`: The username of a MySQL user who has access to the database below.
+    - `mysql.port`: The port used to connect to the MySQL server.
+    - `mysql.password`: The password associated with the user above.
+    - `mysql.database`: The name of a database within MySQL that the `mysql.user` above has _write_ access to.
+  - `media_s3_url`: The base URL that is used in constructing links/downloading files from Amazon S3, which is where BINK stores its media.
+  - `maps`: Google Maps is integrated into BINK; you'll need to go grab a Google API key, give it access to Google Maps, and insert it here.
+  - `admin_password`: Historically, to make things easy, there has been just one password for administering BINK.  It is shared amongst friends.  This may be changing but for now, you need to set this so that friends can get in and edit jams, etc.
+  - `session_secret`: Used to Salt/Hash the session IDs for BINK.  Best if set to a really securely random string.
+  - `secureCookie`: Whether Express sessions should require a *Secure Cookie* to establish a session with users. **TL;DR** -- you want this set to `false`
+  - `logLevel`: The level of logging you'll see from the server-side component.  Set this to `silly` to see ridiculous, almost nonsensical amounts of information and set it to `error` to only see the critical problems.
+
+* Congratulations, you should now be ready to start BINK.js.  Execute the following:
+  ```
+  % npm start
+
+  > BINK.js@0.12.0 start /Users/programsam/git/binkjs
+  > npx nodemon server.js
+
+  [nodemon] 1.19.4
+  [nodemon] to restart at any time, enter `rs`
+  [nodemon] watching dir(s): *.*
+  [nodemon] watching extensions: js,mjs,json
+  [nodemon] starting `node server.js`
+  2019-12-31T15:59:10.296Z [server.js] info: BINK.js is up and listening on port 3001...
+  2019-12-31T15:59:10.325Z [server.js] info: Successfully queried database.
+  ```
+
+  You should now be able to browse to `http://localhost:3001` and see the BINK homepage.
+
+## Production Setup
 
 ### Nginx
 
@@ -105,23 +187,3 @@ location / {
 ```
 
 Otherwise, BINK.js won't get the cookies it needs.
-
-### Bootstrap.css
-
-[Bootstrap.css v4](https://getbootstrap.com/docs/4.0/getting-started/introduction/).  We get it from a CDN. It's the thing that makes the page look good.  The version is important -- some significant things have changed from v3 to v4.  We use the latest beta v4.
-
-### Custom CSS
-
-[custom.css](public/css/bink.css) contains custom and specific CSS for BINK that goes beyond the Bootstrap CSS. We try to keep this as short and simple as possible — relying on Bootstrap to do most of the style sheet control.
-
-### Pug
-
-[Pug](https://pugjs.org/api/getting-started.html) is a template rendering utility in Node.js that is very compatible with Express.  HTML in BINK is rendered using Pug.
-
-### Express
-
-[Express](https://expressjs.com/) is a standard, popular way of providing web applications in Node.js.
-
-### MySQL
-
-[binkjs.sql](./binkjs.sql) is the schema that is required to be in the database for you to use BINK.  You'll need to set up MySQL on your server and point BINK to it, so be ready for that.
