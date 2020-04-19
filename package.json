@@ -13,16 +13,18 @@
     "async": "^2.6.3",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "express-mysql-session": "^2.1.0",
+    "express-mysql-session": "^2.1.4",
     "express-robots": "^0.2.0",
-    "express-session": "^1.17.0",
-    "helmet": "^3.21.2",
-    "mysql": "^2.17.1",
+    "express-session": "^1.17.1",
+    "helmet": "^3.22.0",
+    "mysql": "^2.18.1",
     "node-uuid": "*",
     "pug": "^2.0.4",
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "nodemon": "^1.19.4"
+    "nodemon": "^1.19.4",
+    "minimist": ">=1.2.3",
+    "acorn": ">=5.7.4"
   }
 }
