@@ -1,7 +1,7 @@
 {
   "name": "BINK.js",
   "description": "BINK! rewritten in Node.js",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "author": "Ben Smith",
   "license": "Beerware",
   "repository": "https://github.com/programsam/binkjs.git",
@@ -16,15 +16,15 @@
     "express-mysql-session": "^2.1.4",
     "express-robots": "^0.2.0",
     "express-session": "^1.17.1",
-    "helmet": "^3.22.0",
+    "helmet": "^3.23.3",
     "mysql": "^2.18.1",
     "node-uuid": "*",
     "pug": "^2.0.4",
-    "winston": "^3.2.1"
+    "winston": "^3.3.3"
   },
   "devDependencies": {
-    "nodemon": "^1.19.4",
+    "acorn": "^7.3.1",
     "minimist": ">=1.2.3",
-    "acorn": ">=5.7.4"
+    "nodemon": "^2.0.4"
   }
 }
