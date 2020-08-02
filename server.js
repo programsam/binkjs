@@ -48,7 +48,7 @@ app.use(session({
   resave: false,
 	store: sessionstore,
   saveUninitialized: true,
-  cookie: { secure: settings.secureCookie }
+  cookie: settings.cookie
 }))
 
 const logger = makeLogger(path.basename(__filename));
