@@ -16,6 +16,9 @@
 	},
 	"admin_password": "mypassword",
 	"session_secret": "INSERT RANDOMIZED STRING",
-	"secureCookie": true,
+	"cookie": {
+		"secure": true,
+		"sameSite": true
+	}
 	"logLevel": "debug"
 }
