@@ -19,6 +19,6 @@
 	"cookie": {
 		"secure": true,
 		"sameSite": true
-	}
+	},
 	"logLevel": "debug"
 }
