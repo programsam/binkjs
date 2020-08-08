@@ -84,7 +84,7 @@ function loadBrowse() {
 
 	$.get('/views/browse', function(view) {
 		$('#main').html(view);
-		$.getScript('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js',
+		$.getScript('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.17.1/bootstrap-table.min.js',
 			function(data, status, jqXhr) {
 			$('#jamTable').bootstrapTable({
 				columns: [
@@ -362,7 +362,7 @@ function loadEntity(type, id) {
         }
       })
     }
-		$.getScript('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js',
+		$.getScript('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.17.1/bootstrap-table.min.js',
 			function(data, status, jqXhr) {
 			$('#entityJamTable').bootstrapTable({
 				columns: [
