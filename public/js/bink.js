@@ -399,10 +399,10 @@ function loadEntity(type, id) {
       $.get(`/api/entity/locations/${id}`, function(location) {
         if (location.lat && location.lon) {
           loadScripts(['googleMaps'], itemMapScriptsLoaded, function() {
-            mapLocation(loc);
-          }])
-        }
-      })
+            mapLocation(location);
+          }); //load the google maps API.
+        } //only load maps if item has lat and lon
+      }) //if we're looking at a location, see if it has a lat & lon
     }
 		loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
 			$('#entityJamTable').bootstrapTable({
@@ -550,7 +550,7 @@ function loadJam(id) {
       if (loc.lat && loc.lon) {
         loadScripts(['googleMaps'], itemMapScriptsLoaded, function() {
           mapLocation(loc);
-        }])
+        })
         $(window).scrollTop(0);
       }
 		})
