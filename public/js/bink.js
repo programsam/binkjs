@@ -73,7 +73,6 @@ function loadScript(scriptName, callback) {
       //put the script(s) in an element on the page
       $(`#${scriptName}Holder`).html(view);
       //gotta make them an array so we can iterate them as scripts
-      var scripts = $(`.${scriptName}Scripts`).toArray();
       var waitForExecution = setInterval(function() {
         if (scriptName === "bootstrapTable" && typeof $().bootstrapTable === "function") {
           clearInterval(waitForExecution);
@@ -81,7 +80,7 @@ function loadScript(scriptName, callback) {
         } else if (scriptName === "bootstrapAutocomplete" && typeof $().autoComplete === "function") {
           clearInterval(waitForExecution);
           callback();
-        } else if (scriptName === "tempusDominus" && typeof $().datetimepicker === "function") {
+        } else if (scriptName === "tempusDominus" && typeof moment === "function" && typeof $().datetimepicker === "function") {
           clearInterval(waitForExecution);
           callback();
         }
