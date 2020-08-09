@@ -65,31 +65,33 @@ $(document).ready(function() {
 	}) //get logged in
 }) //document.ready
 
-function loadScript(scriptName, callback) {
+// fancy schmancy script loading stuff.
+//
+// pass an array of scriptNames, which will load views. but it also
+// checks that the javascript is not only loaded on the page, but has
+// finished executing; this is the checkLoaded() call.  we will async
+// call checkLoaded until it comes back true and then we'll call you
+// back.  checkLoaded() returns a boolean of variables that ought to
+// be initialized before we can move on.
+function loadScripts(scriptNames, checkLoaded, callback) {
   //only load the script if it isn't loaded yet
-  if ($(`#${scriptName}Holder`).html() === "") {
-    //grab the script holder from the views
-    $.get(`/views/scriptHolders/${scriptName}`, function(view) {
-      //put the script(s) in an element on the page
-      $(`#${scriptName}Holder`).html(view);
-      //gotta make them an array so we can iterate them as scripts
-      var waitForExecution = setInterval(function() {
-        if (scriptName === "bootstrapTable" && typeof $().bootstrapTable === "function") {
-          clearInterval(waitForExecution);
-          callback();
-        } else if (scriptName === "bootstrapAutocomplete" && typeof $().autoComplete === "function") {
-          clearInterval(waitForExecution);
-          callback();
-        } else if (scriptName === "tempusDominus" && typeof moment === "function" && typeof $().datetimepicker === "function") {
-          clearInterval(waitForExecution);
-          callback();
-        }
-      }, 100);
-    })
-  } else {
-    //script loaded; move on with your life
-    callback();
-  }
+  scriptNames.forEach(function(scriptName) {
+    if ($(`#${scriptName}Holder`).html() === "") {
+      //grab the script holder from the views
+      $.get(`/views/scriptHolders/${scriptName}`, function(view) {
+        //put the script(s) in an element on the page
+        $(`#${scriptName}Holder`).html(view);
+      }) //load the scriptholder view
+    }
+  })
+
+  //call checkloaded super often to see if we're done
+  var waitForExecution = setInterval(function() {
+    if (checkLoaded()) {
+      clearInterval(waitForExecution); //we're done; clear the interval
+      callback(); //things are ready; resume life
+    }
+  }, 50); //checkloaded
 }
 
 function createNew() {
@@ -104,6 +106,20 @@ function createNew() {
 	});
 }
 
+function bootstrapTableLoaded() {
+  return (typeof $().bootstrapTable === "function");
+}
+
+function editJamScriptsLoaded() {
+  var bootstrapAutocompleteLoaded = (typeof $().autoComplete === "function");
+  var tempusDominusLoaded = (typeof moment === "function" && typeof $().datetimepicker === "function");
+  var jqueryFileUploadLoaded = (typeof $().uploadFile === "function");
+
+  return (tempusDominusLoaded &&
+          bootstrapAutocompleteLoaded &&
+          jqueryFileUploadLoaded);
+}
+
 function loadBrowse() {
 	$('.nav-link.active').removeClass('active');
 	$('#browseButton').addClass('active');
@@ -111,7 +127,7 @@ function loadBrowse() {
 
 	$.get('/views/browse', function(view) {
 		$('#main').html(view);
-		loadScript('bootstrapTable', function() {
+		loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
       $('#jamTable').bootstrapTable({
 				columns: [
 					{field:'date',
@@ -382,13 +398,13 @@ function loadEntity(type, id) {
     if (type === "locations") {
       $.get(`/api/entity/locations/${id}`, function(location) {
         if (location.lat && location.lon) {
-          loadMapsAPI(function() {
-            mapLocation(location);
-          })
+          loadScripts(['googleMaps'], itemMapScriptsLoaded, function() {
+            mapLocation(loc);
+          }])
         }
       })
     }
-		loadScript('bootstrapTable', function() {
+		loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
 			$('#entityJamTable').bootstrapTable({
 				columns: [
 					{field:'date',
@@ -463,14 +479,29 @@ function loadHistoricJams() {
 	});
 }
 
+function overviewMapScriptsLoaded() {
+  return (typeof google === "object" &&
+          typeof google.maps === "object" &&
+          typeof google.maps.Map === "function" &&
+          typeof MarkerClusterer === "function"
+        );
+}
+
+function itemMapScriptsLoaded() {
+  return (typeof google === "object" &&
+          typeof google.maps === "object" &&
+          typeof google.maps.Map === "function"
+        );
+}
+
 let infowindow = null;
 function loadMap() {
   $('.nav-link.active').removeClass('active');
   $('#mapButton').addClass('active');
   location.hash = "map";
   $("#main").html("Loading...")
-	loadClustererAPI(function() {
-		let coordinates = new google.maps.LatLng(39.944465, -97.350595);
+  loadScripts(['googleMaps', 'markerClusterer'], overviewMapScriptsLoaded, function() {
+    let coordinates = new google.maps.LatLng(39.944465, -97.350595);
 		let mapOptions = {
 			center : coordinates,
 			zoom : 5
@@ -496,15 +527,14 @@ function loadMap() {
           })
         })
         markers.push(thismarker);
-      })
+      })  //populate the map with markers
       let mcOptions = {
         imagePath: '/img/m'
       };
       let markercluster = new MarkerClusterer(map, markers, mcOptions);
-    })
-
-  })
-}
+    }) //grap the map locations
+  }) //grap the scripts
+} //loadMap()
 
 
 function loadJam(id) {
@@ -518,9 +548,9 @@ function loadJam(id) {
     });
 		$.get(`/api/jam/${id}/location`, function(loc) {
       if (loc.lat && loc.lon) {
-        loadMapsAPI(function() {
-  				mapLocation(loc);
-  			})
+        loadScripts(['googleMaps'], itemMapScriptsLoaded, function() {
+          mapLocation(loc);
+        }])
         $(window).scrollTop(0);
       }
 		})
@@ -636,57 +666,56 @@ function reloadStaff(id, focus) {
 function editJam(id) {
 	location.hash = "edit-" + id;
 	$('.nav-link.active').removeClass('active');
-  loadScript('bootstrapAutocomplete', function() {
-    loadScript('tempusDominus', function() {
-      $.get(`/views/admin/jam/edit/${id}`, function(view) {
-    		$('#main').html(view);
-        reloadMusicians(id);
-        reloadStaff(id);
-        $('#deleteJamButton').click(deleteJam);
-        $('#saveJamButton').click(saveJam);
-        $('#cancelJamButton').click(cancelEditJam);
+  loadScripts(['bootstrapAutocomplete', 'tempusDominus', 'jqueryFileUpload'],
+    editJamScriptsLoaded, function() {
+    $.get(`/views/admin/jam/edit/${id}`, function(view) {
+  		$('#main').html(view);
+      reloadMusicians(id);
+      reloadStaff(id);
+      $('#deleteJamButton').click(deleteJam);
+      $('#saveJamButton').click(saveJam);
+      $('#cancelJamButton').click(cancelEditJam);
 
-        $(window).scrollTop(0);
+      $(window).scrollTop(0);
 
-        //Setup location autocomplete
-        $('#jamlocation').autoComplete({
-          resolverSettings: {
-            url: '/api/entity/search/locations'
+      //Setup location autocomplete
+      $('#jamlocation').autoComplete({
+        resolverSettings: {
+          url: '/api/entity/search/locations'
+        }
+      })
+
+      //When the user selects a location
+      $('#jamlocation').on('autocomplete.select',
+        function(event, item) {
+          if (typeof item !== "undefined") {
+            console.log(`Location selected: ${JSON.stringify(item)}`)
+            $('#locid').attr('data-id', `${item.value}`);
           }
-        })
+      })
 
-        //When the user selects a location
-        $('#jamlocation').on('autocomplete.select',
-          function(event, item) {
-            if (typeof item !== "undefined") {
-              console.log(`Location selected: ${JSON.stringify(item)}`)
-              $('#locid').attr('data-id', `${item.value}`);
-            }
-        })
+      //When the user adds a new location
+      $('#jamlocation').on('autocomplete.freevalue', addNewLocation)
 
-        //When the user adds a new location
-        $('#jamlocation').on('autocomplete.freevalue', addNewLocation)
+      //Setup band autocomplete
+      $('#jamband').autoComplete({
+        resolverSettings: {
+          url: '/api/entity/search/bands'
+        }
+      })
 
-        //Setup band autocomplete
-        $('#jamband').autoComplete({
-          resolverSettings: {
-            url: '/api/entity/search/bands'
+      //when the user selects a band
+      $('#jamband').on('autocomplete.select',
+        function(event, item) {
+          if (typeof item !== "undefined") {
+            console.log(`Band selected: ${JSON.stringify(item)}`)
+            $('#bandid').attr('data-id', `${item.value}`);
           }
-        })
+      })
 
-        //when the user selects a band
-        $('#jamband').on('autocomplete.select',
-          function(event, item) {
-            if (typeof item !== "undefined") {
-              console.log(`Band selected: ${JSON.stringify(item)}`)
-              $('#bandid').attr('data-id', `${item.value}`);
-            }
-        })
-
-        //When the user adds a new band
-        $('#jamband').on('autocomplete.freevalue', addNewBand)
-    	})
-    })
+      //When the user adds a new band
+      $('#jamband').on('autocomplete.freevalue', addNewBand)
+  	})
   })
 
 }
@@ -952,32 +981,6 @@ function saveJam() {
 		   binkAlert("Error occurred while creating jam. Error was: " + jqXHR.responseText);
     }
   });
-}
-
-function loadClustererAPI(callback) {
-  loadMapsAPI(function() {
-    if (this.hasOwnProperty('MarkerClusterer')) {
-      callback();
-    } else {
-      $.getScript(`https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer_compiled.js`,
-        function(script, textStatus, jqXhr) {
-        callback();
-      })
-    }
-  })
-}
-
-function loadMapsAPI(callback) {
-	if (this.hasOwnProperty('google') && google.hasOwnProperty('maps')) {
-		callback();
-	} else {
-		$.get("/api/maps/key", function(data) {
-			$.getScript(`https://maps.googleapis.com/maps/api/js?key=${data}`,
-				function(script, textStatus, jqXhr) {
-					callback();
-				})
-		})
-	}
 }
 
 function mapLocation(loc) {
