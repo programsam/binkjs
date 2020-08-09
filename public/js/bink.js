@@ -575,6 +575,17 @@ function deleteJam() {
 	});
 }
 
+function reloadTracks(id, focus) {
+  $.get(`/views/admin/jam/${id}/edit/tracks`, function(tracksView) {
+    $('#tracksHolder').html(tracksView);
+
+    $('#filesToUpload').uploadFile({
+      url: `/api/tracks/upload`,
+      multiple: true
+    })
+  })
+}
+
 function reloadMusicians(id, focus) {
   $.get(`/views/admin/jam/${id}/edit/musicians`, function(musicianView) {
     $('#musicianHolder').html(musicianView)
@@ -672,6 +683,7 @@ function editJam(id) {
   		$('#main').html(view);
       reloadMusicians(id);
       reloadStaff(id);
+      reloadTracks(id);
       $('#deleteJamButton').click(deleteJam);
       $('#saveJamButton').click(saveJam);
       $('#cancelJamButton').click(cancelEditJam);

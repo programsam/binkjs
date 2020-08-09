@@ -1,0 +1,27 @@
+if (jam.tracks && jam.tracks.length > 0)
+  .card
+    .card-body
+      h5.card-title Music
+      ul.list-group
+      for track in jam.tracks
+        li.list-group-item
+          if (track.title === "--------------------")
+            | &nbsp;
+          else
+            a(href=track.path) #{track.title}
+            if (track.notes)
+              | &nbsp;- #{track.notes}
+            p.float-right
+              a(href='javascript:playImmediately("' + track.title + '", "' + track.path + '");')
+                i.fa.fa-play.fa-sm
+              | &nbsp;&nbsp;
+              a(href='javascript:enqueue("' + track.title + '", "' + track.path + '");')
+                i.fa.fa-plus.fa-sm
+else
+  em No tracks.
+.row.mt-3
+  .col
+    h6 Add New Tracks
+    .row
+      .col#filesToUpload
+        
