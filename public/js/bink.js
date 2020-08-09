@@ -65,6 +65,34 @@ $(document).ready(function() {
 	}) //get logged in
 }) //document.ready
 
+function loadScript(scriptName, callback) {
+  //only load the script if it isn't loaded yet
+  if ($(`#${scriptName}Holder`).html() === "") {
+    //grab the script holder from the views
+    $.get(`/views/scriptHolders/${scriptName}`, function(view) {
+      //put the script(s) in an element on the page
+      $(`#${scriptName}Holder`).html(view);
+      //gotta make them an array so we can iterate them as scripts
+      var scripts = $(`.${scriptName}Scripts`).toArray();
+      var waitForExecution = setInterval(function() {
+        if (scriptName === "bootstrapTable" && typeof $().bootstrapTable === "function") {
+          clearInterval(waitForExecution);
+          callback();
+        } else if (scriptName === "bootstrapAutocomplete" && typeof $().autoComplete === "function") {
+          clearInterval(waitForExecution);
+          callback();
+        } else if (scriptName === "tempusDominus" && typeof $().datetimepicker === "function") {
+          clearInterval(waitForExecution);
+          callback();
+        }
+      }, 100);
+    })
+  } else {
+    //script loaded; move on with your life
+    callback();
+  }
+}
+
 function createNew() {
 	$.ajax({
 		method : "POST",
@@ -84,9 +112,8 @@ function loadBrowse() {
 
 	$.get('/views/browse', function(view) {
 		$('#main').html(view);
-		$.getScript('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.17.1/bootstrap-table.min.js',
-			function(data, status, jqXhr) {
-			$('#jamTable').bootstrapTable({
+		loadScript('bootstrapTable', function() {
+      $('#jamTable').bootstrapTable({
 				columns: [
 					{field:'date',
 						title:'Date',
@@ -127,11 +154,11 @@ function loadBrowse() {
 					refresh: 'fas fa-sync',
 					columns: 'fas fa-columns'
 				}
-			});
+			}); //bootstrapTable init
       $(window).scrollTop(0);
-		})
-	})
-}
+    }) //loadScript + callback
+	}) //.get the browse view
+} //loadBrowse()
 
 function privateFormatter(value, row) {
 	if (row.private) {
@@ -196,8 +223,8 @@ function hasVidsFormatter(value) {
 function showAdmin()
 {
 	$.get('/views/admin/dropdown', function(view) {
-		$('#adminItem').addClass('dropdown');
-		$('#adminItem').html(view);
+    $('#adminItem').html(view);
+    $('#adminItem').addClass('dropdown');
 		$("#logoutButton").click(logout);
 		$('#newButton').click(createNew);
 	})
@@ -362,8 +389,7 @@ function loadEntity(type, id) {
         }
       })
     }
-		$.getScript('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.17.1/bootstrap-table.min.js',
-			function(data, status, jqXhr) {
+		loadScript('bootstrapTable', function() {
 			$('#entityJamTable').bootstrapTable({
 				columns: [
 					{field:'date',
@@ -405,11 +431,11 @@ function loadEntity(type, id) {
 					refresh: 'fas fa-sync',
 					columns: 'fas fa-columns'
 				}
-			});
+			}); //end bootstrapTable definition
       $(window).scrollTop(0);
-		})
-	})
-}
+		}) //loadScript call
+	}) //get /type/id
+} //load entity
 
 function loadRecentJams() {
 	$('.nav-link.active').removeClass('active');
@@ -611,50 +637,59 @@ function reloadStaff(id, focus) {
 function editJam(id) {
 	location.hash = "edit-" + id;
 	$('.nav-link.active').removeClass('active');
-	$.get(`/views/jam/edit/${id}`, function(view) {
-		$('#main').html(view);
-    reloadMusicians(id);
-    reloadStaff(id);
-    $('#deleteJamButton').click(deleteJam);
-    $('#saveJamButton').click(saveJam);
-    $('#cancelJamButton').click(cancelEditJam);
+  loadScript('bootstrapAutocomplete', function() {
+    loadScript('tempusDominus', function() {
+      $.get(`/views/jam/edit/${id}`, function(view) {
+    		$('#main').html(view);
+        reloadMusicians(id);
+        reloadStaff(id);
+        $('#deleteJamButton').click(deleteJam);
+        $('#saveJamButton').click(saveJam);
+        $('#cancelJamButton').click(cancelEditJam);
 
-    $(window).scrollTop(0);
+        $(window).scrollTop(0);
 
-    //Setup location autocomplete
-    $('#jamlocation').autoComplete({
-      resolverSettings: {
-        url: '/api/entity/search/locations'
-      }
+        //Setup location autocomplete
+        $('#jamlocation').autoComplete({
+          resolverSettings: {
+            url: '/api/entity/search/locations'
+          }
+        })
+
+        //When the user selects a location
+        $('#jamlocation').on('autocomplete.select',
+          function(event, item) {
+            if (typeof item !== "undefined") {
+              console.log(`Location selected: ${JSON.stringify(item)}`)
+              $('#locid').attr('data-id', `${item.value}`);
+            }
+        })
+
+        //When the user adds a new location
+        $('#jamlocation').on('autocomplete.freevalue', addNewLocation)
+
+        //Setup band autocomplete
+        $('#jamband').autoComplete({
+          resolverSettings: {
+            url: '/api/entity/search/bands'
+          }
+        })
+
+        //when the user selects a band
+        $('#jamband').on('autocomplete.select',
+          function(event, item) {
+            if (typeof item !== "undefined") {
+              console.log(`Band selected: ${JSON.stringify(item)}`)
+              $('#bandid').attr('data-id', `${item.value}`);
+            }
+        })
+
+        //When the user adds a new band
+        $('#jamband').on('autocomplete.freevalue', addNewBand)
+    	})
     })
+  })
 
-    //When the user selects a location
-    $('#jamlocation').on('autocomplete.select',
-      function(event, item) {
-        console.log(`Location selected: ${JSON.stringify(item)}`)
-        $('#locid').attr('data-id', `${item.value}`);
-    })
-
-    //When the user adds a new location
-    $('#jamlocation').on('autocomplete.freevalue', addNewLocation)
-
-    //Setup band autocomplete
-    $('#jamband').autoComplete({
-      resolverSettings: {
-        url: '/api/entity/search/bands'
-      }
-    })
-
-    //when the user selects a band
-    $('#jamband').on('autocomplete.select',
-      function(event, item) {
-        console.log(`Band selected: ${JSON.stringify(item)}`)
-        $('#bandid').attr('data-id', `${item.value}`);
-    })
-
-    //When the user adds a new band
-    $('#jamband').on('autocomplete.freevalue', addNewBand)
-	})
 }
 
 //STAFF ACTIONS
