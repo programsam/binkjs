@@ -547,7 +547,7 @@ function deleteJam() {
 }
 
 function reloadMusicians(id, focus) {
-  $.get(`/views/jam/${id}/edit/musicians`, function(musicianView) {
+  $.get(`/views/admin/jam/${id}/edit/musicians`, function(musicianView) {
     $('#musicianHolder').html(musicianView)
 
     //Setup musician autocomplete
@@ -591,7 +591,7 @@ function reloadMusicians(id, focus) {
 }
 
 function reloadStaff(id, focus) {
-  $.get(`/views/jam/${id}/edit/staff`, function(staffView) {
+  $.get(`/views/admin/jam/${id}/edit/staff`, function(staffView) {
     $('#staffHolder').html(staffView)
 
     //Setup staff autocomplete
@@ -639,7 +639,7 @@ function editJam(id) {
 	$('.nav-link.active').removeClass('active');
   loadScript('bootstrapAutocomplete', function() {
     loadScript('tempusDominus', function() {
-      $.get(`/views/jam/edit/${id}`, function(view) {
+      $.get(`/views/admin/jam/edit/${id}`, function(view) {
     		$('#main').html(view);
         reloadMusicians(id);
         reloadStaff(id);
@@ -908,7 +908,7 @@ function createEntity(type, incomingName, callback) {
 }
 
 function showConfirmModal(message, yesFunction) {
-  $.get("/admin/confirmModal").done(function(view) {
+  $.get("/views/admin/confirmModal").done(function(view) {
     $('#main').append(view);
     $('#confirm-text').text(message)
     $('#yesButton').off();
