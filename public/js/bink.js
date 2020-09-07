@@ -113,11 +113,11 @@ function bootstrapTableLoaded() {
 function editJamScriptsLoaded() {
   var bootstrapAutocompleteLoaded = (typeof $().autoComplete === "function");
   var tempusDominusLoaded = (typeof moment === "function" && typeof $().datetimepicker === "function");
-  var jqueryFileUploadLoaded = (typeof $().uploadFile === "function");
+  var dropzoneUploaded = (typeof Dropzone === "function");
 
   return (tempusDominusLoaded &&
           bootstrapAutocompleteLoaded &&
-          jqueryFileUploadLoaded);
+          dropzoneUploaded);
 }
 
 function loadBrowse() {
@@ -578,11 +578,9 @@ function deleteJam() {
 function reloadTracks(id, focus) {
   $.get(`/views/admin/jam/${id}/edit/tracks`, function(tracksView) {
     $('#tracksHolder').html(tracksView);
-
-    $('#filesToUpload').uploadFile({
-      url: `/api/tracks/upload`,
-      multiple: true
-    })
+    var theZone = new Dropzone('#theZone', {
+      url: '/api/files/upload'
+    });
   })
 }
 
@@ -677,7 +675,7 @@ function reloadStaff(id, focus) {
 function editJam(id) {
 	location.hash = "edit-" + id;
 	$('.nav-link.active').removeClass('active');
-  loadScripts(['bootstrapAutocomplete', 'tempusDominus', 'jqueryFileUpload'],
+  loadScripts(['bootstrapAutocomplete', 'tempusDominus', 'dropzone'],
     editJamScriptsLoaded, function() {
     $.get(`/views/admin/jam/edit/${id}`, function(view) {
   		$('#main').html(view);
