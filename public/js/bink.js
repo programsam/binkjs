@@ -76,6 +76,12 @@ $(document).ready(function() {
 function loadScripts(scriptNames, checkLoaded, callback) {
   //only load the script if it isn't loaded yet
   scriptNames.forEach(function(scriptName) {
+    //look for an existing script holder
+    if ($(`#${scriptName}Holder`).length === 0) {
+      //the holder does not exist; create it.
+      $('#scriptHolders').append(`<div id='${scriptName}Holder'></div>`);
+    }
+    //separately, we need to check if the holder has a script in it.
     if ($(`#${scriptName}Holder`).html() === "") {
       //grab the script holder from the views
       $.get(`/views/scriptHolders/${scriptName}`, function(view) {
