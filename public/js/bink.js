@@ -112,10 +112,14 @@ function bootstrapTableLoaded() {
 
 function editJamScriptsLoaded() {
   var bootstrapAutocompleteLoaded = (typeof $().autoComplete === "function");
-  var tempusDominusLoaded = (typeof moment === "function" && typeof $().datetimepicker === "function");
+  var momentLoaded = (typeof moment === "function");
+  var tempusDominusLoaded = false;
+  if (momentLoaded)
+    tempusDominusLoaded = (typeof $().datetimepicker === "function");
   var dropzoneUploaded = (typeof Dropzone === "function");
 
-  return (tempusDominusLoaded &&
+  return (momentLoaded &&
+          tempusDominusLoaded &&
           bootstrapAutocompleteLoaded &&
           dropzoneUploaded);
 }
@@ -675,7 +679,7 @@ function reloadStaff(id, focus) {
 function editJam(id) {
 	location.hash = "edit-" + id;
 	$('.nav-link.active').removeClass('active');
-  loadScripts(['bootstrapAutocomplete', 'tempusDominus', 'dropzone'],
+  loadScripts(['moment', 'bootstrapAutocomplete', 'dropzone', 'tempusDominus'],
     editJamScriptsLoaded, function() {
     $.get(`/views/admin/jam/edit/${id}`, function(view) {
   		$('#main').html(view);
