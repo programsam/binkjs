@@ -14,6 +14,9 @@ if (jam.tracks && jam.tracks.length > 0)
           | &nbsp;&nbsp;&nbsp;
           a(href='javascript:deleteTrack(' + track.id + ');')
             i.far.fa-trash-alt
+          | &nbsp;&nbsp;&nbsp;
+          a(href=track.path)
+            i.fas.fa-download
 else
   em No tracks.
 .row.mt-3

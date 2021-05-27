@@ -620,6 +620,19 @@ function syncMedia(type) {
 	});
 }
 
+function stripTrackNumbers() {
+  var id = $('#jamid').data('id');
+  $.ajax({
+		method : "POST",
+		url : `/admin/jam/${id}/stripTrackNumbers`,
+		contentType : "application/json"
+	}).done(function(msg) {
+    reloadTracks(id);
+	}).fail(function(jqXHR) { //failure connecting or similar
+	  binkAlert("Error occurred while stripping track numbers. Error was: " + jqXHR.responseText);
+	});
+}
+
 function reloadMusicians(id, focus) {
   $.get(`/views/admin/jam/${id}/edit/musicians`, function(musicianView) {
     $('#musicianHolder').html(musicianView)

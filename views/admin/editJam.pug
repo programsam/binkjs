@@ -64,9 +64,12 @@ else
       .row.mt-3
         .col-11
           h5 Music
-        .col-1
+        .col-1.float-right
           a(href='javascript:syncMedia("snd");')
-            i.fas.fa-sync.float-right
+            i.fas.fa-sync
+          | &nbsp;&nbsp;
+          a(href='javascript:stripTrackNumbers();')
+            i.fas.fa-broom
       .row
         .col#tracksHolder
     p.float-right
