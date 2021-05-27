@@ -86,9 +86,6 @@ if (jam.tracks && jam.tracks.length > 0)
             p.float-right
               a(href='javascript:playImmediately("' + track.title + '", "' + track.path + '");')
                 i.fa.fa-play.fa-sm
-              | &nbsp;&nbsp;
-              a(href='javascript:enqueue("' + track.title + '", "' + track.path + '");')
-                i.fa.fa-plus.fa-sm
 if (jam.video && jam.video.length > 0)
   .card
     .card-body
