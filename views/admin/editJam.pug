@@ -62,9 +62,13 @@ else
           h5 Staff
           #staffHolder
       .row.mt-3
-        .col
+        .col-11
           h5 Music
-          #tracksHolder
+        .col-1
+          a(href='javascript:syncMedia("snd");')
+            i.fas.fa-sync.float-right
+      .row
+        .col#tracksHolder
     p.float-right
       button#deleteJamButton.float-right.btn.btn-secondary Delete
       button#cancelJamButton.float-right.btn.btn-secondary.mr-2 Cancel

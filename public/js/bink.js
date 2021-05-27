@@ -585,6 +585,19 @@ function deleteJam() {
 	});
 }
 
+function deleteTrack(trackid) {
+  var jamid = $('#jamid').data('id');
+  $.ajax({
+		method : "DELETE",
+		url : `/admin/jam/${jamid}/tracks/${trackid}`,
+		contentType : "application/json"
+	}).done(function(msg) {
+    reloadTracks(jamid);
+	}).fail(function(jqXHR) { //failure connecting or similar
+		binkAlert("Error occurred while deleting track. Error was: " + jqXHR.responseText);
+	});
+}
+
 function reloadTracks(id, focus) {
   $.get(`/views/admin/jam/${id}/edit/tracks`, function(tracksView) {
     $('#tracksHolder').html(tracksView);
