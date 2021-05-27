@@ -9,10 +9,11 @@ const async				= require('async');
 const bodyParser 	= require('body-parser');
 const pug					= require('pug');
 const Processing 	= require("./lib/processing.js");
+const BINKS3			= require("./lib/binks3.js");
 const api					= require("./lib/api.js");
 const adminapi		= require("./lib/adminapi.js");
 const views				= require("./lib/views.js");
-const makeLogger = require("./lib/loggerfactory.js");
+const makeLogger  = require("./lib/loggerfactory.js");
 const helmet 			= require('helmet');
 const robots 			= require('express-robots');
 
@@ -20,24 +21,24 @@ let settings = require('./settings');
 
 settings.mysql.multipleStatements = true;
 
-function sql() {
-	return mysql.createConnection(settings.mysql);
-}
+const logger = makeLogger(path.basename(__filename));
 
-let connection = sql();
-connection.query('SELECT * FROM jams', function(err, rows) {
-	if (err)
-	{
-		logger.error("Issue connecting to database: " + err)
-		connection.end();
+Processing.testSQL(function(err) {
+	if (err) {
+		logger.critical(`There was an error connecting to the backend database. BINK will now exit.`);
 		process.exit(1);
+	} else {
+		logger.info(`Successfully connected to the backend database.`);
 	}
-	else
-	{
-		logger.info("Successfully queried database.")
-		connection.end();
+})
+
+BINKS3.testConnection(function(err, result) {
+	if (err) {
+		logger.error(`There was an error connecting to BINK's Media Bucket! Some functions may not work properly...`);
+	} else {
+		logger.info(`Successfully connected to BINK's Media Bucket!`);
 	}
-});
+})
 
 app.set('trust proxy', 1) // trust first proxy
 
@@ -50,8 +51,6 @@ app.use(session({
   saveUninitialized: true,
   cookie: settings.cookie
 }))
-
-const logger = makeLogger(path.basename(__filename));
 
 const webLogger = makeLogger('req');
 app.use(function(req, res, next) {
