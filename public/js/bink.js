@@ -594,6 +594,19 @@ function reloadTracks(id, focus) {
   })
 }
 
+function syncMedia(type) {
+  var id = $('#jamid').data('id');
+  $.ajax({
+		method : "POST",
+		url : `/admin/jam/${id}/sync/${type}`,
+		contentType : "application/json"
+	}).done(function(msg) {
+    reloadTracks(id);
+	}).fail(function(jqXHR) { //failure connecting or similar
+		binkAlert("Error occurred while synchronizing tracks. Error was: " + jqXHR.responseText);
+	});
+}
+
 function reloadMusicians(id, focus) {
   $.get(`/views/admin/jam/${id}/edit/musicians`, function(musicianView) {
     $('#musicianHolder').html(musicianView)
