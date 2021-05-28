@@ -34,6 +34,16 @@ else
     .card-body
       .row
         .col
+          .form-check.float-right
+            if (jam.private)
+              input.form-check-input(type='checkbox' checked id='isJamPrivate')
+            else
+              input.form-check-input(type='checkbox' id='isJamPrivate')
+            label.form-check-label(for='isJamPrivate')
+              i.fa.fa-key.fa-lg.mr-1
+              | Private
+      .row
+        .col
           h5 Location
           if (jam.location)
             select#jamlocation.form-control(name="location", placeholder=jam.location.name, autocomplete="off")

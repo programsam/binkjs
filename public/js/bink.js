@@ -721,6 +721,24 @@ function reloadStaff(id, focus) {
   })
 }
 
+function setJamVisibility() {
+  var id = $('#jamid').data('id');
+  var toSend = {
+    private: $('#isJamPrivate').prop('checked')
+  }
+
+  $.ajax({
+		method : "PUT",
+		url : `/admin/jam/${id}/private`,
+		contentType : "application/json",
+    json: true,
+    data: JSON.stringify(toSend),
+    error: function(jqXHR) { //failure connecting or similar
+		   binkAlert("Error occurred while setting jam visibility. Error was: " + jqXHR.responseText);
+    } //end of error function
+  }); //end of ajax call
+}
+
 function editJam(id) {
 	location.hash = "edit-" + id;
 	$('.nav-link.active').removeClass('active');
@@ -734,6 +752,7 @@ function editJam(id) {
       $('#deleteJamButton').click(deleteJam);
       $('#saveJamButton').click(saveJam);
       $('#cancelJamButton').click(cancelEditJam);
+      $('#isJamPrivate').click(setJamVisibility);
 
       $(window).scrollTop(0);
 
