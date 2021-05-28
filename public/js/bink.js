@@ -325,9 +325,7 @@ function showLoginModal() {
 
 
 function playImmediately(setTitle, path) {
-	console.log("Title: " + setTitle)
-	console.log("Path: " + path)
-  $("#currentlyPlaying").text(`${setTitle}`);
+	$("#currentlyPlaying").text(`${setTitle}`);
   if (currentHowl !== null) {
     currentHowl.stop();
     currentHowl.unload();
@@ -366,7 +364,7 @@ function playCurrentHowl() {
   } if (currentHowl && currentHowl.playing()) {
     console.log(`Cannot play because the howl is currently playing.`);
   } else {
-    console.log(`Cannot play because: ${currentHowl}`);
+    console.log(`Cannot play because: ${JSON.stringify(currentHowl)}`);
   }
 }
 
@@ -378,7 +376,7 @@ function stopCurrentHowl() {
     clearInterval(currentTimer);
     $('#currentPosition').html('0:00 / 0:00')
   } else {
-    console.log(`Cannot stop because: ${currentHowl}`);
+    console.log(`Cannot stop because: ${JSON.stringify(currentHowl)}`);
   }
 }
 
@@ -389,7 +387,7 @@ function pauseCurrentHowl() {
     currentHowl.pause();
     clearInterval(currentTimer);
   } else {
-    console.log(`Cannot pause because: ${currentHowl}`);
+    console.log(`Cannot pause because: ${JSON.stringify(currentHowl)}`);
   }
 }
 
@@ -647,7 +645,6 @@ function reloadMusicians(id, focus) {
     //when the user selects a musician
     $('#addmusician').on('autocomplete.select',
       function(event, item) {
-        console.log(`Musician selected: ${JSON.stringify(item)}`)
         checkAddMusicianForm();
     })
 
@@ -664,7 +661,6 @@ function reloadMusicians(id, focus) {
     //when the user selects an instrument
     $('#addinstrument').on('autocomplete.select',
       function(event, item) {
-        console.log(`Instrument selected: ${JSON.stringify(item)}`)
         checkAddMusicianForm();
     })
 
@@ -691,7 +687,6 @@ function reloadStaff(id, focus) {
     //when the user selects a staff
     $('#addstaff').on('autocomplete.select',
       function(event, item) {
-        console.log(`Staff selected: ${JSON.stringify(item)}`)
         checkAddStaffForm();
     })
 
@@ -708,7 +703,6 @@ function reloadStaff(id, focus) {
     //when the user selects a role
     $('#addrole').on('autocomplete.select',
       function(event, item) {
-        console.log(`Role selected: ${JSON.stringify(item)}`)
         checkAddStaffForm();
     })
 
@@ -767,7 +761,6 @@ function editJam(id) {
       $('#jamlocation').on('autocomplete.select',
         function(event, item) {
           if (typeof item !== "undefined") {
-            console.log(`Location selected: ${JSON.stringify(item)}`)
             $('#locid').attr('data-id', `${item.value}`);
           }
       })
@@ -786,7 +779,6 @@ function editJam(id) {
       $('#jamband').on('autocomplete.select',
         function(event, item) {
           if (typeof item !== "undefined") {
-            console.log(`Band selected: ${JSON.stringify(item)}`)
             $('#bandid').attr('data-id', `${item.value}`);
           }
       })
@@ -824,9 +816,7 @@ function removeEntireStaff(staffid) {
 function checkAddStaffForm() {
   var staffid = $('[name="addstaff"]').val();
   var roleid = $('[name="addrole"]').val();
-  console.log(`Staff: ${staffid}, Role: ${roleid} `)
   if (staffid > 0 && roleid > 0) {
-    console.log(`Based on that, I'm adding a new staff member!`);
     var id = $('#jamid').data('id');
     addStaffToJam(id, staffid, roleid);
   }
@@ -851,13 +841,11 @@ function addStaffToJam(jamid, staffid, roleid) {
 }
 
 function addNewStaff(event, item) {
-  console.log(`New staff was indicated: ${JSON.stringify(item)}`)
   showConfirmModal(
     `Are you sure you'd like to create the staff member "${item}" and select them for this jam?`,
   function() {
     $('#confirmModal').modal('hide');
     createEntity("staff", item, function(reply) {
-      console.log(`Staff created: ${JSON.stringify(reply)}`)
       $('#addstaff').autoComplete('set', { value: reply.id, text: reply.name });
       checkAddStaffForm();
     });
@@ -865,7 +853,6 @@ function addNewStaff(event, item) {
 }
 
 function addNewRole(event, item) {
-  console.log(`New role was indicated: ${JSON.stringify(item)}`)
   showConfirmModal(
     `Are you sure you'd like to create the role "${item}" and select it for this jam?`,
   function() {
@@ -873,7 +860,6 @@ function addNewRole(event, item) {
     var staffid = $('[name="addstaff"]').val();
     var jamid = $('#jamid').data('id');
     createEntity("roles", item, function(reply) {
-      console.log(`Role created: ${JSON.stringify(reply)}`)
       if (staffid) {
         addStaffToJam(jamid, staffid, reply.id);
       } else {
@@ -909,9 +895,7 @@ function removeEntireMusician(musicianid) {
 function checkAddMusicianForm() {
   var musicianid = $('[name="addmusician"]').val();
   var instrumentid = $('[name="addinstrument"]').val();
-  console.log(`Musician: ${musicianid}, Instrument: ${instrumentid} `)
   if (musicianid > 0 && instrumentid > 0) {
-    console.log(`Based on that, I'm adding a new musician!`);
     var id = $('#jamid').data('id');
     addMusicianToJam(id, musicianid, instrumentid);
   }
@@ -936,13 +920,11 @@ function addMusicianToJam(jamid, musicianid, instrumentid) {
 }
 
 function addNewMusician(event, item) {
-  console.log(`New musician was indicated: ${JSON.stringify(item)}`)
   showConfirmModal(
     `Are you sure you'd like to create the musician "${item}" and select them for this jam?`,
   function() {
     $('#confirmModal').modal('hide');
     createEntity("musicians", item, function(reply) {
-      console.log(`Musician created: ${JSON.stringify(reply)}`)
       $('#addmusician').autoComplete('set', { value: reply.id, text: reply.name });
       checkAddMusicianForm();
     });
@@ -950,7 +932,6 @@ function addNewMusician(event, item) {
 }
 
 function addNewInstrument(event, item) {
-  console.log(`New instrument was indicated: ${JSON.stringify(item)}`)
   showConfirmModal(
     `Are you sure you'd like to create the instrument "${item}" and select it for this jam?`,
   function() {
@@ -958,7 +939,6 @@ function addNewInstrument(event, item) {
     var musicianid = $('[name="addmusician"]').val();
     var jamid = $('#jamid').data('id');
     createEntity("instruments", item, function(reply) {
-      console.log(`Instrument created: ${JSON.stringify(reply)}`)
       if (musicianid) {
         addMusicianToJam(jamid, musicianid, reply.id);
       } else {
@@ -969,13 +949,11 @@ function addNewInstrument(event, item) {
 }
 
 function addNewLocation(event, item) {
-  console.log(`New location was indicated: ${JSON.stringify(item)}`)
   showConfirmModal(
     `Are you sure you'd like to create the location "${item}" and select it for this jam?`,
   function() {
     $('#confirmModal').modal('hide');
     createEntity("locations", item, function(reply) {
-      console.log(`Location created: ${JSON.stringify(reply)}`)
       $('#locid').attr('data-id', `${reply.id}`);
       $('#jamlocation').autoComplete('set', { value: reply.id, text: reply.name });
     });
@@ -983,13 +961,11 @@ function addNewLocation(event, item) {
 }
 
 function addNewBand(event, item) {
-  console.log(`New band was indicated: ${JSON.stringify(item)}`)
   showConfirmModal(
     `Are you sure you'd like to create the band "${item}" and select it for this jam?`,
   function() {
     $('#confirmModal').modal('hide');
     createEntity("bands", item, function(reply) {
-      console.log(`Band created: ${JSON.stringify(reply)}`)
       $('#bandid').attr('data-id', `${reply.id}`);
       $('#jamband').autoComplete('set', { value: reply.id, text: reply.name });
     });
