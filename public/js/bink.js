@@ -1,8 +1,5 @@
 let currentHowl = null;
-let lastOpenMarker = null;
 let currentTimer = null;
-let currentMusician = -1;
-let currentInstrument = -1;
 
 $.ajaxSetup({
   cache: true
