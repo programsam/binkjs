@@ -7,11 +7,9 @@ $.ajaxSetup({
 
 $( document ).ajaxError(function(event, request, settings, thrownError) {
   if (thrownError === "abort") {
-    console.log(`The request was aborted because they continue to type.`)
+    console.warn(`Request aborted; continuing to type.`)
   } else {
-    $('#alertTitle').html('Error!')
-  	$('#alertText').html(`An error occurred.`)
-  	$('#alertModal').modal('show');
+    binkAlert(`Server Error`, `The error is: ${thrownError}`);
   }
 });
 
@@ -104,9 +102,7 @@ function createNew() {
 		contentType : "application/json"
 	}).done(function(msg) {
 		editJam(msg.id);
-	}).fail(function(jqXHR) { //failure connecting or similar
-		binkAlert("Error occurred while creating jam. Error was: " + jqXHR.responseText);
-	});
+	})
 }
 
 function bootstrapTableLoaded() {
@@ -284,7 +280,7 @@ function login() {
 			$('#password').val('');
 			$('#password').focus();
 		}
-	}).fail(function(jqXHR) { //failure connecting or similar
+	}).fail(function() { //failure connecting or similar
 		$('#alert-container').children().remove();
 		$('#alert-container').append(`<div class="alert alert-primary" role="alert">Error occurred while logging in: ${jqXHR.responseText}</div>`)
 		$('#password').val('');
@@ -449,15 +445,13 @@ function loadRecentJams() {
 	$('#recentButton').addClass('active');
 	$("#main").html("Loading...")
   location.hash = "recent";
-	$.get("/api/recent", recentCallback).fail(function() {
-		binkAlert("Problem", "Could not load recent jams.")
-	})
+	$.get("/api/recent", recentCallback)
 }
 
 function binkAlert(title, alert) {
-	$("#thisAlert").html(alert)
-	$("#thisAlertTitle").html(title)
-	$("#alertModal").modal('show')
+	$("#binkAlertText").html(alert)
+	$("#binkAlertTitle").html(title)
+	$("#binkAlertModal").modal('show')
 }
 
 function loadHistoricJams() {
@@ -562,9 +556,7 @@ function deleteJam() {
     $('#alertModal').on('hide.bs.modal', function(e) {
       loadRecentJams();
     })
-	}).fail(function(jqXHR) { //failure connecting or similar
-		binkAlert("Error occurred while deleting jam. Error was: " + jqXHR.responseText);
-	});
+	})
 }
 
 function deleteTrack(trackid) {
@@ -575,9 +567,7 @@ function deleteTrack(trackid) {
 		contentType : "application/json"
 	}).done(function(msg) {
     $('#tracksTable').bootstrapTable('refresh');
-	}).fail(function(jqXHR) { //failure connecting or similar
-		binkAlert("Error occurred while deleting track. Error was: " + jqXHR.responseText);
-	});
+	})
 }
 
 function reloadTracksSection(id, focus) {
@@ -630,7 +620,7 @@ function reloadTracksSection(id, focus) {
     var theZone = new Dropzone('#theZone', {
       url: '/api/files/upload'
     });
-  })
+  }) //.get jam tracks view
 }
 
 function syncMedia(type) {
@@ -641,9 +631,7 @@ function syncMedia(type) {
 		contentType : "application/json"
 	}).done(function(msg) {
     $('#tracksTable').bootstrapTable('refresh');
-	}).fail(function(jqXHR) { //failure connecting or similar
-		binkAlert("Error occurred while synchronizing tracks. Error was: " + jqXHR.responseText);
-	});
+	})
 }
 
 function stripTrackNumbers() {
@@ -654,9 +642,7 @@ function stripTrackNumbers() {
 		contentType : "application/json"
 	}).done(function(msg) {
     $('#tracksTable').bootstrapTable('refresh');
-	}).fail(function(jqXHR) { //failure connecting or similar
-	  binkAlert("Error occurred while stripping track numbers. Error was: " + jqXHR.responseText);
-	});
+	})
 }
 
 function reloadMusicians(id, focus) {
