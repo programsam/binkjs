@@ -116,19 +116,6 @@ function bootstrapTableLoaded() {
   return (typeof $().bootstrapTable === "function");
 }
 
-function editJamScriptsLoaded() {
-  var bootstrapAutocompleteLoaded = (typeof $().autoComplete === "function");
-  var momentLoaded = (typeof moment === "function");
-  var tempusDominusLoaded = false;
-  if (momentLoaded)
-    tempusDominusLoaded = (typeof $().datetimepicker === "function");
-  var dropzoneUploaded = (typeof Dropzone === "function");
-
-  return (momentLoaded &&
-          tempusDominusLoaded &&
-          bootstrapAutocompleteLoaded &&
-          dropzoneUploaded);
-}
 
 function loadBrowse() {
 	$('.nav-link.active').removeClass('active');
@@ -733,60 +720,82 @@ function setJamVisibility() {
   }); //end of ajax call
 }
 
+
+function momentjsLoaded() {
+  return (typeof moment === "function");
+}
+
+function editJamScriptsLoaded() {
+  var bootstrapAutocompleteLoaded = (typeof $().autoComplete === "function");
+  var tempusDominusLoaded = false;
+  if (momentjsLoaded())
+    tempusDominusLoaded = (typeof $().datetimepicker === "function");
+  var dropzoneUploaded = (typeof Dropzone === "function");
+
+  return (momentjsLoaded() &&
+          tempusDominusLoaded &&
+          bootstrapAutocompleteLoaded &&
+          dropzoneUploaded);
+}
+
 function editJam(id) {
 	location.hash = "edit-" + id;
 	$('.nav-link.active').removeClass('active');
-  loadScripts(['moment', 'bootstrapAutocomplete', 'dropzone', 'tempusDominus'],
-    editJamScriptsLoaded, function() {
-    $.get(`/views/admin/jam/edit/${id}`, function(view) {
-  		$('#main').html(view);
-      reloadMusicians(id);
-      reloadStaff(id);
-      reloadTracks(id);
-      $('#deleteJamButton').click(deleteJam);
-      $('#saveJamButton').click(saveJam);
-      $('#cancelJamButton').click(cancelEditJam);
-      $('#isJamPrivate').click(setJamVisibility);
+  loadScripts(['moment'], momentjsLoaded, function() {
+    loadScripts(['bootstrapAutocomplete', 'dropzone', 'tempusDominus'],
+      editJamScriptsLoaded, function() {
+      $.get(`/views/admin/jam/edit/${id}`, function(view) {
+    		$('#main').html(view);
+        reloadMusicians(id);
+        reloadStaff(id);
+        reloadTracks(id);
+        $('#deleteJamButton').click(deleteJam);
+        $('#saveJamButton').click(saveJam);
+        $('#cancelJamButton').click(cancelEditJam);
+        $('#isJamPrivate').click(setJamVisibility);
 
-      $(window).scrollTop(0);
+        $(window).scrollTop(0);
 
-      //Setup location autocomplete
-      $('#jamlocation').autoComplete({
-        resolverSettings: {
-          url: '/api/entity/search/locations'
-        }
-      })
-
-      //When the user selects a location
-      $('#jamlocation').on('autocomplete.select',
-        function(event, item) {
-          if (typeof item !== "undefined") {
-            $('#locid').attr('data-id', `${item.value}`);
+        //Setup location autocomplete
+        $('#jamlocation').autoComplete({
+          resolverSettings: {
+            url: '/api/entity/search/locations'
           }
-      })
+        })
 
-      //When the user adds a new location
-      $('#jamlocation').on('autocomplete.freevalue', addNewLocation)
+        //When the user selects a location
+        $('#jamlocation').on('autocomplete.select',
+          function(event, item) {
+            if (typeof item !== "undefined") {
+              $('#locid').attr('data-id', `${item.value}`);
+            }
+        })
 
-      //Setup band autocomplete
-      $('#jamband').autoComplete({
-        resolverSettings: {
-          url: '/api/entity/search/bands'
-        }
-      })
+        //When the user adds a new location
+        $('#jamlocation').on('autocomplete.freevalue', addNewLocation)
 
-      //when the user selects a band
-      $('#jamband').on('autocomplete.select',
-        function(event, item) {
-          if (typeof item !== "undefined") {
-            $('#bandid').attr('data-id', `${item.value}`);
+        //Setup band autocomplete
+        $('#jamband').autoComplete({
+          resolverSettings: {
+            url: '/api/entity/search/bands'
           }
-      })
+        })
 
-      //When the user adds a new band
-      $('#jamband').on('autocomplete.freevalue', addNewBand)
-  	})
+        //when the user selects a band
+        $('#jamband').on('autocomplete.select',
+          function(event, item) {
+            if (typeof item !== "undefined") {
+              $('#bandid').attr('data-id', `${item.value}`);
+            }
+        })
+
+        //When the user adds a new band
+        $('#jamband').on('autocomplete.freevalue', addNewBand)
+    	})
+    })
   })
+}
+
 
 }
 
