@@ -1,22 +1,5 @@
 if (jam.tracks && jam.tracks.length > 0)
-  ul.list-group
-  for track in jam.tracks
-    li.list-group-item
-      if (track.title === "--------------------")
-        | &nbsp;
-      else
-        a(href=track.path) #{track.title}
-        if (track.notes)
-          | &nbsp;- #{track.notes}
-        p.float-right
-          a(href='javascript:playImmediately("' + track.title + '", "' + track.path + '");')
-            i.fa.fa-play.fa-sm
-          | &nbsp;&nbsp;&nbsp;
-          a(href='javascript:deleteTrack(' + track.id + ');')
-            i.far.fa-trash-alt
-          | &nbsp;&nbsp;&nbsp;
-          a(href=track.path)
-            i.fas.fa-download
+  table.table#trackTable
 else
   em No tracks.
 .row.mt-3

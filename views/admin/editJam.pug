@@ -72,16 +72,9 @@ else
           h5 Staff
           #staffHolder
       .row.mt-3
-        .col-11
+        .col
           h5 Music
-        .col-1.float-right
-          a(href='javascript:syncMedia("snd");')
-            i.fas.fa-sync
-          | &nbsp;&nbsp;
-          a(href='javascript:stripTrackNumbers();')
-            i.fas.fa-broom
-      .row
-        .col#tracksHolder
+          #tracksHolder
     p.float-right
       button#deleteJamButton.float-right.btn.btn-secondary Delete
       button#cancelJamButton.float-right.btn.btn-secondary.mr-2 Cancel
