@@ -611,7 +611,6 @@ function trackChanged(element) {
 }
 
 function reloadTracksSection(id, focus) {
-  $('#tracksHolder').html(tracksView);
   var jamid = $('#jamid').data('id');
   loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
 
