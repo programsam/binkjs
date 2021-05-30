@@ -550,10 +550,8 @@ function deleteJam() {
 		url : `/admin/jam/${id}`,
 		contentType : "application/json"
 	}).done(function(msg) {
-    $('#alertTitle').html('Deleted')
-  	$('#alertText').html(`Successfully deleted jam #${id}!`)
-  	$('#alertModal').modal('show');
-    $('#alertModal').on('hide.bs.modal', function(e) {
+    binkAlert(`Deleted`, `Successfully deleted jam ${id}!`);
+    $('#binkAlertModal').on('hide.bs.modal', function(e) {
       loadRecentJams();
     })
 	})
