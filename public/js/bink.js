@@ -568,11 +568,54 @@ function deleteTrack(trackid) {
 	})
 }
 
+function trackTitleFormatter(value, row) {
+  return `<input class='form-control form-control-sm track-title' id='track-title-${row.id}' data-track-id='${row.id}' value='${value}' onchange='trackChanged(this);' />`;
+}
+
+function trackNotesFormatter(value, row) {
+  if (null === value) {
+    value = "";
+  }
+  return `<input class='form-control form-control-sm track-notes' id='track-notes-${row.id}' data-track-id='${row.id}' value='${value}' onchange='trackChanged(this);' placeholder='Add notes to this track' />`;
+}
+
+function trackChanged(element) {
+  var elementToGetTrackID = $(element);
+  var trackid = elementToGetTrackID.data('track-id');
+
+  var trackTitleJQ = $(`#track-title-${trackid}`);
+  var newTitle = trackTitleJQ.val();
+
+  var trackNotesJQ = $(`#track-notes-${trackid}`);
+  var newNotes = trackNotesJQ.val();
+
+  if (trackTitleJQ.data('previousTitle') !== newTitle ||
+      trackNotesJQ.data('previousNotes') !== newNotes) {
+    trackTitleJQ.data('previousTitle', newTitle);
+    trackNotesJQ.data('previousNotes', newNotes);
+
+    var jamid = $('#jamid').data('id');
+    var toSend = {
+      title: newTitle,
+      notes: newNotes
+    };
+
+    $.ajax({
+      method : "PUT",
+      url : `/admin/jam/${jamid}/track/${trackid}`,
+      contentType : "application/json",
+      json: true,
+      data: JSON.stringify(toSend)
+    });
+  }
+}
+
 function reloadTracksSection(id, focus) {
   $.get(`/views/admin/jam/${id}/edit/tracks`, function(tracksView) {
     $('#tracksHolder').html(tracksView);
     var jamid = $('#jamid').data('id');
     loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
+
       $('#tracksTable').bootstrapTable({
         columns: [
           {field:'num',
@@ -581,7 +624,11 @@ function reloadTracksSection(id, focus) {
             sortable: true,
             order: 'desc'},
           {field:'title',
-            title:'Title'},
+            title:'Title',
+            formatter: trackTitleFormatter},
+          {field: 'notes',
+            title:'Notes',
+            formatter: trackNotesFormatter},
           {field: 'id',
             width: '5',
             title: 'Actions',
