@@ -15,14 +15,14 @@ else
   #bandid(data-id=-1)
 .card
   .card-body
-    .card-header
+    .card-header.container-fluid
       .row
         .col
-          h4 Editing Jam
+          h3 Editing Jam
         .col
           .btn-group(role='group' aria-label='Jam Actions')
             button(type='button')#deleteJamButton.btn.btn-danger Delete
-            button(type='button')#viewJamButton.btn.btn-primary View
+            button(type='button')#viewJamButton.btn.btn-primary Done
           .form-check.float-right
             if (jam.private)
               input.form-check-input(type='checkbox' checked id='isJamPrivate')
@@ -31,9 +31,11 @@ else
             label.form-check-label(for='isJamPrivate')
               i.fa.fa-key.fa-lg.mr-1
               | Private
-    .row.mt-3
+.card
+  .card-body
+    .row
       .col
-        h5 Date
+        h4 Date
         .form-group
           #jamdatepicker.input-group.date(data-target-input='nearest')
             input#jamdate.form-control.datetimepicker-input(type='text', data-target='#jamdatepicker')
@@ -41,41 +43,50 @@ else
               .input-group-text
                 i.fa.fa-calendar
       .col
-        h5 Title
+        h4 Title
         if (jam.title !== "")
           input.form-control#jamtitle(type='text' value=jam.title)
         else if (jam.title === "")
           input.form-control#jamtitle(type='text' placeholder="Untitled")
+.card
+  .card-body
     .row
       .col
-        h5 Location
+        h4 Location
         if (jam.location)
           select#jamlocation.form-control(name="location", placeholder=jam.location.name, autocomplete="off")
         else
           select#jamlocation.form-control(name="location", placeholder="No Location Selected", autocomplete="off")
       .col
-        h5 Band
+        h4 Band
         if (jam.band)
           select#jamband.form-control(name="band", placeholder=jam.band.name, autocomplete="off")
         else
           select#jamband.form-control(name="band", placeholder="No Band Selected", autocomplete="off")
-    .row.mt-3
-      .col
-        h5 Notes
-        if (jam.notes)
-          textarea#jamnotes.form-control
-            | #{jam.notes}
-        else
-          textarea#jamnotes.form-control(placeholder="Enter notes about this jam here")
-    .row.mt-3
-      .col
-        h5 Musicians
-        #musicianHolder
-    .row.mt-3
-      .col
-        h5 Staff
-        #staffHolder
-    .row.mt-3
-      .col
-        h5 Music
-        #tracksHolder
+.card
+  .card-body.container-flex
+    .row-flex
+      h4 Notes
+      if (jam.notes)
+        textarea#jamnotes.form-control
+          | #{jam.notes}
+      else
+        textarea#jamnotes.form-control(placeholder="Enter notes about this jam here")
+.card
+  .card-body.container-flex
+    .row-flex
+      h4 Musicians
+      #musicianHolder
+.card
+  .card-body.container-flex
+    .row-flex
+      h4 Staff
+      #staffHolder
+.card
+  .card-body.container-flex
+    .row-flex
+      h4 Music
+      table.table#tracksTable
+    .row-flex.mt-3
+      h6 Add Audio
+      #theZone.border.p-2 Drag and Drop tracks here or click to browse...

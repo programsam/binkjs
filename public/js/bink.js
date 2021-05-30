@@ -611,61 +611,59 @@ function trackChanged(element) {
 }
 
 function reloadTracksSection(id, focus) {
-  $.get(`/views/admin/jam/${id}/edit/tracks`, function(tracksView) {
-    $('#tracksHolder').html(tracksView);
-    var jamid = $('#jamid').data('id');
-    loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
+  $('#tracksHolder').html(tracksView);
+  var jamid = $('#jamid').data('id');
+  loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
 
-      $('#tracksTable').bootstrapTable({
-        columns: [
-          {field:'num',
-            title:'#',
-            width: '5',
-            sortable: true,
-            order: 'desc'},
-          {field:'title',
-            title:'Title',
-            formatter: trackTitleFormatter},
-          {field: 'notes',
-            title:'Notes',
-            formatter: trackNotesFormatter},
-          {field: 'id',
-            width: '5',
-            title: 'Actions',
-            formatter: trackActionsFormatter}
-        ],
-        url: `/admin/jam/${jamid}/tracks`,
-        pagination: false,
-        search: false,
-        showRefresh: true,
-        showColumns: true,
-        buttons: {
-          btnStripTracks: {
-            text: 'Strip Tracks',
-            icon: 'fas fa-broom',
-            event: stripTrackNumbers,
-            attributes: {
-              title: 'Strip the tracks of their extension and ordering prefix'
-            }
+    $('#tracksTable').bootstrapTable({
+      columns: [
+        {field:'num',
+          title:'#',
+          width: '5',
+          sortable: true,
+          order: 'desc'},
+        {field:'title',
+          title:'Title',
+          formatter: trackTitleFormatter},
+        {field: 'notes',
+          title:'Notes',
+          formatter: trackNotesFormatter},
+        {field: 'id',
+          width: '5',
+          title: 'Actions',
+          formatter: trackActionsFormatter}
+      ],
+      url: `/admin/jam/${jamid}/tracks`,
+      pagination: false,
+      search: false,
+      showRefresh: true,
+      showColumns: true,
+      buttons: {
+        btnStripTracks: {
+          text: 'Strip Tracks',
+          icon: 'fas fa-broom',
+          event: stripTrackNumbers,
+          attributes: {
+            title: 'Strip the tracks of their extension and ordering prefix'
+          }
+        },
+        btnSyncTracks: {
+          text: 'Sync Tracks',
+          icon: 'fa-phone-alt',
+          event: function() {
+            syncMedia('snd');
           },
-          btnSyncTracks: {
-            text: 'Sync Tracks',
-            icon: 'fa-phone-alt',
-            event: function() {
-              syncMedia('snd');
-            },
-            attributes: {
-              title: 'Synchronize track listing with what has been uploaded'
-            } //synctracks attributes
-          } //synctracks definition
-        } //buttons definition
-      }) //bootstrapTable call
-    }) //loadScripts call
+          attributes: {
+            title: 'Synchronize track listing with what has been uploaded'
+          } //synctracks attributes
+        } //synctracks definition
+      } //buttons definition
+    }) //bootstrapTable call
+  }) //loadScripts call
 
-    var theZone = new Dropzone('#theZone', {
-      url: '/api/files/upload'
-    });
-  }) //.get jam tracks view
+  var theZone = new Dropzone('#theZone', {
+    url: '/api/files/upload'
+  });
 }
 
 function syncMedia(type) {
