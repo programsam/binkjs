@@ -1,7 +1,7 @@
 {
   "name": "BINK.js",
   "description": "BINK! rewritten in Node.js",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "author": "Ben Smith",
   "license": "Beerware",
   "repository": "https://github.com/programsam/binkjs.git",
