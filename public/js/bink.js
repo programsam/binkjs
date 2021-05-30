@@ -650,7 +650,7 @@ function reloadTracksSection(id, focus) {
           text: 'Sync Tracks',
           icon: 'fa-phone-alt',
           event: function() {
-            syncMedia('snd');
+            syncMedia('tracks');
           },
           attributes: {
             title: 'Synchronize track listing with what has been uploaded'
@@ -672,7 +672,11 @@ function syncMedia(type) {
 		url : `/admin/jam/${id}/sync/${type}`,
 		contentType : "application/json"
 	}).done(function(msg) {
-    $('#tracksTable').bootstrapTable('refresh');
+    if (type === "tracks") {
+      $('#tracksTable').bootstrapTable('refresh');
+    } else if (type === "pics") {
+      reloadPicsSection(id);
+    }
 	})
 }
 
@@ -821,6 +825,7 @@ function editJam(id) {
         reloadMusicians(id);
         reloadStaff(id);
         reloadTracksSection(id);
+        reloadPicsSection(id);
         $('#deleteJamButton').click(deleteJam);
         $('#viewJamButton').click(function() {
           loadJam(id);
@@ -905,6 +910,12 @@ function editJam(id) {
         $('#jamband').on('autocomplete.freevalue', addNewBand)
     	})
     })
+  })
+}
+
+function reloadPicsSection(jamid) {
+  $.get(`/views/admin/jam/${jamid}/edit/pics`, function(view) {
+    $('#picsHolder').html(view);
   })
 }
 
