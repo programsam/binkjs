@@ -727,25 +727,6 @@ function reloadStaff(id, focus) {
   })
 }
 
-function setJamVisibility() {
-  var id = $('#jamid').data('id');
-  var toSend = {
-    private: $('#isJamPrivate').prop('checked')
-  }
-
-  $.ajax({
-		method : "PUT",
-		url : `/admin/jam/${id}/private`,
-		contentType : "application/json",
-    json: true,
-    data: JSON.stringify(toSend),
-    error: function(jqXHR) { //failure connecting or similar
-		   binkAlert("Error occurred while setting jam visibility. Error was: " + jqXHR.responseText);
-    } //end of error function
-  }); //end of ajax call
-}
-
-
 function momentjsLoaded() {
   return (typeof moment === "function");
 }
@@ -763,6 +744,28 @@ function editJamScriptsLoaded() {
           dropzoneUploaded);
 }
 
+function updateJam() {
+  var id = $('#jamid').data('id');
+  var mydate = Date.parse($('#date').val());
+
+  var toSend = {
+    date: $('#jamdate').val(),
+    title: $('#jamtitle').val(),
+    locid: $('#locid').data('location'),
+    bandid: $('#bandid').data('band'),
+    notes: $('#jamnotes').val(),
+    private: $('#isJamPrivate').prop('checked')
+  };
+
+  $.ajax({
+		method : "PUT",
+		url : `/admin/jam/${id}`,
+		contentType : "application/json",
+    json: true,
+    data: JSON.stringify(toSend),
+  });
+}
+
 function editJam(id) {
 	location.hash = "edit-" + id;
 	$('.nav-link.active').removeClass('active');
@@ -775,9 +778,47 @@ function editJam(id) {
         reloadStaff(id);
         reloadTracksSection(id);
         $('#deleteJamButton').click(deleteJam);
-        $('#saveJamButton').click(saveJam);
-        $('#cancelJamButton').click(cancelEditJam);
-        $('#isJamPrivate').click(setJamVisibility);
+        $('#viewJamButton').click(function() {
+          loadJam(id);
+        });
+        $('#isJamPrivate').click(updateJam);
+        $('#jamdatepicker').on('change.datetimepicker', function(e) {
+          if (e.hasOwnProperty('isInvalid') && ! e.isInvalid) {
+            updateJam();
+          } else {
+            binkAlert(`Incorrect Date`, `Please select a valid date for the jam`);
+          }
+        });
+        $('#jamtitle').change(function (e) {
+          //change is the best event
+          //not making a request every time you push a letter
+          //but changes when you blur or push enter
+          //
+          //also making sure no requests if the title
+          //hasn't actually changed!
+          var jamtitle = $(this);
+          var thistitle = jamtitle.val();
+          if (jamtitle.data('lastone') !== thistitle) {
+            jamtitle.data('lastone', thistitle);
+            updateJam();
+          }
+        })
+
+        $('#jamnotes').change(function (e) {
+          //change is the best event
+          //not making a request every time you push a letter
+          //but changes when you blur or push enter
+          //
+          //also making sure no requests if the title
+          //hasn't actually changed!
+          var jamnotes = $(this);
+          var thesenotes = jamnotes.val();
+          if (jamnotes.data('lastone') !== thesenotes) {
+            jamnotes.data('lastone', thesenotes);
+            updateJam();
+          }
+        })
+
 
         $(window).scrollTop(0);
 
@@ -792,7 +833,8 @@ function editJam(id) {
         $('#jamlocation').on('autocomplete.select',
           function(event, item) {
             if (typeof item !== "undefined") {
-              $('#locid').attr('data-id', `${item.value}`);
+              $('#locid').data('location', `${item.value}`);
+              updateJam();
             }
         })
 
@@ -810,7 +852,8 @@ function editJam(id) {
         $('#jamband').on('autocomplete.select',
           function(event, item) {
             if (typeof item !== "undefined") {
-              $('#bandid').attr('data-id', `${item.value}`);
+              $('#bandid').data('band', `${item.value}`);
+              updateJam();
             }
         })
 
@@ -995,8 +1038,9 @@ function addNewLocation(event, item) {
   function() {
     $('#confirmModal').modal('hide');
     createEntity("locations", item, function(reply) {
-      $('#locid').attr('data-id', `${reply.id}`);
+      $('#locid').data('location', `${reply.id}`);
       $('#jamlocation').autoComplete('set', { value: reply.id, text: reply.name });
+      updateJam();
     });
   })
 }
@@ -1007,8 +1051,9 @@ function addNewBand(event, item) {
   function() {
     $('#confirmModal').modal('hide');
     createEntity("bands", item, function(reply) {
-      $('#bandid').attr('data-id', `${reply.id}`);
+      $('#bandid').data('band', `${reply.id}`);
       $('#jamband').autoComplete('set', { value: reply.id, text: reply.name });
+      updateJam();
     });
   })
 }
@@ -1045,37 +1090,9 @@ function showConfirmModal(message, yesFunction) {
 }
 
 
-function cancelEditJam() {
+function closeEditJam() {
   var id = $('#jamid').data('id');
   loadJam(id);
-}
-
-function saveJam() {
-  var id = $('#jamid').data('id');
-  var mydate = Date.parse($('#date').val());
-
-  var toSend = {
-    date: $('#jamdate').val(),
-    title: $('#jamtitle').val(),
-    locid: $('#locid').data('id'),
-    bandid: $('#bandid').data('id'),
-    notes: $('#jamnotes').val()
-  };
-
-  $.ajax({
-		method : "PUT",
-		url : `/admin/jam/${id}`,
-		contentType : "application/json",
-    json: true,
-    data: JSON.stringify(toSend),
-    success: function(msg) {
-      var id = $('#jamid').data('id');
-      loadJam(id);
-    },
-    error: function(jqXHR) { //failure connecting or similar
-		   binkAlert("Error occurred while creating jam. Error was: " + jqXHR.responseText);
-    }
-  });
 }
 
 function mapLocation(loc) {
