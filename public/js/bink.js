@@ -659,9 +659,11 @@ function reloadTracksSection(id, focus) {
       } //buttons definition
     }) //bootstrapTable call
   }) //loadScripts call
+}
 
+function reloadDropZone(id) {
   var theZone = new Dropzone('#theZone', {
-    url: '/api/files/upload'
+    url: `/admin/jam/${id}/files`
   });
 }
 
@@ -959,6 +961,7 @@ function editJam(id) {
         reloadTracksSection(id);
         reloadPicsSection(id);
         reloadVidsSection(id);
+        reloadDropZone(id);
         $('#deleteJamButton').click(deleteJam);
         $('#viewJamButton').click(function() {
           loadJam(id);
