@@ -665,6 +665,108 @@ function reloadTracksSection(id, focus) {
   });
 }
 
+function vidChanged(element) {
+  var elementToGetVIDID = $(element);
+  var vidid = elementToGetVIDID.data('vid-id');
+
+  var videoTitleJQ = $(`#vid-title-${vidid}`);
+  var newTitle = videoTitleJQ.val();
+
+  var videoNotesJQ = $(`#vid-notes-${vidid}`);
+  var newNotes = videoNotesJQ.val();
+
+  if (videoTitleJQ.data('previousTitle') !== newTitle ||
+      videoNotesJQ.data('previousNotes') !== newNotes) {
+    videoTitleJQ.data('previousTitle', newTitle);
+    videoNotesJQ.data('previousNotes', newNotes);
+
+    var jamid = $('#jamid').data('id');
+    var toSend = {
+      title: newTitle,
+      notes: newNotes
+    };
+
+    $.ajax({
+      method : "PUT",
+      url : `/admin/jam/${jamid}/vid/${vidid}`,
+      contentType : "application/json",
+      json: true,
+      data: JSON.stringify(toSend)
+    });
+  }
+}
+
+function vidTitleFormatter(value, row) {
+  return `<input class='form-control form-control-sm vid-title' id='vid-title-${row.id}' data-vid-id='${row.id}' value='${value}' onchange='vidChanged(this);' />`;
+}
+
+function vidNotesFormatter(value, row) {
+  if (null === value) {
+    value = "";
+  }
+  return `<input class='form-control form-control-sm vid-notes' id='vid-notes-${row.id}' data-vid-id='${row.id}' value='${value}' onchange='vidChanged(this);' placeholder='Add notes to this track' />`;
+}
+
+function vidActionsFormatter(value, row) {
+  return `<a href='javascript:deleteVid(${value})';>` +
+          `<i class="far fa-trash-alt mr-1"></i></a>` +
+          `<a href='${row.path}';>` +
+          `<i class="fas fa-download"></i></a>`;
+}
+
+function deleteVid(vidid) {
+  var jamid = $('#jamid').data('id');
+  $.ajax({
+		method : "DELETE",
+		url : `/admin/jam/${jamid}/vid/${vidid}`,
+		contentType : "application/json"
+	}).done(function(msg) {
+    $('#vidsTable').bootstrapTable('refresh');
+	})
+}
+
+function reloadVidsSection(id, focus) {
+  var jamid = $('#jamid').data('id');
+  loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
+    $('#vidsTable').bootstrapTable({
+      columns: [
+        {field:'num',
+          title:'#',
+          width: '5',
+          sortable: true,
+          order: 'desc'},
+        {field:'title',
+          title:'Title',
+          formatter: vidTitleFormatter},
+        {field: 'notes',
+          title:'Notes',
+          formatter: vidNotesFormatter},
+        {field: 'id',
+          width: '5',
+          title: 'Actions',
+          formatter: vidActionsFormatter}
+      ],
+      url: `/admin/jam/${jamid}/vids`,
+      pagination: false,
+      search: false,
+      showRefresh: true,
+      showColumns: true,
+      buttons: {
+        btnSyncTracks: {
+          text: 'Sync Video',
+          icon: 'fa-phone-alt',
+          event: function() {
+            syncMedia('vids');
+          },
+          attributes: {
+            title: 'Synchronize video listing with what has been uploaded'
+          } //synctracks attributes
+        } //synctracks definition
+      } //buttons definition
+    }) //bootstrapTable call
+  }) //loadScripts call
+} //reloadVidsSection
+
 function syncMedia(type) {
   var id = $('#jamid').data('id');
   $.ajax({
@@ -856,6 +958,7 @@ function editJam(id) {
         reloadStaff(id);
         reloadTracksSection(id);
         reloadPicsSection(id);
+        reloadVidsSection(id);
         $('#deleteJamButton').click(deleteJam);
         $('#viewJamButton').click(function() {
           loadJam(id);
