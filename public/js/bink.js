@@ -680,6 +680,36 @@ function syncMedia(type) {
 	})
 }
 
+function setDefaultPic(picId) {
+  var jamid = $('#jamid').data('id');
+
+  var toSend = {
+    defpic: picId
+  };
+
+  $.ajax({
+		method : "PUT",
+		url : `/admin/jam/${jamid}/defpic`,
+		contentType : "application/json",
+    json: true,
+    data: JSON.stringify(toSend),
+    success: function(result) {
+      reloadPicsSection(jamid);
+    }
+  });
+}
+
+function deletePic(picId) {
+  var jamid = $('#jamid').data('id');
+  $.ajax({
+		method : "DELETE",
+		url : `/admin/jam/${jamid}/pic/${picId}`,
+    success: function(msg) {
+      reloadPicsSection(jamid);
+    }
+	});
+}
+
 function stripTrackNumbers() {
   var id = $('#jamid').data('id');
   $.ajax({
