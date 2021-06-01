@@ -51,6 +51,22 @@ if (jam.staff && jam.staff.length > 0)
               | #{role.name}
             else
               | #{role.name},&nbsp
+if (jam.tracks && jam.tracks.length > 0)
+  .card
+    .card-body
+      h5.card-title Music
+      ul.list-group
+      for track in jam.tracks
+        li.list-group-item
+          if (track.title === "--------------------")
+            | &nbsp;
+          else
+            a(href=track.path) #{track.title}
+            if (track.notes)
+              | &nbsp;- #{track.notes}
+            p.float-right
+              a(href='javascript:playImmediately("' + track.title + '", "' + track.path + '");')
+                i.fa.fa-play.fa-sm
 if (jam.pictures && jam.pictures.length > 0)
   .card
     .card-body
@@ -70,22 +86,6 @@ if (jam.pictures && jam.pictures.length > 0)
           a.carousel-control-next(href='#binkPictureCarousel', role='button', data-slide='next')
             span.carousel-control-next-icon(aria-hidden='true')
             span.sr-only Next
-if (jam.tracks && jam.tracks.length > 0)
-  .card
-    .card-body
-      h5.card-title Music
-      ul.list-group
-      for track in jam.tracks
-        li.list-group-item
-          if (track.title === "--------------------")
-            | &nbsp;
-          else
-            a(href=track.path) #{track.title}
-            if (track.notes)
-              | &nbsp;- #{track.notes}
-            p.float-right
-              a(href='javascript:playImmediately("' + track.title + '", "' + track.path + '");')
-                i.fa.fa-play.fa-sm
 if (jam.video && jam.video.length > 0)
   .card
     .card-body
