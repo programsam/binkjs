@@ -344,7 +344,7 @@ function playCurrentHowl() {
   } if (currentHowl && currentHowl.playing()) {
     console.log(`Cannot play because the howl is currently playing.`);
   } else {
-    console.log(`Cannot play because: ${JSON.stringify(currentHowl)}`);
+    console.log(`Cannot play because: ${currentHowl}`);
   }
 }
 
