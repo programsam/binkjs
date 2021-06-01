@@ -94,3 +94,5 @@ if (jam.video && jam.video.length > 0)
       for video in jam.video
         li.list-group-item
           a(href=video.path) #{video.title}
+          if (video.notes)
+            | &nbsp;- #{video.notes}
