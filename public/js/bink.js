@@ -780,6 +780,8 @@ function syncMedia(type) {
       $('#tracksTable').bootstrapTable('refresh');
     } else if (type === "pics") {
       reloadPicsSection(id);
+    } else if (type === "vids") {
+      $('#vidsTable').bootstrapTable('refresh');
     }
 	})
 }
