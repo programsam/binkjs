@@ -11,23 +11,7 @@
 		"bucket_name": "binkmedia-test",
 		"bucket_region": "us-east-1"
 	},
-	"uploads": {
-		"destination": "/some/temporary/directory",
-		"mimetypes": {
-			"audio/mpeg": {
-				"table": "tracks",
-				"dir": "snd"
-			},
-			"video/mpeg": {
-				"table": "video",
-				"dir": "video"
-			},
-			"image/jpeg": {
-				"table": "pictures",
-				"dir": "pics"
-			}
-		}
-	},
+	"tmpuploads": "/some/temporary/directory",
 	"maps": "INSERT_GOOGLE_API_KEY_HERE",
 	"admin_password": "mypassword",
 	"session_secret": "INSERT RANDOMIZED STRING",
@@ -35,5 +19,22 @@
 		"secure": true,
 		"sameSite": true
 	},
-	"logLevel": "debug"
+	"logLevel": "debug",
+	"podcast": {
+		"title": "BINK!",
+		"description": "A listing of BINK's latest postings",
+		"language": "en",
+		"managingEditor": "Ben Smith",
+		"webMaster": "Ben Smith",
+		"author": "Various",
+		"copyright": "2010-2021",
+		"image_url": "https://binkmusic.com/img/header.jpg",
+		"docs": "https://binkmusic.com",
+		"feed_url": "https://binkmusic.com/podcast",
+		"site_url": "https://binkmusic.com",
+		"itunesSubtitle": "A listing of BINK's latest postings",
+		"itunesOwner": {
+			"name": "Ben Smith",
+			"email": "programsam@gmail.com"
+		}
 }
