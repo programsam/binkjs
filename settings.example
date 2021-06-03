@@ -31,6 +31,10 @@
 		"image_url": "https://binkmusic.com/img/header.jpg",
 		"docs": "https://binkmusic.com",
 		"feed_url": "https://binkmusic.com/podcast",
-		"site_url": "https://binkmusic.com"
-	}
+		"site_url": "https://binkmusic.com",
+		"itunesSubtitle": "A listing of BINK's latest postings",
+		"itunesOwner": {
+			"name": "Ben Smith",
+			"email": "programsam@gmail.com"
+		}
 }
