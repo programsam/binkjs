@@ -11,23 +11,7 @@
 		"bucket_name": "binkmedia-test",
 		"bucket_region": "us-east-1"
 	},
-	"uploads": {
-		"destination": "/some/temporary/directory",
-		"mimetypes": {
-			"audio/mpeg": {
-				"table": "tracks",
-				"dir": "snd"
-			},
-			"video/mpeg": {
-				"table": "video",
-				"dir": "video"
-			},
-			"image/jpeg": {
-				"table": "pictures",
-				"dir": "pics"
-			}
-		}
-	},
+	"tmpuploads": "/some/temporary/directory",
 	"maps": "INSERT_GOOGLE_API_KEY_HERE",
 	"admin_password": "mypassword",
 	"session_secret": "INSERT RANDOMIZED STRING",
