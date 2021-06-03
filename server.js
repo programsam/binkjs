@@ -13,6 +13,7 @@ const BINKS3			= require("./lib/binks3.js");
 const api					= require("./lib/api.js");
 const adminapi		= require("./lib/adminapi.js");
 const views				= require("./lib/views.js");
+const podcastFeed	= require("./lib/podcastFeed.js");
 const makeLogger  = require("./lib/loggerfactory.js");
 const helmet 			= require('helmet');
 const robots 			= require('express-robots');
@@ -69,6 +70,7 @@ app.set('view engine','pug');
 app.use(api);
 app.use(adminapi);
 app.use(views);
+app.use(podcastFeed);
 
 let server = app.listen(process.env.PORT || 3001, function () {
 

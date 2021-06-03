@@ -19,5 +19,18 @@
 		"secure": true,
 		"sameSite": true
 	},
-	"logLevel": "debug"
+	"logLevel": "debug",
+	"podcast": {
+		"title": "BINK!",
+		"description": "A listing of BINK's latest postings",
+		"language": "en",
+		"managingEditor": "Ben Smith",
+		"webMaster": "Ben Smith",
+		"author": "Various",
+		"copyright": "2010-2021",
+		"image_url": "https://binkmusic.com/img/header.jpg",
+		"docs": "https://binkmusic.com",
+		"feed_url": "https://binkmusic.com/podcast",
+		"site_url": "https://binkmusic.com"
+	}
 }
