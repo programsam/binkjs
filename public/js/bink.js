@@ -663,7 +663,10 @@ function reloadTracksSection(id, focus) {
 
 function reloadDropZone(id) {
   var theZone = new Dropzone('#theZone', {
-    url: `/admin/jam/${id}/files`
+    url: `/admin/jam/${id}/files`,
+    createImageThumbnails: false,
+    uploadMultiple: true,
+    parallelUploads: 10
   });
 }
 
