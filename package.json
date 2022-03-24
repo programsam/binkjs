@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "acorn": "^7.4.1",
-    "minimist": ">=1.2.3",
+    "minimist": ">=1.2.6",
     "nodemon": "^2.0.7"
   }
 }
