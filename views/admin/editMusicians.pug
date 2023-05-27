@@ -1,19 +1,20 @@
 if (jam.musicians && jam.musicians.length > 0)
-  for musician in jam.musicians
-    li.list-group-item
-      a(href=`javascript:loadEntity('musicians', ${musician.id});`) #{musician.name}
-      |&nbsp;-&nbsp;
-      each instrument, index in musician.instruments
-        | #{instrument.name}&nbsp;
-        a(href=`javascript:removeMusicianInstrument(${musician.id}, ${instrument.id})`)
-          i.fas.fa-trash
-        if (index === (musician.instruments.length - 1))
-          | &nbsp;
-        else
-          | ,&nbsp;
-      p.float-end
-        a(href=`javascript:removeEntireMusician(${musician.id})`)
-          i.fas.fa-user-minus
+  .list-group
+    for musician in jam.musicians
+      li.list-group-item
+        a(href=`javascript:loadEntity('musicians', ${musician.id});`) #{musician.name}
+        |&nbsp;-&nbsp;
+        each instrument, index in musician.instruments
+          | #{instrument.name}&nbsp;
+          a(href=`javascript:removeMusicianInstrument(${musician.id}, ${instrument.id})`)
+            i.fas.fa-trash
+          if (index === (musician.instruments.length - 1))
+            | &nbsp;
+          else
+            | ,&nbsp;
+        p.float-end
+          a(href=`javascript:removeEntireMusician(${musician.id})`)
+            i.fas.fa-user-minus
 else
   em No musicians.
 .row.mt-3

@@ -27,7 +27,7 @@ if (jam.musicians && jam.musicians.length > 0)
   .card
     .card-body
       h4.card-title Musicians
-      .list-group.list-group-flush
+      .list-group
         for musician in jam.musicians
           .list-group-item
             a(href=`javascript:loadEntity('musicians', ${musician.id});`) #{musician.name}
@@ -41,7 +41,7 @@ if (jam.staff && jam.staff.length > 0)
   .card
     .card-body
       h4.card-title Staff
-      .list-group.list-group-flush
+      .list-group
         for staff in jam.staff
           li.list-group-item
             a(href=`javascript:loadEntity('staff', ${staff.id});`) #{staff.name}
@@ -55,7 +55,7 @@ if (jam.tracks && jam.tracks.length > 0)
   .card
     .card-body
       h5.card-title Music
-      .list-group.list-group-flush
+      .list-group
         for track in jam.tracks
           li.list-group-item
             if (track.title === "--------------------")
@@ -90,7 +90,7 @@ if (jam.video && jam.video.length > 0)
   .card
     .card-body
       h4.card-title Video
-      .list-group.list-group-flush
+      .list-group
         for video in jam.video
           li.list-group-item
             a(href=video.path) #{video.title}
