@@ -514,9 +514,6 @@ function loadMap() {
         })
         markers.push(thismarker);
       })  //populate the map with markers
-      var mcOptions = {
-        imagePath: '/img/m'
-      };
       var markercluster = new markerClusterer.MarkerClusterer({map, markers});
     }) //grap the map locations
   }) //grap the scripts
