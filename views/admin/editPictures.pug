@@ -3,7 +3,7 @@ if (thisjam.pictures && thisjam.pictures.length > 0)
     for pic in thisjam.pictures
       .pictureHolder.p-3(class=(thisjam.defpic === pic.id ? "border" : ""))
         img(src=pic.path).mw-100
-        p.float-right
+        p.float-end
           a(href="javascript:deletePic('" + pic.id + "');")
             i.far.fa-trash-alt.mr-1
           a(href=pic.path)
@@ -13,7 +13,7 @@ if (thisjam.pictures && thisjam.pictures.length > 0)
   p Scroll left and right to edit pictures.
 else
   em No pictures.
-a(href="javascript:syncMedia('pics')").float-right
+a(href="javascript:syncMedia('pics')").float-end
   i.fas.fa-phone-alt.mr-3
-a(href="javascript:reloadPicsSection('" + thisjam.id + "');").float-right
+a(href="javascript:reloadPicsSection('" + thisjam.id + "');").float-end
   i.fas.fa-sync.mr-3

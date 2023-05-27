@@ -4,12 +4,12 @@
     h4.card-title
       | #{jam.mydate} - #{jam.title}
       if (jam.private)
-        p.float-right
+        p.float-end
           i.fa.fa-key.fa-sm
     h6.card-subtitle.mb-2.text-muted
       if (admin)
-        button#editJamButton.float-right.btn.btn-primary.ml-2 Edit
-        button#deleteJamButton.float-right.btn.btn-danger Delete
+        button#editJamButton.float-end.btn.btn-primary.ml-2 Edit
+        button#deleteJamButton.float-end.btn.btn-danger Delete
       if jam.band
         a(href=`javascript:loadEntity('bands', ${jam.band.id});`) #{jam.band.name}
         |  at&nbsp;
@@ -64,7 +64,7 @@ if (jam.tracks && jam.tracks.length > 0)
             a(href=track.path) #{track.title}
             if (track.notes)
               | &nbsp;- #{track.notes}
-            p.float-right
+            p.float-end
               a(href='javascript:playImmediately("' + track.title + '", "' + track.path + '");')
                 i.fa.fa-play.fa-sm
 if (jam.pictures && jam.pictures.length > 0)
