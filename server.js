@@ -26,7 +26,7 @@ const logger = makeLogger(path.basename(__filename));
 
 Processing.testSQL(function(err) {
 	if (err) {
-		logger.critical(`There was an error connecting to the backend database. BINK will now exit.`);
+		logger.error(`There was an error connecting to the backend database. BINK will now exit.`);
 		process.exit(1);
 	} else {
 		logger.info(`Successfully connected to the backend database.`);
