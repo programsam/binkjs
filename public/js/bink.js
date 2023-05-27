@@ -469,6 +469,7 @@ function overviewMapScriptsLoaded() {
   return (typeof google === "object" &&
           typeof google.maps === "object" &&
           typeof google.maps.Map === "function" &&
+          typeof markerClusterer === "object" &&
           typeof markerClusterer.MarkerClusterer === "function"
         );
 }
