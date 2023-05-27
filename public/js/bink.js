@@ -469,7 +469,7 @@ function overviewMapScriptsLoaded() {
   return (typeof google === "object" &&
           typeof google.maps === "object" &&
           typeof google.maps.Map === "function" &&
-          typeof MarkerClusterer === "function"
+          typeof markerClusterer.MarkerClusterer === "function"
         );
 }
 
@@ -487,20 +487,20 @@ function loadMap() {
   location.hash = "map";
   $("#main").html("Loading...")
   loadScripts(['googleMaps', 'markerClusterer'], overviewMapScriptsLoaded, function() {
-    let coordinates = new google.maps.LatLng(39.944465, -97.350595);
-		let mapOptions = {
+    var coordinates = new google.maps.LatLng(39.944465, -97.350595);
+		var mapOptions = {
 			center : coordinates,
 			zoom : 5
 		}
 		$('#main').html('<div class="position-absolute w-100 h-100" id="map-canvas"></div>');
-		let map = new google.maps.Map($("#map-canvas")[0], mapOptions);
+		var map = new google.maps.Map($("#map-canvas")[0], mapOptions);
     $.get('/api/maplocations', function(data) {
       let markers = [];
       data.forEach(function(thislocation) {
-        let thiscoordinates = new google.maps.LatLng(
+        var thiscoordinates = new google.maps.LatLng(
           thislocation.lat, thislocation.lon
         );
-        let thismarker = new google.maps.Marker({
+        var thismarker = new google.maps.Marker({
           position: thiscoordinates
         });
         thismarker.addListener('click', function(event) {
@@ -514,10 +514,10 @@ function loadMap() {
         })
         markers.push(thismarker);
       })  //populate the map with markers
-      let mcOptions = {
+      var mcOptions = {
         imagePath: '/img/m'
       };
-      let markercluster = new MarkerClusterer(map, markers, mcOptions);
+      var markercluster = new markerClusterer.MarkerClusterer({map, markers});
     }) //grap the map locations
   }) //grap the scripts
 } //loadMap()
