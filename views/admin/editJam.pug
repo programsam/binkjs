@@ -28,7 +28,7 @@ else
               input.form-check-input(type='checkbox' checked id='isJamPrivate')
             else
               input.form-check-input(type='checkbox' id='isJamPrivate')
-            label.form-check-label(for='isJamPrivate')
+            label.form-label(for='isJamPrivate')
               i.fa.fa-key.fa-lg.mr-1
               | Private
 .card
@@ -36,12 +36,11 @@ else
     .row
       .col
         h4 Date
-        .form-group
-          #jamdatepicker.input-group.date(data-target-input='nearest')
-            input#jamdate.form-control.datetimepicker-input(type='text', data-target='#jamdatepicker')
-            .input-group-append(data-target='#jamdatepicker', data-toggle='datetimepicker')
-              .input-group-text
-                i.fa.fa-calendar
+        #jamdatepicker.input-group.date(data-target-input='nearest')
+          input#jamdate.form-control.datetimepicker-input(type='text', data-target='#jamdatepicker')
+          .input-group-append(data-target='#jamdatepicker', data-toggle='datetimepicker')
+            .input-group-text
+              i.fa.fa-calendar
       .col
         h4 Title
         if (jam.title !== "")
@@ -68,10 +67,10 @@ else
     .row-flex
       h4 Notes
       if (jam.notes)
-        textarea#jamnotes.form-control
+        textarea#jamnotes.form-control(rows=3)
           | #{jam.notes}
       else
-        textarea#jamnotes.form-control(placeholder="Enter notes about this jam here")
+        textarea#jamnotes.form-control(placeholder="Enter notes about this jam here", rows=3)
 .card
   .card-body.container-flex
     .row-flex
