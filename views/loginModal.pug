@@ -1,17 +1,16 @@
-#loginModal.modal(tabindex='-1', role='dialog')
-  .modal-dialog(role='document')
+#loginModal.modal(tabindex='-1')
+  .modal-dialog
     .modal-content
       .modal-header
         h5.modal-title BINK! Login
-        button.close(type='button', data-dismiss='modal', aria-label='Close')
-          span(aria-hidden='true') ×
+        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
       .modal-body
-        p Please login for BINK! Administration.
+        p Please login for BINK! Administration
         #alert-container
         form
           .form-group
             label.col-form-label(for='password') Password:
             input#password.form-control(type='password')
       .modal-footer
-        button.btn.btn-primary#loginButton(type='button') Login
-        button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+        button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Cancel
+        button#loginButton.btn.btn-primary(type='button') Login
