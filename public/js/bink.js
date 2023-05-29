@@ -944,8 +944,8 @@ function updateJam() {
   var toSend = {
     date: $('#jamdate').val(),
     title: $('#jamtitle').val(),
-    locid: $('#locid').data('location'),
-    bandid: $('#bandid').data('band'),
+    locid: $('#locid').data('id'),
+    bandid: $('#bandid').data('id'),
     notes: $('#jamnotes').val(),
     private: $('#isJamPrivate').prop('checked')
   };
@@ -1029,7 +1029,7 @@ function editJam(id) {
         $('#jamlocation').on('autocomplete.select',
           function(event, item) {
             if (typeof item !== "undefined") {
-              $('#locid').data('location', `${item.value}`);
+              $('#locid').data('id', `${item.value}`);
               updateJam();
             }
         })
@@ -1048,7 +1048,7 @@ function editJam(id) {
         $('#jamband').on('autocomplete.select',
           function(event, item) {
             if (typeof item !== "undefined") {
-              $('#bandid').data('band', `${item.value}`);
+              $('#bandid').data('id', `${item.value}`);
               updateJam();
             }
         })
