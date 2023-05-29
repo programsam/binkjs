@@ -156,8 +156,8 @@ function loadBrowse() {
 				pageList: [3,5,10,20,50,100],
 				sortOrder: 'desc',
 				icons: {
-					refresh: 'fas fa-sync',
-					columns: 'fas fa-columns'
+					refresh: 'fa-solid fa-sync',
+					columns: 'fa-solid fa-columns'
 				}
 			}); //bootstrapTable init
       $(window).scrollTop(0);
@@ -167,7 +167,7 @@ function loadBrowse() {
 
 function privateFormatter(value, row) {
 	if (row.private) {
-		return '<i class="fas fa-key"></i>';
+		return '<i class="fa-solid fa-key"></i>';
 	} else {
 		return '-';
 	}
@@ -200,7 +200,7 @@ function dateFormatter(value) {
 
 function hasTracksFormatter(value) {
 	if (value === true) {
-    return '<i class="fas fa-music"></i>';
+    return '<i class="fa-solid fa-music"></i>';
   } else {
 		return '';
 	}
@@ -209,7 +209,7 @@ function hasTracksFormatter(value) {
 
 function hasPicsFormatter(value) {
 	if (value === true) {
-    return '<i class="fas fa-camera"></i>';
+    return '<i class="fa-solid fa-camera"></i>';
   } else {
 		return '';
 	}
@@ -218,7 +218,7 @@ function hasPicsFormatter(value) {
 
 function hasVidsFormatter(value) {
 	if (value === true) {
-    return '<i class="fas fa-video"></i>';
+    return '<i class="fa-solid fa-video"></i>';
   } else {
 		return '';
 	}
@@ -431,8 +431,8 @@ function loadEntity(type, id) {
 				pageList: [3,5,10,20,50,100],
 				sortOrder: 'desc',
 				icons: {
-					refresh: 'fas fa-sync',
-					columns: 'fas fa-columns'
+					refresh: 'fa-solid fa-sync',
+					columns: 'fa-solid fa-columns'
 				}
 			}); //end bootstrapTable definition
       $(window).scrollTop(0);
@@ -469,7 +469,8 @@ function overviewMapScriptsLoaded() {
   return (typeof google === "object" &&
           typeof google.maps === "object" &&
           typeof google.maps.Map === "function" &&
-          typeof MarkerClusterer === "function"
+          typeof markerClusterer === "object" &&
+          typeof markerClusterer.MarkerClusterer === "function"
         );
 }
 
@@ -487,20 +488,20 @@ function loadMap() {
   location.hash = "map";
   $("#main").html("Loading...")
   loadScripts(['googleMaps', 'markerClusterer'], overviewMapScriptsLoaded, function() {
-    let coordinates = new google.maps.LatLng(39.944465, -97.350595);
-		let mapOptions = {
+    var coordinates = new google.maps.LatLng(39.944465, -97.350595);
+		var mapOptions = {
 			center : coordinates,
 			zoom : 5
 		}
 		$('#main').html('<div class="position-absolute w-100 h-100" id="map-canvas"></div>');
-		let map = new google.maps.Map($("#map-canvas")[0], mapOptions);
+		var map = new google.maps.Map($("#map-canvas")[0], mapOptions);
     $.get('/api/maplocations', function(data) {
       let markers = [];
       data.forEach(function(thislocation) {
-        let thiscoordinates = new google.maps.LatLng(
+        var thiscoordinates = new google.maps.LatLng(
           thislocation.lat, thislocation.lon
         );
-        let thismarker = new google.maps.Marker({
+        var thismarker = new google.maps.Marker({
           position: thiscoordinates
         });
         thismarker.addListener('click', function(event) {
@@ -514,10 +515,7 @@ function loadMap() {
         })
         markers.push(thismarker);
       })  //populate the map with markers
-      let mcOptions = {
-        imagePath: '/img/m'
-      };
-      let markercluster = new MarkerClusterer(map, markers, mcOptions);
+      var markercluster = new markerClusterer.MarkerClusterer({map, markers});
     }) //grap the map locations
   }) //grap the scripts
 } //loadMap()
@@ -637,10 +635,14 @@ function reloadTracksSection(id, focus) {
       search: false,
       showRefresh: true,
       showColumns: true,
+      icons: {
+        refresh: 'fa-solid fa-sync',
+        columns: 'fa-solid fa-columns'
+      },
       buttons: {
         btnStripTracks: {
           text: 'Strip Tracks',
-          icon: 'fas fa-broom',
+          icon: 'fa-solid fa-broom',
           event: stripTrackNumbers,
           attributes: {
             title: 'Strip the tracks of their extension and ordering prefix'
@@ -648,7 +650,7 @@ function reloadTracksSection(id, focus) {
         },
         btnSyncTracks: {
           text: 'Sync Tracks',
-          icon: 'fa-phone-alt',
+          icon: 'fa-solid fa-phone-alt',
           event: function() {
             syncMedia('tracks');
           },
@@ -714,9 +716,9 @@ function vidNotesFormatter(value, row) {
 
 function vidActionsFormatter(value, row) {
   return `<a href='javascript:deleteVid(${value})';>` +
-          `<i class="far fa-trash-alt mr-1"></i></a>` +
+          `<i class="far fa-trash-alt me-1"></i></a>` +
           `<a href='${row.path}';>` +
-          `<i class="fas fa-download"></i></a>`;
+          `<i class="fa-solid fa-download"></i></a>`;
 }
 
 function deleteVid(vidid) {
@@ -756,10 +758,14 @@ function reloadVidsSection(id, focus) {
       search: false,
       showRefresh: true,
       showColumns: true,
+      icons: {
+        refresh: 'fa-solid fa-sync',
+        columns: 'fa-solid fa-columns'
+      },
       buttons: {
         btnSyncTracks: {
           text: 'Sync Video',
-          icon: 'fa-phone-alt',
+          icon: 'fa-solid fa-phone-alt',
           event: function() {
             syncMedia('vids');
           },
@@ -1063,11 +1069,11 @@ function reloadPicsSection(jamid) {
 
 function trackActionsFormatter(value, row) {
   return `<a href='javascript:playImmediately("${row.title}", "${row.path}")';>` +
-          `<i class="fa fa-play mr-1"></i></a>` +
+          `<i class="fa fa-play me-1"></i></a>` +
           `<a href='javascript:deleteTrack(${value})';>` +
-          `<i class="far fa-trash-alt mr-1"></i></a>` +
+          `<i class="far fa-trash-alt me-1"></i></a>` +
           `<a href='${row.path}';>` +
-          `<i class="fas fa-download"></i></a>`;
+          `<i class="fa-solid fa-download"></i></a>`;
 }
 
 //STAFF ACTIONS
