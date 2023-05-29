@@ -7,14 +7,14 @@ if (jam.musicians && jam.musicians.length > 0)
         each instrument, index in musician.instruments
           | #{instrument.name}&nbsp;
           a(href=`javascript:removeMusicianInstrument(${musician.id}, ${instrument.id})`)
-            i.fas.fa-trash
+            i.fa-solid.fa-trash
           if (index === (musician.instruments.length - 1))
             | &nbsp;
           else
             | ,&nbsp;
         p.float-end
           a(href=`javascript:removeEntireMusician(${musician.id})`)
-            i.fas.fa-user-minus
+            i.fa-solid.fa-user-minus
 else
   em No musicians.
 .row.mt-3

@@ -5,7 +5,7 @@ if (jams.length > 0)
     .card.border-primary.m-2
       h4.card-header
         if (jam.private)
-          i.fas.fa-key.m-1.float-end
+          i.fa-solid.fa-key.m-1.float-end
         | #{jam.mydate} -&nbsp;
         a(href='javascript:loadJam(' + jam.id + ');') #{jam.title}
       .card-body
