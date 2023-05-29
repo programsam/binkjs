@@ -13,91 +13,86 @@ if (jam.band)
   #bandid(data-id=jam.band.id)
 else
   #bandid(data-id=-1)
-.card
-  .card-body
-    .card-header.container-fluid
+.card.border-primary.m-1
+  h4.card-header Editing Jam
+    button#deleteJamButton.float-end.btn.btn-danger.btn-sm.ms-2 Delete
+    button#viewJamButton.float-end.btn.btn-primary.btn-sm Done
+  .card.border-secondary
+    .card-body
       .row
         .col
-          h3 Editing Jam
+          h5 Date
+          #jamdatepicker.input-group.date(data-target-input='nearest')
+            input#jamdate.form-control.datetimepicker-input(type='text', data-target='#jamdatepicker')
+            .input-group-append(data-target='#jamdatepicker', data-toggle='datetimepicker')
+              .input-group-text
+                i.fa.fa-calendar
         .col
-          .btn-group(role='group' aria-label='Jam Actions')
-            button(type='button')#deleteJamButton.btn.btn-danger Delete
-            button(type='button')#viewJamButton.btn.btn-primary Done
-          .form-check.float-end
+          h5 Title
+          if (jam.title !== "")
+            input.form-control#jamtitle(type='text' value=jam.title)
+          else if (jam.title === "")
+            input.form-control#jamtitle(type='text' placeholder="Untitled")
+  .card.border-secondary
+    .card-body
+      .row
+        .col-5
+          h5 Location
+          if (jam.location)
+            select#jamlocation.form-control(name="location", placeholder=jam.location.name, autocomplete="off")
+          else
+            select#jamlocation.form-control(name="location", placeholder="No Location Selected", autocomplete="off")
+        .col-5
+          h5 Band
+          if (jam.band)
+            select#jamband.form-control(name="band", placeholder=jam.band.name, autocomplete="off")
+          else
+            select#jamband.form-control(name="band", placeholder="No Band Selected", autocomplete="off")
+        .col-2
+          h5 Private
+          .form-check
             if (jam.private)
               input.form-check-input(type='checkbox' checked id='isJamPrivate')
             else
               input.form-check-input(type='checkbox' id='isJamPrivate')
             label.form-label(for='isJamPrivate')
               i.fa.fa-key.fa-lg.mr-1
-              | Private
-.card
-  .card-body
-    .row
-      .col
-        h4 Date
-        #jamdatepicker.input-group.date(data-target-input='nearest')
-          input#jamdate.form-control.datetimepicker-input(type='text', data-target='#jamdatepicker')
-          .input-group-append(data-target='#jamdatepicker', data-toggle='datetimepicker')
-            .input-group-text
-              i.fa.fa-calendar
-      .col
-        h4 Title
-        if (jam.title !== "")
-          input.form-control#jamtitle(type='text' value=jam.title)
-        else if (jam.title === "")
-          input.form-control#jamtitle(type='text' placeholder="Untitled")
-.card
-  .card-body
-    .row
-      .col
-        h4 Location
-        if (jam.location)
-          select#jamlocation.form-control(name="location", placeholder=jam.location.name, autocomplete="off")
+  .card.border-secondary
+    .card-body.container-flex
+      .row-flex
+        h5 Notes
+        if (jam.notes)
+          textarea#jamnotes.form-control(rows=3)
+            | #{jam.notes}
         else
-          select#jamlocation.form-control(name="location", placeholder="No Location Selected", autocomplete="off")
-      .col
-        h4 Band
-        if (jam.band)
-          select#jamband.form-control(name="band", placeholder=jam.band.name, autocomplete="off")
-        else
-          select#jamband.form-control(name="band", placeholder="No Band Selected", autocomplete="off")
-.card
-  .card-body.container-flex
-    .row-flex
-      h4 Notes
-      if (jam.notes)
-        textarea#jamnotes.form-control(rows=3)
-          | #{jam.notes}
-      else
-        textarea#jamnotes.form-control(placeholder="Enter notes about this jam here", rows=3)
-.card
-  .card-body.container-flex
-    .row-flex
-      h4 Musicians
-      #musicianHolder
-.card
-  .card-body.container-flex
-    .row-flex
-      h4 Staff
-      #staffHolder
-.card
-  .card-body.container-flex
-    .row-flex
-      h4 Music
-      table.table#tracksTable
-.card
-  .card-body.container-flex
-    .row-flex
-      h4 Pictures
-      #picsHolder
-.card
-  .card-body.container-flex
-    .row-flex
-      h4 Video
-      table.table#vidsTable
-.card
-  .card-body.container-flex
-    .row-flex
-      h4 Upload Media
-      #theZone.border.p-2 Drag and Drop tracks here or click to browse...
+          textarea#jamnotes.form-control(placeholder="Enter notes about this jam here", rows=3)
+  .card.border-secondary
+    .card-body.container-flex
+      .row-flex
+        h5 Musicians
+        #musicianHolder
+  .card.border-secondary
+    .card-body.container-flex
+      .row-flex
+        h5 Staff
+        #staffHolder
+  .card.border-secondary
+    .card-body.container-flex
+      .row-flex
+        h5 Music
+        table.table#tracksTable
+  .card.border-secondary
+    .card-body.container-flex
+      .row-flex
+        h4 Pictures
+        #picsHolder
+  .card.border-secondary
+    .card-body.container-flex
+      .row-flex
+        h5 Video
+        table.table#vidsTable
+  .card.border-secondary
+    .card-body.container-flex
+      .row-flex
+        h5 Upload Media
+        #theZone.border.p-2 Drag and Drop tracks here or click to browse...

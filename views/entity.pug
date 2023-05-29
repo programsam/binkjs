@@ -1,52 +1,29 @@
-if (type === "bands")
-  .card
-    .card-body
-      h4.card-title
-        | #{displayType}: #{name}
-      if (link && link.indexOf('http://') === 0)
-        a(href=link, target="_blank") #{link}
-  .card
-    .card-body
-      h4.card-title
-        | Appears on jams
-      table.table#entityJamTable
-else if (type === "locations")
-  .card
-    .card-body
-      h4.card-title
-        | #{displayType}: #{name}
-      if (link && link.indexOf('http://') === 0)
-        a(href=link, target="_blank") #{link}
+.card.border-primary.m-1
+  h4.card-header
+    | #{displayType}: #{name}
+  .card-body
+    if (type === "bands" || type === "musicians")
+      if (link && link.indexOf('http') === 0)
+        p Link:&nbsp;
+          a(href=link, target="_blank") #{link}
+      .card.border-secondary.mt-1
+        .card-body
+          .card-title Appears on Jams
+            table.table#entityJamTable
+    else if (type === "locations")
+      if (link && link.indexOf('http') === 0)
+        p Link:
+          a(href=link, target="_blank") #{link}
       if (address)
         p Address: #{address}
       if (lat && lon)
         #map-canvas(style='width:100%; height:100px')
-  .card
-    .card-body
-      h4.card-title
-        | Appears on jams
-      table.table#entityJamTable
-else if (type === "staff")
-  .card
-    .card-body
-      h4.card-title
-        | #{displayType}: #{name}
-  .card
-    .card-body
-      h4.card-title
-        | Appears on jams
-      table.table#entityJamTable
-else if (type === "musicians")
-  .card
-    .card-body
-      h4.card-title
-        | #{displayType}: #{name}
-      if (link && link.indexOf('http://') === 0)
-        a(href=link, target="_blank") #{link}
-  .card
-    .card-body
-      h4.card-title
-        | Appears on jams
-      table.table#entityJamTable
-else
-  p There must be some confusion; we don't track this type.
+      .card.border-secondary.mt-1
+        .card-body
+          .card-title Appears on Jams
+            table.table#entityJamTable
+    else if (type === "staff")
+      .card.border-secondary.mt-1
+        .card-body
+          .card-title Appears on Jams
+            table.table#entityJamTable

@@ -2,21 +2,21 @@
 //  | #{JSON.stringify(jams)}
 if (jams.length > 0)
   for jam in jams
-    .card
+    .card.border-primary.m-2
+      h4.card-header
+        if (jam.private)
+          i.fas.fa-key.m-1.float-end
+        | #{jam.mydate} -&nbsp;
+        a(href='javascript:loadJam(' + jam.id + ');') #{jam.title}
       .card-body
-        h4.card-title
-          if (jam.private)
-            i.fas.fa-key.m-1
-          | #{jam.mydate} -&nbsp;
-          a(href='javascript:loadJam(' + jam.id + ');') #{jam.title}
         h6.card-subtitle.mb-2.text-muted
           if jam.band
             a(href=`javascript:loadEntity('bands', ${jam.band.id});`) #{jam.band.name}
             |  at&nbsp;
           if jam.location
             a(href=`javascript:loadEntity('locations', ${jam.location.id});`) #{jam.location.name}
-        p.card-text
-          | #{jam.notes}
+        .card-text
+        | #{jam.notes}
 else if (history)
   p No jams occurred on this date in years past.
 else

@@ -1,98 +1,98 @@
 #jamid(data-id=jam.id)
-.card
+.card.border-primary.m-1
+  h4.card-header
+    | #{jam.mydate} - #{jam.title}
+    if (jam.private)
+      p.float-end
+        i.fa.fa-key.fa-sm.ms-2
+    if (admin)
+      button#editJamButton.float-end.btn.btn-primary.btn-sm.ms-2 Edit
+      button#deleteJamButton.float-end.btn.btn-danger.btn-sm Delete
   .card-body
-    h4.card-title
-      | #{jam.mydate} - #{jam.title}
-      if (jam.private)
-        p.float-end
-          i.fa.fa-key.fa-sm
     h6.card-subtitle.mb-2.text-muted
-      if (admin)
-        button#editJamButton.float-end.btn.btn-primary.ml-2 Edit
-        button#deleteJamButton.float-end.btn.btn-danger Delete
       if jam.band
         a(href=`javascript:loadEntity('bands', ${jam.band.id});`) #{jam.band.name}
         |  at&nbsp;
       if jam.location
         a(href=`javascript:loadEntity('locations', ${jam.location.id});`) #{jam.location.name}
     if (jam.notes)
-      p.card-text
+      .card-text
         | #{jam.notes}
-if (jam.location && jam.location.lat && jam.location.lon)
-  .card
-    .card-body
-      h4.card-title Location
-      #map-canvas(style='width:100%; height:100px')
-if (jam.musicians && jam.musicians.length > 0)
-  .card
-    .card-body
-      h4.card-title Musicians
-      .list-group
-        for musician in jam.musicians
-          .list-group-item
-            a(href=`javascript:loadEntity('musicians', ${musician.id});`) #{musician.name}
-            |&nbsp;-&nbsp;
-            each instrument, index in musician.instruments
-              if (index === (musician.instruments.length - 1))
-                | #{instrument.name}
+  if (jam.location && jam.location.lat && jam.location.lon)
+    .card.border-secondary
+      h5.card-body
+        .card-title Location
+          #map-canvas(style='width:100%; height:100px')
+  if (jam.musicians && jam.musicians.length > 0)
+    .card.border-secondary
+      .card-body
+        h5.card-title Musicians
+        .list-group
+          for musician in jam.musicians
+            .list-group-item
+              a(href=`javascript:loadEntity('musicians', ${musician.id});`) #{musician.name}
+              |&nbsp;-&nbsp;
+              each instrument, index in musician.instruments
+                if (index === (musician.instruments.length - 1))
+                  | #{instrument.name}
+                else
+                  | #{instrument.name},&nbsp
+  if (jam.staff && jam.staff.length > 0)
+    .card.border-secondary
+      .card-body
+        h5.card-title Staff
+        .list-group
+          for staff in jam.staff
+            li.list-group-item
+              a(href=`javascript:loadEntity('staff', ${staff.id});`) #{staff.name}
+              |&nbsp;-&nbsp;
+              each role, index in staff.roles
+                if (index === (staff.roles.length - 1))
+                  | #{role.name}
+                else
+                  | #{role.name},&nbsp
+  if (jam.tracks && jam.tracks.length > 0)
+    .card.border-secondary
+      .card-body
+        h5.card-title Music
+        .list-group
+          for track in jam.tracks
+            li.list-group-item
+              if (track.title === "--------------------")
+                | &nbsp;
               else
-                | #{instrument.name},&nbsp
-if (jam.staff && jam.staff.length > 0)
-  .card
-    .card-body
-      h4.card-title Staff
-      .list-group
-        for staff in jam.staff
-          li.list-group-item
-            a(href=`javascript:loadEntity('staff', ${staff.id});`) #{staff.name}
-            |&nbsp;-&nbsp;
-            each role, index in staff.roles
-              if (index === (staff.roles.length - 1))
-                | #{role.name}
-              else
-                | #{role.name},&nbsp
-if (jam.tracks && jam.tracks.length > 0)
-  .card
-    .card-body
-      h5.card-title Music
-      .list-group
-        for track in jam.tracks
-          li.list-group-item
-            if (track.title === "--------------------")
-              | &nbsp;
-            else
-              a(href=track.path) #{track.title}
-              if (track.notes)
-                | &nbsp;- #{track.notes}
-              p.float-end
-                a(href='javascript:playImmediately("' + track.title + '", "' + track.path + '");')
-                  i.fa.fa-play.fa-sm
-if (jam.pictures && jam.pictures.length > 0)
-  .card
-    .card-body
-      h4.card-title Pictures
-        #binkPictureCarousel.carousel.slide(data-ride='carousel').w-50.h-50
-          .carousel-inner
-            each picture, index in jam.pictures
-              if (index===0)
-                .carousel-item.active
-                  img.d-block.w-100(src=picture.path)
-              else
-                .carousel-item
-                  img.d-block.w-100(src=picture.path)
-          a.carousel-control-prev(href='#binkPictureCarousel', role='button', data-slide='prev')
-            span.carousel-control-prev-icon(aria-hidden='true')
-            span.sr-only Previous
-          a.carousel-control-next(href='#binkPictureCarousel', role='button', data-slide='next')
-            span.carousel-control-next-icon(aria-hidden='true')
-            span.sr-only Next
-if (jam.video && jam.video.length > 0)
-  .card
-    .card-body
-      h4.card-title Video
-      .list-group
-        for video in jam.video
-          li.list-group-item
-            a(href=video.path) #{video.title}
-            if (video.notes)
-              | &nbsp;- #{video.notes}
+                a(href=track.path) #{track.title}
+                if (track.notes)
+                  | &nbsp;- #{track.notes}
+                p.float-end
+                  a(href='javascript:playImmediately("' + track.title + '", "' + track.path + '");')
+                    i.fa.fa-play.fa-sm
+  if (jam.pictures && jam.pictures.length > 0)
+    .card.border-secondary
+      .card-body
+        h4.card-title Pictures
+          #binkPictureCarousel.carousel.slide(data-ride='carousel').w-50.h-50
+            .carousel-inner
+              each picture, index in jam.pictures
+                if (index===0)
+                  .carousel-item.active
+                    img.d-block.w-100(src=picture.path)
+                else
+                  .carousel-item
+                    img.d-block.w-100(src=picture.path)
+            a.carousel-control-prev(href='#binkPictureCarousel', role='button', data-slide='prev')
+              span.carousel-control-prev-icon(aria-hidden='true')
+              span.sr-only Previous
+            a.carousel-control-next(href='#binkPictureCarousel', role='button', data-slide='next')
+              span.carousel-control-next-icon(aria-hidden='true')
+              span.sr-only Next
+  if (jam.video && jam.video.length > 0)
+    .card.border-secondary
+      .card-body
+        h4.card-title Video
+        .list-group
+          for video in jam.video
+            li.list-group-item
+              a(href=video.path) #{video.title}
+              if (video.notes)
+                | &nbsp;- #{video.notes}
