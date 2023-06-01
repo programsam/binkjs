@@ -664,12 +664,26 @@ function reloadTracksSection(id, focus) {
 }
 
 function reloadDropZone(id) {
-  var theZone = new Dropzone('#theZone', {
-    url: `/admin/jam/${id}/files`,
-    createImageThumbnails: false,
-    uploadMultiple: true,
-    parallelUploads: 10
-  });
+  $.get("/views/admin/dropzone/template", function(loadedPreviewTemplate) {
+    var theZone = new Dropzone('#theZone', {
+      url: `/admin/jam/${id}/files`,
+      previewsContainer: "#filePreviews",
+      createImageThumbnails: true,
+      previewTemplate: loadedPreviewTemplate,
+      uploadMultiple: true,
+      parallelUploads: 10
+    }); //define the drop zone
+
+    theZone.on('completemultiple', function(files) {
+      files.forEach(function(thisfile) {
+        if (thisfile.status === "success") {
+          $('.dz-success-mark', thisfile.previewElement).removeClass('invisible');
+        } else if (thisfile.status === "error") {
+          $('.dz-error-mark', thisfile.previewElement).removeClass('invisible');
+        }
+      })
+    })
+  }) //get the dropzone template
 }
 
 function vidChanged(element) {
