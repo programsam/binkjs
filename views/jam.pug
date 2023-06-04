@@ -57,12 +57,14 @@
         h5.card-title Music
         .list-group
           for track in jam.tracks
-            li.list-group-item
-              if (track.title === "--------------------")
-                | &nbsp;
-              else
+            if (track.title === "--------------------")
+              hr
+              p.text-info.text-center SET BREAK
+              hr
+            else
+              li.list-group-item
                 a(href=track.path) #{track.title}
-                if (track.notes)
+                if (track.notes && track.notes.length > 0 && track.notes.trim().length > 0)
                   | &nbsp;- #{track.notes}
                 p.float-end
                   a(href='javascript:playImmediately("' + track.title + '", "' + track.path + '");')
