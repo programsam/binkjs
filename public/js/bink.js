@@ -1032,47 +1032,156 @@ function editJam(id) {
 
         $(window).scrollTop(0);
 
-        //Setup location autocomplete
-        $('#jamlocation').autoComplete({
-          resolverSettings: {
-            url: '/api/entity/search/locations'
-          }
-        })
 
-        //When the user selects a location
+        /**
+         * Jam location autoComplete
+         */
+        $('#jamlocation').autoComplete({})
+
+        // This has all gotten rather manual due to
+        // lack of compatibility with Bootstrap 5.
+        //
+        // We're having to hard-code the link between
+        // the selected component and what's in the box.
+        // Same goes for bands.
+
+        // If this jam has a location, we need to set
+        // the autocomplete to it, because it doesn't
+        // work with 'placeholder' any more. :(
+        //
+        // The Pug views are rendered with a name
+        // and id for the location that can be
+        // inserted in here.
+        if ($('#locid').data('id') > 0) {
+          $('#jamlocation').autoComplete('set', {
+            value: $('#locid').data('id'),
+            text: $('#locid').data('text')
+          })
+        } else {
+          // If nothing is selected, we are using
+          // our own custom "placeholder"
+          $('#jamlocation').autoComplete('set', {
+            text: "<none selected>"
+          })
+        }
+
+        //when the user selects a band
+        //again, complicated because of Autocomplete
+        //and Bootstrap 5 and placeholder.
         $('#jamlocation').on('autocomplete.select',
           function(event, item) {
+            //this event fires whether or not they
+            //actually made a selection!
             if (typeof item !== "undefined") {
+              //they made a new selection. synchronize
+              //the divs that store the data outside
+              //of the control and then call updateJam()
+              //to send the Ajax to update it.
               $('#locid').data('id', `${item.value}`);
+              $('#locid').data('text', `${item.text}`);
               updateJam();
-            }
-        })
+            } else {
+              // they did not make a new selection, so
+              // we have to either reset to blank/unfilled
+              // or reset to the previous selection
+
+              //something was already chosen for this jam
+              if ($('#locid').data('id') > 0) {
+                //repopulate
+                $('#jamlocation').autoComplete('set', {
+                  value: $('#locid').data('id'),
+                  text: $('#locid').data('text')
+                })
+              } else {
+                //nothing was chosen, so go back to
+                //the "placeholder"
+                $('#jamlocation').autoComplete('set', {
+                  text: "<none selected>"
+                }) //set the location back to 'placeholder'
+              } //else there is no id set
+            } //else the item was undefined
+        }) //on select
 
         //When the user adds a new location
         $('#jamlocation').on('autocomplete.freevalue', addNewLocation)
 
-        //Setup band autocomplete
-        $('#jamband').autoComplete({
-          resolverSettings: {
-            url: '/api/entity/search/bands'
-          }
+        //Force our own 'placeholder' by clearing
+        //the value when the user clicks on the textbox
+        $('#jamlocation').focus(function(event) {
+          $('#jamlocation').autoComplete('clear');
         })
+
+        $('#clearJamLocationButton').click(function(e) {
+          $('#locid').data('id', '-1');
+          $('#locid').data('text', null);
+          $('#jamlocation').autoComplete('set', {
+            text: "<none selected>"
+          }) //set the location back to 'placeholder'
+          updateJam();
+        }) //end clear jam location button callback
+
+        /**
+         * Setup Band Autocomplete
+         */
+        $('#jamband').autoComplete({})
+
+        //If the jam already has a band
+        //set, we have to setup the automcomplete
+        //to show that. BS5 made it such that the
+        //placeholder text stopped showing.
+        if ($('#bandid').data('id') > 0) {
+          $('#jamband').autoComplete('set', {
+            value: $('#bandid').data('id'),
+            text: $('#bandid').data('text')
+          })
+        } else {
+          $('#jamband').autoComplete('set', {
+            text: "<none selected>"
+          })
+        }
 
         //when the user selects a band
         $('#jamband').on('autocomplete.select',
           function(event, item) {
             if (typeof item !== "undefined") {
               $('#bandid').data('id', `${item.value}`);
+              $('#bandid').data('text', `${item.text}`);
               updateJam();
-            }
-        })
+            } else {
+              if ($('#bandid').data('id') > 0) {
+                $('#jamband').autoComplete('set', {
+                  value: $('#bandid').data('id'),
+                  text: $('#bandid').data('text')
+                })
+              } else {
+                $('#jamband').autoComplete('set', {
+                  text: "<none selected>"
+                }) //set the band back to 'placeholder'
+              } //else there is no id set
+            } //else the item was undefined
+        }) //on select
 
         //When the user adds a new band
         $('#jamband').on('autocomplete.freevalue', addNewBand)
-    	})
-    })
-  })
-}
+
+        //Force our own 'placeholder' by clearing
+        //the value when the user clicks on the textbox
+        $('#jamband').click(function(event) {
+          $('#jamband').autoComplete('clear');
+        })
+
+        $('#clearJamBandButton').click(function(e) {
+          $('#bandid').data('id', '-1');
+          $('#bandid').data('text', null);
+          $('#jamband').autoComplete('set', {
+            text: "<none selected>"
+          }) //set the location back to 'placeholder'
+          updateJam();
+        }) //end clear jam band button callback
+    	}) //retrieved the edit jam view
+    }) //edit-jam-specific scripts have loaded
+  }) //tempus domini has loaded
+} //editjam(id)
 
 function reloadPicsSection(jamid) {
   $.get(`/views/admin/jam/${jamid}/edit/pics`, function(view) {
@@ -1249,29 +1358,47 @@ function addNewInstrument(event, item) {
 }
 
 function addNewLocation(event, item) {
+  if (item.length <= 3)
+  {
+    $('#jamband').autoComplete('set', {
+      value: "-1",
+      text: "<none selected>"
+    })
+  } else {
   showConfirmModal(
     `Are you sure you'd like to create the location "${item}" and select it for this jam?`,
   function() {
     $('#confirmModal').modal('hide');
     createEntity("locations", item, function(reply) {
-      $('#locid').data('location', `${reply.id}`);
-      $('#jamlocation').autoComplete('set', { value: reply.id, text: reply.name });
+      $('#locid').data('id', `${reply.id}`);
+      $('#locid').data('text', `${reply.name}`);
       updateJam();
+      $('#jamlocation').autoComplete('set', { value: reply.id, text: reply.name });
     });
   })
 }
+}
 
 function addNewBand(event, item) {
-  showConfirmModal(
-    `Are you sure you'd like to create the band "${item}" and select it for this jam?`,
-  function() {
-    $('#confirmModal').modal('hide');
-    createEntity("bands", item, function(reply) {
-      $('#bandid').data('band', `${reply.id}`);
-      $('#jamband').autoComplete('set', { value: reply.id, text: reply.name });
-      updateJam();
-    });
-  })
+  if (item.length <= 3)
+  {
+    $('#jamband').autoComplete('set', {
+      value: "-1",
+      text: "<none selected>"
+    })
+  } else {
+    showConfirmModal(
+      `Are you sure you'd like to create the band "${item}" and select it for this jam?`,
+    function() {
+      $('#confirmModal').modal('hide');
+      createEntity("bands", item, function(reply) {
+        $('#bandid').data('id', `${reply.id}`);
+        $('#bandid').data('text', `${reply.name}`);
+        updateJam();
+        $('#jamband').autoComplete('set', { value: reply.id, text: reply.name });
+      });
+    })
+  }
 }
 
 function createEntity(type, incomingName, callback) {
