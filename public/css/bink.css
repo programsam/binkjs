@@ -7,12 +7,10 @@
 }
 
 #scrollableContainer {
-  overflow-x: scroll;
   overflow-y: hidden;
-  white-space: nowrap;
 }
 
 .pictureHolder {
   display: inline-grid;
-  width: 40%
+  width: 150px;
 }

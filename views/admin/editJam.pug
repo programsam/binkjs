@@ -49,7 +49,7 @@ else
           else
             select#jamband.form-control(name="band", placeholder="No Band Selected", autocomplete="off")
         .col-2
-          h5 Private
+          h5.d-none.d-md-block Private
           .form-check
             if (jam.private)
               input.form-check-input(type='checkbox' checked id='isJamPrivate')
