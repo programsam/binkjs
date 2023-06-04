@@ -1,7 +1,7 @@
 if (thisjam.pictures && thisjam.pictures.length > 0)
-  #scrollableContainer
+  #scrollableContainer.overflow-x-scroll.overflow-y-hidden.text-nowrap
     for pic in thisjam.pictures
-      .pictureHolder.p-3(class=(thisjam.defpic === pic.id ? "border" : ""))
+      .d-inline-grid.w-25.pictureHolder.p-3(class=(thisjam.defpic === pic.id ? "border" : ""))
         img(src=pic.path).mw-100
         p.float-end
           a(href="javascript:deletePic('" + pic.id + "');")

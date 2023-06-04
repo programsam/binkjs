@@ -57,12 +57,14 @@
         h5.card-title Music
         .list-group
           for track in jam.tracks
-            li.list-group-item
-              if (track.title === "--------------------")
-                | &nbsp;
-              else
+            if (track.title === "--------------------")
+              hr
+              p.text-info.text-center SET BREAK
+              hr
+            else
+              li.list-group-item
                 a(href=track.path) #{track.title}
-                if (track.notes)
+                if (track.notes && track.notes.length > 0 && track.notes.trim().length > 0)
                   | &nbsp;- #{track.notes}
                 p.float-end
                   a(href='javascript:playImmediately("' + track.title + '", "' + track.path + '");')
@@ -71,7 +73,7 @@
     .card.border-secondary
       .card-body
         h4.card-title Pictures
-          #binkPictureCarousel.carousel.slide(data-ride='carousel').w-50.h-50
+          #binkPictureCarousel.carousel.slide(data-bs-ride='carousel').w-50.h-50
             .carousel-inner
               each picture, index in jam.pictures
                 if (index===0)
@@ -80,12 +82,12 @@
                 else
                   .carousel-item
                     img.d-block.w-100(src=picture.path)
-            a.carousel-control-prev(href='#binkPictureCarousel', role='button', data-slide='prev')
+            button.carousel-control-prev(type='button', data-bs-target='#binkPictureCarousel' data-bs-slide='prev')
               span.carousel-control-prev-icon(aria-hidden='true')
-              span.sr-only Previous
-            a.carousel-control-next(href='#binkPictureCarousel', role='button', data-slide='next')
+              span.visually-hidden Previous
+            button.carousel-control-next(type='button', data-bs-target='#binkPictureCarousel' data-bs-slide='next')
               span.carousel-control-next-icon(aria-hidden='true')
-              span.sr-only Next
+              span.visually-hidden Next
   if (jam.video && jam.video.length > 0)
     .card.border-secondary
       .card-body

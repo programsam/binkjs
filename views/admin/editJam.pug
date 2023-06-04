@@ -5,14 +5,6 @@ script(type="text/javascript")
   |    });
 
 #jamid(data-id=jam.id)
-if (jam.location)
-  #locid(data-id=jam.location.id)
-else
-  #locid(data-id=-1)
-if (jam.band)
-  #bandid(data-id=jam.band.id)
-else
-  #bandid(data-id=-1)
 .card.border-primary.m-1
   h4.card-header Editing Jam
     button#deleteJamButton.float-end.btn.btn-danger.btn-sm.ms-2 Delete
@@ -39,17 +31,25 @@ else
         .col-5
           h5 Location
           if (jam.location)
-            select#jamlocation.form-control(name="location", placeholder=jam.location.name, autocomplete="off")
+            #locid(data-id=jam.location.id, data-text=jam.location.name)
           else
-            select#jamlocation.form-control(name="location", placeholder="No Location Selected", autocomplete="off")
+            #locid(data-id=-1)
+          .input-group
+            select#jamlocation.form-control(type="text", name="location", autocomplete="off", data-url="/api/entity/search/locations")
+            button.btn.btn-primary(type="Button")#clearJamLocationButton
+              i.fa.fa-solid.fa-delete-left
         .col-5
           h5 Band
           if (jam.band)
-            select#jamband.form-control(name="band", placeholder=jam.band.name, autocomplete="off")
+            #bandid(data-id=jam.band.id, data-text=jam.band.name)
           else
-            select#jamband.form-control(name="band", placeholder="No Band Selected", autocomplete="off")
+            #bandid(data-id=-1)
+          .input-group
+            select#jamband.form-control(type="text", name="band", autocomplete="off", data-url="/api/entity/search/bands")
+            button.btn.btn-primary(type="Button")#clearJamBandButton
+              i.fa.fa-solid.fa-delete-left
         .col-2
-          h5 Private
+          h5.d-none.d-md-block Private
           .form-check
             if (jam.private)
               input.form-check-input(type='checkbox' checked id='isJamPrivate')
@@ -96,3 +96,4 @@ else
       .row-flex
         h5 Upload Media
         #theZone.border.p-2 Drag and Drop tracks here or click to browse...
+        ul#filePreviews.list-group

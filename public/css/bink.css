@@ -5,14 +5,3 @@
 #main {
   margin-bottom: 84px
 }
-
-#scrollableContainer {
-  overflow-x: scroll;
-  overflow-y: hidden;
-  white-space: nowrap;
-}
-
-.pictureHolder {
-  display: inline-grid;
-  width: 40%
-}

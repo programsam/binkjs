@@ -1,0 +1,16 @@
+li.dz-preview.dz-file-preview.list-group-item
+  .dz-details
+    h4.dz-filename
+      span(data-dz-name)
+    h6.dz-size(data-dz-size)
+    img(data-dz-thumbnail)
+  .dz-progress.progress
+    span.dz-upload(data-dz-uploadprogress, role="progressbar").progress-bar.progress-bar-striped.progress-bar-animated
+  .dz-error-message
+    span.badge.bg-danger(data-dz-errormessage)
+  .dz-remove(data-dz-remove).btn.btn-link
+    i.fa.fa-solid.fa-trash
+  .dz-success-mark.invisible
+    i.fa.fa-solid.fa-circle-check
+  .dz-error-mark.invisible
+    i.fa.fa-solid.fa-circle-exclamation
