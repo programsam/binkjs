@@ -33,13 +33,25 @@ $(document).ready(function() {
 		loadMap();
 	} else if (location.hash == "#tweets") {
 		loadTweets();
-	} else if (location.hash.indexOf("#jam-") == 0) {
+	} else if (location.hash.indexOf("#jams-") == 0) {
 		let jamid = location.hash.split("-")[1];
 		loadJam(jamid);
   } else if (location.hash.indexOf("#edit-") == 0) {
 		let jamid = location.hash.split("-")[1];
 		editJam(jamid);
-	} else {
+  } else if (location.hash.indexOf("#musicians-") == 0) {
+    let musicianId = location.hash.split("-")[1];
+    loadEntity("musicians", musicianId);
+  } else if (location.hash.indexOf("#locations-") == 0) {
+    let locationId = location.hash.split("-")[1];
+    loadEntity("locations", locationId);
+  } else if (location.hash.indexOf("#bands-") == 0) {
+    let bandId = location.hash.split("-")[1];
+    loadEntity("bands", bandId);
+  } else if (location.hash.indexOf("#staff-") == 0) {
+    let staffId = location.hash.split("-")[1];
+    loadEntity("staff", staffId);
+  } else {
 		loadRecentJams();
 	}
 
@@ -381,6 +393,7 @@ function recentCallback(data) {
 
 function loadEntity(type, id) {
 	$('.nav-link.active').removeClass('active');
+  location.hash = `${type}-${id}`;
 	$.get(`/views/entity/${type}/${id}`, function(view) {
 		$('#main').html(view);
     if (type === "locations") {
@@ -522,7 +535,7 @@ function loadMap() {
 
 
 function loadJam(id) {
-	location.hash = "jam-" + id;
+	location.hash = "jams-" + id;
 	$('.nav-link.active').removeClass('active');
 	$.get(`/views/jam/${id}`, function(view) {
 		$('#main').html(view);
