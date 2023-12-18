@@ -170,6 +170,46 @@ On a macos system using [MySQL Shell](https://dev.mysql.com/downloads/shell/),
 
   You should now be able to browse to `http://localhost:3001` and see the BINK homepage.
 
+### AWS Credentials and Setup
+
+You will need a local .aws/credentials file (if on Mac/ Linux) file configured to access your AWS account.
+
+First, create security credentials in your AWS account.
+
+[Get AWS Credentials](https://aws.amazon.com/blogs/security/how-to-find-update-access-keys-password-mfa-aws-management-console/)
+
+Next, install aws-cli.
+
+[Install aws-cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+
+Once installed, run `aws configure`. Fill in the values for access key id and secret key, as well as your bucket's region. 
+
+You will also need to set a local environment variable for the current AWS_PROFILE.
+
+`export AWS_PROFILE=default`
+
+NB: This assumes you are using the default profile. If adding a profile, you will need to set this local environment variable to that value. 
+
+To confirm that you have the correct profile selected, run the following: 
+
+`aws configure list`
+
+You should see output showing the selected profile, access_key, secret_key, and region. 
+
+For local development, you should also set up an S3 bucket with public read permissions. 
+
+[Create an S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html). 
+
+It's also recommended that you create a folder within your bucket called public.
+
+[Set appropriate permissions for your S3 bucket.](https://docs.aws.amazon.com/AmazonS3/latest/userguide/managing-acls.html)
+
+Once this is complete, you will need to input the information for your s3 bucket name, region, and URL in your settings.json file. 
+
+For example, if your bucket is called binkjs, your public_base_url should appear similar to the following: 
+
+https://s3.amazonaws.com/binkjs/public/
+
 ## Production Setup
 
 ### Nginx
@@ -187,3 +227,5 @@ location / {
 ```
 
 Otherwise, BINK.js won't get the cookies it needs.
+
+
