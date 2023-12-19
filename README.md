@@ -170,7 +170,7 @@ On a macos system using [MySQL Shell](https://dev.mysql.com/downloads/shell/),
 
   You should now be able to browse to `http://localhost:3001` and see the BINK homepage.
 
-### AWS Credentials and Setup
+### AWS Credentials and S3 Bucket Setup
 
 You will need a local .aws/credentials file (if on Mac/ Linux) file configured to access your AWS account.
 
@@ -202,7 +202,17 @@ For local development, you should also set up an S3 bucket with public read perm
 
 It's also recommended that you create a folder within your bucket called public.
 
-[Set appropriate permissions for your S3 bucket.](https://docs.aws.amazon.com/AmazonS3/latest/userguide/managing-acls.html)
+[Set appropriate permissions for your S3 bucket.](https://docs.aws.amazon.com/AmazonS3/latest/userguide/managing-acls.html) Your bucket will need to be publicly accessible. 
+
+Your S3 bucket will also not have ACLs allowed by default. If ACLs are not allowed, you will not be able to upload assets (tracks, images, videos) via the Binkjs admin console. 
+
+In order to resolve this, do the following: 
+
+- Go to the S3 Console and select your bucket
+- Go to Permissions
+- In Object Ownership, click Edit
+- Select ACLs enabled
+- Agree and save changes
 
 Once this is complete, you will need to input the information for your s3 bucket name, region, and URL in your settings.json file. 
 
