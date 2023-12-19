@@ -170,7 +170,7 @@ On a macos system using [MySQL Shell](https://dev.mysql.com/downloads/shell/),
 
   You should now be able to browse to `http://localhost:3001` and see the BINK homepage.
 
-### AWS Credentials and S3 Bucket Setup
+### AWS Credentials/ awscli
 
 You will need a local .aws/credentials file (if on Mac/ Linux) file configured to access your AWS account.
 
@@ -188,7 +188,7 @@ You will also need to set a local environment variable for the current AWS_PROFI
 
 `export AWS_PROFILE=default`
 
-NB: This assumes you are using the default profile. If adding a profile, you will need to set this local environment variable to that value. 
+NB: This assumes you are using the `default` profile. If adding a profile, you will need to set this local environment variable to that value. 
 
 To confirm that you have the correct profile selected, run the following: 
 
@@ -196,11 +196,13 @@ To confirm that you have the correct profile selected, run the following:
 
 You should see output showing the selected profile, access_key, secret_key, and region. 
 
+### S3 Bucket
+
 For local development, you should also set up an S3 bucket with public read permissions. 
 
 [Create an S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html). 
 
-It's also recommended that you create a folder within your bucket called public.
+It's also recommended that you create a folder within your bucket called `public`.
 
 [Set appropriate permissions for your S3 bucket.](https://docs.aws.amazon.com/AmazonS3/latest/userguide/managing-acls.html) Your bucket will need to be publicly accessible. 
 
