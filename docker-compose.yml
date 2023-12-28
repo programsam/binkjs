@@ -1,5 +1,19 @@
 version: '3.8'
 services:
+  # binkjs:
+  #   build: .
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - ./src:/app/src
+  #   depends_on:
+  #     - mysql
+  #     - minio
+  #   environment:
+  #     MINIO_ENDPOINT: minio
+  #     MINIO_PORT: 9000
+  #     MINIO_ACCESS_KEY: minioadmin
+  #     MINIO_SECRET_KEY: miniopassword
   mysql:
     image: mysql:5.7
     ports:
@@ -33,13 +47,13 @@ services:
     depends_on:
       - minio
     environment:
-      MC_HOST_minio: http://minioadmin:$miniopassword@minio:9000
+      MC_HOST_minio: http://minioadmin:miniopassword@minio:9000
     entrypoint:
       - sh
       - -c
       - |
         until mc ls minio > /dev/null 2>&1; do
-          sleep 0.5
+          sleep 30
         done
 
         mc mb myminio/binkjs
