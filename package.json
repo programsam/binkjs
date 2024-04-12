@@ -10,7 +10,8 @@
     "start": "npx nodemon server.js"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.17.0",
+    "@aws-sdk/client-s3": "^3.554.0",
+    "@aws-sdk/credential-providers": "^3.554.0",
     "async": "^2.6.3",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
