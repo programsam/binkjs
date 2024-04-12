@@ -8,6 +8,8 @@
 	},
 	"s3": {
 		"public_base_url": "https://s3.amazonaws.com/binkmedia-test/public/",
+		"accessKeyId": "INSERT_AWS_ACCESSKEY_ID",
+		"secretAccessKey": "INSERT_AWS_SECRET_ACCESS_KEY",
 		"bucket_name": "binkmedia-test",
 		"bucket_region": "us-east-1"
 	},

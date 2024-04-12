@@ -145,12 +145,21 @@ On a macos system using [MySQL Shell](https://dev.mysql.com/downloads/shell/),
     - `mysql.port`: The port used to connect to the MySQL server.
     - `mysql.password`: The password associated with the user above.
     - `mysql.database`: The name of a database within MySQL that the `mysql.user` above has _write_ access to.
-  - `media_s3_url`: The base URL that is used in constructing links/downloading files from Amazon S3, which is where BINK stores its media.
+  - `s3`: The settings related to Amazon AWS S3, the backend storage for BINK's media.  See [the AWS credentials section](#aws-credentials-awscli) for more information on how to setup and use S3 for backend media storage.
+    - `public_base_url`: The URL that BINK's media is downloaded from. This can be determined by going into Amazon S3 and looking up the public URL for an object and then removing the specific path to that object.  **NB**: Please use `https` URLS!
+    - `bucket_name`: The bucket within your Amazon AWS S3 account that BINK will store its media in.  See the [S3 Bucket](#s3-bucket) section for more info.
+    - `bucket_region`: The buckets are each stored in a physical region; this allows for CDN and near physical location of buckets to users and developers. Look this up in Amazon Console.  See the [S3 Bucket](#s3-bucket) section for more info.
+    - `accessKeyId`: The access key ID that is required for accessing the S3 bucket. This will need to be configured in Amazon IAM.  See the [S3 Bucket](#s3-bucket) section for more info.
+    - `secretAccessKey`: The secret access key tied to the above access key ID. Again, see the [S3 Bucket](#s3-bucket) section for more info.
+  - `tmpuploads`: A directory on your server or local machine where BINK.js can store files that are uploaded to BINK.js before BINK uploads them to Amazon AWS.
   - `maps`: Google Maps is integrated into BINK; you'll need to go grab a Google API key, give it access to Google Maps, and insert it here.
   - `admin_password`: Historically, to make things easy, there has been just one password for administering BINK.  It is shared amongst friends.  This may be changing but for now, you need to set this so that friends can get in and edit jams, etc.
   - `session_secret`: Used to Salt/Hash the session IDs for BINK.  Best if set to a really securely random string.
-  - `secureCookie`: Whether Express sessions should require a *Secure Cookie* to establish a session with users. **TL;DR** -- you want this set to `false`
+  - `cookie`: A set of options related to HTTP/HTTPS cookies for when a user connects to BINK.
+    - `secure`: Whether Express sessions should require a *Secure Cookie* to establish a session with users. **TL;DR** -- you want this set to `false` in development and `true` in production environments when BINK.js is behind a reverse proxy.
+    - `sameSite`: Generally speaking, it's a good idea to ensure that our cookie comes from the same domain name as BINK is running on. This is much more important for production environments.
   - `logLevel`: The level of logging you'll see from the server-side component.  Set this to `silly` to see ridiculous, almost nonsensical amounts of information and set it to `error` to only see the critical problems.
+  - `podcast`: This is a section of settings related to the BINK podcast. BINK creates a podcast listing of every public track that can then be fed to things like Apple Music and similar providers to allow people to stream BINK's media within their favorite app.  See [the podcast npm feed options](https://www.npmjs.com/package/podcast#feedoptions) for a list and description of these options.
 
 * Congratulations, you should now be ready to start BINK.js.  Execute the following:
   ```
@@ -159,10 +168,10 @@ On a macos system using [MySQL Shell](https://dev.mysql.com/downloads/shell/),
   > BINK.js@0.12.0 start /Users/programsam/git/binkjs
   > npx nodemon server.js
 
-  [nodemon] 1.19.4
+  [nodemon] 3.1.0
   [nodemon] to restart at any time, enter `rs`
-  [nodemon] watching dir(s): *.*
-  [nodemon] watching extensions: js,mjs,json
+  [nodemon] watching path(s): *.*
+  [nodemon] watching extensions: js,mjs,cjs,json
   [nodemon] starting `node server.js`
   2019-12-31T15:59:10.296Z [server.js] info: BINK.js is up and listening on port 3001...
   2019-12-31T15:59:10.325Z [server.js] info: Successfully queried database.
