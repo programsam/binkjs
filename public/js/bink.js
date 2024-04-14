@@ -31,8 +31,6 @@ $(document).ready(function() {
 		loadHistoricJams();
 	} else if (location.hash == "#map") {
 		loadMap();
-	} else if (location.hash == "#tweets") {
-		loadTweets();
 	} else if (location.hash.indexOf("#jams-") == 0) {
 		let jamid = location.hash.split("-")[1];
 		loadJam(jamid);
@@ -129,36 +127,49 @@ function loadBrowse() {
 
 	$.get('/views/browse', function(view) {
 		$('#main').html(view);
+    var myColumns = [{
+      field:'date',
+      title:'Date',
+      sortable: true,
+      order: 'desc',
+      formatter: dateFormatter
+    }, {
+      field:'title',
+      title:'Title',
+      formatter: titleFormatter
+    }, {
+      field:'location.name',
+      title:'Location',
+      formatter: locationFormatter
+    }, {
+      field:'band.name',
+      title:'Band',
+      formatter: bandFormatter
+    }, {
+      field:'hasTracks',
+      title:'Tracks',
+      formatter: hasTracksFormatter
+    }, {
+      field:'hasPics',
+      title:'Pics',
+      formatter: hasPicsFormatter
+    }, {
+      field:'hasVids',
+      title:'Vids',
+      formatter: hasVidsFormatter
+    }];
+
+    if ($('#admin').data('admin')) {
+      myColumns.push(privateColumn = {
+        field:'private',
+        title:'Private',
+        formatter: privateFormatter
+      });    
+    }
+    
 		loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
       $('#jamTable').bootstrapTable({
-				columns: [
-					{field:'date',
-						title:'Date',
-						sortable: true,
-						order: 'desc',
-						formatter: dateFormatter},
-					{field:'title',
-							title:'Title',
-						formatter: titleFormatter},
-					{field:'location.name',
-						title:'Location',
-						formatter: locationFormatter},
-					{field:'band.name',
-						title:'Band',
-						formatter: bandFormatter},
-					{field:'hasTracks',
-						title:'Tracks',
-						formatter: hasTracksFormatter},
-					{field:'hasPics',
-						title:'Pics',
-						formatter: hasPicsFormatter},
-					{field:'hasVids',
-						title:'Vids',
-						formatter: hasVidsFormatter},
-					{field:'private',
-						title:'Private',
-						formatter: privateFormatter}
-				],
+				columns: myColumns,
 				url: '/api/search',
 				sidePagination: 'server',
 				pagination: true,
@@ -353,11 +364,7 @@ function playCurrentHowl() {
     $("#pauseButton").removeClass("disabled");
     $("#playButton").addClass("disabled");
     currentTime = setInterval(updatePosition, 500);
-  } if (currentHowl && currentHowl.playing()) {
-    console.log(`Cannot play because the howl is currently playing.`);
-  } else {
-    console.log(`Cannot play because: ${currentHowl}`);
-  }
+  } 
 }
 
 function stopCurrentHowl() {
@@ -367,9 +374,7 @@ function stopCurrentHowl() {
     currentHowl.stop();
     clearInterval(currentTimer);
     $('#currentPosition').html('0:00 / 0:00')
-  } else {
-    console.log(`Cannot stop because: ${JSON.stringify(currentHowl)}`);
-  }
+  } 
 }
 
 function pauseCurrentHowl() {
@@ -378,8 +383,6 @@ function pauseCurrentHowl() {
     $("#playButton").removeClass("disabled");
     currentHowl.pause();
     clearInterval(currentTimer);
-  } else {
-    console.log(`Cannot pause because: ${JSON.stringify(currentHowl)}`);
   }
 }
 
@@ -387,6 +390,15 @@ function recentCallback(data) {
 	$.get('/views/recent', function(view) {
 		$('#main').html(view);
     $(window).scrollTop(0);
+    $('#editJamButton').click(function() {
+      editJam($(this).data('id'));
+    })
+    $('#viewJamButton').click(function() {
+      loadJam($(this).data('id'));
+    })
+    $('#deleteJamButton').click(function() {
+      deleteJam($(this).data('id'));
+    })
 	})
 }
 
@@ -482,6 +494,8 @@ function overviewMapScriptsLoaded() {
   return (typeof google === "object" &&
           typeof google.maps === "object" &&
           typeof google.maps.Map === "function" &&
+          typeof google.maps.marker === 'object' &&
+          typeof google.maps.marker.AdvancedMarkerElement === 'function' &&
           typeof markerClusterer === "object" &&
           typeof markerClusterer.MarkerClusterer === "function"
         );
@@ -490,7 +504,9 @@ function overviewMapScriptsLoaded() {
 function itemMapScriptsLoaded() {
   return (typeof google === "object" &&
           typeof google.maps === "object" &&
-          typeof google.maps.Map === "function"
+          typeof google.maps.Map === "function" &&
+          typeof google.maps.marker === 'object' &&
+          typeof google.maps.marker.AdvancedMarkerElement === 'function'
         );
 }
 
@@ -501,21 +517,30 @@ function loadMap() {
   location.hash = "map";
   $("#main").html("Loading...")
   loadScripts(['googleMaps', 'markerClusterer'], overviewMapScriptsLoaded, function() {
-    var coordinates = new google.maps.LatLng(39.944465, -97.350595);
-		var mapOptions = {
-			center : coordinates,
-			zoom : 5
-		}
 		$('#main').html('<div class="position-absolute w-100 h-100" id="map-canvas"></div>');
-		var map = new google.maps.Map($("#map-canvas")[0], mapOptions);
+		var map = new google.maps.Map($("#map-canvas")[0], {
+			  center: {
+          lat: 39.944465,
+          lng: -97.350595
+        },
+			  zoom: 5,
+        mapId: 'overviewMap',
+        fullscreenControl: false,
+        mapTypeControl: false,
+        streetViewControl: false,
+        zoomControl: true,
+        zoomControlOptions: {
+          position: google.maps.ControlPosition.RIGHT_TOP,
+        }
+		});
     $.get('/api/maplocations', function(data) {
       let markers = [];
       data.forEach(function(thislocation) {
-        var thiscoordinates = new google.maps.LatLng(
-          thislocation.lat, thislocation.lon
-        );
-        var thismarker = new google.maps.Marker({
-          position: thiscoordinates
+        var thismarker = new google.maps.marker.AdvancedMarkerElement({
+          position: {
+            lat: thislocation.lat,
+            lng: thislocation.lon
+          }
         });
         thismarker.addListener('click', function(event) {
           if (infowindow)
@@ -554,8 +579,7 @@ function loadJam(id) {
 	})
 }
 
-function deleteJam() {
-  var id = $('#jamid').data('id');
+function deleteJam(id) {
   $.ajax({
 		method : "DELETE",
 		url : `/admin/jam/${id}`,
@@ -1000,7 +1024,9 @@ function editJam(id) {
         reloadPicsSection(id);
         reloadVidsSection(id);
         reloadDropZone(id);
-        $('#deleteJamButton').click(deleteJam);
+        $('#deleteJamButton').click(function() {
+          deleteJam(id);
+        });
         $('#viewJamButton').click(function() {
           loadJam(id);
         });
@@ -1452,17 +1478,23 @@ function closeEditJam() {
 }
 
 function mapLocation(loc) {
-	let coordinates = new google.maps.LatLng(parseFloat(loc.lat),
-			parseFloat(loc.lon));
-	let mapOptions = {
-		center : coordinates,
-		zoom : 9
-	}
-	let map = new google.maps.Map($('#map-canvas')[0],
-			mapOptions);
-	let marker = new google.maps.Marker({
-		position : coordinates,
-		map : map,
-		title : location.name
+	var myMap = new google.maps.Map($('#map-canvas')[0], {
+    center: {
+      lat: parseFloat(loc.lat),
+      lng: parseFloat(loc.lon)
+    },
+    zoom: 9,
+    mapId: 'singleJamLocationMap',
+    zoomControl: true,
+    fullscreenControl: false
+  });
+
+  var marker = new google.maps.marker.AdvancedMarkerElement({
+		position : {
+      lat: parseFloat(loc.lat),
+      lng: parseFloat(loc.lon)
+    },
+		map: myMap,
+		title: location.name
 	});
 }
