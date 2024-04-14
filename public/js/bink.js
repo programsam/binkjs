@@ -127,36 +127,49 @@ function loadBrowse() {
 
 	$.get('/views/browse', function(view) {
 		$('#main').html(view);
+    var myColumns = [{
+      field:'date',
+      title:'Date',
+      sortable: true,
+      order: 'desc',
+      formatter: dateFormatter
+    }, {
+      field:'title',
+      title:'Title',
+      formatter: titleFormatter
+    }, {
+      field:'location.name',
+      title:'Location',
+      formatter: locationFormatter
+    }, {
+      field:'band.name',
+      title:'Band',
+      formatter: bandFormatter
+    }, {
+      field:'hasTracks',
+      title:'Tracks',
+      formatter: hasTracksFormatter
+    }, {
+      field:'hasPics',
+      title:'Pics',
+      formatter: hasPicsFormatter
+    }, {
+      field:'hasVids',
+      title:'Vids',
+      formatter: hasVidsFormatter
+    }];
+
+    if ($('#admin').data('admin')) {
+      myColumns.push(privateColumn = {
+        field:'private',
+        title:'Private',
+        formatter: privateFormatter
+      });    
+    }
+    
 		loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
       $('#jamTable').bootstrapTable({
-				columns: [
-					{field:'date',
-						title:'Date',
-						sortable: true,
-						order: 'desc',
-						formatter: dateFormatter},
-					{field:'title',
-							title:'Title',
-						formatter: titleFormatter},
-					{field:'location.name',
-						title:'Location',
-						formatter: locationFormatter},
-					{field:'band.name',
-						title:'Band',
-						formatter: bandFormatter},
-					{field:'hasTracks',
-						title:'Tracks',
-						formatter: hasTracksFormatter},
-					{field:'hasPics',
-						title:'Pics',
-						formatter: hasPicsFormatter},
-					{field:'hasVids',
-						title:'Vids',
-						formatter: hasVidsFormatter},
-					{field:'private',
-						title:'Private',
-						formatter: privateFormatter}
-				],
+				columns: myColumns,
 				url: '/api/search',
 				sidePagination: 'server',
 				pagination: true,
