@@ -31,8 +31,6 @@ $(document).ready(function() {
 		loadHistoricJams();
 	} else if (location.hash == "#map") {
 		loadMap();
-	} else if (location.hash == "#tweets") {
-		loadTweets();
 	} else if (location.hash.indexOf("#jams-") == 0) {
 		let jamid = location.hash.split("-")[1];
 		loadJam(jamid);
@@ -354,9 +352,9 @@ function playCurrentHowl() {
     $("#playButton").addClass("disabled");
     currentTime = setInterval(updatePosition, 500);
   } if (currentHowl && currentHowl.playing()) {
-    console.log(`Cannot play because the howl is currently playing.`);
+    binkAlert("Cannot Play", "There is already something playing.");
   } else {
-    console.log(`Cannot play because: ${currentHowl}`);
+    binkAlert("Howl Error", `There was an error playing.`);
   }
 }
 
@@ -367,9 +365,7 @@ function stopCurrentHowl() {
     currentHowl.stop();
     clearInterval(currentTimer);
     $('#currentPosition').html('0:00 / 0:00')
-  } else {
-    console.log(`Cannot stop because: ${JSON.stringify(currentHowl)}`);
-  }
+  } 
 }
 
 function pauseCurrentHowl() {
@@ -378,8 +374,6 @@ function pauseCurrentHowl() {
     $("#playButton").removeClass("disabled");
     currentHowl.pause();
     clearInterval(currentTimer);
-  } else {
-    console.log(`Cannot pause because: ${JSON.stringify(currentHowl)}`);
   }
 }
 
@@ -387,6 +381,15 @@ function recentCallback(data) {
 	$.get('/views/recent', function(view) {
 		$('#main').html(view);
     $(window).scrollTop(0);
+    $('#editJamButton').click(function() {
+      editJam($(this).data('id'));
+    })
+    $('#viewJamButton').click(function() {
+      loadJam($(this).data('id'));
+    })
+    $('#deleteJamButton').click(function() {
+      deleteJam($(this).data('id'));
+    })
 	})
 }
 
@@ -567,8 +570,7 @@ function loadJam(id) {
 	})
 }
 
-function deleteJam() {
-  var id = $('#jamid').data('id');
+function deleteJam(id) {
   $.ajax({
 		method : "DELETE",
 		url : `/admin/jam/${id}`,
@@ -1013,7 +1015,9 @@ function editJam(id) {
         reloadPicsSection(id);
         reloadVidsSection(id);
         reloadDropZone(id);
-        $('#deleteJamButton').click(deleteJam);
+        $('#deleteJamButton').click(function() {
+          deleteJam(id);
+        });
         $('#viewJamButton').click(function() {
           loadJam(id);
         });
