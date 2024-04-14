@@ -1,21 +1,21 @@
 const path				= require('path');
-const express 		= require('express');
-const session 		= require('express-session');
-const MySQLStore 	= require('express-mysql-session')(session);
-const uuid				= require('node-uuid');
+const express 			= require('express');
+const session 			= require('express-session');
+const MySQLStore 		= require('express-mysql-session')(session);
+const uuid				= require('uuid');
 const app 				= express();
 const mysql				= require('mysql');
 const async				= require('async');
-const bodyParser 	= require('body-parser');
-const pug					= require('pug');
-const Processing 	= require("./lib/processing.js");
+const bodyParser 		= require('body-parser');
+const pug				= require('pug');
+const Processing 		= require("./lib/processing.js");
 const BINKS3			= require("./lib/binks3.js");
-const api					= require("./lib/api.js");
-const compat					= require("./lib/compat.js");
-const adminapi		= require("./lib/adminapi.js");
+const api				= require("./lib/api.js");
+const compat			= require("./lib/compat.js");
+const adminapi			= require("./lib/adminapi.js");
 const views				= require("./lib/views.js");
-const podcastFeed	= require("./lib/podcastFeed.js");
-const makeLogger  = require("./lib/loggerfactory.js");
+const podcastFeed		= require("./lib/podcastFeed.js");
+const makeLogger  		= require("./lib/loggerfactory.js");
 const helmet 			= require('helmet');
 const robots 			= require('express-robots');
 
@@ -60,7 +60,9 @@ app.use(function(req, res, next) {
 	next();
 });
 
-app.use(helmet());
+app.use(helmet({
+	contentSecurityPolicy: false
+}));
 
 app.use(robots({UserAgent: '*', Disallow: '/'}));
 
