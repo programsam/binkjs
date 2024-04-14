@@ -364,11 +364,7 @@ function playCurrentHowl() {
     $("#pauseButton").removeClass("disabled");
     $("#playButton").addClass("disabled");
     currentTime = setInterval(updatePosition, 500);
-  } if (currentHowl && currentHowl.playing()) {
-    binkAlert("Cannot Play", "There is already something playing.");
-  } else {
-    binkAlert("Howl Error", `There was an error playing.`);
-  }
+  } 
 }
 
 function stopCurrentHowl() {

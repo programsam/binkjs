@@ -47,11 +47,11 @@ app.set('trust proxy', 1) // trust first proxy
 let sessionstore = new MySQLStore(settings.mysql);
 
 app.use(session({
-  secret: settings.session_secret,
-  resave: false,
+	secret: settings.session_secret,
+	resave: false,
 	store: sessionstore,
-  saveUninitialized: true,
-  cookie: settings.cookie
+	saveUninitialized: true,
+	cookie: settings.cookie
 }))
 
 const webLogger = makeLogger('req');
