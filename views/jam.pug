@@ -73,7 +73,13 @@
     .card.border-secondary
       .card-body
         h4.card-title Pictures
-          #binkPictureCarousel.carousel.slide(data-bs-ride='carousel').w-50.h-50
+          #binkPictureCarousel.container.carousel.slide.mx-auto(data-bs-ride='carousel')
+            .carousel-indicators 
+              each picture, index in jam.pictures
+                if (index===0)
+                  button.active(type="button", data-bs-target="#binkPictureCarousel", data-bs-slide-to=index)
+                else
+                  button(type="button", data-bs-target="#binkPictureCarousel", data-bs-slide-to=index)
             .carousel-inner
               each picture, index in jam.pictures
                 if (index===0)
