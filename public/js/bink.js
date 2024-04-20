@@ -616,7 +616,7 @@ function reloadTracksSection(id, focus) {
           title:'Notes',
           formatter: trackNotesFormatter},
         {field: 'id',
-          width: '5',
+          width: '100',
           title: 'Actions',
           formatter: trackActionsFormatter}
       ],
@@ -1173,13 +1173,42 @@ function trackActionsFormatter(value, row) {
           `<i class="far fa-trash-alt me-1"></i></a>` +
           
           `<a href='${row.path}';>` +
-          `<i class="fa-solid fa-download"></i></a>`+ 
+          `<i class="fa-solid fa-download me-1"></i></a>`+ 
           
           `<a href='javascript:moveTrackUp(${value})';>` +
-          '<i class="fa-solid fa-up-long me-1"></i></a>';
+          '<i class="fa-solid fa-up-long me-1"></i></a>' +
+
+          `<a href='javascript:moveTrackDown(${value})';>` +
+          '<i class="fa-solid fa-down-long me-1"></i></a>';
 }
 
 //TRACK ACTIONS
+
+function moveTrackUp(trackid) {
+  var jamid = $('#jamid').data('id');
+
+  $.ajax({
+    method : "PUT",
+    url : `/admin/jam/${jamid}/track/${trackid}/up`,
+    contentType : "application/json",
+    json: true
+  }).done(function() {
+    $('#tracksTable').bootstrapTable('refresh');
+  });
+}
+
+function moveTrackDown(trackid) {
+  var jamid = $('#jamid').data('id');
+
+  $.ajax({
+    method : "PUT",
+    url : `/admin/jam/${jamid}/track/${trackid}/down`,
+    contentType : "application/json",
+    json: true
+  }).done(function() {
+    $('#tracksTable').bootstrapTable('refresh');
+  });
+}
 
 function trackChanged(element) {
   var elementToGetTrackID = $(element);
