@@ -566,7 +566,9 @@ function loadJam(id) {
 	$('.nav-link.active').removeClass('active');
 	$.get(`/views/jam/${id}`, function(view) {
 		$('#main').html(view);
-    $('#deleteJamButton').click(deleteJam);
+    $('#deleteJamButton').click(function() {
+      deleteJam(id);
+    });
     $('#editJamButton').click(function() {
       editJam(id);
     });
@@ -726,8 +728,42 @@ function vidNotesFormatter(value, row) {
 function vidActionsFormatter(value, row) {
   return `<a href='javascript:deleteVid(${value})';>` +
           `<i class="far fa-trash-alt me-1"></i></a>` +
+
           `<a href='${row.path}';>` +
-          `<i class="fa-solid fa-download"></i></a>`;
+          `<i class="fa-solid fa-download me-1"></i></a>` +
+
+          `<a href='javascript:moveVidUp(${value})';>` +
+          '<i class="fa-solid fa-up-long me-1"></i></a>' +
+
+          `<a href='javascript:moveVidDown(${value})';>` +
+          '<i class="fa-solid fa-down-long me-1"></i></a>';
+
+}
+
+function moveVidUp(trackid) {
+  var jamid = $('#jamid').data('id');
+
+  $.ajax({
+    method : "PUT",
+    url : `/admin/jam/${jamid}/vid/${trackid}/up`,
+    contentType : "application/json",
+    json: true
+  }).done(function() {
+    $('#vidsTable').bootstrapTable('refresh');
+  });
+}
+
+function moveVidDown(trackid) {
+  var jamid = $('#jamid').data('id');
+
+  $.ajax({
+    method : "PUT",
+    url : `/admin/jam/${jamid}/vid/${trackid}/down`,
+    contentType : "application/json",
+    json: true
+  }).done(function() {
+    $('#vidsTable').bootstrapTable('refresh');
+  });
 }
 
 function deleteVid(vidid) {
@@ -758,7 +794,7 @@ function reloadVidsSection(id, focus) {
           title:'Notes',
           formatter: vidNotesFormatter},
         {field: 'id',
-          width: '5',
+          width: '100',
           title: 'Actions',
           formatter: vidActionsFormatter}
       ],

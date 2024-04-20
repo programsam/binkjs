@@ -10,10 +10,14 @@
       button#deleteJamButton.float-end.btn.btn-danger.btn-sm Delete
   .card-body
     h6.card-subtitle.mb-2.text-muted
-      if jam.band
+      if (jam.band && jam.location)
+        a(href=`javascript:loadEntity('bands', ${jam.band.id});`) #{jam.band.name} 
+        | &nbsp;at&nbsp;
+        a(href=`javascript:loadEntity('locations', ${jam.location.id});`) #{jam.location.name}        
+      else if jam.band
         a(href=`javascript:loadEntity('bands', ${jam.band.id});`) #{jam.band.name}
-        |  at&nbsp;
-      if jam.location
+      else if jam.location
+        | At&nbsp;
         a(href=`javascript:loadEntity('locations', ${jam.location.id});`) #{jam.location.name}
     if (jam.notes)
       .card-text
@@ -73,15 +77,37 @@
     .card.border-secondary
       .card-body
         h4.card-title Pictures
-          #binkPictureCarousel.carousel.slide(data-bs-ride='carousel').w-50.h-50
-            .carousel-inner
-              each picture, index in jam.pictures
-                if (index===0)
-                  .carousel-item.active
-                    img.d-block.w-100(src=picture.path)
+          #binkPictureCarousel.container.carousel.slide.mx-auto(data-bs-ride='carousel')
+            .carousel-indicators 
+              if (jam.defpic !== null && jam.defpic.hasOwnProperty("id") && jam.defpic.id !== null && jam.defpic.id !== -1)
+                each picture, index in jam.pictures
+                  if (picture.id===jam.defpic.id)
+                    button.active(type="button", data-bs-target="#binkPictureCarousel", data-bs-slide-to=index)
+                  else
+                    button(type="button", data-bs-target="#binkPictureCarousel", data-bs-slide-to=index)
                 else
-                  .carousel-item
-                    img.d-block.w-100(src=picture.path)
+                  each picture, index in jam.pictures
+                    if (index===0)
+                      button.active(type="button", data-bs-target="#binkPictureCarousel", data-bs-slide-to=index)
+                    else
+                      button(type="button", data-bs-target="#binkPictureCarousel", data-bs-slide-to=index)
+            .carousel-inner
+              if (jam.defpic !== null && jam.defpic.hasOwnProperty("id") && jam.defpic.id !== null && jam.defpic.id !== -1)
+                each picture, index in jam.pictures
+                  if (picture.id===jam.defpic.id)
+                    .carousel-item.active
+                      img.d-block.w-100(src=picture.path)
+                  else
+                    .carousel-item
+                      img.d-block.w-100(src=picture.path)
+              else
+                each picture, index in jam.pictures
+                  if (index===0)
+                    .carousel-item.active
+                      img.d-block.w-100(src=picture.path)
+                  else
+                    .carousel-item
+                      img.d-block.w-100(src=picture.path)
             button.carousel-control-prev(type='button', data-bs-target='#binkPictureCarousel' data-bs-slide='prev')
               span.carousel-control-prev-icon(aria-hidden='true')
               span.visually-hidden Previous
