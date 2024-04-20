@@ -178,10 +178,7 @@ function loadBrowse() {
 				showColumns: true,
 				pageList: [3,5,10,20,50,100],
 				sortOrder: 'desc',
-				icons: {
-					refresh: 'fa-solid fa-sync',
-					columns: 'fa-solid fa-columns'
-				}
+				iconsPrefix: 'fa'
 			}); //bootstrapTable init
       $(window).scrollTop(0);
     }) //loadScript + callback
@@ -455,10 +452,7 @@ function loadEntity(type, id) {
 				showColumns: true,
 				pageList: [3,5,10,20,50,100],
 				sortOrder: 'desc',
-				icons: {
-					refresh: 'fa-solid fa-sync',
-					columns: 'fa-solid fa-columns'
-				}
+				iconsPrefix: 'fa',
 			}); //end bootstrapTable definition
       $(window).scrollTop(0);
 		}) //loadScript call
@@ -672,10 +666,7 @@ function reloadTracksSection(id, focus) {
       search: false,
       showRefresh: true,
       showColumns: true,
-      icons: {
-        refresh: 'fa-solid fa-sync',
-        columns: 'fa-solid fa-columns'
-      },
+      iconsPrefix: 'fa',
       buttons: {
         btnStripTracks: {
           text: 'Strip Tracks',
@@ -809,10 +800,7 @@ function reloadVidsSection(id, focus) {
       search: false,
       showRefresh: true,
       showColumns: true,
-      icons: {
-        refresh: 'fa-solid fa-sync',
-        columns: 'fa-solid fa-columns'
-      },
+      iconsPrefix: 'fa',
       buttons: {
         btnSyncTracks: {
           text: 'Sync Video',
@@ -1232,10 +1220,12 @@ function reloadPicsSection(jamid) {
 function trackActionsFormatter(value, row) {
   return `<a href='javascript:playImmediately("${row.title}", "${row.path}")';>` +
           `<i class="fa fa-play me-1"></i></a>` +
+
           `<a href='javascript:deleteTrack(${value})';>` +
           `<i class="far fa-trash-alt me-1"></i></a>` +
+          
           `<a href='${row.path}';>` +
-          `<i class="fa-solid fa-download"></i></a>`;
+          `<i class="fa-solid fa-download"></i></a>`
 }
 
 //STAFF ACTIONS
