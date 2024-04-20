@@ -13,10 +13,10 @@ if (jams.length > 0)
           if jam.location
             a(href=`javascript:loadEntity('locations', ${jam.location.id});`) #{jam.location.name}
         p.card-text #{jam.notes}
-        button#viewJamButton.ms-2.float-end.btn.btn-primary.btn-sm(data-id=jam.id) View
+        button.viewJamButton.ms-2.float-end.btn.btn-primary.btn-sm(data-id=jam.id) View
         if (admin)
-          button#editJamButton.ms-2.float-end.btn.btn-secondary.btn-sm(data-id=jam.id) Edit
-          button#deleteJamButton.ms-2.float-end.btn.btn-danger.btn-sm.ms-2(data-id=jam.id) Delete
+          button.editJamButton.ms-2.float-end.btn.btn-secondary.btn-sm(data-id=jam.id) Edit
+          button.deleteJamButton.ms-2.float-end.btn.btn-danger.btn-sm.ms-2(data-id=jam.id) Delete
 
 else if (history)
   p No jams occurred on this date in years past.

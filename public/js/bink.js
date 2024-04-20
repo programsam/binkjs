@@ -390,13 +390,13 @@ function recentCallback(data) {
 	$.get('/views/recent', function(view) {
 		$('#main').html(view);
     $(window).scrollTop(0);
-    $('#editJamButton').click(function() {
+    $('.editJamButton').click(function() {
       editJam($(this).data('id'));
     })
-    $('#viewJamButton').click(function() {
+    $('.viewJamButton').click(function() {
       loadJam($(this).data('id'));
     })
-    $('#deleteJamButton').click(function() {
+    $('.deleteJamButton').click(function() {
       deleteJam($(this).data('id'));
     })
 	})
