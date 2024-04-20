@@ -15,6 +15,7 @@ Overview:
 1. Install Node.js for your OS.
 1. Install MySQL for your OS.
 1. Setup MySQL for BINK.js.
+1. Setup an Amazon S3 bucket.
 1. Configure BINK.js for development.
 1. Install dependencies.
 1. Run.
@@ -27,7 +28,7 @@ Outside the scope of this README; if you can't install these packages, BINK.js p
 
 BINK.js needs access to a running instance of MySQL that has a database set aside specifically for BINK.  It's recommended that you install BINK.js with an application user and password that is reserved just for BINK operations, for added security.
 
-* **NB**: BINK.js uses the [MySQL NPM](https://www.npmjs.com/package/mysql), which provides a MySQL driver that allows TCP/IP input to any instance of MySQL, but currently does not provide MySQL authentication using the SHA2 or Caching pluggable auth modules.  There **are** specific instructions for what to do about this here below.
+* **NB**: BINK.js uses the [MySQL2 NPM](https://www.npmjs.com/package/mysql2), which provides a MySQL driver that allows TCP/IP input to any instance of MySQL, but currently does not provide MySQL authentication using the SHA2 or Caching pluggable auth modules.  There **are** specific instructions for what to do about this here below.
 
 On a macos system using [MySQL Shell](https://dev.mysql.com/downloads/shell/),
 
@@ -77,7 +78,7 @@ On a macos system using [MySQL Shell](https://dev.mysql.com/downloads/shell/),
   MySQL  localhost:33060+ ssl  SQL >
   ```
 
-* Setup a `binkjs` database using the [provided schema](./binkjs.sql):
+* Setup a `binkjs` database using the [provided schema](./misc/binkjs.sql):
 
   ```
   MySQL  localhost:33060+ ssl  SQL > \source binkjs.sql
@@ -129,6 +130,39 @@ On a macos system using [MySQL Shell](https://dev.mysql.com/downloads/shell/),
   }
   ```
 
+### S3 Bucket
+
+You will need to register for an AWS account, if you don't already have one.
+
+[Get AWS Credentials](https://aws.amazon.com/blogs/security/how-to-find-update-access-keys-password-mfa-aws-management-console/)
+
+For local development, you should also set up an S3 bucket with public read permissions. 
+
+[Create an S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html). 
+
+It's also recommended that you create a folder within your bucket called `public`.
+
+[Set appropriate permissions for your S3 bucket.](https://docs.aws.amazon.com/AmazonS3/latest/userguide/managing-acls.html) Your bucket will need to be publicly accessible. 
+
+Your S3 bucket will also not have ACLs allowed by default. If ACLs are not allowed, you will not be able to upload assets (tracks, images, videos) via the Binkjs admin console. 
+
+In order to resolve this, do the following: 
+
+- Go to the S3 Console and select your bucket
+- Go to Permissions
+- In Object Ownership, click Edit
+- Select ACLs enabled
+- Agree and save changes
+
+Once you have setup the bucket, you'll need to gather the following from the Amazon Web Console for your S3 bucket:
+- S3 Bucket Name
+- S3 Region
+- S3 Base URL
+- API Key ID
+- API Key Secret
+
+These items all go into your `settings.json` under the section `s3`. See below for more information.
+
 ### Configure BINK.js for Development
 
 * Open the MacOS command line terminal if it's not already open.
@@ -179,73 +213,14 @@ On a macos system using [MySQL Shell](https://dev.mysql.com/downloads/shell/),
 
   You should now be able to browse to `http://localhost:3001` and see the BINK homepage.
 
-### AWS Credentials/ awscli
-
-You will need a local .aws/credentials file (if on Mac/ Linux) file configured to access your AWS account.
-
-First, create security credentials in your AWS account.
-
-[Get AWS Credentials](https://aws.amazon.com/blogs/security/how-to-find-update-access-keys-password-mfa-aws-management-console/)
-
-Next, install aws-cli.
-
-[Install aws-cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
-
-Once installed, run `aws configure`. Fill in the values for access key id and secret key, as well as your bucket's region. 
-
-You will also need to set a local environment variable for the current AWS_PROFILE.
-
-`export AWS_PROFILE=default`
-
-NB: This assumes you are using the `default` profile. If adding a profile, you will need to set this local environment variable to that value. 
-
-To confirm that you have the correct profile selected, run the following: 
-
-`aws configure list`
-
-You should see output showing the selected profile, access_key, secret_key, and region. 
-
-### S3 Bucket
-
-For local development, you should also set up an S3 bucket with public read permissions. 
-
-[Create an S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html). 
-
-It's also recommended that you create a folder within your bucket called `public`.
-
-[Set appropriate permissions for your S3 bucket.](https://docs.aws.amazon.com/AmazonS3/latest/userguide/managing-acls.html) Your bucket will need to be publicly accessible. 
-
-Your S3 bucket will also not have ACLs allowed by default. If ACLs are not allowed, you will not be able to upload assets (tracks, images, videos) via the Binkjs admin console. 
-
-In order to resolve this, do the following: 
-
-- Go to the S3 Console and select your bucket
-- Go to Permissions
-- In Object Ownership, click Edit
-- Select ACLs enabled
-- Agree and save changes
-
-Once this is complete, you will need to input the information for your s3 bucket name, region, and URL in your settings.json file. 
-
-For example, if your bucket is called binkjs, your public_base_url should appear similar to the following: 
-
-https://s3.amazonaws.com/binkjs/public/
-
 ## Production Setup
 
 ### Nginx
 
 [Nginx](https://www.nginx.com/resources/wiki/) is a useful reverse proxy that we expect you to deploy in front of BINK to manage things like caching and https-to-http termination, etc.  Note that you'll need something like the following in your Nginx configuration for BINK.js:
 
-```
-location / {
-		proxy_pass http://localhost:3001;
-		proxy_set_header Host $http_host;
-		proxy_set_header X-Real-IP $remote_addr;
-		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-		proxy_set_header X-Forwarded-Proto $scheme;
-	}
-```
+Check out the [example nginx.conf](./misc/binkjs-nginx.conf) configuration file to get started with configuring Nginx for BINK.js usage.  Further documentation of each setting and what they do is available in that file.
 
-Otherwise, BINK.js won't get the cookies it needs.
+### Ubuntu/Systemd Service
 
+You'll want to configure a [Systemd Service](https://docs.fedoraproject.org/en-US/quick-docs/systemd-understanding-and-administering/) for BINK.js that is **separate** from the frontend reverse proxy, like Nginx (see previous section).  This Service will start BINK.js when your machine turns on, and can restart BINK.js if it crashes. Checkout our [example systemd service](./misc/binkjs.service) for more information.
