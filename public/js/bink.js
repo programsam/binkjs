@@ -178,10 +178,7 @@ function loadBrowse() {
 				showColumns: true,
 				pageList: [3,5,10,20,50,100],
 				sortOrder: 'desc',
-				icons: {
-					refresh: 'fa-solid fa-sync',
-					columns: 'fa-solid fa-columns'
-				}
+				iconsPrefix: 'fa'
 			}); //bootstrapTable init
       $(window).scrollTop(0);
     }) //loadScript + callback
@@ -386,23 +383,6 @@ function pauseCurrentHowl() {
   }
 }
 
-function recentCallback(data) {
-	$.get('/views/recent', function(view) {
-		$('#main').html(view);
-    $(window).scrollTop(0);
-    $('#editJamButton').click(function() {
-      editJam($(this).data('id'));
-    })
-    $('#viewJamButton').click(function() {
-      loadJam($(this).data('id'));
-    })
-    $('#deleteJamButton').click(function() {
-      deleteJam($(this).data('id'));
-    })
-	})
-}
-
-
 function loadEntity(type, id) {
 	$('.nav-link.active').removeClass('active');
   location.hash = `${type}-${id}`;
@@ -455,23 +435,12 @@ function loadEntity(type, id) {
 				showColumns: true,
 				pageList: [3,5,10,20,50,100],
 				sortOrder: 'desc',
-				icons: {
-					refresh: 'fa-solid fa-sync',
-					columns: 'fa-solid fa-columns'
-				}
+				iconsPrefix: 'fa',
 			}); //end bootstrapTable definition
       $(window).scrollTop(0);
 		}) //loadScript call
 	}) //get /type/id
 } //load entity
-
-function loadRecentJams() {
-	$('.nav-link.active').removeClass('active');
-	$('#recentButton').addClass('active');
-	$("#main").html("Loading...")
-  location.hash = "recent";
-	$.get("/api/recent", recentCallback)
-}
 
 function binkAlert(title, alert) {
 	$("#binkAlertText").html(alert)
@@ -479,15 +448,48 @@ function binkAlert(title, alert) {
 	$("#binkAlertModal").modal('show')
 }
 
+function loadRecentJams() {
+	$('.nav-link.active').removeClass('active');
+	$('#recentButton').addClass('active');
+	$("#main").html("Loading...")
+  location.hash = "recent";
+	$.get("/views/recent", recentCallback)
+}
+
+function recentCallback(view) {
+  $('#main').html(view);
+  $(window).scrollTop(0);
+  $('.editJamButton').click(function() {
+    editJam($(this).data('id'));
+  })
+  $('.viewJamButton').click(function() {
+    loadJam($(this).data('id'));
+  })
+  $('.deleteJamButton').click(function() {
+    deleteJam($(this).data('id'));
+  })
+}
+
 function loadHistoricJams() {
 	$('.nav-link.active').removeClass('active');
 	$('#historyButton').addClass('active');
 	$("#main").html("Loading...")
   location.hash = "history";
-	$.get("/views/history", function(view) {
-		$('#main').html(view);
-    $(window).scrollTop(0);
-	});
+	$.get("/views/history", historyCallback);
+}
+
+function historyCallback(view) {
+  $('#main').html(view);
+  $(window).scrollTop(0);
+  $('.editJamButton').click(function() {
+    editJam($(this).data('id'));
+  })
+  $('.viewJamButton').click(function() {
+    loadJam($(this).data('id'));
+  })
+  $('.deleteJamButton').click(function() {
+    deleteJam($(this).data('id'));
+  })
 }
 
 function overviewMapScriptsLoaded() {
@@ -592,16 +594,6 @@ function deleteJam(id) {
 	})
 }
 
-function deleteTrack(trackid) {
-  var jamid = $('#jamid').data('id');
-  $.ajax({
-		method : "DELETE",
-		url : `/admin/jam/${jamid}/tracks/${trackid}`,
-		contentType : "application/json"
-	}).done(function(msg) {
-    $('#tracksTable').bootstrapTable('refresh');
-	})
-}
 
 function trackTitleFormatter(value, row) {
   return `<input class='form-control form-control-sm track-title' id='track-title-${row.id}' data-track-id='${row.id}' value='${value}' onchange='trackChanged(this);' />`;
@@ -612,37 +604,6 @@ function trackNotesFormatter(value, row) {
     value = "";
   }
   return `<input class='form-control form-control-sm track-notes' id='track-notes-${row.id}' data-track-id='${row.id}' value='${value}' onchange='trackChanged(this);' placeholder='Add notes to this track' />`;
-}
-
-function trackChanged(element) {
-  var elementToGetTrackID = $(element);
-  var trackid = elementToGetTrackID.data('track-id');
-
-  var trackTitleJQ = $(`#track-title-${trackid}`);
-  var newTitle = trackTitleJQ.val();
-
-  var trackNotesJQ = $(`#track-notes-${trackid}`);
-  var newNotes = trackNotesJQ.val();
-
-  if (trackTitleJQ.data('previousTitle') !== newTitle ||
-      trackNotesJQ.data('previousNotes') !== newNotes) {
-    trackTitleJQ.data('previousTitle', newTitle);
-    trackNotesJQ.data('previousNotes', newNotes);
-
-    var jamid = $('#jamid').data('id');
-    var toSend = {
-      title: newTitle,
-      notes: newNotes
-    };
-
-    $.ajax({
-      method : "PUT",
-      url : `/admin/jam/${jamid}/track/${trackid}`,
-      contentType : "application/json",
-      json: true,
-      data: JSON.stringify(toSend)
-    });
-  }
 }
 
 function reloadTracksSection(id, focus) {
@@ -663,7 +624,7 @@ function reloadTracksSection(id, focus) {
           title:'Notes',
           formatter: trackNotesFormatter},
         {field: 'id',
-          width: '5',
+          width: '100',
           title: 'Actions',
           formatter: trackActionsFormatter}
       ],
@@ -672,10 +633,7 @@ function reloadTracksSection(id, focus) {
       search: false,
       showRefresh: true,
       showColumns: true,
-      icons: {
-        refresh: 'fa-solid fa-sync',
-        columns: 'fa-solid fa-columns'
-      },
+      iconsPrefix: 'fa',
       buttons: {
         btnStripTracks: {
           text: 'Strip Tracks',
@@ -809,10 +767,7 @@ function reloadVidsSection(id, focus) {
       search: false,
       showRefresh: true,
       showColumns: true,
-      icons: {
-        refresh: 'fa-solid fa-sync',
-        columns: 'fa-solid fa-columns'
-      },
+      iconsPrefix: 'fa',
       buttons: {
         btnSyncTracks: {
           text: 'Sync Video',
@@ -874,17 +829,6 @@ function deletePic(picId) {
       reloadPicsSection(jamid);
     }
 	});
-}
-
-function stripTrackNumbers() {
-  var id = $('#jamid').data('id');
-  $.ajax({
-		method : "POST",
-		url : `/admin/jam/${id}/stripTrackNumbers`,
-		contentType : "application/json"
-	}).done(function(msg) {
-    $('#tracksTable').bootstrapTable('refresh');
-	})
 }
 
 function reloadMusicians(id, focus) {
@@ -1232,10 +1176,99 @@ function reloadPicsSection(jamid) {
 function trackActionsFormatter(value, row) {
   return `<a href='javascript:playImmediately("${row.title}", "${row.path}")';>` +
           `<i class="fa fa-play me-1"></i></a>` +
+
           `<a href='javascript:deleteTrack(${value})';>` +
           `<i class="far fa-trash-alt me-1"></i></a>` +
+          
           `<a href='${row.path}';>` +
-          `<i class="fa-solid fa-download"></i></a>`;
+          `<i class="fa-solid fa-download me-1"></i></a>`+ 
+          
+          `<a href='javascript:moveTrackUp(${value})';>` +
+          '<i class="fa-solid fa-up-long me-1"></i></a>' +
+
+          `<a href='javascript:moveTrackDown(${value})';>` +
+          '<i class="fa-solid fa-down-long me-1"></i></a>';
+}
+
+//TRACK ACTIONS
+
+function moveTrackUp(trackid) {
+  var jamid = $('#jamid').data('id');
+
+  $.ajax({
+    method : "PUT",
+    url : `/admin/jam/${jamid}/track/${trackid}/up`,
+    contentType : "application/json",
+    json: true
+  }).done(function() {
+    $('#tracksTable').bootstrapTable('refresh');
+  });
+}
+
+function moveTrackDown(trackid) {
+  var jamid = $('#jamid').data('id');
+
+  $.ajax({
+    method : "PUT",
+    url : `/admin/jam/${jamid}/track/${trackid}/down`,
+    contentType : "application/json",
+    json: true
+  }).done(function() {
+    $('#tracksTable').bootstrapTable('refresh');
+  });
+}
+
+function trackChanged(element) {
+  var elementToGetTrackID = $(element);
+  var trackid = elementToGetTrackID.data('track-id');
+
+  var trackTitleJQ = $(`#track-title-${trackid}`);
+  var newTitle = trackTitleJQ.val();
+
+  var trackNotesJQ = $(`#track-notes-${trackid}`);
+  var newNotes = trackNotesJQ.val();
+
+  if (trackTitleJQ.data('previousTitle') !== newTitle ||
+      trackNotesJQ.data('previousNotes') !== newNotes) {
+    trackTitleJQ.data('previousTitle', newTitle);
+    trackNotesJQ.data('previousNotes', newNotes);
+
+    var jamid = $('#jamid').data('id');
+    var toSend = {
+      title: newTitle,
+      notes: newNotes
+    };
+
+    $.ajax({
+      method : "PUT",
+      url : `/admin/jam/${jamid}/track/${trackid}`,
+      contentType : "application/json",
+      json: true,
+      data: JSON.stringify(toSend)
+    });
+  }
+}
+
+function stripTrackNumbers() {
+  var id = $('#jamid').data('id');
+  $.ajax({
+		method : "POST",
+		url : `/admin/jam/${id}/stripTrackNumbers`,
+		contentType : "application/json"
+	}).done(function(msg) {
+    $('#tracksTable').bootstrapTable('refresh');
+	})
+}
+
+function deleteTrack(trackid) {
+  var jamid = $('#jamid').data('id');
+  $.ajax({
+		method : "DELETE",
+		url : `/admin/jam/${jamid}/tracks/${trackid}`,
+		contentType : "application/json"
+	}).done(function(msg) {
+    $('#tracksTable').bootstrapTable('refresh');
+	})
 }
 
 //STAFF ACTIONS

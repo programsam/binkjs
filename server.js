@@ -4,7 +4,7 @@ const session 			= require('express-session');
 const MySQLStore 		= require('express-mysql-session')(session);
 const uuid				= require('uuid');
 const app 				= express();
-const mysql				= require('mysql');
+const mysql				= require('mysql2');
 const async				= require('async');
 const bodyParser 		= require('body-parser');
 const pug				= require('pug');
@@ -15,7 +15,8 @@ const compat			= require("./lib/compat.js");
 const adminapi			= require("./lib/adminapi.js");
 const views				= require("./lib/views.js");
 const podcastFeed		= require("./lib/podcastFeed.js");
-const makeLogger  		= require("./lib/loggerfactory.js");
+const makeLogger  		= require("./lib/loggerFactory.js");
+const scriptHolders		= require('./lib/scriptHolders.js');
 const helmet 			= require('helmet');
 const robots 			= require('express-robots');
 
@@ -75,6 +76,7 @@ app.use(adminapi);
 app.use(views);
 app.use(podcastFeed);
 app.use(compat);
+app.use(scriptHolders);
 
 let server = app.listen(process.env.PORT || 3001, function () {
 
