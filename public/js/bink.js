@@ -383,23 +383,6 @@ function pauseCurrentHowl() {
   }
 }
 
-function recentCallback(data) {
-	$.get('/views/recent', function(view) {
-		$('#main').html(view);
-    $(window).scrollTop(0);
-    $('.editJamButton').click(function() {
-      editJam($(this).data('id'));
-    })
-    $('.viewJamButton').click(function() {
-      loadJam($(this).data('id'));
-    })
-    $('.deleteJamButton').click(function() {
-      deleteJam($(this).data('id'));
-    })
-	})
-}
-
-
 function loadEntity(type, id) {
 	$('.nav-link.active').removeClass('active');
   location.hash = `${type}-${id}`;
@@ -459,18 +442,32 @@ function loadEntity(type, id) {
 	}) //get /type/id
 } //load entity
 
+function binkAlert(title, alert) {
+	$("#binkAlertText").html(alert)
+	$("#binkAlertTitle").html(title)
+	$("#binkAlertModal").modal('show')
+}
+
 function loadRecentJams() {
 	$('.nav-link.active').removeClass('active');
 	$('#recentButton').addClass('active');
 	$("#main").html("Loading...")
   location.hash = "recent";
-	$.get("/api/recent", recentCallback)
+	$.get("/views/recent", recentCallback)
 }
 
-function binkAlert(title, alert) {
-	$("#binkAlertText").html(alert)
-	$("#binkAlertTitle").html(title)
-	$("#binkAlertModal").modal('show')
+function recentCallback(view) {
+  $('#main').html(view);
+  $(window).scrollTop(0);
+  $('.editJamButton').click(function() {
+    editJam($(this).data('id'));
+  })
+  $('.viewJamButton').click(function() {
+    loadJam($(this).data('id'));
+  })
+  $('.deleteJamButton').click(function() {
+    deleteJam($(this).data('id'));
+  })
 }
 
 function loadHistoricJams() {
@@ -478,10 +475,21 @@ function loadHistoricJams() {
 	$('#historyButton').addClass('active');
 	$("#main").html("Loading...")
   location.hash = "history";
-	$.get("/views/history", function(view) {
-		$('#main').html(view);
-    $(window).scrollTop(0);
-	});
+	$.get("/views/history", historyCallback);
+}
+
+function historyCallback(view) {
+  $('#main').html(view);
+  $(window).scrollTop(0);
+  $('.editJamButton').click(function() {
+    editJam($(this).data('id'));
+  })
+  $('.viewJamButton').click(function() {
+    loadJam($(this).data('id'));
+  })
+  $('.deleteJamButton').click(function() {
+    deleteJam($(this).data('id'));
+  })
 }
 
 function overviewMapScriptsLoaded() {
