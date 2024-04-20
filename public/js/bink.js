@@ -586,16 +586,6 @@ function deleteJam(id) {
 	})
 }
 
-function deleteTrack(trackid) {
-  var jamid = $('#jamid').data('id');
-  $.ajax({
-		method : "DELETE",
-		url : `/admin/jam/${jamid}/tracks/${trackid}`,
-		contentType : "application/json"
-	}).done(function(msg) {
-    $('#tracksTable').bootstrapTable('refresh');
-	})
-}
 
 function trackTitleFormatter(value, row) {
   return `<input class='form-control form-control-sm track-title' id='track-title-${row.id}' data-track-id='${row.id}' value='${value}' onchange='trackChanged(this);' />`;
@@ -606,37 +596,6 @@ function trackNotesFormatter(value, row) {
     value = "";
   }
   return `<input class='form-control form-control-sm track-notes' id='track-notes-${row.id}' data-track-id='${row.id}' value='${value}' onchange='trackChanged(this);' placeholder='Add notes to this track' />`;
-}
-
-function trackChanged(element) {
-  var elementToGetTrackID = $(element);
-  var trackid = elementToGetTrackID.data('track-id');
-
-  var trackTitleJQ = $(`#track-title-${trackid}`);
-  var newTitle = trackTitleJQ.val();
-
-  var trackNotesJQ = $(`#track-notes-${trackid}`);
-  var newNotes = trackNotesJQ.val();
-
-  if (trackTitleJQ.data('previousTitle') !== newTitle ||
-      trackNotesJQ.data('previousNotes') !== newNotes) {
-    trackTitleJQ.data('previousTitle', newTitle);
-    trackNotesJQ.data('previousNotes', newNotes);
-
-    var jamid = $('#jamid').data('id');
-    var toSend = {
-      title: newTitle,
-      notes: newNotes
-    };
-
-    $.ajax({
-      method : "PUT",
-      url : `/admin/jam/${jamid}/track/${trackid}`,
-      contentType : "application/json",
-      json: true,
-      data: JSON.stringify(toSend)
-    });
-  }
 }
 
 function reloadTracksSection(id, focus) {
@@ -862,17 +821,6 @@ function deletePic(picId) {
       reloadPicsSection(jamid);
     }
 	});
-}
-
-function stripTrackNumbers() {
-  var id = $('#jamid').data('id');
-  $.ajax({
-		method : "POST",
-		url : `/admin/jam/${id}/stripTrackNumbers`,
-		contentType : "application/json"
-	}).done(function(msg) {
-    $('#tracksTable').bootstrapTable('refresh');
-	})
 }
 
 function reloadMusicians(id, focus) {
@@ -1225,7 +1173,65 @@ function trackActionsFormatter(value, row) {
           `<i class="far fa-trash-alt me-1"></i></a>` +
           
           `<a href='${row.path}';>` +
-          `<i class="fa-solid fa-download"></i></a>`
+          `<i class="fa-solid fa-download"></i></a>`+ 
+          
+          `<a href='javascript:moveTrackUp(${value})';>` +
+          '<i class="fa-solid fa-up-long me-1"></i></a>';
+}
+
+//TRACK ACTIONS
+
+function trackChanged(element) {
+  var elementToGetTrackID = $(element);
+  var trackid = elementToGetTrackID.data('track-id');
+
+  var trackTitleJQ = $(`#track-title-${trackid}`);
+  var newTitle = trackTitleJQ.val();
+
+  var trackNotesJQ = $(`#track-notes-${trackid}`);
+  var newNotes = trackNotesJQ.val();
+
+  if (trackTitleJQ.data('previousTitle') !== newTitle ||
+      trackNotesJQ.data('previousNotes') !== newNotes) {
+    trackTitleJQ.data('previousTitle', newTitle);
+    trackNotesJQ.data('previousNotes', newNotes);
+
+    var jamid = $('#jamid').data('id');
+    var toSend = {
+      title: newTitle,
+      notes: newNotes
+    };
+
+    $.ajax({
+      method : "PUT",
+      url : `/admin/jam/${jamid}/track/${trackid}`,
+      contentType : "application/json",
+      json: true,
+      data: JSON.stringify(toSend)
+    });
+  }
+}
+
+function stripTrackNumbers() {
+  var id = $('#jamid').data('id');
+  $.ajax({
+		method : "POST",
+		url : `/admin/jam/${id}/stripTrackNumbers`,
+		contentType : "application/json"
+	}).done(function(msg) {
+    $('#tracksTable').bootstrapTable('refresh');
+	})
+}
+
+function deleteTrack(trackid) {
+  var jamid = $('#jamid').data('id');
+  $.ajax({
+		method : "DELETE",
+		url : `/admin/jam/${jamid}/tracks/${trackid}`,
+		contentType : "application/json"
+	}).done(function(msg) {
+    $('#tracksTable').bootstrapTable('refresh');
+	})
 }
 
 //STAFF ACTIONS
