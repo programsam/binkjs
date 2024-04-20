@@ -566,7 +566,9 @@ function loadJam(id) {
 	$('.nav-link.active').removeClass('active');
 	$.get(`/views/jam/${id}`, function(view) {
 		$('#main').html(view);
-    $('#deleteJamButton').click(deleteJam);
+    $('#deleteJamButton').click(function() {
+      deleteJam(id);
+    });
     $('#editJamButton').click(function() {
       editJam(id);
     });
