@@ -1,15 +1,26 @@
 if (thisjam.pictures && thisjam.pictures.length > 0)
   #scrollableContainer.overflow-x-scroll.overflow-y-hidden.text-nowrap
     for pic in thisjam.pictures
-      .d-inline-grid.w-25.pictureHolder.p-3(class=(thisjam.defpic.id === pic.id ? "border" : ""))
-        img(src=pic.path).mw-100
-        p.float-end
-          a(href="javascript:deletePic('" + pic.id + "');")
-            i.far.fa-trash-alt.me-1
-          a(href=pic.path)
-            i.fa-solid.fa-download.me-1
-          a(href="javascript:setDefaultPic('" + pic.id + "');")
-            i.fa-solid.fa-check-circle
+      if (thisjam.defpic !== null && thisjam.defpic.hasOwnProperty("id") && thisjam.defpic.id !== null && thisjam.defpic.id === pic.id)
+        .d-inline-grid.w-25.p-3.border
+          img(src=pic.path).mw-100
+          p.float-end
+            a(href="javascript:deletePic('" + pic.id + "');")
+              i.far.fa-trash-alt.me-1
+            a(href=pic.path)
+              i.fa-solid.fa-download.me-1
+            a(href="javascript:setDefaultPic('" + pic.id + "');")
+              i.fa-solid.fa-check-circle
+      else 
+        .d-inline-grid.w-25.p-3
+          img(src=pic.path).mw-100
+          p.float-end
+            a(href="javascript:deletePic('" + pic.id + "');")
+              i.far.fa-trash-alt.me-1
+            a(href=pic.path)
+              i.fa-solid.fa-download.me-1
+            a(href="javascript:setDefaultPic('" + pic.id + "');")
+              i.fa-solid.fa-check-circle
   p Scroll left and right to edit pictures.
 else
   em No pictures.
