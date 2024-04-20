@@ -10,10 +10,14 @@
       button#deleteJamButton.float-end.btn.btn-danger.btn-sm Delete
   .card-body
     h6.card-subtitle.mb-2.text-muted
-      if jam.band
+      if (jam.band && jam.location)
+        a(href=`javascript:loadEntity('bands', ${jam.band.id});`) #{jam.band.name} 
+        | &nbsp;at&nbsp;
+        a(href=`javascript:loadEntity('locations', ${jam.location.id});`) #{jam.location.name}        
+      else if jam.band
         a(href=`javascript:loadEntity('bands', ${jam.band.id});`) #{jam.band.name}
-        |  at&nbsp;
-      if jam.location
+      else if jam.location
+        | At&nbsp;
         a(href=`javascript:loadEntity('locations', ${jam.location.id});`) #{jam.location.name}
     if (jam.notes)
       .card-text

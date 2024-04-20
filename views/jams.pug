@@ -7,10 +7,14 @@ if (jams.length > 0)
         h4.card-title 
           | #{jam.mydate} -&nbsp;#{jam.title}
         h6.card-subtitle.mb-2.text-muted
-          if jam.band
+          if (jam.band && jam.location)
+            a(href=`javascript:loadEntity('bands', ${jam.band.id});`) #{jam.band.name} 
+            | &nbsp;at&nbsp;
+            a(href=`javascript:loadEntity('locations', ${jam.location.id});`) #{jam.location.name}        
+          else if jam.band
             a(href=`javascript:loadEntity('bands', ${jam.band.id});`) #{jam.band.name}
-            |  at&nbsp;
-          if jam.location
+          else if jam.location
+            | At&nbsp;
             a(href=`javascript:loadEntity('locations', ${jam.location.id});`) #{jam.location.name}
         p.card-text 
           if (jam.hasOwnProperty('defpic') && jam.defpic !== null && jam.defpic.hasOwnProperty('path') && jam.defpic.path !== null)
