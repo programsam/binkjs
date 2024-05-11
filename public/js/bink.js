@@ -19,9 +19,9 @@ $(document).ready(function() {
 	$("a#browseButton").click(loadBrowse)
 	$("a#historyButton").click(loadHistoricJams)
 	$("a#mapButton").click(loadMap)
-  $("#playButton").click(playCurrentHowl);
-  $("#stopButton").click(stopCurrentHowl);
-  $("#pauseButton").click(pauseCurrentHowl);
+  $("a#playButton").click(playCurrentHowl);
+  $("a#stopButton").click(stopCurrentHowl);
+  $("a#pauseButton").click(pauseCurrentHowl);
   // $("#nextButton").click(nextCurrentHowl);
   // $("#prevButton").click(prevCurrentHowl);
 
@@ -29,6 +29,8 @@ $(document).ready(function() {
 		loadBrowse();
 	} else if (location.hash == "#history") {
 		loadHistoricJams();
+  } else if (location.hash == "#manage") {
+		loadManage();
 	} else if (location.hash == "#map") {
 		loadMap();
 	} else if (location.hash.indexOf("#jams-") == 0) {
@@ -119,6 +121,46 @@ function bootstrapTableLoaded() {
   return (typeof $().bootstrapTable === "function");
 }
 
+
+function loadManage() {
+  $('.nav-link.active').removeClass('active');
+  location.hash = "manage";
+
+  $.get('/views/manage', function(view) {
+    $('#main').html(view);
+
+    var myColumns = [{
+      field:'type',
+      title:'Type'
+    }, {
+      field:'name',
+      title:'Name',
+      sortable: true,
+      order: 'desc',
+      formatter: entityNameFormatter
+    }, {
+      field:'id',
+      title:'Actions',
+      formatter: entityActionFormatter
+    }];
+    
+		loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
+      $('#entitiesTable').bootstrapTable({
+				columns: myColumns,
+				url: '/admin/entities/search',
+				sidePagination: 'server',
+				pagination: true,
+				search: true,
+				showRefresh: true,
+				showColumns: true,
+				pageList: [3,5,10,20,50,100],
+				sortOrder: 'desc',
+				iconsPrefix: 'fa'
+			}); //bootstrapTable init
+      $(window).scrollTop(0);
+    }) //loadScript + callback
+  })
+}
 
 function loadBrowse() {
 	$('.nav-link.active').removeClass('active');
@@ -218,6 +260,16 @@ function dateFormatter(value) {
 	return `${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}`;
 }
 
+function entityNameFormatter(value, row) {
+	return `<a href="javascript:loadEntity('${row.type}', ${row.id})">${value}</a>`;
+}
+
+function entityActionFormatter(value, row) {
+  // return `<a href="javascript:alert(${row.id})"><i class="fa-solid fa-trash"></i></a>`;
+  return ``;
+}
+
+
 function hasTracksFormatter(value) {
 	if (value === true) {
     return '<i class="fa-solid fa-music"></i>';
@@ -250,6 +302,7 @@ function showAdmin()
 	$.get('/views/admin/dropdown', function(view) {
     $('#adminItem').html(view);
     $('#adminItem').addClass('dropdown');
+    $('#manageButton').click(loadManage);
 		$("#logoutButton").click(logout);
 		$('#newButton').click(createNew);
 	})
@@ -536,13 +589,11 @@ function loadMap() {
         }
 		});
     $.get('/api/maplocations', function(data) {
-      let markers = [];
+      var markers = [];
       data.forEach(function(thislocation) {
         var thismarker = new google.maps.marker.AdvancedMarkerElement({
-          position: {
-            lat: thislocation.lat,
-            lng: thislocation.lon
-          }
+          position: thislocation,
+          map: map
         });
         thismarker.addListener('click', function(event) {
           if (infowindow)
