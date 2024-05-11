@@ -34,22 +34,22 @@ $(document).ready(function() {
 	} else if (location.hash == "#map") {
 		loadMap();
 	} else if (location.hash.indexOf("#jams-") == 0) {
-		let jamid = location.hash.split("-")[1];
+		var jamid = location.hash.split("-")[1];
 		loadJam(jamid);
   } else if (location.hash.indexOf("#edit-") == 0) {
-		let jamid = location.hash.split("-")[1];
+		var jamid = location.hash.split("-")[1];
 		editJam(jamid);
   } else if (location.hash.indexOf("#musicians-") == 0) {
-    let musicianId = location.hash.split("-")[1];
+    var musicianId = location.hash.split("-")[1];
     loadEntity("musicians", musicianId);
   } else if (location.hash.indexOf("#locations-") == 0) {
-    let locationId = location.hash.split("-")[1];
+    var locationId = location.hash.split("-")[1];
     loadEntity("locations", locationId);
   } else if (location.hash.indexOf("#bands-") == 0) {
-    let bandId = location.hash.split("-")[1];
+    var bandId = location.hash.split("-")[1];
     loadEntity("bands", bandId);
   } else if (location.hash.indexOf("#staff-") == 0) {
-    let staffId = location.hash.split("-")[1];
+    var staffId = location.hash.split("-")[1];
     loadEntity("staff", staffId);
   } else {
 		loadRecentJams();
@@ -256,7 +256,7 @@ function titleFormatter(value, row) {
 }
 
 function dateFormatter(value) {
-	let d = new Date(value);
+	var d = new Date(value);
 	return `${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}`;
 }
 
@@ -311,7 +311,7 @@ function showAdmin()
 function hideAdmin()
 {
 	$('#adminItem').removeClass('dropdown');
-	let html = "";
+	var html = "";
 	html += '<a href="javascript:" class="nav-link" id="adminButton">Admin</a>';
 	$('#adminItem').html(html);
 	$('#modalAlert').html('');
@@ -331,7 +331,7 @@ function logout()
 }
 
 function login() {
-	let sendThem = {
+	var sendThem = {
 		password : $("#password").val()
 	}
 
@@ -341,7 +341,7 @@ function login() {
 		contentType : "application/json",
 		data : JSON.stringify(sendThem)
 	}).done(function(msg) {
-		let data = JSON.parse(msg)
+		var data = JSON.parse(msg)
 		if (data.valid) {
 			$('#loginModal').modal('hide');
 			showAdmin();
