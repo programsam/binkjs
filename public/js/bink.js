@@ -436,19 +436,121 @@ function pauseCurrentHowl() {
   }
 }
 
+function editEntity(type, id) {
+  $.get(`/views/admin/entity/${type}/${id}`, function(view) {
+    $('#main').html(view);
+    $('#deleteEntityButton').click(function(event) {
+      deleteEntity(type, id);
+    })
+    $('#viewEntityButton').click(function(event) {
+      loadEntity(type, id);
+    })
+    $('#entityName').change(function(event) {
+      updateEntity(type, id);
+    })
+    $('#entityLink').change(function(event) {
+      updateEntity(type, id);
+    })
+    if (type === "locations") {
+      //we need to load Google Maps regardless of whether there
+      //are any coordinates. we're talking about a location, so
+      //we want Google Maps features available.
+      loadScripts(['googleMaps'], itemMapScriptsLoaded, function() {
+        //maps are loaded; now we want an autocomplete search box
+        //for the address. we start out with search boundaries
+        var defaultBounds = new google.maps.LatLngBounds(
+          new google.maps.LatLng(-33.8902, 151.1759),
+          new google.maps.LatLng(-33.8474, 151.2631)
+        );
+      
+        //and now we initialize the search box.
+        var searchBox = new google.maps.places.SearchBox($('#entityAddress')[0], {
+          bounds: defaultBounds
+        });
+
+        searchBox.addListener("places_changed", function() {
+          //they only return one place, so we will just use it.
+          const selectedPlace = searchBox.getPlaces()[0];
+          $('#entityAddress').val(selectedPlace.formatted_address);
+          var lat = selectedPlace.geometry.location.lat();
+          var lon = selectedPlace.geometry.location.lng();
+          $('#entity').data('lat', lat);
+          $('#entity').data('lon', lon);
+          var location = {
+            lat: lat,
+            lon: lon
+          }
+          mapLocation(location);
+          updateEntity(type, id);
+        })
+        
+        if ($('#entity').data('lat') && $('#entity').data('lon')) {
+          if (! Number.isNaN(parseFloat($('#entity').data('lat'))) &&
+              ! Number.isNaN(parseFloat($('#entity').data('lat')))) { //more input validation
+            
+            var location = {
+              lat: $('#entity').data('lat'),
+              lon: $('#entity').data('lon')
+            }
+
+            mapLocation(location);
+          }
+        }
+      }) //loading the scripts
+    } //dealing with a location
+  })
+}
+
+function updateEntity(type, id) {
+  var data = {
+    id: id,
+    name: $('#entityName').val(),
+    link: $('#entityLink').val(),
+    address: $('#entityAddress').val(),
+    lat: $('#entity').data('lat'),
+    lon: $('#entity').data('lon')
+  };
+
+  $.ajax({
+		method : "PUT",
+		url : `/admin/entity/${type}`,
+		contentType : "application/json",
+    json: true,
+    data: JSON.stringify(data),
+  });
+}
+
+function deleteEntity(type, id) {
+  binkAlert("Not Implemented", "This is not yet implemented!");
+}
+
 function loadEntity(type, id) {
 	$('.nav-link.active').removeClass('active');
   location.hash = `${type}-${id}`;
 	$.get(`/views/entity/${type}/${id}`, function(view) {
 		$('#main').html(view);
+    $('#editEntityButton').click(function(event) {
+      editEntity(type, id);
+    })
+    $('#deleteEntityButton').click(function(event) {
+      deleteEntity(type, id);
+    })
     if (type === "locations") {
-      $.get(`/api/entity/locations/${id}`, function(location) {
-        if (location.lat && location.lon) {
+
+      if ($('#entity').data('lat') && $('#entity').data('lon')) {
+        if (! Number.isNaN(parseFloat($('#entity').data('lat'))) &&
+            ! Number.isNaN(parseFloat($('#entity').data('lat')))) { //more input validation
+          
+          var location = {
+            lat: $('#entity').data('lat'),
+            lon: $('#entity').data('lon')
+          }
+
           loadScripts(['googleMaps'], itemMapScriptsLoaded, function() {
             mapLocation(location);
           }); //load the google maps API.
-        } //only load maps if item has lat and lon
-      }) //if we're looking at a location, see if it has a lat & lon
+        }
+      }
     }
 		loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
 			$('#entityJamTable').bootstrapTable({
@@ -660,7 +762,7 @@ function trackNotesFormatter(value, row) {
 }
 
 function reloadTracksSection(id, focus) {
-  var jamid = $('#jamid').data('id');
+  var jamid = $('#jam').data('id');
   loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
 
     $('#tracksTable').bootstrapTable({
@@ -749,7 +851,7 @@ function vidChanged(element) {
     videoTitleJQ.data('previousTitle', newTitle);
     videoNotesJQ.data('previousNotes', newNotes);
 
-    var jamid = $('#jamid').data('id');
+    var jamid = $('#jam').data('id');
     var toSend = {
       title: newTitle,
       notes: newNotes
@@ -792,7 +894,7 @@ function vidActionsFormatter(value, row) {
 }
 
 function moveVidUp(trackid) {
-  var jamid = $('#jamid').data('id');
+  var jamid = $('#jam').data('id');
 
   $.ajax({
     method : "PUT",
@@ -805,7 +907,7 @@ function moveVidUp(trackid) {
 }
 
 function moveVidDown(trackid) {
-  var jamid = $('#jamid').data('id');
+  var jamid = $('#jam').data('id');
 
   $.ajax({
     method : "PUT",
@@ -818,7 +920,7 @@ function moveVidDown(trackid) {
 }
 
 function deleteVid(vidid) {
-  var jamid = $('#jamid').data('id');
+  var jamid = $('#jam').data('id');
   $.ajax({
 		method : "DELETE",
 		url : `/admin/jam/${jamid}/vid/${vidid}`,
@@ -829,7 +931,7 @@ function deleteVid(vidid) {
 }
 
 function reloadVidsSection(id, focus) {
-  var jamid = $('#jamid').data('id');
+  var jamid = $('#jam').data('id');
   loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
     $('#vidsTable').bootstrapTable({
       columns: [
@@ -872,7 +974,7 @@ function reloadVidsSection(id, focus) {
 } //reloadVidsSection
 
 function syncMedia(type) {
-  var id = $('#jamid').data('id');
+  var id = $('#jam').data('id');
   $.ajax({
 		method : "POST",
 		url : `/admin/jam/${id}/sync/${type}`,
@@ -889,7 +991,7 @@ function syncMedia(type) {
 }
 
 function setDefaultPic(picId) {
-  var jamid = $('#jamid').data('id');
+  var jamid = $('#jam').data('id');
 
   var toSend = {
     defpic: picId
@@ -908,7 +1010,7 @@ function setDefaultPic(picId) {
 }
 
 function deletePic(picId) {
-  var jamid = $('#jamid').data('id');
+  var jamid = $('#jam').data('id');
   $.ajax({
 		method : "DELETE",
 		url : `/admin/jam/${jamid}/pic/${picId}`,
@@ -1020,7 +1122,7 @@ function editJamScriptsLoaded() {
 }
 
 function updateJam() {
-  var id = $('#jamid').data('id');
+  var id = $('#jam').data('id');
   var mydate = Date.parse($('#date').val());
 
   var toSend = {
@@ -1280,7 +1382,7 @@ function trackActionsFormatter(value, row) {
 //TRACK ACTIONS
 
 function moveTrackUp(trackid) {
-  var jamid = $('#jamid').data('id');
+  var jamid = $('#jam').data('id');
 
   $.ajax({
     method : "PUT",
@@ -1293,7 +1395,7 @@ function moveTrackUp(trackid) {
 }
 
 function moveTrackDown(trackid) {
-  var jamid = $('#jamid').data('id');
+  var jamid = $('#jam').data('id');
 
   $.ajax({
     method : "PUT",
@@ -1320,7 +1422,7 @@ function trackChanged(element) {
     trackTitleJQ.data('previousTitle', newTitle);
     trackNotesJQ.data('previousNotes', newNotes);
 
-    var jamid = $('#jamid').data('id');
+    var jamid = $('#jam').data('id');
     var toSend = {
       title: newTitle,
       notes: newNotes
@@ -1337,7 +1439,7 @@ function trackChanged(element) {
 }
 
 function stripTrackNumbers() {
-  var id = $('#jamid').data('id');
+  var id = $('#jam').data('id');
   $.ajax({
 		method : "POST",
 		url : `/admin/jam/${id}/stripTrackNumbers`,
@@ -1348,7 +1450,7 @@ function stripTrackNumbers() {
 }
 
 function deleteTrack(trackid) {
-  var jamid = $('#jamid').data('id');
+  var jamid = $('#jam').data('id');
   $.ajax({
 		method : "DELETE",
 		url : `/admin/jam/${jamid}/tracks/${trackid}`,
@@ -1360,7 +1462,7 @@ function deleteTrack(trackid) {
 
 //STAFF ACTIONS
 function removeStaffRole(staffid, roleid) {
-  var id = $('#jamid').data('id');
+  var id = $('#jam').data('id');
   $.ajax({
 		method : "DELETE",
 		url : `/admin/jam/${id}/staff/${staffid}/roles/${roleid}`,
@@ -1371,7 +1473,7 @@ function removeStaffRole(staffid, roleid) {
 }
 
 function removeEntireStaff(staffid) {
-  var id = $('#jamid').data('id');
+  var id = $('#jam').data('id');
   $.ajax({
     method : "DELETE",
     url : `/admin/jam/${id}/staff/${staffid}/all`,
@@ -1385,7 +1487,7 @@ function checkAddStaffForm() {
   var staffid = $('[name="addstaff"]').val();
   var roleid = $('[name="addrole"]').val();
   if (staffid > 0 && roleid > 0) {
-    var id = $('#jamid').data('id');
+    var id = $('#jam').data('id');
     addStaffToJam(id, staffid, roleid);
   }
 }
@@ -1426,7 +1528,7 @@ function addNewRole(event, item) {
   function() {
     $('#confirmModal').modal('hide');
     var staffid = $('[name="addstaff"]').val();
-    var jamid = $('#jamid').data('id');
+    var jamid = $('#jam').data('id');
     createEntity("roles", item, function(reply) {
       if (staffid) {
         addStaffToJam(jamid, staffid, reply.id);
@@ -1439,7 +1541,7 @@ function addNewRole(event, item) {
 
 //MUSICIAN ACTIONS
 function removeMusicianInstrument(musicianid, instrumentid) {
-  var id = $('#jamid').data('id');
+  var id = $('#jam').data('id');
   $.ajax({
 		method : "DELETE",
 		url : `/admin/jam/${id}/musicians/${musicianid}/instruments/${instrumentid}`,
@@ -1450,7 +1552,7 @@ function removeMusicianInstrument(musicianid, instrumentid) {
 }
 
 function removeEntireMusician(musicianid) {
-  var id = $('#jamid').data('id');
+  var id = $('#jam').data('id');
   $.ajax({
     method : "DELETE",
     url : `/admin/jam/${id}/musicians/${musicianid}/all`,
@@ -1464,7 +1566,7 @@ function checkAddMusicianForm() {
   var musicianid = $('[name="addmusician"]').val();
   var instrumentid = $('[name="addinstrument"]').val();
   if (musicianid > 0 && instrumentid > 0) {
-    var id = $('#jamid').data('id');
+    var id = $('#jam').data('id');
     addMusicianToJam(id, musicianid, instrumentid);
   }
 }
@@ -1505,7 +1607,7 @@ function addNewInstrument(event, item) {
   function() {
     $('#confirmModal').modal('hide');
     var musicianid = $('[name="addmusician"]').val();
-    var jamid = $('#jamid').data('id');
+    var jamid = $('#jam').data('id');
     createEntity("instruments", item, function(reply) {
       if (musicianid) {
         addMusicianToJam(jamid, musicianid, reply.id);
@@ -1593,15 +1695,15 @@ function showConfirmModal(message, yesFunction) {
 
 
 function closeEditJam() {
-  var id = $('#jamid').data('id');
+  var id = $('#jam').data('id');
   loadJam(id);
 }
 
-function mapLocation(loc) {
+function mapLocation(coordinates) {
 	var myMap = new google.maps.Map($('#map-canvas')[0], {
     center: {
-      lat: parseFloat(loc.lat),
-      lng: parseFloat(loc.lon)
+      lat: parseFloat(coordinates.lat),
+      lng: parseFloat(coordinates.lon)
     },
     zoom: 9,
     mapId: 'singleJamLocationMap',
@@ -1611,8 +1713,8 @@ function mapLocation(loc) {
 
   var marker = new google.maps.marker.AdvancedMarkerElement({
 		position : {
-      lat: parseFloat(loc.lat),
-      lng: parseFloat(loc.lon)
+      lat: parseFloat(coordinates.lat),
+      lng: parseFloat(coordinates.lon)
     },
 		map: myMap,
 		title: location.name

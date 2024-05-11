@@ -1,10 +1,14 @@
+#entity(data-id=id data-lat=lat data-lon=lon)
 .card.border-primary.m-1
   h4.card-header
     | #{displayType}: #{name}
+    if (admin)
+      button#editEntityButton.float-end.btn.btn-primary.btn-sm.ms-2 Edit
+      button#deleteEntityButton.float-end.btn.btn-danger.btn-sm Delete
   .card-body
     if (type === "bands" || type === "musicians")
       if (link && link.indexOf('http') === 0)
-        p Link:&nbsp;
+        p Link:&nbsp;&nbsp;
           a(href=link, target="_blank") #{link}
       .card.border-secondary.mt-1
         .card-body
@@ -12,7 +16,7 @@
             table.table#entityJamTable
     else if (type === "locations")
       if (link && link.indexOf('http') === 0)
-        p Link:
+        p Link:&nbsp;&nbsp;
           a(href=link, target="_blank") #{link}
       if (address)
         p Address: #{address}
