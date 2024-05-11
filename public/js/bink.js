@@ -589,13 +589,11 @@ function loadMap() {
         }
 		});
     $.get('/api/maplocations', function(data) {
-      let markers = [];
+      var markers = [];
       data.forEach(function(thislocation) {
         var thismarker = new google.maps.marker.AdvancedMarkerElement({
-          position: {
-            lat: thislocation.lat,
-            lng: thislocation.lon
-          }
+          position: thislocation,
+          map: map
         });
         thismarker.addListener('click', function(event) {
           if (infowindow)
