@@ -2,3 +2,30 @@
   h4.card-header Manage Entities
   .card-body
     table.table#entitiesTable
+#toolbar
+  .row.ms-1
+    .form-check.col
+      input#filterAll.form-check-input(type='radio' name='typeFilter' value='all' checked)
+      label.form-check-label(for='filterAll')
+        | All
+    .form-check.col
+      input#filterLocations.form-check-input(type='radio' value='locations' name='typeFilter')
+      label.form-check-label(for='filterLocations')
+        | Locations
+    .form-check.col
+      input#filterBands.form-check-input(type='radio' value='bands' name='typeFilter')
+      label.form-check-label(for='filterBands')
+        | Bands
+    .form-check.col
+      input#filterStaff.form-check-input(type='radio' value='staff' name='typeFilter')
+      label.form-check-label(for='filterStaff')
+        | Staff
+    .form-check.col
+      input#filterInstruments.form-check-input(type='radio' value='instruments' name='typeFilter')
+      label.form-check-label(for='filterInstruments')
+        | Instruments
+    .form-check.col
+      input#filterRoles.form-check-input(type='radio' value='roles' name='typeFilter')
+      label.form-check-label(for='filterRoles')
+        | Roles
+

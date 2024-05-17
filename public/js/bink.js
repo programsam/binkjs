@@ -143,21 +143,29 @@ function loadManage() {
       title:'Actions',
       formatter: entityActionFormatter
     }];
-    
+
 		loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
       $('#entitiesTable').bootstrapTable({
-				columns: myColumns,
-				url: '/admin/entities/search',
-				sidePagination: 'server',
-				pagination: true,
-				search: true,
-				showRefresh: true,
-				showColumns: true,
-				pageList: [3,5,10,20,50,100],
-				sortOrder: 'desc',
-				iconsPrefix: 'fa'
-			}); //bootstrapTable init
+        columns: myColumns,
+        url: '/admin/entities/search',
+        sidePagination: 'server',
+        pagination: true,
+        search: true,
+        showRefresh: true,
+        showColumns: true,
+        pageList: [3,5,10,20,50,100],
+        sortOrder: 'desc',
+        iconsPrefix: 'fa',
+        toolbar: '#toolbar',
+        queryParams: function(params) {
+          params.type = $('input[name=typeFilter]:checked').val();
+          return params;
+        }
+      }); //bootstrapTable init
       $(window).scrollTop(0);
+      $('input[name=typeFilter]').click(function(e) {
+        $('#entitiesTable').bootstrapTable('refresh');
+      })
     }) //loadScript + callback
   })
 }
