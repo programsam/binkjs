@@ -273,8 +273,8 @@ function entityNameFormatter(value, row) {
 }
 
 function entityActionFormatter(value, row) {
-  // return `<a href="javascript:alert(${row.id})"><i class="fa-solid fa-trash"></i></a>`;
-  return ``;
+  return  `<a href="javascript:editEntity('${row.type}', ${row.id});"><i class="fa-solid fa-pen-to-square me-1"></i></a>` +
+          `<a href="javascript:deleteEntity('${row.type}', ${row.id});"><i class="fa-solid fa-trash"></i></a>`;
 }
 
 
@@ -529,7 +529,15 @@ function updateEntity(type, id) {
 }
 
 function deleteEntity(type, id) {
-  binkAlert("Not Implemented", "This is not yet implemented!");
+  $.ajax({
+		method: "DELETE",
+		url: `/admin/entity/${type}/${id}`
+	}).done(function(msg) {
+    binkAlert(`Deleted`, `Successfully deleted ${type} ${id}!`);
+    $('#binkAlertModal').on('hide.bs.modal', function(e) {
+      loadManage();
+    })
+	})
 }
 
 function loadEntity(type, id) {
