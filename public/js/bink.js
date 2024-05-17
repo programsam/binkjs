@@ -271,7 +271,7 @@ function entityActionFormatter(value, row) {
 
 
 function hasTracksFormatter(value) {
-	if (value === true) {
+  if (value) {
     return '<i class="fa-solid fa-music"></i>';
   } else {
 		return '';
@@ -280,7 +280,7 @@ function hasTracksFormatter(value) {
 }
 
 function hasPicsFormatter(value) {
-	if (value === true) {
+	if (value) {
     return '<i class="fa-solid fa-camera"></i>';
   } else {
 		return '';
@@ -289,7 +289,7 @@ function hasPicsFormatter(value) {
 }
 
 function hasVidsFormatter(value) {
-	if (value === true) {
+	if (value) {
     return '<i class="fa-solid fa-video"></i>';
   } else {
 		return '';
