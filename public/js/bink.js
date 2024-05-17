@@ -725,14 +725,17 @@ function loadJam(id) {
     $('#editJamButton').click(function() {
       editJam(id);
     });
-		$.get(`/api/jam/${id}/location`, function(loc) {
-      if (loc.lat && loc.lon) {
-        loadScripts(['googleMaps'], itemMapScriptsLoaded, function() {
-          mapLocation(loc);
-        })
-        $(window).scrollTop(0);
-      }
-		})
+    var lat = parseFloat($('#jam').data('lat'));
+    var lon = parseFloat($('#jam').data('lon'));
+    if (! Number.isNaN(lat) && ! Number.isNaN(lon)) {
+      loadScripts(['googleMaps'], itemMapScriptsLoaded, function() {
+        mapLocation({
+          lat: lat,
+          lon: lon
+        });
+      })
+      $(window).scrollTop(0);
+    }
 	})
 }
 
