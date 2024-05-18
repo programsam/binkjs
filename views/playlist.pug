@@ -1,0 +1,14 @@
+.card.border-primary.m-1
+  h4.card-header Playlist
+  .card-body
+    if (playlist.length === 0)
+        p Your playlist is empty
+    else
+        .list-group
+            for item, idx in playlist
+                li.list-group-item #{item.title}
+                    p.float-end
+                        a(href='javascript:playImmediately("' + item.title + '", "' + item.path + '");')
+                            i.fa.fa-play.fa-sm.me-2
+                        a(href=`javascript:removePlaylistItem(${idx});`)
+                            i.fa.fa-trash.fa-sm

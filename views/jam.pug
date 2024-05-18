@@ -74,8 +74,10 @@ else
                 if (track.notes && track.notes.length > 0 && track.notes.trim().length > 0)
                   | &nbsp;- #{track.notes}
                 p.float-end
-                  a(href='javascript:playImmediately("' + track.title + '", "' + track.path + '");')
-                    i.fa.fa-play.fa-sm
+                  a(href=`javascript:playImmediately("${track.title}", "${track.path}");`)
+                    i.fa.fa-play.fa-sm.me-2
+                  a(href=`javascript:enqueueItem("${track.title}", "${track.path}");`)
+                    i.fa.fa-plus.fa-sm
   if (jam.pictures && jam.pictures.length > 0)
     .card.border-secondary
       .card-body

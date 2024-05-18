@@ -1,5 +1,160 @@
-let currentHowl = null;
-let currentTimer = null;
+let currentHowl, currentTimer;
+
+// HOWL FUNCTIONS
+function playImmediately(setTitle, path) {
+	$("#currentlyPlaying").text(`${setTitle}`);
+  if (typeof currentHowl !== 'undefined') {
+    currentHowl.stop();
+    currentHowl.unload();
+  }
+  currentHowl = new Howl({
+    html5: true,
+    preload: true,
+    autoplay: true,
+    src: [path]
+  })
+  playHowl();
+  currentHowl.on('end', function() {
+    nextHowl();
+  })
+}
+
+function updatePosition() {
+  if (typeof currentHowl !== 'undefined') {
+    var seekTime = currentHowl.seek();
+    var currentPosition = formatSecondsIntoTime(Math.round(seekTime));
+    var duration = currentHowl.duration();
+    var durationTime = formatSecondsIntoTime(Math.round(duration));
+    $('#currentPosition').html(`${currentPosition} / ${durationTime}`)
+  } else {
+    $('#currentPosition').html(`-:-- / -:--`)
+  }
+}
+
+function formatSecondsIntoTime(secs) {
+  var minutes = Math.floor(secs / 60) || 0;
+  var seconds = (secs - minutes * 60) || 0;
+
+  return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+}
+
+function playHowl() {
+  if (typeof currentHowl !== "undefined" && ! currentHowl.playing()) {
+    currentHowl.play();
+    $("#pauseButton").removeClass("disabled");
+    $("#playButton").addClass("disabled");
+    if (typeof currentTimer !== "undefined")
+      clearInterval(currentTimer);
+    currentTimer = setInterval(updatePosition, 500);
+  } else {
+    console.log(`No howl; doing nothing`);
+  }
+}
+
+function stopHowl() {
+  if (typeof currentHowl !== "undefined") {
+    $("#pauseButton").addClass("disabled");
+    $("#playButton").removeClass("disabled");
+    currentHowl.stop();
+    clearInterval(currentTimer);
+    $('#currentPosition').html('0:00 / 0:00')
+  } else {
+    console.log(`No howl; doing nothing.`);
+  }
+}
+
+function pauseHowl() {
+  if (typeof currentHowl !== "undefined") {
+    $("#pauseButton").addClass("disabled");
+    $("#playButton").removeClass("disabled");
+    currentHowl.pause();
+    clearInterval(currentTimer);
+  } else {
+    console.log(`No howl; doing nothing.`);
+  }
+}
+
+function previousHowl() {
+  if (typeof currentHowl !== "undefined") {
+    grabPlaylistThen(function(results) {
+      var currentPath = currentHowl._src;
+      var currentTitle = $('#currentlyPlaying').text();
+      var idx = results.findIndex(function(item) {
+        return (item.title === currentTitle) && (item.path === currentPath);
+      })
+      var next = idx - 1;
+      if (next < 0) {
+        stopHowl();
+      } else {
+        playImmediately(results[next].title, results[next].path);
+      }
+    })
+  } else {
+    console.log(`No howl; doing nothing.`);
+  }
+}
+
+function nextHowl() {
+  if (typeof currentHowl !== "undefined") {
+    grabPlaylistThen(function(results) {
+      var currentPath = currentHowl._src;
+      var currentTitle = $('#currentlyPlaying').text();
+      var idx = results.findIndex(function(item) {
+        return (item.title === currentTitle) && (item.path === currentPath);
+      })
+      var next = idx + 1;
+      if (next >= results.length) {
+        stopHowl();
+      } else {
+        playImmediately(results[next].title, results[next].path);
+      }
+    })
+  } else {
+    console.log(`No howl; doing nothing.`);
+  }
+}
+
+//PLAYLIST FUNCTIONS
+function grabPlaylistThen(playlistCb) {
+  $.get('/api/playlist').done(function(results) {
+    playlistCb(results);
+  })
+}
+
+function showPlaylist() {
+	$('.nav-link.active').removeClass('active');
+	$("#main").html("Loading...")
+  location.hash = "playlist";
+	$.get("/views/playlist", function(view) {
+    $('#main').html(view);
+    $(window).scrollTop(0);
+  })
+}
+
+function removePlaylistItem(num) {
+  $.ajax({
+		method : "DELETE",
+		url : `/api/playlist/${num}`,
+  }).done(function(e) {
+    showPlaylist();
+  });
+}
+
+function enqueueItem(title, path) {
+  var arr = [
+    {
+      title: title,
+      path: path
+    }
+  ]
+  $.ajax({
+		method : "POST",
+		url : `/api/playlist`,
+		contentType: "application/json",
+    json: true,
+    data: JSON.stringify(arr)
+  });
+}
 
 $.ajaxSetup({
   cache: true
@@ -19,11 +174,12 @@ $(document).ready(function() {
 	$("a#browseButton").click(loadBrowse)
 	$("a#historyButton").click(loadHistoricJams)
 	$("a#mapButton").click(loadMap)
-  $("a#playButton").click(playCurrentHowl);
-  $("a#stopButton").click(stopCurrentHowl);
-  $("a#pauseButton").click(pauseCurrentHowl);
-  // $("#nextButton").click(nextCurrentHowl);
-  // $("#prevButton").click(prevCurrentHowl);
+  $("#playButton").click(playHowl);
+  $("#stopButton").click(stopHowl);
+  $("#pauseButton").click(pauseHowl);
+  $('#playlistButton').click(showPlaylist);
+  $("#nextButton").click(nextHowl);
+  $("#prevButton").click(previousHowl);
 
 	if (location.hash == "#browse") {
 		loadBrowse();
@@ -394,66 +550,6 @@ function showLoginModal() {
 			}
 		})
 	})
-}
-
-
-function playImmediately(setTitle, path) {
-	$("#currentlyPlaying").text(`${setTitle}`);
-  if (currentHowl !== null) {
-    currentHowl.stop();
-    currentHowl.unload();
-    currentHowl = null;
-  }
-  currentHowl = new Howl({
-    html5: true,
-    preload: true,
-    autoplay: true,
-    src: [path]
-  })
-  playCurrentHowl();
-}
-
-function updatePosition() {
-  var seekTime = currentHowl.seek();
-  var currentPosition = formatSecondsIntoTime(Math.round(seekTime));
-  var duration = currentHowl.duration();
-  var durationTime = formatSecondsIntoTime(Math.round(duration));
-  $('#currentPosition').html(`${currentPosition} / ${durationTime}`)
-}
-
-function formatSecondsIntoTime(secs) {
-  var minutes = Math.floor(secs / 60) || 0;
-  var seconds = (secs - minutes * 60) || 0;
-
-  return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-}
-
-function playCurrentHowl() {
-  if (currentHowl && ! currentHowl.playing()) {
-    currentHowl.play();
-    $("#pauseButton").removeClass("disabled");
-    $("#playButton").addClass("disabled");
-    currentTime = setInterval(updatePosition, 500);
-  } 
-}
-
-function stopCurrentHowl() {
-  if (currentHowl) {
-    $("#pauseButton").addClass("disabled");
-    $("#playButton").removeClass("disabled");
-    currentHowl.stop();
-    clearInterval(currentTimer);
-    $('#currentPosition').html('0:00 / 0:00')
-  } 
-}
-
-function pauseCurrentHowl() {
-  if (currentHowl) {
-    $("#pauseButton").addClass("disabled");
-    $("#playButton").removeClass("disabled");
-    currentHowl.pause();
-    clearInterval(currentTimer);
-  }
 }
 
 function editEntity(type, id) {
