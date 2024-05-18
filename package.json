@@ -10,12 +10,12 @@
     "start": "npx nodemon server.js"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.554.0",
-    "@aws-sdk/credential-providers": "^3.554.0",
+    "@aws-sdk/client-s3": "^3.577.0",
+    "@aws-sdk/credential-providers": "^3.577.0",
     "async": "^3.2.5",
     "body-parser": "^1.20.2",
     "express": "^4.19.2",
-    "express-mysql-session": "^3.0.1",
+    "express-mysql-session": "^3.0.2",
     "express-robots": "^0.2.0",
     "express-session": "^1.18.0",
     "helmet": "^7.1.0",
@@ -23,7 +23,6 @@
     "mysql2": "^3.9.6",
     "podcast": "^2.0.1",
     "pug": "^3.0.2",
-    "uuid": "^9.0.1",
     "winston": "^3.13.0"
   },
   "devDependencies": {
