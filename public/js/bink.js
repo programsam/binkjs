@@ -1,5 +1,77 @@
-let currentHowl = null;
-let currentTimer = null;
+let currentHowl, currentTimer;
+
+// HOWL FUNCTIONS
+function playImmediately(setTitle, path) {
+	$("#currentlyPlaying").text(`${setTitle}`);
+  if (typeof currentHowl !== 'undefined') {
+    console.log(`Discovered current howl`);
+    console.log(currentHowl);
+    currentHowl.stop();
+    currentHowl.unload();
+  }
+  currentHowl = new Howl({
+    html5: true,
+    preload: true,
+    autoplay: true,
+    src: [path]
+  })
+  playCurrentHowl();
+}
+
+function updatePosition() {
+  if (typeof currentHowl !== 'undefined') {
+    var seekTime = currentHowl.seek();
+    var currentPosition = formatSecondsIntoTime(Math.round(seekTime));
+    var duration = currentHowl.duration();
+    var durationTime = formatSecondsIntoTime(Math.round(duration));
+    $('#currentPosition').html(`${currentPosition} / ${durationTime}`)
+  } else {
+    $('#currentPosition').html(`-:-- / -:--`)
+  }
+}
+
+function formatSecondsIntoTime(secs) {
+  var minutes = Math.floor(secs / 60) || 0;
+  var seconds = (secs - minutes * 60) || 0;
+
+  return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+}
+
+function playCurrentHowl() {
+  if (typeof currentHowl !== "undefined" && ! currentHowl.playing()) {
+    currentHowl.play();
+    $("#pauseButton").removeClass("disabled");
+    $("#playButton").addClass("disabled");
+    if (typeof currentTimer !== "undefined")
+      clearInterval(currentTimer);
+    currentTimer = setInterval(updatePosition, 500);
+  } else {
+    console.log(`No howl; doing nothing`);
+  }
+}
+
+function stopCurrentHowl() {
+  if (typeof currentHowl !== "undefined") {
+    $("#pauseButton").addClass("disabled");
+    $("#playButton").removeClass("disabled");
+    currentHowl.stop();
+    clearInterval(currentTimer);
+    $('#currentPosition').html('0:00 / 0:00')
+  } else {
+    console.log(`No howl; doing nothing.`);
+  }
+}
+
+function pauseCurrentHowl() {
+  if (typeof currentHowl !== "undefined") {
+    $("#pauseButton").addClass("disabled");
+    $("#playButton").removeClass("disabled");
+    currentHowl.pause();
+    clearInterval(currentTimer);
+  } else {
+    console.log(`No howl; doing nothing.`);
+  }
+}
 
 $.ajaxSetup({
   cache: true
@@ -19,9 +91,9 @@ $(document).ready(function() {
 	$("a#browseButton").click(loadBrowse)
 	$("a#historyButton").click(loadHistoricJams)
 	$("a#mapButton").click(loadMap)
-  $("a#playButton").click(playCurrentHowl);
-  $("a#stopButton").click(stopCurrentHowl);
-  $("a#pauseButton").click(pauseCurrentHowl);
+  $("#playButton").click(playCurrentHowl);
+  $("#stopButton").click(stopCurrentHowl);
+  $("#pauseButton").click(pauseCurrentHowl);
   // $("#nextButton").click(nextCurrentHowl);
   // $("#prevButton").click(prevCurrentHowl);
 
@@ -394,66 +466,6 @@ function showLoginModal() {
 			}
 		})
 	})
-}
-
-
-function playImmediately(setTitle, path) {
-	$("#currentlyPlaying").text(`${setTitle}`);
-  if (currentHowl !== null) {
-    currentHowl.stop();
-    currentHowl.unload();
-    currentHowl = null;
-  }
-  currentHowl = new Howl({
-    html5: true,
-    preload: true,
-    autoplay: true,
-    src: [path]
-  })
-  playCurrentHowl();
-}
-
-function updatePosition() {
-  var seekTime = currentHowl.seek();
-  var currentPosition = formatSecondsIntoTime(Math.round(seekTime));
-  var duration = currentHowl.duration();
-  var durationTime = formatSecondsIntoTime(Math.round(duration));
-  $('#currentPosition').html(`${currentPosition} / ${durationTime}`)
-}
-
-function formatSecondsIntoTime(secs) {
-  var minutes = Math.floor(secs / 60) || 0;
-  var seconds = (secs - minutes * 60) || 0;
-
-  return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-}
-
-function playCurrentHowl() {
-  if (currentHowl && ! currentHowl.playing()) {
-    currentHowl.play();
-    $("#pauseButton").removeClass("disabled");
-    $("#playButton").addClass("disabled");
-    currentTime = setInterval(updatePosition, 500);
-  } 
-}
-
-function stopCurrentHowl() {
-  if (currentHowl) {
-    $("#pauseButton").addClass("disabled");
-    $("#playButton").removeClass("disabled");
-    currentHowl.stop();
-    clearInterval(currentTimer);
-    $('#currentPosition').html('0:00 / 0:00')
-  } 
-}
-
-function pauseCurrentHowl() {
-  if (currentHowl) {
-    $("#pauseButton").addClass("disabled");
-    $("#playButton").removeClass("disabled");
-    currentHowl.pause();
-    clearInterval(currentTimer);
-  }
 }
 
 function editEntity(type, id) {
