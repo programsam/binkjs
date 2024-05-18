@@ -1,4 +1,7 @@
-#jamid(data-id=jam.id)
+if (jam.hasOwnProperty('location') && jam.location.hasOwnProperty('lon') && jam.location.hasOwnProperty('lat'))
+  #jam(data-id=jam.id data-lat=jam.location.lat data-lon=jam.location.lon)
+else
+  #jam(data-id=jam.id)
 .card.border-primary.m-1
   h4.card-header
     | #{jam.mydate} - #{jam.title}

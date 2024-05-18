@@ -1,0 +1,42 @@
+#entity(data-id=id data-lat=lat data-lon=lon)
+.card.border-primary.m-1
+  h4.card-header Editing #{displayType}: #{name}
+    button#viewEntityButton.float-end.btn.btn-primary.btn-sm.ms-2 Done
+    button#deleteEntityButton.float-end.btn.btn-danger.btn-sm Delete
+  if (type === "staff" || type === "instruments" || type === "roles")
+    .card.border-secondary
+      .card-body
+        .row
+          .col
+            h5 Name
+              input.form-control#entityName(type='text' value=name)
+  else if (type === "bands" || type === "musicians")
+    .card.border-secondary
+      .card-body
+        .row
+          .col
+            h5 Name
+              input.form-control#entityName(type='text' value=name)
+          .col
+            h5 Link
+              input.form-control#entityLink(type='text' value=link)
+  else if (type === "locations")
+    .card.border-secondary
+      .card-body
+        .row
+          .col
+            h5 Name
+              input.form-control#entityName(type='text' value=name)
+          .col
+            h5 Link
+              input.form-control#entityLink(type='text' value=link)
+    .card.border-secondary.mt-1
+      .card-body
+        .row
+          .col
+            h5 Address
+              input.form-control#entityAddress(type='text' value=address)
+    .card.border-secondary.mt-1
+      .card-body
+        p
+          #map-canvas(style='width: 100%; height: 100px')
