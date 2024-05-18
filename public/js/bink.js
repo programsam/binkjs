@@ -4,8 +4,6 @@ let currentHowl, currentTimer;
 function playImmediately(setTitle, path) {
 	$("#currentlyPlaying").text(`${setTitle}`);
   if (typeof currentHowl !== 'undefined') {
-    console.log(`Discovered current howl`);
-    console.log(currentHowl);
     currentHowl.stop();
     currentHowl.unload();
   }
@@ -16,6 +14,9 @@ function playImmediately(setTitle, path) {
     src: [path]
   })
   playHowl();
+  currentHowl.on('end', function() {
+    nextHowl();
+  })
 }
 
 function updatePosition() {
@@ -73,18 +74,61 @@ function pauseHowl() {
   }
 }
 
-//PLAYLIST FUNCTIONS
+function previousHowl() {
+  if (typeof currentHowl !== "undefined") {
+    grabPlaylistThen(function(results) {
+      var currentPath = currentHowl._src;
+      var currentTitle = $('#currentlyPlaying').text();
+      var idx = results.findIndex(function(item) {
+        return (item.title === currentTitle) && (item.path === currentPath);
+      })
+      var next = idx - 1;
+      if (next < 0) {
+        stopHowl();
+      } else {
+        playImmediately(results[next].title, results[next].path);
+      }
+    })
+  } else {
+    console.log(`No howl; doing nothing.`);
+  }
+}
 
-function loadPlaylist() {
+function nextHowl() {
+  if (typeof currentHowl !== "undefined") {
+    grabPlaylistThen(function(results) {
+      var currentPath = currentHowl._src;
+      var currentTitle = $('#currentlyPlaying').text();
+      var idx = results.findIndex(function(item) {
+        return (item.title === currentTitle) && (item.path === currentPath);
+      })
+      var next = idx + 1;
+      if (next >= results.length) {
+        stopHowl();
+      } else {
+        playImmediately(results[next].title, results[next].path);
+      }
+    })
+  } else {
+    console.log(`No howl; doing nothing.`);
+  }
+}
+
+//PLAYLIST FUNCTIONS
+function grabPlaylistThen(playlistCb) {
+  $.get('/api/playlist').done(function(results) {
+    playlistCb(results);
+  })
+}
+
+function showPlaylist() {
 	$('.nav-link.active').removeClass('active');
 	$("#main").html("Loading...")
   location.hash = "playlist";
-	$.get("/views/playlist", playlistCallback)
-}
-
-function playlistCallback(view) {
-  $('#main').html(view);
-  $(window).scrollTop(0);
+	$.get("/views/playlist", function(view) {
+    $('#main').html(view);
+    $(window).scrollTop(0);
+  })
 }
 
 function removePlaylistItem(num) {
@@ -92,7 +136,7 @@ function removePlaylistItem(num) {
 		method : "DELETE",
 		url : `/api/playlist/${num}`,
   }).done(function(e) {
-    loadPlaylist();
+    showPlaylist();
   });
 }
 
@@ -106,7 +150,7 @@ function enqueueItem(title, path) {
   $.ajax({
 		method : "POST",
 		url : `/api/playlist`,
-		contentType : "application/json",
+		contentType: "application/json",
     json: true,
     data: JSON.stringify(arr)
   });
@@ -133,9 +177,9 @@ $(document).ready(function() {
   $("#playButton").click(playHowl);
   $("#stopButton").click(stopHowl);
   $("#pauseButton").click(pauseHowl);
-  $('#playlistButton').click(loadPlaylist);
-  // $("#nextButton").click(nextCurrentHowl);
-  // $("#prevButton").click(prevCurrentHowl);
+  $('#playlistButton').click(showPlaylist);
+  $("#nextButton").click(nextHowl);
+  $("#prevButton").click(previousHowl);
 
 	if (location.hash == "#browse") {
 		loadBrowse();
