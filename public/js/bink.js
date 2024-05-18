@@ -15,7 +15,7 @@ function playImmediately(setTitle, path) {
     autoplay: true,
     src: [path]
   })
-  playCurrentHowl();
+  playHowl();
 }
 
 function updatePosition() {
@@ -37,7 +37,7 @@ function formatSecondsIntoTime(secs) {
   return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
 }
 
-function playCurrentHowl() {
+function playHowl() {
   if (typeof currentHowl !== "undefined" && ! currentHowl.playing()) {
     currentHowl.play();
     $("#pauseButton").removeClass("disabled");
@@ -50,7 +50,7 @@ function playCurrentHowl() {
   }
 }
 
-function stopCurrentHowl() {
+function stopHowl() {
   if (typeof currentHowl !== "undefined") {
     $("#pauseButton").addClass("disabled");
     $("#playButton").removeClass("disabled");
@@ -62,7 +62,7 @@ function stopCurrentHowl() {
   }
 }
 
-function pauseCurrentHowl() {
+function pauseHowl() {
   if (typeof currentHowl !== "undefined") {
     $("#pauseButton").addClass("disabled");
     $("#playButton").removeClass("disabled");
@@ -71,6 +71,45 @@ function pauseCurrentHowl() {
   } else {
     console.log(`No howl; doing nothing.`);
   }
+}
+
+//PLAYLIST FUNCTIONS
+
+function loadPlaylist() {
+	$('.nav-link.active').removeClass('active');
+	$("#main").html("Loading...")
+  location.hash = "playlist";
+	$.get("/views/playlist", playlistCallback)
+}
+
+function playlistCallback(view) {
+  $('#main').html(view);
+  $(window).scrollTop(0);
+}
+
+function removePlaylistItem(num) {
+  $.ajax({
+		method : "DELETE",
+		url : `/api/playlist/${num}`,
+  }).done(function(e) {
+    loadPlaylist();
+  });
+}
+
+function enqueueItem(title, path) {
+  var arr = [
+    {
+      title: title,
+      path: path
+    }
+  ]
+  $.ajax({
+		method : "POST",
+		url : `/api/playlist`,
+		contentType : "application/json",
+    json: true,
+    data: JSON.stringify(arr)
+  });
 }
 
 $.ajaxSetup({
@@ -91,9 +130,10 @@ $(document).ready(function() {
 	$("a#browseButton").click(loadBrowse)
 	$("a#historyButton").click(loadHistoricJams)
 	$("a#mapButton").click(loadMap)
-  $("#playButton").click(playCurrentHowl);
-  $("#stopButton").click(stopCurrentHowl);
-  $("#pauseButton").click(pauseCurrentHowl);
+  $("#playButton").click(playHowl);
+  $("#stopButton").click(stopHowl);
+  $("#pauseButton").click(pauseHowl);
+  $('#playlistButton').click(loadPlaylist);
   // $("#nextButton").click(nextCurrentHowl);
   // $("#prevButton").click(prevCurrentHowl);
 
