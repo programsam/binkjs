@@ -166,8 +166,19 @@ function loadManage() {
       $('input[name=typeFilter]').click(function(e) {
         $('#entitiesTable').bootstrapTable('refresh');
       })
+      $('.newButton').click(function(e) {
+        var type = $(e.target).data('type');
+        $.ajax({
+          method : "POST",
+          url : `/admin/entity/${type}`,
+          contentType : "application/json",
+          data : JSON.stringify({name: `untitled`})
+        }).done(function(createReply) {
+          editEntity(type, createReply.id)
+        }) //done after create entity
+      }) //when new button is clicked
     }) //loadScript + callback
-  })
+  }) //manage view is loaded
 }
 
 function loadBrowse() {
