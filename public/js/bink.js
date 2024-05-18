@@ -273,7 +273,11 @@ function titleFormatter(value, row) {
 
 function dateFormatter(value) {
 	var d = new Date(value);
-	return `${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}`;
+  var month = ('00' + (d.getMonth() + 1)).slice(-2)
+	var date = ('00' + (d.getDate())).slice(-2)
+	var year = d.getFullYear();
+	
+	return `${month}/${date}/${year}`;
 }
 
 function entityNameFormatter(value, row) {
@@ -1150,26 +1154,19 @@ function reloadStaff(id, focus) {
   })
 }
 
-function momentjsLoaded() {
-  return (typeof moment === "function");
-}
-
 function editJamScriptsLoaded() {
   var bootstrapAutocompleteLoaded = (typeof $().autoComplete === "function");
   var tempusDominusLoaded = false;
-  if (momentjsLoaded())
-    tempusDominusLoaded = (typeof $().datetimepicker === "function");
+  tempusDominusLoaded = (typeof tempusDominus === "object");
   var dropzoneUploaded = (typeof Dropzone === "function");
 
-  return (momentjsLoaded() &&
-          tempusDominusLoaded &&
+  return (tempusDominusLoaded &&
           bootstrapAutocompleteLoaded &&
           dropzoneUploaded);
 }
 
 function updateJam() {
   var id = $('#jam').data('id');
-  var mydate = Date.parse($('#date').val());
 
   var toSend = {
     date: $('#jamdate').val(),
@@ -1192,11 +1189,35 @@ function updateJam() {
 function editJam(id) {
 	location.hash = "edit-" + id;
 	$('.nav-link.active').removeClass('active');
-  loadScripts(['moment'], momentjsLoaded, function() {
     loadScripts(['bootstrapAutocomplete', 'dropzone', 'tempusDominus'],
       editJamScriptsLoaded, function() {
       $.get(`/views/admin/jam/edit/${id}`, function(view) {
-    		$('#main').html(view);
+        $('#main').html(view);
+        var currentlySetDate = $('#jam').data('date');
+        const picker = new tempusDominus.TempusDominus($('#jamdatepicker')[0], {
+          defaultDate: dateFormatter(currentlySetDate),
+          localization: {
+            format: 'MM/dd/yyyy'
+          },
+          display: {
+            buttons: {
+              today: true
+            },
+            components: {
+              hours: false,
+              minutes: false,
+              seconds: false,
+              clock: false
+            }
+          }
+        });
+        const subscription = picker.subscribe(tempusDominus.Namespace.events.change, (e) => {
+          if (e.isValid && ! e.isClear) {
+            updateJam();
+          } else {
+            binkAlert(`Incorrect Date`, `Please select a valid date for the jam`);
+          }
+        });
         reloadMusicians(id);
         reloadStaff(id);
         reloadTracksSection(id);
@@ -1210,13 +1231,6 @@ function editJam(id) {
           loadJam(id);
         });
         $('#isJamPrivate').click(updateJam);
-        $('#jamdatepicker').on('change.datetimepicker', function(e) {
-          if (e.hasOwnProperty('isInvalid') && ! e.isInvalid) {
-            updateJam();
-          } else {
-            binkAlert(`Incorrect Date`, `Please select a valid date for the jam`);
-          }
-        });
         $('#jamtitle').change(function (e) {
           //change is the best event
           //not making a request every time you push a letter
@@ -1398,7 +1412,6 @@ function editJam(id) {
         }) //end clear jam band button callback
     	}) //retrieved the edit jam view
     }) //edit-jam-specific scripts have loaded
-  }) //tempus domini has loaded
 } //editjam(id)
 
 function reloadPicsSection(jamid) {
