@@ -2,7 +2,6 @@ const path				= require('path');
 const express 			= require('express');
 const session 			= require('express-session');
 const MySQLStore 		= require('express-mysql-session')(session);
-const uuid				= require('uuid');
 const app 				= express();
 const mysql				= require('mysql2');
 const async				= require('async');
