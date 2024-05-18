@@ -540,6 +540,18 @@ function updateEntity(type, id) {
 }
 
 function deleteEntity(type, id) {
+  $.get(`/api/entity/${type}/${id}/search?order=desc&offset=0&limit=1`)
+    .done(function(result) {
+      showConfirmModal(
+        `Are you sure you want to delete ${type} #${id}? It will also be removed from ${result.total} jams!`,
+      function() {
+        $('#confirmModal').modal('hide');
+        actuallyDeleteEntity(type, id);
+      })
+    })
+}
+
+function actuallyDeleteEntity(type, id) {
   $.ajax({
 		method: "DELETE",
 		url: `/admin/entity/${type}/${id}`
@@ -767,16 +779,25 @@ function loadJam(id) {
 }
 
 function deleteJam(id) {
+  showConfirmModal(
+    `Are you sure you want to delete jam ${id}? All media will be removed as well.`,
+  function() {
+    actuallyDeleteJam(id);
+  })
+}
+
+function actuallyDeleteJam(id) {
+  $('#confirmModal').modal('hide');
   $.ajax({
 		method : "DELETE",
 		url : `/admin/jam/${id}`,
 		contentType : "application/json"
 	}).done(function(msg) {
-    binkAlert(`Deleted`, `Successfully deleted jam ${id}!`);
-    $('#binkAlertModal').on('hide.bs.modal', function(e) {
-      loadRecentJams();
+      binkAlert(`Deleted`, `Successfully deleted jam ${id}!`);
+        $('#binkAlertModal').on('hide.bs.modal', function(e) {
+          loadRecentJams();
+        })
     })
-	})
 }
 
 
