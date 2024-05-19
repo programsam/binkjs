@@ -1,5 +1,79 @@
 let currentHowl, currentTimer;
 
+$.ajaxSetup({
+  cache: true
+});
+
+$( document ).ajaxError(function(event, request, settings, thrownError) {
+  if (thrownError === "abort") {
+    console.warn(`Request aborted; continuing to type.`)
+  } else {
+    binkAlert(`Server Error`, `The error is: ${thrownError}`);
+  }
+});
+
+
+$(document).ready(function() {
+	$("a#recentButton").click(loadRecentJams)
+	$("a#browseButton").click(loadBrowse)
+	$("a#historyButton").click(loadHistoricJams)
+	$("a#mapButton").click(loadMap)
+  $("#playButton").click(playHowl);
+  $("#stopButton").click(stopHowl);
+  $("#pauseButton").click(pauseHowl);
+  $('#playlistButton').click(showPlaylist);
+  $("#nextButton").click(nextHowl);
+  $("#prevButton").click(previousHowl);
+
+	if (location.hash == "#browse") {
+		loadBrowse();
+	} else if (location.hash == "#history") {
+		loadHistoricJams();
+  } else if (location.hash == "#manage") {
+		loadManage();
+	} else if (location.hash == "#map") {
+		loadMap();
+	} else if (location.hash == "#playlist") {
+		showPlaylist();
+	} else if (location.hash.indexOf("#jams-") == 0) {
+		var jamid = location.hash.split("-")[1];
+		loadJam(jamid);
+  } else if (location.hash.indexOf("#edit-") == 0) {
+		var jamid = location.hash.split("-")[1];
+		editJam(jamid);
+  } else if (location.hash.indexOf("#musicians-") == 0) {
+    var musicianId = location.hash.split("-")[1];
+    loadEntity("musicians", musicianId);
+  } else if (location.hash.indexOf("#locations-") == 0) {
+    var locationId = location.hash.split("-")[1];
+    loadEntity("locations", locationId);
+  } else if (location.hash.indexOf("#bands-") == 0) {
+    var bandId = location.hash.split("-")[1];
+    loadEntity("bands", bandId);
+  } else if (location.hash.indexOf("#staff-") == 0) {
+    var staffId = location.hash.split("-")[1];
+    loadEntity("staff", staffId);
+  } else {
+		loadRecentJams();
+	}
+
+	$("#logoutButton").click(logout);
+	$("#loginButton").click(login);
+	$("a#adminButton").click(function() {
+		$('#password').val('');
+		$('#adminModal').modal('show');
+	})
+
+  $.get("/admin/loggedin").done(function(data) {
+		if (data.admin) {
+			showAdmin();
+		}
+		else {
+			hideAdmin();
+		}
+  })
+}) //document.ready
+
 // HOWL FUNCTIONS
 function playImmediately(setTitle, path) {
 	$("#currentlyPlaying").text(`${setTitle}`);
@@ -161,78 +235,6 @@ function enqueueItem(title, path) {
   });
 }
 
-$.ajaxSetup({
-  cache: true
-});
-
-$( document ).ajaxError(function(event, request, settings, thrownError) {
-  if (thrownError === "abort") {
-    console.warn(`Request aborted; continuing to type.`)
-  } else {
-    binkAlert(`Server Error`, `The error is: ${thrownError}`);
-  }
-});
-
-
-$(document).ready(function() {
-	$("a#recentButton").click(loadRecentJams)
-	$("a#browseButton").click(loadBrowse)
-	$("a#historyButton").click(loadHistoricJams)
-	$("a#mapButton").click(loadMap)
-  $("#playButton").click(playHowl);
-  $("#stopButton").click(stopHowl);
-  $("#pauseButton").click(pauseHowl);
-  $('#playlistButton').click(showPlaylist);
-  $("#nextButton").click(nextHowl);
-  $("#prevButton").click(previousHowl);
-
-	if (location.hash == "#browse") {
-		loadBrowse();
-	} else if (location.hash == "#history") {
-		loadHistoricJams();
-  } else if (location.hash == "#manage") {
-		loadManage();
-	} else if (location.hash == "#map") {
-		loadMap();
-	} else if (location.hash.indexOf("#jams-") == 0) {
-		var jamid = location.hash.split("-")[1];
-		loadJam(jamid);
-  } else if (location.hash.indexOf("#edit-") == 0) {
-		var jamid = location.hash.split("-")[1];
-		editJam(jamid);
-  } else if (location.hash.indexOf("#musicians-") == 0) {
-    var musicianId = location.hash.split("-")[1];
-    loadEntity("musicians", musicianId);
-  } else if (location.hash.indexOf("#locations-") == 0) {
-    var locationId = location.hash.split("-")[1];
-    loadEntity("locations", locationId);
-  } else if (location.hash.indexOf("#bands-") == 0) {
-    var bandId = location.hash.split("-")[1];
-    loadEntity("bands", bandId);
-  } else if (location.hash.indexOf("#staff-") == 0) {
-    var staffId = location.hash.split("-")[1];
-    loadEntity("staff", staffId);
-  } else {
-		loadRecentJams();
-	}
-
-	$("#logoutButton").click(logout);
-	$("#loginButton").click(login);
-	$("a#adminButton").click(function() {
-		$('#password').val('');
-		$('#adminModal').modal('show');
-	})
-
-	$.get("/admin/loggedin").done(function(data) {
-		if (data.admin) {
-			showAdmin();
-		}
-		else {
-			hideAdmin();
-		}
-	}) //get logged in
-}) //document.ready
-
 // fancy schmancy script loading stuff.
 //
 // pass an array of scriptNames, which will load views. but it also
@@ -370,6 +372,14 @@ function loadBrowse() {
       formatter: attributesFormatter
     }];
 
+    if ($('#admin').data('admin')) {
+      myColumns.push(actionsColumn = {
+        field:'id',
+        title:'Actions',
+        formatter: adminJamActionFormatter
+      });
+    }
+
 		loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
       $('#jamTable').bootstrapTable({
 				columns: myColumns,
@@ -441,6 +451,12 @@ function attributesFormatter(value, row) {
     toRet += '<i class="fa-solid fa-key me-1"></i>';
   }
   return toRet;
+}
+
+function adminJamActionFormatter(value) {
+  return `<a href="javascript:deleteJam(${value});"><i class="fa-solid fa-trash fa-sm me-1"></i></a>` +
+  `<a href="javascript:editJam(${value});"><i class="fa-solid fa-pen-to-square fa-sm me-1"></i></a>` +
+  `<a href="javascript:loadJam(${value});"><i class="fa-solid fa-magnifying-glass fa-sm me-1"></i></a>`;
 }
 
 function showAdmin()
@@ -656,27 +672,38 @@ function loadEntity(type, id) {
         }
       }
     }
+
+    var myColumns = [
+      {field:'date',
+        title:'Date',
+        sortable: true,
+        order: 'desc',
+        formatter: dateFormatter},
+      {field:'title',
+          title:'Title',
+        formatter: titleFormatter},
+      {field:'location.name',
+        title:'Location',
+        formatter: locationFormatter},
+      {field:'band.name',
+        title:'Band',
+        formatter: bandFormatter},
+      {field:'hasTracks',
+        title:'Attributes',
+        formatter: attributesFormatter},
+    ]
+
+    if ($('#entity').data('admin')) {
+      myColumns.push(actionsColumn = {
+        field:'id',
+        title:'Actions',
+        formatter: adminJamActionFormatter
+      });
+    }
+
 		loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
 			$('#entityJamTable').bootstrapTable({
-				columns: [
-					{field:'date',
-						title:'Date',
-						sortable: true,
-						order: 'desc',
-						formatter: dateFormatter},
-					{field:'title',
-							title:'Title',
-						formatter: titleFormatter},
-					{field:'location.name',
-						title:'Location',
-						formatter: locationFormatter},
-					{field:'band.name',
-						title:'Band',
-						formatter: bandFormatter},
-					{field:'hasTracks',
-						title:'Attributes',
-						formatter: attributesFormatter},
-				],
+				columns: myColumns,
 				url: `/api/entity/${type}/${id}/search`,
 				sidePagination: 'server',
 				pagination: true,
