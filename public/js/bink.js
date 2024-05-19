@@ -39,15 +39,20 @@ function formatSecondsIntoTime(secs) {
 }
 
 function playHowl() {
-  if (typeof currentHowl !== "undefined" && ! currentHowl.playing()) {
+  //it exists, so it was stopped or paused
+  if (typeof currentHowl !== "undefined" && ! currentHowl.playing()) { 
     currentHowl.play();
     $("#pauseButton").removeClass("disabled");
     $("#playButton").addClass("disabled");
     if (typeof currentTimer !== "undefined")
       clearInterval(currentTimer);
     currentTimer = setInterval(updatePosition, 500);
-  } else {
-    console.log(`No howl; doing nothing`);
+  } else { //it is not loaded, so let's check the playlist
+    grabPlaylistThen(function(results) {
+      if (results.length > 0) {
+        playImmediately(results[0].title, results[0].path);
+      }
+    })
   }
 }
 
