@@ -366,26 +366,10 @@ function loadBrowse() {
       formatter: bandFormatter
     }, {
       field:'hasTracks',
-      title:'Tracks',
-      formatter: hasTracksFormatter
-    }, {
-      field:'hasPics',
-      title:'Pics',
-      formatter: hasPicsFormatter
-    }, {
-      field:'hasVids',
-      title:'Vids',
-      formatter: hasVidsFormatter
+      title:'Attributes',
+      formatter: attributesFormatter
     }];
 
-    if ($('#admin').data('admin')) {
-      myColumns.push(privateColumn = {
-        field:'private',
-        title:'Private',
-        formatter: privateFormatter
-      });    
-    }
-    
 		loadScripts(['bootstrapTable'], bootstrapTableLoaded, function() {
       $('#jamTable').bootstrapTable({
 				columns: myColumns,
@@ -403,14 +387,6 @@ function loadBrowse() {
     }) //loadScript + callback
 	}) //.get the browse view
 } //loadBrowse()
-
-function privateFormatter(value, row) {
-	if (row.private) {
-		return '<i class="fa-solid fa-key"></i>';
-	} else {
-		return '-';
-	}
-}
 
 function locationFormatter(value, row) {
 	if (row.location) {
@@ -450,32 +426,21 @@ function entityActionFormatter(value, row) {
           `<a href="javascript:deleteEntity('${row.type}', ${row.id});"><i class="fa-solid fa-trash"></i></a>`;
 }
 
-
-function hasTracksFormatter(value) {
-  if (value) {
-    return '<i class="fa-solid fa-music"></i>';
-  } else {
-		return '';
-	}
-  return value;
-}
-
-function hasPicsFormatter(value) {
-	if (value) {
-    return '<i class="fa-solid fa-camera"></i>';
-  } else {
-		return '';
-	}
-  return value;
-}
-
-function hasVidsFormatter(value) {
-	if (value) {
-    return '<i class="fa-solid fa-video"></i>';
-  } else {
-		return '';
-	}
-  return value;
+function attributesFormatter(value, row) {
+  var toRet = '';
+  if (row.hasTracks) {
+    toRet += '<i class="fa-solid fa-music me-1"></i>';
+  } 
+  if (row.hasPics) {
+    toRet += '<i class="fa-solid fa-camera me-1"></i>';
+  }
+  if (row.hasVids) {
+    toRet += '<i class="fa-solid fa-video me-1"></i>';
+  }
+  if (row.private) {
+    toRet += '<i class="fa-solid fa-key me-1"></i>';
+  }
+  return toRet;
 }
 
 function showAdmin()
@@ -709,17 +674,8 @@ function loadEntity(type, id) {
 						title:'Band',
 						formatter: bandFormatter},
 					{field:'hasTracks',
-						title:'Tracks',
-						formatter: hasTracksFormatter},
-					{field:'hasPics',
-						title:'Pics',
-						formatter: hasPicsFormatter},
-					{field:'hasVids',
-						title:'Vids',
-						formatter: hasVidsFormatter},
-					{field:'private',
-						title:'Private',
-						formatter: privateFormatter}
+						title:'Attributes',
+						formatter: attributesFormatter},
 				],
 				url: `/api/entity/${type}/${id}/search`,
 				sidePagination: 'server',

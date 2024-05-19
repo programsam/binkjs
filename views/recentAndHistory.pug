@@ -8,12 +8,12 @@ if (jams.length > 0)
           .col
             if (jam.private)
               i.fa-sm.fa-solid.fa-key.m-1.float-end
-            a.viewJamButton.ms-2.float-end(data-id=jam.id)
+            a(href='javascript:').viewJamButton.ms-2.float-end(data-id=jam.id)
               i.fa-sm.fa-solid.fa-magnifying-glass
             if (admin)
-              a.editJamButton.ms-2.float-end(data-id=jam.id)
+              a(href='javascript:').editJamButton.ms-2.float-end(data-id=jam.id)
                 i.fa-sm.fa-solid.fa-pen-to-square
-              a.deleteJamButton.ms-2.float-end(data-id=jam.id)
+              a(href='javascript:').deleteJamButton.ms-2.float-end(data-id=jam.id)
                 i.fa-sm.fa-solid.fa-trash
         h6.card-subtitle.mb-2.text-muted
           if (jam.band && jam.location)

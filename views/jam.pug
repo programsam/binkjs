@@ -5,7 +5,7 @@ else
 .card.border-primary.m-1
   .card-header
     .row
-      .col
+      .col-8
         h4 #{jam.mydate} - #{jam.title}
       if (jam.private || admin)
         .col
@@ -13,9 +13,9 @@ else
             p.float-end
               i.fa.fa-key.fa-sm.ms-2
           if (admin)
-            a#editJamButton.float-end.ms-2
+            a(href='javascript:')#editJamButton.float-end.ms-2
               i.fa-sm.fa-solid.fa-pen-to-square
-            a#deleteJamButton.float-end
+            a(href='javascript:')#deleteJamButton.float-end
               i.fa-sm.fa-solid.fa-trash
   .card-body
     h6.card-subtitle.mb-2.text-muted
