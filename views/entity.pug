@@ -1,10 +1,15 @@
-#entity(data-id=id data-lat=lat data-lon=lon)
+#entity(data-id=id data-lat=lat data-lon=lon data-admin=admin)
 .card.border-primary.m-1
-  h4.card-header
-    | #{displayType}: #{name}
-    if (admin)
-      button#editEntityButton.float-end.btn.btn-primary.btn-sm.ms-2 Edit
-      button#deleteEntityButton.float-end.btn.btn-danger.btn-sm Delete
+  .card-header
+    .row
+      .col
+        h4 #{displayType}: #{name}
+      if (admin)
+        .col-2
+          a(href='javascript:')#editEntityButton.float-end.ms-2
+            i.fa-solid.fa-sm.fa-pen-to-square
+          a(href='javascript:')#deleteEntityButton.float-end
+            i.fa-solid.fa-sm.fa-trash
   .card-body
     if (type === "bands" || type === "musicians")
       if (link && link.indexOf('http') === 0)

@@ -1,8 +1,14 @@
 #entity(data-id=id data-lat=lat data-lon=lon)
 .card.border-primary.m-1
-  h4.card-header Editing #{displayType}: #{name}
-    button#viewEntityButton.float-end.btn.btn-primary.btn-sm.ms-2 Done
-    button#deleteEntityButton.float-end.btn.btn-danger.btn-sm Delete
+  .card-header
+    .row
+      .col-8
+        h4 Editing #{displayType}: #{name}
+      .col
+        a(href='javascript:')#viewEntityButton.float-end.ms-2
+          i.fa-solid.fa-sm.fa-check
+        a(href='javascript:')#deleteEntityButton.float-end.ms-2
+          i.fa-solid.fa-sm.fa-trash
   if (type === "staff" || type === "instruments" || type === "roles")
     .card.border-secondary
       .card-body

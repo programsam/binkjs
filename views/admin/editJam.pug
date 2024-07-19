@@ -1,8 +1,14 @@
 #jam(data-id=jam.id, data-date=jam.date)
 .card.border-primary.m-1
-  h4.card-header Editing Jam
-    button#viewJamButton.float-end.btn.btn-primary.btn-sm.ms-2 Done
-    button#deleteJamButton.float-end.btn.btn-danger.btn-sm.ms-2 Delete
+  .card-header
+    .row
+      .col-8
+        h4 Editing Jam
+      .col
+        a(href='javascript:')#viewJamButton.float-end.ms-2
+          i.fa-sm.fa-solid.fa-check
+        a(href='javascript:')#deleteJamButton.float-end.ms-2
+          i.fa-sm.fa-solid.fa-trash
   .card.border-secondary
     .card-body
       .row

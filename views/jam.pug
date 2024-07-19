@@ -3,14 +3,20 @@ if (jam.hasOwnProperty('location') && jam.location.hasOwnProperty('lon') && jam.
 else
   #jam(data-id=jam.id)
 .card.border-primary.m-1
-  h4.card-header
-    | #{jam.mydate} - #{jam.title}
-    if (jam.private)
-      p.float-end
-        i.fa.fa-key.fa-sm.ms-2
-    if (admin)
-      button#editJamButton.float-end.btn.btn-primary.btn-sm.ms-2 Edit
-      button#deleteJamButton.float-end.btn.btn-danger.btn-sm Delete
+  .card-header
+    .row
+      .col-8
+        h4 #{jam.mydate} - #{jam.title}
+      if (jam.private || admin)
+        .col
+          if (jam.private)
+            p.float-end
+              i.fa.fa-key.fa-sm.ms-2
+          if (admin)
+            a(href='javascript:')#editJamButton.float-end.ms-2
+              i.fa-sm.fa-solid.fa-pen-to-square
+            a(href='javascript:')#deleteJamButton.float-end
+              i.fa-sm.fa-solid.fa-trash
   .card-body
     h6.card-subtitle.mb-2.text-muted
       if (jam.band && jam.location)
