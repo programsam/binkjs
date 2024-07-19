@@ -5,8 +5,8 @@ Requires=mysql.service
 Wants=nginx.service
 
 [Service]
-ExecStart=/usr/bin/nodejs /srv/www/js.binkmusic.com/server.js
-WorkingDirectory=/srv/www/js.binkmusic.com
+ExecStart=/usr/bin/nodejs /srv/www/yourdirectoryhere/server.js
+WorkingDirectory=/srv/www/yourdirectoryhere
 Restart=always
 RestartSec=10
 
