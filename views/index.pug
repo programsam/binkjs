@@ -44,9 +44,9 @@ html(lang='en')
             li#adminItem.nav-item
               a#adminButton.nav-link(href='javascript:') Admin
     #main.main
-    container-fluid.bg-primary.fixed-bottom.pt-2.pl-1
+    container-fluid.bg-primary.fixed-bottom.pt-2.ps-1
       .row
-        .col-xl-7.col-lg-7.col-md-7.col-sm-7.col-7
+        .col-xl-7.col-lg-7.col-md-7.col-sm-7.col-12
           #playButton.btn.btn-primary(type=button)
             i.fa-solid.fa-play
           #pauseButton.btn.btn-primary.disabled(type=button)
@@ -59,10 +59,10 @@ html(lang='en')
             i.fa-solid.fa-step-forward
           #playlistButton.btn.btn-primary(type=button)
             i.fa-solid.fa-list
-        .col-xl-2.col-lg-2.col-md-2.col-sm-2.col-5
-          p#currentPosition.mt-2 -:-- / -:--
-        .col-xl-3.col-lg-3.col-md-3.col-sm-3.col-12
-          p#currentlyPlaying.ml-3.mt-2
+        .col-xl-2.col-lg-2.col-md-2.col-sm-2.col-6
+          p#currentPosition.ms-2.mt-2 -:-- / -:--
+        .col-xl-3.col-lg-3.col-md-3.col-sm-3.col-6
+          p#currentlyPlaying.ms-2.mt-2
             em Nothing playing...
     #binkAlertModal.modal(tabindex='-1')
       .modal-dialog
