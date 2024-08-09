@@ -36,11 +36,12 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ./src:/app/src
+      - ./:/app
     depends_on:
       mysql:
         condition: service_healthy
     environment:
+      NODE_ENV: development
       MYSQL_HOST: mysql
       MYSQL_USER: binkjsuser
       MYSQL_PASSWORD: password
