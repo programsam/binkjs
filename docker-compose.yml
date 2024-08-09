@@ -1,0 +1,53 @@
+version: "3.8"
+services:
+  mysql:
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_AUTHENTICATION_PLUGIN: mysql_native_password
+      MYSQL_USER: binkjsuser
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: binkjs
+    networks:
+      - binkjs
+    volumes:
+      - ./misc/binkjs.sql:/docker-entrypoint-initdb.d/binkjs.sql
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+      - mysql-data:/var/lib/mysql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # entrypoint: ["/docker-entrypoint-initdb.d/init-db.sh"]
+
+  binkjs:
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src:/app/src # Enables live reload
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: binkjsuser
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: binkjs
+    networks:
+      - binkjs
+    entrypoint: ["./wait-for-mysql.sh", "mysql:3306", "--", "npm", "start"]
+
+volumes:
+  mysql-data:
+
+networks:
+  binkjs:
+    driver: bridge
