@@ -1,6 +1,24 @@
 FROM mysql:8.0
 
-COPY ./init-db.sh /docker-entrypoint-initdb.d/init-db.sh
+# Copy the SQL file into the container
 COPY ./misc/binkjs.sql /docker-entrypoint-initdb.d/binkjs.sql
 
-RUN chmod +x /docker-entrypoint-initdb.d/init-db.sh
+# Set environment variables for MySQL
+ENV MYSQL_ROOT_PASSWORD=rootpassword
+ENV MYSQL_DATABASE=binkjs
+ENV MYSQL_USER=binkjsuser
+ENV MYSQL_PASSWORD=binkjspassword
+
+# Custom entrypoint to initialize the database
+ENTRYPOINT ["sh", "-c", "docker-entrypoint.sh mysqld & \
+  until mysqladmin ping -h localhost --silent; do \
+  echo 'waiting for mysqld to be connectable...'; \
+  sleep 2; \
+  done; \
+  mysql -u root -p$MYSQL_ROOT_PASSWORD -e \"CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;\"; \
+  mysql -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < /docker-entrypoint-initdb.d/binkjs.sql; \
+  mysql -u root -p$MYSQL_ROOT_PASSWORD -e \"GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%'; FLUSH PRIVILEGES;\"; \
+  wait"]
+
+
+CMD ["mysqld"]

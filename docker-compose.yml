@@ -17,7 +17,7 @@ services:
       - binkjs
     volumes:
       - ./misc/binkjs.sql:/docker-entrypoint-initdb.d/binkjs.sql
-      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+      # - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
       - mysql-data:/var/lib/mysql
     restart: unless-stopped
     healthcheck:
@@ -30,8 +30,13 @@ services:
     build: .
     ports:
       - 3001:3001
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3306"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
-      - ./src:/app/src # Enables live reload
+      - ./src:/app/src
     depends_on:
       mysql:
         condition: service_healthy
@@ -42,7 +47,6 @@ services:
       MYSQL_DATABASE: binkjs
     networks:
       - binkjs
-    entrypoint: ["./wait-for-mysql.sh", "mysql:3306", "--", "npm", "start"]
 
 volumes:
   mysql-data:
