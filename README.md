@@ -136,17 +136,17 @@ You will need to register for an AWS account, if you don't already have one.
 
 [Get AWS Credentials](https://aws.amazon.com/blogs/security/how-to-find-update-access-keys-password-mfa-aws-management-console/)
 
-For local development, you should also set up an S3 bucket with public read permissions. 
+For local development, you should also set up an S3 bucket with public read permissions.
 
-[Create an S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html). 
+[Create an S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html).
 
 It's also recommended that you create a folder within your bucket called `public`.
 
-[Set appropriate permissions for your S3 bucket.](https://docs.aws.amazon.com/AmazonS3/latest/userguide/managing-acls.html) Your bucket will need to be publicly accessible. 
+[Set appropriate permissions for your S3 bucket.](https://docs.aws.amazon.com/AmazonS3/latest/userguide/managing-acls.html) Your bucket will need to be publicly accessible.
 
-Your S3 bucket will also not have ACLs allowed by default. If ACLs are not allowed, you will not be able to upload assets (tracks, images, videos) via the Binkjs admin console. 
+Your S3 bucket will also not have ACLs allowed by default. If ACLs are not allowed, you will not be able to upload assets (tracks, images, videos) via the Binkjs admin console.
 
-In order to resolve this, do the following: 
+In order to resolve this, do the following:
 
 - Go to the S3 Console and select your bucket
 - Go to Permissions
@@ -224,3 +224,17 @@ Check out the [example nginx.conf](./misc/binkjs-nginx.conf) configuration file 
 ### Ubuntu/Systemd Service
 
 You'll want to configure a [Systemd Service](https://docs.fedoraproject.org/en-US/quick-docs/systemd-understanding-and-administering/) for BINK.js that is **separate** from the frontend reverse proxy, like Nginx (see previous section).  This Service will start BINK.js when your machine turns on, and can restart BINK.js if it crashes. Checkout our [example systemd service](./misc/binkjs.service) for more information.
+
+## Docker-Compose Setup
+
+You can also quickly set up your development environment with Docker Compose.
+
+You will still need to set up a public S3 bucket as described above.
+
+You will also need to configure your settings.json locally as described above.
+
+Once these are set up, run:
+
+`docker-compose up --build`
+
+And you should be able to access BINK at `http://localhost:3001` and begin development.
