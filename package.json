@@ -1,7 +1,7 @@
 {
   "name": "BINK.js",
   "description": "BINK! rewritten in Node.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Ben Smith",
   "license": "Beerware",
   "repository": "https://github.com/programsam/binkjs.git",
@@ -20,7 +20,7 @@
     "express-session": "^1.18.0",
     "helmet": "^7.1.0",
     "multer": "^1.4.5-lts.1",
-    "mysql2": "^3.9.6",
+    "mysql2": "^3.11.0",
     "podcast": "^2.0.1",
     "pug": "^3.0.2",
     "winston": "^3.13.0"
