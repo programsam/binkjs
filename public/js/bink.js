@@ -1544,20 +1544,83 @@ function reloadPicsSection(jamid) {
 
 
 function trackActionsFormatter(value, row) {
-  return `<a href='javascript:playImmediately("${row.title}", "${row.path}")';>` +
-          `<i class="fa fa-play me-1"></i></a>` +
+  var holder = $('<div>');
+  console.log(`row.path ${row.path}`);
 
-          `<a href='javascript:deleteTrack(${value})';>` +
-          `<i class="far fa-trash-alt me-1"></i></a>` +
-          
-          `<a href='${row.path}';>` +
-          `<i class="fa-solid fa-download me-1"></i></a>`+ 
-          
-          `<a href='javascript:moveTrackUp(${value})';>` +
-          '<i class="fa-solid fa-up-long me-1"></i></a>' +
+  /**
+   * Construct a play button
+   */
+  var player = $('<a>', {
+    href: 'javascript:'
+  })
+  var playButton = $('<i>', {
+    class: 'fa fa-play me-1'
+  });
+  player.on('click', () => {
+    playImmediately(row.title, row.path);
+  });
+  player.append(playButton);
 
-          `<a href='javascript:moveTrackDown(${value})';>` +
-          '<i class="fa-solid fa-down-long me-1"></i></a>';
+  /**
+   * Construct the delete button
+   */
+  var deleter = $('<a>', {
+    href: 'javascript:'
+  })
+  var deleteButton = $('<i>', {
+    class: 'far fa-trash-alt me-1'
+  });
+  deleter.on('click', () => {
+    deleteTrack(value);
+  });
+  deleter.append(deleteButton);
+
+  /**
+   * Construct the download button
+   */
+  var downloader = $('<a>', {
+    href: row.path
+  })
+  var downloadButton = $('<i>', {
+    class: 'fa-solid fa-download me-1'
+  });
+  downloader.append(downloadButton);
+
+  /**
+   * Construct a move track up button
+   */
+  var moveUp = $('<a>', {
+    href: 'javascript:'
+  })
+  var moveUpButton = $('<i>', {
+    class: 'fa-solid fa-up-long me-1'
+  });
+  moveUp.on('click', () => {
+    moveTrackUp(value);
+  });
+  moveUp.append(moveUpButton);
+
+  /**
+   * Construct a move track down button
+   */
+  var moveDown = $('<a>', {
+    href: 'javascript:'
+  })
+  var moveDownButton = $('<i>', {
+    class: 'fa-solid fa-down-long me-1'
+  });
+  moveDown.on('click', () => {
+    moveTrackDown(value);
+  });
+  moveDown.append(moveDownButton);
+  
+  holder.append(player);
+  holder.append(deleter);
+  holder.append(downloader);
+  holder.append(moveUp);
+  holder.append(moveDown);
+  
+  return holder;
 }
 
 //TRACK ACTIONS
