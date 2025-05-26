@@ -17,7 +17,6 @@ const podcastFeed		= require("./lib/podcastFeed.js");
 const makeLogger  		= require("./lib/loggerFactory.js");
 const scriptHolders		= require('./lib/scriptHolders.js');
 const helmet 			= require('helmet');
-const robots 			= require('express-robots');
 
 let settings = require('./settings');
 
@@ -64,7 +63,10 @@ app.use(helmet({
 	contentSecurityPolicy: false
 }));
 
-app.use(robots({UserAgent: '*', Disallow: '/'}));
+app.use('/robots.txt', function (req, res, next) {
+    res.type('text/plain')
+    res.send("User-agent: *\nDisallow: /");
+});
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());

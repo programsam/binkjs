@@ -27,7 +27,7 @@ if (jams.length > 0)
             a(href=`javascript:loadEntity('locations', ${jam.location.id});`) #{jam.location.name}
       .card-body
         p.card-text 
-          if (jam.hasOwnProperty('defpic') && jam.defpic !== null && jam.defpic.hasOwnProperty('path') && jam.defpic.path !== null)
+          if (typeof jam.defpic !== "undefined" && jam.defpic !== null && typeof jam.defpic.path !== "undefined" && jam.defpic.path !== null)
             .row
               .col-8
                 | #{jam.notes}
