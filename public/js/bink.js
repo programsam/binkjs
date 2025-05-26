@@ -884,15 +884,33 @@ function actuallyDeleteJam(id) {
 }
 
 
-function trackTitleFormatter(value, row) {
-  return `<input class='form-control form-control-sm track-title' id='track-title-${row.id}' data-track-id='${row.id}' value='${value}' onchange='trackChanged(this);' />`;
+function trackTitleFormatter(value, row, element) {
+  var toRet = $('<input>', {
+    class: `form-control form-control-sm track-title`,
+    type: `text`,
+    id: `track-title-${row.id}`,
+  })
+
+  toRet.data(`track-id`, row.id);
+  toRet.on('change', () => {trackChanged(toRet)});
+  toRet.val(value);
+
+  return toRet;
 }
 
 function trackNotesFormatter(value, row) {
-  if (null === value) {
-    value = "";
-  }
-  return `<input class='form-control form-control-sm track-notes' id='track-notes-${row.id}' data-track-id='${row.id}' value='${value}' onchange='trackChanged(this);' placeholder='Add notes to this track' />`;
+  var toRet = $('<input>', {
+    class: `form-control form-control-sm track-notes`,
+    type: `text`,
+    id: `track-notes-${row.id}`,
+    placeholder: `Add notes to this track`
+  })
+
+  toRet.data(`track-id`, row.id);
+  toRet.on('change', () => {trackChanged(toRet)});
+  toRet.val(value);
+
+  return toRet;
 }
 
 function reloadTracksSection(id, focus) {
@@ -1002,14 +1020,34 @@ function vidChanged(element) {
 }
 
 function vidTitleFormatter(value, row) {
-  return `<input class='form-control form-control-sm vid-title' id='vid-title-${row.id}' data-vid-id='${row.id}' value='${value}' onchange='vidChanged(this);' />`;
+  // return `<input class='form-control form-control-sm vid-title' id='vid-title-${row.id}' data-vid-id='${row.id}' value='${value}' onchange='vidChanged(this);' />`;
+
+  var toRet = $('<input>', {
+    class: `form-control form-control-sm vid-title`,
+    type: `text`,
+    id: `vid-title-${row.id}`,
+  })
+
+  toRet.data(`vid-id`, row.id);
+  toRet.on('change', () => {vidChanged(toRet)});
+  toRet.val(value);
+
+  return toRet;
 }
 
 function vidNotesFormatter(value, row) {
-  if (null === value) {
-    value = "";
-  }
-  return `<input class='form-control form-control-sm vid-notes' id='vid-notes-${row.id}' data-vid-id='${row.id}' value='${value}' onchange='vidChanged(this);' placeholder='Add notes to this track' />`;
+  var toRet = $('<input>', {
+    class: `form-control form-control-sm vid-notes`,
+    type: `text`,
+    id: `vid-notes-${row.id}`,
+    placeholder: `Add notes for this video`
+  })
+
+  toRet.data(`vid-id`, row.id);
+  toRet.on('change', () => {vidChanged(toRet)});
+  toRet.val(value);
+
+  return toRet;
 }
 
 function vidActionsFormatter(value, row) {
@@ -1550,8 +1588,9 @@ function moveTrackDown(trackid) {
   });
 }
 
-function trackChanged(element) {
-  var elementToGetTrackID = $(element);
+function trackChanged(elementToGetTrackID) {
+  // console.log(`The track changed:`, element);
+  // var elementToGetTrackID = $(element);
   var trackid = elementToGetTrackID.data('track-id');
 
   var trackTitleJQ = $(`#track-title-${trackid}`);
