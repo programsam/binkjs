@@ -1,4 +1,4 @@
-if (jam.hasOwnProperty('location') && jam.location.hasOwnProperty('lon') && jam.location.hasOwnProperty('lat'))
+if (typeof jam.location !== "undefined" && jam.location !== null && typeof jam.location.lat !== "undefined" && jam.location.lat !== null && typeof jam.location.lon !== "undefined" && jam.location.lon !== null)
   #jam(data-id=jam.id data-lat=jam.location.lat data-lon=jam.location.lon)
 else
   #jam(data-id=jam.id)
@@ -90,7 +90,7 @@ else
         h4.card-title Pictures
           #binkPictureCarousel.container.carousel.slide.mx-auto(data-bs-ride='carousel')
             .carousel-indicators 
-              if (jam.defpic !== null && jam.defpic.hasOwnProperty("id") && jam.defpic.id !== null && jam.defpic.id !== -1)
+              if (typeof jam.defpic !== "undefined" && typeof jam.defpic.id !== "undefined" && jam.defpic.id !== null && jam.defpic.id !== -1)
                 each picture, index in jam.pictures
                   if (picture.id===jam.defpic.id)
                     button.active(type="button", data-bs-target="#binkPictureCarousel", data-bs-slide-to=index)
@@ -103,7 +103,7 @@ else
                     else
                       button(type="button", data-bs-target="#binkPictureCarousel", data-bs-slide-to=index)
             .carousel-inner
-              if (jam.defpic !== null && jam.defpic.hasOwnProperty("id") && jam.defpic.id !== null && jam.defpic.id !== -1)
+              if (typeof jam.defpic !== "undefined" && typeof jam.defpic.id !== "undefined" && jam.defpic.id !== null && jam.defpic.id !== -1)
                 each picture, index in jam.pictures
                   if (picture.id===jam.defpic.id)
                     .carousel-item.active
