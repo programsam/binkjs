@@ -884,15 +884,33 @@ function actuallyDeleteJam(id) {
 }
 
 
-function trackTitleFormatter(value, row) {
-  return `<input class='form-control form-control-sm track-title' id='track-title-${row.id}' data-track-id='${row.id}' value='${value}' onchange='trackChanged(this);' />`;
+function trackTitleFormatter(value, row, element) {
+  var toRet = $('<input>', {
+    class: `form-control form-control-sm track-title`,
+    type: `text`,
+    id: `track-title-${row.id}`,
+  })
+
+  toRet.data(`track-id`, row.id);
+  toRet.on('change', () => {trackChanged(toRet)});
+  toRet.val(value);
+
+  return toRet;
 }
 
 function trackNotesFormatter(value, row) {
-  if (null === value) {
-    value = "";
-  }
-  return `<input class='form-control form-control-sm track-notes' id='track-notes-${row.id}' data-track-id='${row.id}' value='${value}' onchange='trackChanged(this);' placeholder='Add notes to this track' />`;
+  var toRet = $('<input>', {
+    class: `form-control form-control-sm track-notes`,
+    type: `text`,
+    id: `track-notes-${row.id}`,
+    placeholder: `Add notes to this track`
+  })
+
+  toRet.data(`track-id`, row.id);
+  toRet.on('change', () => {trackChanged(toRet)});
+  toRet.val(value);
+
+  return toRet;
 }
 
 function reloadTracksSection(id, focus) {
@@ -1002,14 +1020,34 @@ function vidChanged(element) {
 }
 
 function vidTitleFormatter(value, row) {
-  return `<input class='form-control form-control-sm vid-title' id='vid-title-${row.id}' data-vid-id='${row.id}' value='${value}' onchange='vidChanged(this);' />`;
+  // return `<input class='form-control form-control-sm vid-title' id='vid-title-${row.id}' data-vid-id='${row.id}' value='${value}' onchange='vidChanged(this);' />`;
+
+  var toRet = $('<input>', {
+    class: `form-control form-control-sm vid-title`,
+    type: `text`,
+    id: `vid-title-${row.id}`,
+  })
+
+  toRet.data(`vid-id`, row.id);
+  toRet.on('change', () => {vidChanged(toRet)});
+  toRet.val(value);
+
+  return toRet;
 }
 
 function vidNotesFormatter(value, row) {
-  if (null === value) {
-    value = "";
-  }
-  return `<input class='form-control form-control-sm vid-notes' id='vid-notes-${row.id}' data-vid-id='${row.id}' value='${value}' onchange='vidChanged(this);' placeholder='Add notes to this track' />`;
+  var toRet = $('<input>', {
+    class: `form-control form-control-sm vid-notes`,
+    type: `text`,
+    id: `vid-notes-${row.id}`,
+    placeholder: `Add notes for this video`
+  })
+
+  toRet.data(`vid-id`, row.id);
+  toRet.on('change', () => {vidChanged(toRet)});
+  toRet.val(value);
+
+  return toRet;
 }
 
 function vidActionsFormatter(value, row) {
@@ -1506,20 +1544,83 @@ function reloadPicsSection(jamid) {
 
 
 function trackActionsFormatter(value, row) {
-  return `<a href='javascript:playImmediately("${row.title}", "${row.path}")';>` +
-          `<i class="fa fa-play me-1"></i></a>` +
+  var holder = $('<div>');
+  console.log(`row.path ${row.path}`);
 
-          `<a href='javascript:deleteTrack(${value})';>` +
-          `<i class="far fa-trash-alt me-1"></i></a>` +
-          
-          `<a href='${row.path}';>` +
-          `<i class="fa-solid fa-download me-1"></i></a>`+ 
-          
-          `<a href='javascript:moveTrackUp(${value})';>` +
-          '<i class="fa-solid fa-up-long me-1"></i></a>' +
+  /**
+   * Construct a play button
+   */
+  var player = $('<a>', {
+    href: 'javascript:'
+  })
+  var playButton = $('<i>', {
+    class: 'fa fa-play me-1'
+  });
+  player.on('click', () => {
+    playImmediately(row.title, row.path);
+  });
+  player.append(playButton);
 
-          `<a href='javascript:moveTrackDown(${value})';>` +
-          '<i class="fa-solid fa-down-long me-1"></i></a>';
+  /**
+   * Construct the delete button
+   */
+  var deleter = $('<a>', {
+    href: 'javascript:'
+  })
+  var deleteButton = $('<i>', {
+    class: 'far fa-trash-alt me-1'
+  });
+  deleter.on('click', () => {
+    deleteTrack(value);
+  });
+  deleter.append(deleteButton);
+
+  /**
+   * Construct the download button
+   */
+  var downloader = $('<a>', {
+    href: row.path
+  })
+  var downloadButton = $('<i>', {
+    class: 'fa-solid fa-download me-1'
+  });
+  downloader.append(downloadButton);
+
+  /**
+   * Construct a move track up button
+   */
+  var moveUp = $('<a>', {
+    href: 'javascript:'
+  })
+  var moveUpButton = $('<i>', {
+    class: 'fa-solid fa-up-long me-1'
+  });
+  moveUp.on('click', () => {
+    moveTrackUp(value);
+  });
+  moveUp.append(moveUpButton);
+
+  /**
+   * Construct a move track down button
+   */
+  var moveDown = $('<a>', {
+    href: 'javascript:'
+  })
+  var moveDownButton = $('<i>', {
+    class: 'fa-solid fa-down-long me-1'
+  });
+  moveDown.on('click', () => {
+    moveTrackDown(value);
+  });
+  moveDown.append(moveDownButton);
+  
+  holder.append(player);
+  holder.append(deleter);
+  holder.append(downloader);
+  holder.append(moveUp);
+  holder.append(moveDown);
+  
+  return holder;
 }
 
 //TRACK ACTIONS
@@ -1550,8 +1651,9 @@ function moveTrackDown(trackid) {
   });
 }
 
-function trackChanged(element) {
-  var elementToGetTrackID = $(element);
+function trackChanged(elementToGetTrackID) {
+  // console.log(`The track changed:`, element);
+  // var elementToGetTrackID = $(element);
   var trackid = elementToGetTrackID.data('track-id');
 
   var trackTitleJQ = $(`#track-title-${trackid}`);
