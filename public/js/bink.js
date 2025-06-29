@@ -983,6 +983,16 @@ function reloadTracksSection(id, focus) {
           attributes: {
             title: 'Synchronize track listing with what has been uploaded'
           } //synctracks attributes
+        },
+        btnInsertSetBreak: {
+          text: 'Insert Set Break',
+          icon: 'fa-solid fa-grip-lines',
+          event: function() {
+            addSetBreak();
+          },
+          attributes: {
+            title: 'Inserts a set break, indicating that there was a change in context between recordings'
+          } //synctracks attributes
         } //synctracks definition
       } //buttons definition
     }) //bootstrapTable call
@@ -1569,7 +1579,6 @@ function reloadPicsSection(jamid) {
 
 function trackActionsFormatter(value, row) {
   var holder = $('<div>');
-  console.log(`row.path ${row.path}`);
 
   /**
    * Construct a play button
@@ -1705,6 +1714,17 @@ function trackChanged(elementToGetTrackID) {
       data: JSON.stringify(toSend)
     });
   }
+}
+
+function addSetBreak() {
+  var id = $('#jam').data('id');
+  $.ajax({
+		method : "POST",
+		url : `/admin/jam/${id}/tracks/setbreak`,
+		contentType : "application/json"
+	}).done(function(msg) {
+    $('#tracksTable').bootstrapTable('refresh');
+	})
 }
 
 function stripTrackNumbers() {
