@@ -76,7 +76,7 @@ $(document).ready(function() {
 
 // HOWL FUNCTIONS
 function playImmediately(setTitle, path) {
-	$("#currentlyPlaying").text(`${setTitle}`);
+  $("#currentlyPlaying").text(`${setTitle}`);
   if (typeof currentHowl !== 'undefined') {
     currentHowl.stop();
     currentHowl.unload();
@@ -96,12 +96,14 @@ function playImmediately(setTitle, path) {
 function updatePosition() {
   if (typeof currentHowl !== 'undefined') {
     var seekTime = currentHowl.seek();
-    var currentPosition = formatSecondsIntoTime(Math.round(seekTime));
+    var cursorTimeString = formatSecondsIntoTime(Math.round(seekTime));
     var duration = currentHowl.duration();
     var durationTime = formatSecondsIntoTime(Math.round(duration));
-    $('#currentPosition').html(`${currentPosition} / ${durationTime}`)
+    $('#position').attr('max', duration);
+    $('#position')[0].value = seekTime;
+    $('#timeAndCursor').html(`${cursorTimeString} / ${durationTime}`)
   } else {
-    $('#currentPosition').html(`-:-- / -:--`)
+    $('#timeAndCursor').html(`-:-- / -:--`)
   }
 }
 
@@ -118,6 +120,9 @@ function playHowl() {
     currentHowl.play();
     $("#pauseButton").removeClass("disabled");
     $("#playButton").addClass("disabled");
+    $('#position').removeAttr('disabled');
+    $('#position').off('change');
+    $('#position').on('change', seekHowl);
     if (typeof currentTimer !== "undefined")
       clearInterval(currentTimer);
     currentTimer = setInterval(updatePosition, 500);
@@ -130,13 +135,32 @@ function playHowl() {
   }
 }
 
+function seekHowl(e) {
+  if (typeof currentHowl !== "undefined") { 
+    if (typeof currentTimer !== "undefined")
+      clearInterval(currentTimer);
+    var newPosition = $('#position').val();
+    currentHowl.seek(newPosition);
+
+    var cursorTimeString = formatSecondsIntoTime(Math.round(newPosition));
+    var duration = currentHowl.duration();
+    var durationTime = formatSecondsIntoTime(Math.round(duration));
+    $('#timeAndCursor').html(`${cursorTimeString} / ${durationTime}`)
+
+    currentTimer = setInterval(updatePosition, 500);
+  }
+}
+
 function stopHowl() {
   if (typeof currentHowl !== "undefined") {
     $("#pauseButton").addClass("disabled");
     $("#playButton").removeClass("disabled");
     currentHowl.stop();
     clearInterval(currentTimer);
-    $('#currentPosition').html('0:00 / 0:00')
+    $('#timeAndCursor').html('0:00 / 0:00')
+    $('#position').attr('min', 0);
+    $('#position').attr('max', 0);
+    $('#position').attr('disabled', true);
   } else {
     console.log(`No howl; doing nothing.`);
   }
@@ -271,6 +295,7 @@ function loadScripts(scriptNames, checkLoaded, callback) {
 }
 
 function createNew() {
+  $('#navbarSupportedContent').removeClass('show');
 	$.ajax({
 		method : "POST",
 		url : "/admin/jam",
@@ -287,6 +312,7 @@ function bootstrapTableLoaded() {
 
 function loadManage() {
   $('.nav-link.active').removeClass('active');
+  $('#navbarSupportedContent').removeClass('show');
   location.hash = "manage";
 
   $.get('/views/manage', function(view) {
@@ -344,6 +370,7 @@ function newButtonClicked(e) {
 function loadBrowse() {
 	$('.nav-link.active').removeClass('active');
 	$('#browseButton').addClass('active');
+  $('#navbarSupportedContent').removeClass('show');
   location.hash = "browse";
 
 	$.get('/views/browse', function(view) {
@@ -728,6 +755,7 @@ function binkAlert(title, alert) {
 function loadRecentJams() {
 	$('.nav-link.active').removeClass('active');
 	$('#recentButton').addClass('active');
+  $('#navbarSupportedContent').removeClass('show');
 	$("#main").html("Loading...")
   location.hash = "recent";
 	$.get("/views/recent", recentCallback)
@@ -736,10 +764,14 @@ function loadRecentJams() {
 function recentCallback(view) {
   $('#main').html(view);
   $(window).scrollTop(0);
+  $('#navbarSupportedContent').removeClass('show');
   $('.editJamButton').click(function() {
     editJam($(this).data('id'));
   })
   $('.viewJamButton').click(function() {
+    loadJam($(this).data('id'));
+  })
+  $('.viewJamTitle').click(function() {
     loadJam($(this).data('id'));
   })
   $('.deleteJamButton').click(function() {
@@ -749,6 +781,7 @@ function recentCallback(view) {
 
 function loadHistoricJams() {
 	$('.nav-link.active').removeClass('active');
+  $('#navbarSupportedContent').removeClass('show');
 	$('#historyButton').addClass('active');
 	$("#main").html("Loading...")
   location.hash = "history";
@@ -762,6 +795,9 @@ function historyCallback(view) {
     editJam($(this).data('id'));
   })
   $('.viewJamButton').click(function() {
+    loadJam($(this).data('id'));
+  })
+  $('.viewJamTitle').click(function() {
     loadJam($(this).data('id'));
   })
   $('.deleteJamButton').click(function() {
@@ -791,6 +827,7 @@ function itemMapScriptsLoaded() {
 
 let infowindow = null;
 function loadMap() {
+  $('#navbarSupportedContent').removeClass('show');
   $('.nav-link.active').removeClass('active');
   $('#mapButton').addClass('active');
   location.hash = "map";
@@ -889,6 +926,7 @@ function trackTitleFormatter(value, row, element) {
     class: `form-control form-control-sm track-title`,
     type: `text`,
     id: `track-title-${row.id}`,
+    tabIndex: (element * 2) + 1000,
   })
 
   toRet.data(`track-id`, row.id);
@@ -898,12 +936,13 @@ function trackTitleFormatter(value, row, element) {
   return toRet;
 }
 
-function trackNotesFormatter(value, row) {
+function trackNotesFormatter(value, row, element) {
   var toRet = $('<input>', {
     class: `form-control form-control-sm track-notes`,
     type: `text`,
     id: `track-notes-${row.id}`,
-    placeholder: `Add notes to this track`
+    placeholder: `Add notes to this track`,
+    tabIndex:(element * 2) + 1001,
   })
 
   toRet.data(`track-id`, row.id);
@@ -958,6 +997,16 @@ function reloadTracksSection(id, focus) {
           },
           attributes: {
             title: 'Synchronize track listing with what has been uploaded'
+          } //synctracks attributes
+        },
+        btnInsertSetBreak: {
+          text: 'Insert Set Break',
+          icon: 'fa-solid fa-grip-lines',
+          event: function() {
+            addSetBreak();
+          },
+          attributes: {
+            title: 'Inserts a set break, indicating that there was a change in context between recordings'
           } //synctracks attributes
         } //synctracks definition
       } //buttons definition
@@ -1019,13 +1068,12 @@ function vidChanged(element) {
   }
 }
 
-function vidTitleFormatter(value, row) {
-  // return `<input class='form-control form-control-sm vid-title' id='vid-title-${row.id}' data-vid-id='${row.id}' value='${value}' onchange='vidChanged(this);' />`;
-
+function vidTitleFormatter(value, row, element) {
   var toRet = $('<input>', {
     class: `form-control form-control-sm vid-title`,
     type: `text`,
     id: `vid-title-${row.id}`,
+    tabIndex: (element * 2) + 5000
   })
 
   toRet.data(`vid-id`, row.id);
@@ -1035,12 +1083,13 @@ function vidTitleFormatter(value, row) {
   return toRet;
 }
 
-function vidNotesFormatter(value, row) {
+function vidNotesFormatter(value, row, element) {
   var toRet = $('<input>', {
     class: `form-control form-control-sm vid-notes`,
     type: `text`,
     id: `vid-notes-${row.id}`,
-    placeholder: `Add notes for this video`
+    placeholder: `Add notes for this video`,
+    tabIndex: (element * 2) + 5001
   })
 
   toRet.data(`vid-id`, row.id);
@@ -1051,18 +1100,67 @@ function vidNotesFormatter(value, row) {
 }
 
 function vidActionsFormatter(value, row) {
-  return `<a href='javascript:deleteVid(${value})';>` +
-          `<i class="far fa-trash-alt me-1"></i></a>` +
+  var holder = $('<div>');
 
-          `<a href='${row.path}';>` +
-          `<i class="fa-solid fa-download me-1"></i></a>` +
+  /**
+   * Construct the delete button
+   */
+  var deleter = $('<a>', {
+    href: 'javascript:'
+  })
+  var deleteButton = $('<i>', {
+    class: 'far fa-trash-alt me-1'
+  });
+  deleter.on('click', () => {
+    deleteVid(value);
+  });
+  deleter.append(deleteButton);
 
-          `<a href='javascript:moveVidUp(${value})';>` +
-          '<i class="fa-solid fa-up-long me-1"></i></a>' +
+  /**
+   * Construct the download button
+   */
+  var downloader = $('<a>', {
+    href: row.path
+  })
+  var downloadButton = $('<i>', {
+    class: 'fa-solid fa-download me-1'
+  });
+  downloader.append(downloadButton);
 
-          `<a href='javascript:moveVidDown(${value})';>` +
-          '<i class="fa-solid fa-down-long me-1"></i></a>';
+  /**
+   * Construct a move vid up button
+   */
+  var moveUp = $('<a>', {
+    href: 'javascript:'
+  })
+  var moveUpButton = $('<i>', {
+    class: 'fa-solid fa-up-long me-1'
+  });
+  moveUp.on('click', () => {
+    moveVidUp(value);
+  });
+  moveUp.append(moveUpButton);
 
+  /**
+   * Construct a move vid down button
+   */
+  var moveDown = $('<a>', {
+    href: 'javascript:'
+  })
+  var moveDownButton = $('<i>', {
+    class: 'fa-solid fa-down-long me-1'
+  });
+  moveDown.on('click', () => {
+    moveVidDown(value);
+  });
+  moveDown.append(moveDownButton);
+
+  holder.append(deleter);
+  holder.append(downloader);
+  holder.append(moveUp);
+  holder.append(moveDown);
+  
+  return holder;
 }
 
 function moveVidUp(trackid) {
@@ -1545,7 +1643,6 @@ function reloadPicsSection(jamid) {
 
 function trackActionsFormatter(value, row) {
   var holder = $('<div>');
-  console.log(`row.path ${row.path}`);
 
   /**
    * Construct a play button
@@ -1652,8 +1749,6 @@ function moveTrackDown(trackid) {
 }
 
 function trackChanged(elementToGetTrackID) {
-  // console.log(`The track changed:`, element);
-  // var elementToGetTrackID = $(element);
   var trackid = elementToGetTrackID.data('track-id');
 
   var trackTitleJQ = $(`#track-title-${trackid}`);
@@ -1681,6 +1776,17 @@ function trackChanged(elementToGetTrackID) {
       data: JSON.stringify(toSend)
     });
   }
+}
+
+function addSetBreak() {
+  var id = $('#jam').data('id');
+  $.ajax({
+		method : "POST",
+		url : `/admin/jam/${id}/tracks/setbreak`,
+		contentType : "application/json"
+	}).done(function(msg) {
+    $('#tracksTable').bootstrapTable('refresh');
+	})
 }
 
 function stripTrackNumbers() {
