@@ -922,10 +922,12 @@ function actuallyDeleteJam(id) {
 
 
 function trackTitleFormatter(value, row, element) {
+  console.log(`Row ${row}, Element ${element}`);
   var toRet = $('<input>', {
     class: `form-control form-control-sm track-title`,
     type: `text`,
     id: `track-title-${row.id}`,
+    tabIndex: (element * 2) + 1000,
   })
 
   toRet.data(`track-id`, row.id);
@@ -935,12 +937,13 @@ function trackTitleFormatter(value, row, element) {
   return toRet;
 }
 
-function trackNotesFormatter(value, row) {
+function trackNotesFormatter(value, row, element) {
   var toRet = $('<input>', {
     class: `form-control form-control-sm track-notes`,
     type: `text`,
     id: `track-notes-${row.id}`,
-    placeholder: `Add notes to this track`
+    placeholder: `Add notes to this track`,
+    tabIndex:(element * 2) + 1001,
   })
 
   toRet.data(`track-id`, row.id);
