@@ -1,7 +1,7 @@
 {
   "name": "BINK.js",
   "description": "BINK! rewritten in Node.js",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "Ben Smith",
   "license": "Beerware",
   "repository": "https://github.com/programsam/binkjs.git",
@@ -12,6 +12,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.817.0",
     "@aws-sdk/credential-providers": "^3.817.0",
+    "archiver": "^7.0.1",
     "async": "^3.2.6",
     "body-parser": "^2.2.0",
     "express": "^5.1.0",
