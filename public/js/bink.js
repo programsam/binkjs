@@ -76,7 +76,7 @@ $(document).ready(function() {
 
 // HOWL FUNCTIONS
 function playImmediately(setTitle, path) {
-	$("#currentlyPlaying").text(`${setTitle}`);
+  $("#currentlyPlaying").text(`${setTitle}`);
   if (typeof currentHowl !== 'undefined') {
     currentHowl.stop();
     currentHowl.unload();
@@ -96,12 +96,14 @@ function playImmediately(setTitle, path) {
 function updatePosition() {
   if (typeof currentHowl !== 'undefined') {
     var seekTime = currentHowl.seek();
-    var currentPosition = formatSecondsIntoTime(Math.round(seekTime));
+    var cursorTimeString = formatSecondsIntoTime(Math.round(seekTime));
     var duration = currentHowl.duration();
     var durationTime = formatSecondsIntoTime(Math.round(duration));
-    $('#currentPosition').html(`${currentPosition} / ${durationTime}`)
+    $('#position').attr('max', duration);
+    $('#position')[0].value = seekTime;
+    $('#timeAndCursor').html(`${cursorTimeString} / ${durationTime}`)
   } else {
-    $('#currentPosition').html(`-:-- / -:--`)
+    $('#timeAndCursor').html(`-:-- / -:--`)
   }
 }
 
@@ -118,6 +120,9 @@ function playHowl() {
     currentHowl.play();
     $("#pauseButton").removeClass("disabled");
     $("#playButton").addClass("disabled");
+    $('#position').removeAttr('disabled');
+    $('#position').off('change');
+    $('#position').on('change', seekHowl);
     if (typeof currentTimer !== "undefined")
       clearInterval(currentTimer);
     currentTimer = setInterval(updatePosition, 500);
@@ -130,13 +135,32 @@ function playHowl() {
   }
 }
 
+function seekHowl(e) {
+  if (typeof currentHowl !== "undefined") { 
+    if (typeof currentTimer !== "undefined")
+      clearInterval(currentTimer);
+    var newPosition = $('#position').val();
+    currentHowl.seek(newPosition);
+
+    var cursorTimeString = formatSecondsIntoTime(Math.round(newPosition));
+    var duration = currentHowl.duration();
+    var durationTime = formatSecondsIntoTime(Math.round(duration));
+    $('#timeAndCursor').html(`${cursorTimeString} / ${durationTime}`)
+
+    currentTimer = setInterval(updatePosition, 500);
+  }
+}
+
 function stopHowl() {
   if (typeof currentHowl !== "undefined") {
     $("#pauseButton").addClass("disabled");
     $("#playButton").removeClass("disabled");
     currentHowl.stop();
     clearInterval(currentTimer);
-    $('#currentPosition').html('0:00 / 0:00')
+    $('#timeAndCursor').html('0:00 / 0:00')
+    $('#position').attr('min', 0);
+    $('#position').attr('max', 0);
+    $('#position').attr('disabled', true);
   } else {
     console.log(`No howl; doing nothing.`);
   }
