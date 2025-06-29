@@ -873,6 +873,10 @@ function loadMap() {
 } //loadMap()
 
 
+function downloadJamZip(jamid) {
+  window.location.href = `/api/jam/${jamid}/zip`;
+}
+
 function loadJam(id) {
 	location.hash = "jams-" + id;
 	$('.nav-link.active').removeClass('active');
@@ -884,6 +888,10 @@ function loadJam(id) {
     $('#editJamButton').click(function() {
       editJam(id);
     });
+    $('#downloadJamZipButton').click(function() {
+      downloadJamZip($(this).data('id'));
+    })
+
     var lat = parseFloat($('#jam').data('lat'));
     var lon = parseFloat($('#jam').data('lon'));
     if (! Number.isNaN(lat) && ! Number.isNaN(lon)) {
@@ -1007,8 +1015,18 @@ function reloadTracksSection(id, focus) {
           },
           attributes: {
             title: 'Inserts a set break, indicating that there was a change in context between recordings'
-          } //synctracks attributes
-        } //synctracks definition
+          } //setbreak attributes
+        }, //setbreaks definition
+        btnDownloadTracks: {
+          text: 'Download Tracks',
+          icon: 'fa-solid fa-file-zipper',
+          event: function() {
+            downloadJamZip(jamid);
+          },
+          attributes: {
+            title: 'Downloads all the tracks as a ZIP file'
+          } //downloadtracks attributes
+        } //downloadtracks definition
       } //buttons definition
     }) //bootstrapTable call
   }) //loadScripts call

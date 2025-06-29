@@ -11,12 +11,12 @@ else
         .col
           if (jam.private)
             p.float-end
-              i.fa.fa-key.fa-sm.ms-2
+              i.fa.fa-key.ms-2
           if (admin)
             a(href='javascript:')#editJamButton.float-end.ms-2
-              i.fa-sm.fa-solid.fa-pen-to-square
+              i.fa-solid.fa-pen-to-square
             a(href='javascript:')#deleteJamButton.float-end
-              i.fa-sm.fa-solid.fa-trash
+              i.fa-solid.fa-trash
   .card-body
     h6.card-subtitle.mb-2.text-muted
       if (jam.band && jam.location)
@@ -67,7 +67,12 @@ else
   if (jam.tracks && jam.tracks.length > 0)
     .card.border-secondary
       .card-body
-        h5.card-title Music
+        .row
+          .col-6
+            h4.card-title Music
+          .col-6
+            a(href='javascript:' data-id=jam.id)#downloadJamZipButton.float-end.ms-2
+              i.fa-lg.fa-solid.fa-file-zipper
         ol.list-group.list-group-numbered
           for track in jam.tracks
             if (track.title === setBreakString)
@@ -87,7 +92,7 @@ else
   if (jam.pictures && jam.pictures.length > 0)
     .card.border-secondary
       .card-body
-        h4.card-title Pictures
+        h5.card-title Pictures
         #binkPictureCarousel.carousel.slide
           .carousel-indicators
             if (typeof jam.defpic !== "undefined" && jam.defpic !== null && typeof jam.defpic.id !== "undefined" && jam.defpic.id !== null && jam.defpic.id !== -1)
