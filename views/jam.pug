@@ -68,7 +68,7 @@ else
     .card.border-secondary
       .card-body
         h5.card-title Music
-        .list-group
+        ol.list-group.list-group-numbered
           for track in jam.tracks
             if (track.title === "--------------------")
               hr
