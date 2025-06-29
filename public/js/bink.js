@@ -295,6 +295,7 @@ function loadScripts(scriptNames, checkLoaded, callback) {
 }
 
 function createNew() {
+  $('#navbarSupportedContent').removeClass('show');
 	$.ajax({
 		method : "POST",
 		url : "/admin/jam",
@@ -311,6 +312,7 @@ function bootstrapTableLoaded() {
 
 function loadManage() {
   $('.nav-link.active').removeClass('active');
+  $('#navbarSupportedContent').removeClass('show');
   location.hash = "manage";
 
   $.get('/views/manage', function(view) {
@@ -368,6 +370,7 @@ function newButtonClicked(e) {
 function loadBrowse() {
 	$('.nav-link.active').removeClass('active');
 	$('#browseButton').addClass('active');
+  $('#navbarSupportedContent').removeClass('show');
   location.hash = "browse";
 
 	$.get('/views/browse', function(view) {
@@ -752,6 +755,7 @@ function binkAlert(title, alert) {
 function loadRecentJams() {
 	$('.nav-link.active').removeClass('active');
 	$('#recentButton').addClass('active');
+  $('#navbarSupportedContent').removeClass('show');
 	$("#main").html("Loading...")
   location.hash = "recent";
 	$.get("/views/recent", recentCallback)
@@ -760,10 +764,14 @@ function loadRecentJams() {
 function recentCallback(view) {
   $('#main').html(view);
   $(window).scrollTop(0);
+  $('#navbarSupportedContent').removeClass('show');
   $('.editJamButton').click(function() {
     editJam($(this).data('id'));
   })
   $('.viewJamButton').click(function() {
+    loadJam($(this).data('id'));
+  })
+  $('.viewJamTitle').click(function() {
     loadJam($(this).data('id'));
   })
   $('.deleteJamButton').click(function() {
@@ -773,6 +781,7 @@ function recentCallback(view) {
 
 function loadHistoricJams() {
 	$('.nav-link.active').removeClass('active');
+  $('#navbarSupportedContent').removeClass('show');
 	$('#historyButton').addClass('active');
 	$("#main").html("Loading...")
   location.hash = "history";
@@ -786,6 +795,9 @@ function historyCallback(view) {
     editJam($(this).data('id'));
   })
   $('.viewJamButton').click(function() {
+    loadJam($(this).data('id'));
+  })
+  $('.viewJamTitle').click(function() {
     loadJam($(this).data('id'));
   })
   $('.deleteJamButton').click(function() {
@@ -815,6 +827,7 @@ function itemMapScriptsLoaded() {
 
 let infowindow = null;
 function loadMap() {
+  $('#navbarSupportedContent').removeClass('show');
   $('.nav-link.active').removeClass('active');
   $('#mapButton').addClass('active');
   location.hash = "map";

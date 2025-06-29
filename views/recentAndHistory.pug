@@ -3,7 +3,7 @@ if (jams.length > 0)
     .card.border-primary.m-1.mb-3
       .card-header
         .row
-          h4.card-title.col-8
+          h4.card-title.col-8.viewJamTitle(data-id=jam.id)
             | #{jam.mydate} -&nbsp;#{jam.title}
           .col
             if (jam.private)
