@@ -922,7 +922,6 @@ function actuallyDeleteJam(id) {
 
 
 function trackTitleFormatter(value, row, element) {
-  console.log(`Row ${row}, Element ${element}`);
   var toRet = $('<input>', {
     class: `form-control form-control-sm track-title`,
     type: `text`,
@@ -1069,13 +1068,12 @@ function vidChanged(element) {
   }
 }
 
-function vidTitleFormatter(value, row) {
-  // return `<input class='form-control form-control-sm vid-title' id='vid-title-${row.id}' data-vid-id='${row.id}' value='${value}' onchange='vidChanged(this);' />`;
-
+function vidTitleFormatter(value, row, element) {
   var toRet = $('<input>', {
     class: `form-control form-control-sm vid-title`,
     type: `text`,
     id: `vid-title-${row.id}`,
+    tabIndex: (element * 2) + 5000
   })
 
   toRet.data(`vid-id`, row.id);
@@ -1085,12 +1083,13 @@ function vidTitleFormatter(value, row) {
   return toRet;
 }
 
-function vidNotesFormatter(value, row) {
+function vidNotesFormatter(value, row, element) {
   var toRet = $('<input>', {
     class: `form-control form-control-sm vid-notes`,
     type: `text`,
     id: `vid-notes-${row.id}`,
-    placeholder: `Add notes for this video`
+    placeholder: `Add notes for this video`,
+    tabIndex: (element * 2) + 5001
   })
 
   toRet.data(`vid-id`, row.id);
@@ -1101,18 +1100,67 @@ function vidNotesFormatter(value, row) {
 }
 
 function vidActionsFormatter(value, row) {
-  return `<a href='javascript:deleteVid(${value})';>` +
-          `<i class="far fa-trash-alt me-1"></i></a>` +
+  var holder = $('<div>');
 
-          `<a href='${row.path}';>` +
-          `<i class="fa-solid fa-download me-1"></i></a>` +
+  /**
+   * Construct the delete button
+   */
+  var deleter = $('<a>', {
+    href: 'javascript:'
+  })
+  var deleteButton = $('<i>', {
+    class: 'far fa-trash-alt me-1'
+  });
+  deleter.on('click', () => {
+    deleteVid(value);
+  });
+  deleter.append(deleteButton);
 
-          `<a href='javascript:moveVidUp(${value})';>` +
-          '<i class="fa-solid fa-up-long me-1"></i></a>' +
+  /**
+   * Construct the download button
+   */
+  var downloader = $('<a>', {
+    href: row.path
+  })
+  var downloadButton = $('<i>', {
+    class: 'fa-solid fa-download me-1'
+  });
+  downloader.append(downloadButton);
 
-          `<a href='javascript:moveVidDown(${value})';>` +
-          '<i class="fa-solid fa-down-long me-1"></i></a>';
+  /**
+   * Construct a move vid up button
+   */
+  var moveUp = $('<a>', {
+    href: 'javascript:'
+  })
+  var moveUpButton = $('<i>', {
+    class: 'fa-solid fa-up-long me-1'
+  });
+  moveUp.on('click', () => {
+    moveVidUp(value);
+  });
+  moveUp.append(moveUpButton);
 
+  /**
+   * Construct a move vid down button
+   */
+  var moveDown = $('<a>', {
+    href: 'javascript:'
+  })
+  var moveDownButton = $('<i>', {
+    class: 'fa-solid fa-down-long me-1'
+  });
+  moveDown.on('click', () => {
+    moveVidDown(value);
+  });
+  moveDown.append(moveDownButton);
+
+  holder.append(deleter);
+  holder.append(downloader);
+  holder.append(moveUp);
+  holder.append(moveDown);
+  
+  return holder;
 }
 
 function moveVidUp(trackid) {
@@ -1701,8 +1749,6 @@ function moveTrackDown(trackid) {
 }
 
 function trackChanged(elementToGetTrackID) {
-  // console.log(`The track changed:`, element);
-  // var elementToGetTrackID = $(element);
   var trackid = elementToGetTrackID.data('track-id');
 
   var trackTitleJQ = $(`#track-title-${trackid}`);
