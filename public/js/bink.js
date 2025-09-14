@@ -1,4 +1,4 @@
-let currentHowl, currentTimer;
+var currentHowl, currentTimer, infowindow;
 
 $.ajaxSetup({
   cache: true
@@ -825,7 +825,6 @@ function itemMapScriptsLoaded() {
         );
 }
 
-let infowindow = null;
 function loadMap() {
   $('#navbarSupportedContent').removeClass('show');
   $('.nav-link.active').removeClass('active');

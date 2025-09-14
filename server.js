@@ -18,7 +18,7 @@ const makeLogger  		= require("./lib/loggerFactory.js");
 const scriptHolders		= require('./lib/scriptHolders.js');
 const helmet 			= require('helmet');
 
-let settings = require('./settings');
+var settings = require('./settings');
 
 settings.mysql.multipleStatements = true;
 
@@ -43,7 +43,7 @@ BINKS3.testConnection(function(err, result) {
 
 app.set('trust proxy', 1) // trust first proxy
 
-let sessionstore = new MySQLStore(settings.mysql);
+var sessionstore = new MySQLStore(settings.mysql);
 
 app.use(session({
 	secret: settings.session_secret,
@@ -79,10 +79,10 @@ app.use(podcastFeed);
 app.use(compat);
 app.use(scriptHolders);
 
-let server = app.listen(process.env.PORT || 3001, function () {
+var server = app.listen(process.env.PORT || 3001, function () {
 
-  let host = server.address().address
-  let port = server.address().port
+  var host = server.address().address
+  var port = server.address().port
 
   logger.info(`BINK.js is up and listening on port ${port}...`);
 
