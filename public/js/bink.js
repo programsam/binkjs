@@ -1185,7 +1185,7 @@ function moveVidUp(trackid) {
 
   $.ajax({
     method : "PUT",
-    url : `/admin/jam/${jamid}/vid/${trackid}/up`,
+    url : `/admin/jam/${jamid}/video/${trackid}/up`,
     contentType : "application/json",
     json: true
   }).done(function() {
@@ -1198,7 +1198,7 @@ function moveVidDown(trackid) {
 
   $.ajax({
     method : "PUT",
-    url : `/admin/jam/${jamid}/vid/${trackid}/down`,
+    url : `/admin/jam/${jamid}/video/${trackid}/down`,
     contentType : "application/json",
     json: true
   }).done(function() {
@@ -1744,7 +1744,7 @@ function moveTrackUp(trackid) {
 
   $.ajax({
     method : "PUT",
-    url : `/admin/jam/${jamid}/track/${trackid}/up`,
+    url : `/admin/jam/${jamid}/tracks/${trackid}/up`,
     contentType : "application/json",
     json: true
   }).done(function() {
@@ -1757,7 +1757,7 @@ function moveTrackDown(trackid) {
 
   $.ajax({
     method : "PUT",
-    url : `/admin/jam/${jamid}/track/${trackid}/down`,
+    url : `/admin/jam/${jamid}/tracks/${trackid}/down`,
     contentType : "application/json",
     json: true
   }).done(function() {
