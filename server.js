@@ -60,7 +60,16 @@ app.use(function(req, res, next) {
 });
 
 app.use(helmet({
-	contentSecurityPolicy: false
+	contentSecurityPolicy: {
+		directives: {
+			"script-src": ["'self'", "cdnjs.cloudflare.com", "unpkg.com", "maps.googleapis.com", "cdn.jsdelivr.net", "'unsafe-inline'", "'unsafe-eval'"],
+			"style-src": ["'self'", "cdnjs.cloudflare.com", "maps.googleapis.com", "fonts.googleapis.com", "cdn.jsdelivr.net", "'unsafe-inline'"],
+			"font-src": ["'self'", "fonts.gstatic.com", "cdnjs.cloudflare.com"],
+			"img-src": ["'self'", "maps.gstatic.com", "data:", "s3.amazonaws.com", "'unsafe-inline'"],
+			"connect-src": ["'self'", "cdnjs.cloudflare.com", "maps.googleapis.com"],
+			"media-src": ["s3.amazonaws.com"]
+		}
+	}
 }));
 
 app.use('/robots.txt', function (req, res, next) {
