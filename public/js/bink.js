@@ -855,7 +855,7 @@ function loadMap() {
           position: thislocation,
           map: map
         });
-        thismarker.addListener('click', function(event) {
+        thismarker.addListener('gmp-click', function(event) {
           if (infowindow)
     				infowindow.close();
     			infowindow = new google.maps.InfoWindow();
@@ -1398,8 +1398,7 @@ function editJamScriptsLoaded() {
   var dropzoneUploaded = (typeof Dropzone === "function");
 
   return (tempusDominusLoaded &&
-          bootstrapAutocompleteLoaded &&
-          dropzoneUploaded);
+          dropzoneUploaded && bootstrapAutocompleteLoaded);
 }
 
 function updateJam() {
@@ -1426,6 +1425,10 @@ function updateJam() {
 function editJam(id) {
 	location.hash = "edit-" + id;
 	$('.nav-link.active').removeClass('active');
+  // import("https://cdn.jsdelivr.net/npm/bootstrap5-autocomplete@1.1.42/autocomplete.min.js")
+  //   .then(module => {
+  //       window.Autocomplete = module.default; // Now it's global!
+  //   })
     loadScripts(['bootstrapAutocomplete', 'dropzone', 'tempusDominus'],
       editJamScriptsLoaded, function() {
       $.get(`/views/admin/jam/edit/${id}`, function(view) {

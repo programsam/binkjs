@@ -64,9 +64,9 @@ app.use(helmet({
 		directives: {
 			"script-src": ["'self'", "cdnjs.cloudflare.com", "unpkg.com", "maps.googleapis.com", "cdn.jsdelivr.net", "'unsafe-inline'", "'unsafe-eval'"],
 			"style-src": ["'self'", "cdnjs.cloudflare.com", "maps.googleapis.com", "fonts.googleapis.com", "cdn.jsdelivr.net", "'unsafe-inline'"],
-			"font-src": ["'self'", "fonts.gstatic.com", "cdnjs.cloudflare.com"],
+			"font-src": ["'self'", "fonts.gstatic.com", "cdnjs.cloudflare.com", "cdn.jsdelivr.net"],
 			"img-src": ["'self'", "maps.gstatic.com", "maps.googleapis.com", "data:", "s3.amazonaws.com", "'unsafe-inline'"],
-			"connect-src": ["'self'", "cdnjs.cloudflare.com", "maps.googleapis.com"],
+			"connect-src": ["'self'", "cdnjs.cloudflare.com", "maps.googleapis.com", "cdn.jsdelivr.net", "unpkg.com"],
 			"media-src": ["s3.amazonaws.com"],
 			"script-src-attr": ["'unsafe-inline'"]
 		}

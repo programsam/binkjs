@@ -6,10 +6,10 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, shrink-to-fit=no, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')
     title BINK.js #{version}
     //jQuery
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js', integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==', crossorigin='anonymous' referrerpolicy='no-referrer')
+    script(src='https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist/jquery.min.js', integrity='sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=', crossorigin='anonymous' referrerpolicy='no-referrer')
 
-    //Bootstrap 5 uses the newer v2 of Popper, which conflicts with Bootstrap Table
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js' integrity='sha512-TPh2Oxlg1zp+kz3nFA0C5vVC6leG/6mm1z9+mA81MI5eaUVqasPLO8Cuk4gMF4gUfP5etR73rgU/8PNMsSesoQ==' crossorigin='anonymous' referrerpolicy='no-referrer')
+    //Popper is required by Tempus Dominus
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js" integrity="sha512-TPh2Oxlg1zp+kz3nFA0C5vVC6leG/6mm1z9+mA81MI5eaUVqasPLO8Cuk4gMF4gUfP5etR73rgU/8PNMsSesoQ==" crossorigin="anonymous" referrerpolicy="no-referrer")
 
     //The bootstrap javascript library
     script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/js/bootstrap.min.js' integrity='sha512-nKXmKvJyiGQy343jatQlzDprflyB5c+tKCzGP3Uq67v+lmzfnZUi/ZT+fc6ITZfSC5HhaBKUIvr/nTLCV+7F+Q==' crossorigin='anonymous' referrerpolicy='no-referrer')
@@ -17,7 +17,7 @@ html(lang='en')
     //Bootstrap DARKLY Theme -- should not need further customization!
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.8/darkly/bootstrap.min.css", integrity="sha512-+uC0Ar9AG4/j/iF0Ug22TO9D17MAbD94K7J8h17EzXzN3D5kcOpYQdF4OuiLraHSibCVhz4DIcqwsDboRMVStg==", crossorigin="anonymous" referrerpolicy='no-referrer')
     //FontAwesome Icons/Sprites usable with Bootstrap
-    script(defer='' src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/js/all.min.js' integrity='sha512-6BTOlkauINO65nLhXhthZMtepgJSghyimIalb+crKRPhvhmsCdnIuGcVbR5/aQY2A+260iC1OPy1oCdB6pSSwQ==' crossorigin='anonymous' referrerpolicy='no-referrer')
+    link(rel="stylesheet", href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.0/css/all.min.css' integrity='sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==' crossorigin='anonymous' referrerpolicy='no-referrer')
     //Howler.js import
     script(src='https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js' integrity='sha512-xi/RZRIF/S0hJ+yJJYuZ5yk6/8pCiRlEXZzoguSMl+vk2i3m6UjUO/WcZ11blRL/O+rnj94JRGwt/CHbc9+6EA==' crossorigin='anonymous' referrerpolicy='no-referrer')
     // The BINK Client-side JavaScript Application
