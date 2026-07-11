@@ -10,8 +10,8 @@
     "start": "npx nodemon server.js"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.817.0",
-    "@aws-sdk/credential-providers": "^3.817.0",
+    "@aws-sdk/client-s3": "^3.1085.0",
+    "@aws-sdk/credential-providers": "^3.1081.0",
     "archiver": "^8.0.0",
     "async": "^3.2.6",
     "body-parser": "^2.2.0",
@@ -21,7 +21,7 @@
     "express-validator": "^7.2.1",
     "helmet": "^8.1.0",
     "multer": "^2.0.0",
-    "mysql2": "^3.14.1",
+    "mysql2": "^3.22.6",
     "podcast": "^2.0.1",
     "pug": "^3.0.2",
     "winston": "^3.17.0"
