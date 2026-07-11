@@ -8,6 +8,27 @@ Where is SoundCloud's feature that shows you what each musician played on this r
 
 Searching also makes it quite easy to find out "what was that I thing I played last spring with those guys from college?" and so on.
 
+## Architecture Notes
+
+### Frontend
+
+These dependencies are used in providing the UI.
+
+* bootstrap - provides the basic look and feel and built-in components for UI
+* bootswatch - styled version of the UI with specific colors
+* jQuery - to manipulate on-page objects to make a "single page app"
+* popper - pops up error messages and confirmations
+* fontawesome - provides special icons for buttons used throughout the UI
+* howler - allows in-browser HTML5 playback of songs
+* bootstrapAutocomplete - when selecting musicians, bands, locations, producers, etc. shows you what's in the db already
+* bootstrapTable - for listing results in the database, so far only jams
+* dropzone - allows a multifile upload frontend that uses ajax to upload the files without pushign submit
+* googleMaps
+  * check for any API changes from google -- how do they recommend importing this **today**
+  * used in mapping out locations of jams
+* markerClusterer - clusters all the BINK locations into group bubbles that can then be zoomed in
+* tempusDominus - for selecting the date of a jam
+
 ## Developer Setup
 
 Overview:
