@@ -1407,8 +1407,8 @@ function updateJam() {
   var toSend = {
     date: $('#jamdate').val(),
     title: $('#jamtitle').val(),
-    locid: $('#locid').data('id'),
-    bandid: $('#bandid').data('id'),
+    locid: $('#locid').val(),
+    bandid: $('#bandid').val(),
     notes: $('#jamnotes').val(),
     private: $('#isJamPrivate').prop('checked')
   };
@@ -1510,7 +1510,11 @@ function editJam(id) {
           maxItems: 1,
           hideSelected: false,
           create: true,
-          load: queryJamLocations
+          load: function(query, cb) {
+              $.get(`/api/entity/search/locations?q=${encodeURIComponent(query)}`).done(function(response) {
+                cb(response);
+              });
+          }
         });
 
         jamLocationAutocomplete.on("focus", function() {
@@ -1518,17 +1522,15 @@ function editJam(id) {
         })
 
         jamLocationAutocomplete.on("clear", function() {
-          $('#locid').data('id', -1);
+          $('#locid').val(-1);
           updateJam();
         })
 
         jamLocationAutocomplete.on("change", function(value) {
           this.blur();
           if (Number.isInteger(Number(value))) {
-            $('#locid').data('id', value);
+            $('#locid').val(value);
             updateJam();
-          } else {
-            console.log(`Got value: ${value}; not setting or sending!`);
           }
         })
 
@@ -1540,15 +1542,51 @@ function editJam(id) {
           jamLocationAutocomplete.clear(true);
         })
 
+        //
+        // BAND ACTIONS
+        //
+        var jamBandAutocomplete = new TomSelect('#jamband', {
+          valueField: 'value',
+          labelField: 'label',
+          searchField: 'label',
+          maxItems: 1,
+          hideSelected: false,
+          create: true,
+          load: function(query, cb) {
+              $.get(`/api/entity/search/bands?q=${encodeURIComponent(query)}`).done(function(response) {
+                cb(response);
+              });
+          }
+        });
+
+        jamBandAutocomplete.on("focus", function() {
+          this.clear(true);
+        })
+
+        jamBandAutocomplete.on("clear", function() {
+          $('#bandid').val(-1);
+          updateJam();
+        })
+
+        jamBandAutocomplete.on("change", function(value) {
+          this.blur();
+          if (Number.isInteger(Number(value))) {
+            $('#bandid').val(value);
+            updateJam();
+          } 
+        })
+
+        jamBandAutocomplete.on("option_add", function(value) {
+          addNewBand(value);
+        })
+
+        $('#clearJamBandButton').on('click', function() {
+          jamBandAutocomplete.clear(true);
+        })
+
     	}) //retrieved the edit jam view
     }) //edit-jam-specific scripts have loaded
 } //editjam(id)
-
-function queryJamLocations(query, cb) {
-  $.get(`/api/entity/search/locations?q=${encodeURIComponent(query)}`).done(function(response) {
-    cb(response);
-  });
-}
 
 function addNewLocation(item) {
   showConfirmModal(
@@ -1556,8 +1594,19 @@ function addNewLocation(item) {
   function() {
     $('#confirmModal').modal('hide');
     createEntity("locations", item, function(reply) {
-      $('#locid').data('id', `${reply.id}`);
-      $('#locid').data('text', `${reply.name}`);
+      $('#locid').val(reply.id);
+      updateJam();
+    });
+  })
+}
+
+function addNewBand(event, item) {
+  showConfirmModal(
+    `Are you sure you'd like to create the band "${item}" and select it for this jam?`,
+  function() {
+    $('#confirmModal').modal('hide');
+    createEntity("bands", item, function(reply) {
+      $('#bandid').val(reply.id);
       updateJam();
     });
   })
@@ -1895,28 +1944,6 @@ function addNewInstrument(event, item) {
       }
     });
   })
-}
-
-function addNewBand(event, item) {
-  if (item.length <= 3)
-  {
-    $('#jamband').autoComplete('set', {
-      value: "-1",
-      text: "<none selected>"
-    })
-  } else {
-    showConfirmModal(
-      `Are you sure you'd like to create the band "${item}" and select it for this jam?`,
-    function() {
-      $('#confirmModal').modal('hide');
-      createEntity("bands", item, function(reply) {
-        $('#bandid').data('id', `${reply.id}`);
-        $('#bandid').data('text', `${reply.name}`);
-        updateJam();
-        $('#jamband').autoComplete('set', { value: reply.id, text: reply.name });
-      });
-    })
-  }
 }
 
 function createEntity(type, incomingName, callback) {

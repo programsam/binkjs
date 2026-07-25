@@ -41,13 +41,15 @@
               i.fa.fa-solid.fa-delete-left
         .col-5
           h5 Band
-          if (jam.band)
-            #bandid(data-id=jam.band.id, data-text=jam.band.name)
-          else
-            #bandid(data-id=-1)
+          input#bandid(type="hidden", name="bandid", value=(jam.band && jam.band.id !== -1 ? jam.band.id : -1))  
           .input-group
-            select#jamband.form-control(type="text", name="band", autocomplete="off", data-url="/api/entity/search/bands")
-            button.btn.btn-primary(type="Button")#clearJamBandButton
+            input#jamband.form-control(
+              name="band", 
+              autocomplete="off", 
+              placeholder="Select a band...",
+              value=(jam.band && jam.band.name ? jam.band.name : "")
+            )
+            button.btn.btn-primary(type="button")#clearJamBandButton
               i.fa.fa-solid.fa-delete-left
         .col-2
           h5.d-none.d-md-block Private
