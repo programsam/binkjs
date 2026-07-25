@@ -29,14 +29,15 @@
       .row
         .col-5
           h5 Location
-          if (jam.location)
-            #locid(data-id=jam.location.id, data-text=jam.location.name)
-          else
-            #locid(data-id=-1)
+          input#locid(type="hidden", name="locid", value=(jam.location && jam.location.id !== -1 ? jam.location.id : -1))  
           .input-group
-            select#jamlocation.form-control(type="text", name="location", autocomplete="off", data-url="/api/entity/search/locations")
-            //- input(type="search" autocomplete="off").form-control#jamlocation
-            button.btn.btn-primary(type="Button")#clearJamLocationButton
+            input#jamlocation.form-control(
+              name="location", 
+              autocomplete="off", 
+              placeholder="Select a location...",
+              value=(jam.location && jam.location.name ? jam.location.name : "")
+            )
+            button.btn.btn-primary(type="button")#clearJamLocationButton
               i.fa.fa-solid.fa-delete-left
         .col-5
           h5 Band
