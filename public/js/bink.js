@@ -1392,13 +1392,13 @@ function reloadStaff(id, focus) {
 }
 
 function editJamScriptsLoaded() {
-  var bootstrapAutocompleteLoaded = (typeof TomSelect === "function");
+  var tomSelectLoaded = (typeof TomSelect === "function");
   var tempusDominusLoaded = false;
   tempusDominusLoaded = (typeof tempusDominus === "object");
   var dropzoneUploaded = (typeof Dropzone === "function");
 
   return (tempusDominusLoaded &&
-          dropzoneUploaded && bootstrapAutocompleteLoaded);
+          dropzoneUploaded && tomSelectLoaded);
 }
 
 function updateJam() {
@@ -1425,7 +1425,7 @@ function updateJam() {
 function editJam(id) {
 	location.hash = "edit-" + id;
 	$('.nav-link.active').removeClass('active');
-    loadScripts(['bootstrapAutocomplete', 'dropzone', 'tempusDominus'],
+    loadScripts(['tomSelect', 'dropzone', 'tempusDominus'],
       editJamScriptsLoaded, function() {
       $.get(`/views/admin/jam/edit/${id}`, function(view) {
         $('#main').html(view);
@@ -1500,6 +1500,9 @@ function editJam(id) {
 
         $(window).scrollTop(0);
 
+        //
+        // LOCATION ACTIONS
+        //
         var jamLocationAutocomplete = new TomSelect('#jamlocation', {
           valueField: 'value',
           labelField: 'label',

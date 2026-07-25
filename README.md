@@ -20,7 +20,7 @@ These dependencies are used in providing the UI.
 * popper - pops up error messages and confirmations
 * fontawesome - provides special icons for buttons used throughout the UI
 * howler - allows in-browser HTML5 playback of songs
-* bootstrapAutocomplete - when selecting musicians, bands, locations, producers, etc. shows you what's in the db already
+* tomSelect - when selecting musicians, bands, locations, producers, etc. shows you what's in the db already
 * bootstrapTable - for listing results in the database, so far only jams
 * dropzone - allows a multifile upload frontend that uses ajax to upload the files without pushign submit
 * googleMaps

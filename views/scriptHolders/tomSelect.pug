@@ -1,8 +1,9 @@
-// Bootstrap Autocomplete -- musicians, bands, instruments, producers, locations
-//This is the latest version that should be compatible now. Major API changes.
-//It is a module and must be dynamically loaded as such
+// Tom Select -- musicians, bands, instruments, producers, locations
+//Had to abandon BootstrapAutcomplete because it didn't sync with backend database easily at ALL
 script(src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js")
 link(href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css", rel="stylesheet")
+//By default, Tom Select's CSS gets written to some scary dark colors for dropdown menus
+//Even for text.  Gotta override these to make sure admins can see what they are selecting.
 style.
   .ts-dropdown .option,
   .ts-dropdown .create,
