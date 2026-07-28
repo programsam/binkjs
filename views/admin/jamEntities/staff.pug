@@ -23,7 +23,21 @@ else
     .row
       .col
         p Name:
-        select#addstaff.form-control(name="addstaff", placeholder="Start typing a staff member's name", autocomplete="off")
+        .input-group
+          input#addstaff.form-control(
+            name="addstaff", 
+            autocomplete="off", 
+            placeholder="Select a staff member..."
+          )
+          button.btn.btn-primary(type="button")#clearStaffButton
+            i.fa.fa-solid.fa-delete-left
       .col
         p Role:
-        select#addrole.form-control(name="addrole", placeholder="Select at least one role", autocomplete="off")
+        .input-group
+          input#addrole.form-control(
+            name="addrole", 
+            autocomplete="off", 
+            placeholder="Select a role..."
+          )
+          button.btn.btn-primary(type="button")#clearRoleButton
+            i.fa.fa-solid.fa-delete-left

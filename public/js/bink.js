@@ -1321,7 +1321,7 @@ function reloadMusicians(id, focus) {
       load: function(query, cb) {
           $.get(`/api/entity/search/musicians?q=${encodeURIComponent(query)}`).done(function(response) {
             cb(response);
-          });
+        });
       }
     });
 
@@ -1329,15 +1329,8 @@ function reloadMusicians(id, focus) {
       this.clear(true);
     })
 
-    musicianSelectorAutocomplete.on("clear", function() {
-      console.log(`Musician selector cleared`);
-    })
-
     musicianSelectorAutocomplete.on("change", function(value) {
       this.blur();
-      if (Number.isInteger(Number(value))) {
-        console.log(`Musician selected: ${value}`)
-      }
     })
 
     musicianSelectorAutocomplete.on("option_add", function(value) {
@@ -1358,7 +1351,7 @@ function reloadMusicians(id, focus) {
       load: function(query, cb) {
           $.get(`/api/entity/search/instruments?q=${encodeURIComponent(query)}`).done(function(response) {
             cb(response);
-          });
+        });
       }
     });
 
@@ -1366,14 +1359,9 @@ function reloadMusicians(id, focus) {
       this.clear(true);
     })
 
-    instrumentSelectorAutocomplete.on("clear", function() {
-      console.log(`Instrument selector cleared`);
-    })
-
     instrumentSelectorAutocomplete.on("change", function(value) {
       this.blur();
       if (Number.isInteger(Number(value))) {
-        console.log(`Instrument selected: ${value}`)
         checkAddMusicianForm();
       }
     })
@@ -1384,7 +1372,7 @@ function reloadMusicians(id, focus) {
 
     $('#clearInstrumentButton').on('click', function() {
       instrumentSelectorAutocomplete.clear(true);
-    }) //clearMusicianLocationButton callback end
+    }) //clearInstrumentButton clicked callback end
   }) //end load musician view callback
 } //end reloadMusicians
 
@@ -1392,42 +1380,77 @@ function reloadStaff(id, focus) {
   $.get(`/views/admin/jam/${id}/edit/staff`, function(staffView) {
     $('#staffHolder').html(staffView)
 
-    //Setup staff autocomplete
-    $('#addstaff').autoComplete({
-      resolverSettings: {
-        url: '/api/entity/search/staff'
+    var staffSelectorAutocomplete = new TomSelect('#addstaff', {
+      valueField: 'value',
+      labelField: 'label',
+      searchField: 'label',
+      maxItems: 1,
+      hideSelected: false,
+      create: true,
+      load: function(query, cb) {
+          $.get(`/api/entity/search/staff?q=${encodeURIComponent(query)}`).done(function(response) {
+            cb(response);
+          });
+      }
+    });
+
+    staffSelectorAutocomplete.on("focus", function() {
+      this.clear(true);
+    })
+
+    staffSelectorAutocomplete.on("change", function(value) {
+      this.blur();
+      if (Number.isInteger(Number(value))) {
+        console.log(`Staff selected: ${value}`)
       }
     })
 
-    //when the user selects a staff
-    $('#addstaff').on('autocomplete.select',
-      function(event, item) {
-        checkAddStaffForm();
+    staffSelectorAutocomplete.on("option_add", function(value) {
+      addNewStaff(value);
     })
 
-    //When the user creates a new staff
-    $('#addstaff').on('autocomplete.freevalue', addNewStaff)
+    $('#clearStaffnButton').on('click', function() {
+      staffSelectorAutocomplete.clear(true);
+    }) //clearMusicianLocationButton callback end
 
-    //Setup role autocomplete
-    $('#addrole').autoComplete({
-      resolverSettings: {
-        url: '/api/entity/search/roles'
+    var roleSelectorAutocomplete = new TomSelect('#addrole', {
+      valueField: 'value',
+      labelField: 'label',
+      searchField: 'label',
+      maxItems: 1,
+      hideSelected: false,
+      create: true,
+      load: function(query, cb) {
+          $.get(`/api/entity/search/roles?q=${encodeURIComponent(query)}`).done(function(response) {
+            cb(response);
+          });
+      }
+    });
+
+    roleSelectorAutocomplete.on("focus", function() {
+      this.clear(true);
+    })
+
+    roleSelectorAutocomplete.on("clear", function() {
+      console.log(`Role selector cleared`);
+    })
+
+    roleSelectorAutocomplete.on("change", function(value) {
+      this.blur();
+      if (Number.isInteger(Number(value))) {
+        console.log(`Role selected: ${value}`)
+        checkAddStaffForm();
       }
     })
 
-    //when the user selects a role
-    $('#addrole').on('autocomplete.select',
-      function(event, item) {
-        checkAddStaffForm();
+    roleSelectorAutocomplete.on("option_add", function(value) {
+      addNewRole(value);
     })
 
-    //When the user creates a new role
-    $('#addrole').on('autocomplete.freevalue', addNewRole)
-
-    if (focus) {
-      $('#addstaff').focus();
-    }
-  })
+    $('#clearStaffButton').on('click', function() {
+      roleSelectorAutocomplete.clear(true);
+    }) //clearStaffButton clicked callback end
+  }) //reload staff callback end
 }
 
 function editJamScriptsLoaded() {
@@ -1877,19 +1900,24 @@ function addStaffToJam(jamid, staffid, roleid) {
   });
 }
 
-function addNewStaff(event, item) {
+function addNewStaff(item) {
   showConfirmModal(
     `Are you sure you'd like to create the staff member "${item}" and select them for this jam?`,
   function() {
     $('#confirmModal').modal('hide');
     createEntity("staff", item, function(reply) {
-      $('#addstaff').autoComplete('set', { value: reply.id, text: reply.name });
+      var control = $('#addstaff')[0].tomselect;
+      control.addOption({
+          value: reply.id,
+          label: reply.name
+      });
+      control.setValue(reply.id)
       checkAddStaffForm();
     });
   })
 }
 
-function addNewRole(event, item) {
+function addNewRole(item) {
   showConfirmModal(
     `Are you sure you'd like to create the role "${item}" and select it for this jam?`,
   function() {
@@ -1900,7 +1928,12 @@ function addNewRole(event, item) {
       if (staffid) {
         addStaffToJam(jamid, staffid, reply.id);
       } else {
-        $('#addrole').autoComplete('set', { value: reply.id, text: reply.name });
+        var control = $('#addrole')[0].tomselect;
+        control.addOption({
+            value: reply.id,
+            label: reply.name
+        });
+        control.setValue(reply.id)
       }
     });
   })
@@ -1983,6 +2016,13 @@ function addNewInstrument(item) {
     createEntity("instruments", item, function(reply) {
       if (musicianid) {
         addMusicianToJam(jamid, musicianid, reply.id);
+      } else {
+        var control = $('#addinstrument')[0].tomselect;
+        control.addOption({
+            value: reply.id,
+            label: reply.name
+        });
+        control.setValue(reply.id)
       }
     });
   })
