@@ -446,12 +446,9 @@ function titleFormatter(value, row) {
 }
 
 function dateFormatter(value) {
-	var d = new Date(value);
-  var month = ('00' + (d.getMonth() + 1)).slice(-2)
-	var date = ('00' + (d.getDate())).slice(-2)
-	var year = d.getFullYear();
-	
-	return `${month}/${date}/${year}`;
+  if (!value) return null;
+  var d = new Date(value);
+  return d.toISOString().split('T')[0]; // Returns 'YYYY-MM-DD'
 }
 
 function entityNameFormatter(value, row) {
@@ -1493,7 +1490,7 @@ function editJam(id) {
         $('#main').html(view);
         var currentlySetDate = $('#jam').data('date');
         const picker = new tempusDominus.TempusDominus($('#jamdatepicker')[0], {
-          defaultDate: dateFormatter(currentlySetDate),
+          defaultDate: new Date(currentlySetDate),
           localization: {
             format: 'MM/dd/yyyy'
           },
