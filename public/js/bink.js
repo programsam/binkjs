@@ -746,7 +746,11 @@ function loadEntity(type, id) {
 function binkAlert(title, alert) {
 	$("#binkAlertText").html(alert)
 	$("#binkAlertTitle").html(title)
-	$("#binkAlertModal").modal('show')
+  $('#binkAlertModal').on('bs-hide');
+	$('#binkAlertModal').on('hide.bs.modal', function(e) {
+    $('#binkAlertCloseButton').blur();
+    $('#binkAlertSecondaryButton').blur();
+  })
 }
 
 function loadRecentJams() {
@@ -1651,21 +1655,34 @@ function addNewLocation(item) {
   showConfirmModal(
     `Are you sure you'd like to create the location "${item}" and select it for this jam?`,
   function() {
+
     $('#confirmModal').modal('hide');
     createEntity("locations", item, function(reply) {
       $('#locid').val(reply.id);
+      var control = $('#jamlocation')[0].tomselect;
+      control.addOption({
+          value: reply.id,
+          label: reply.name
+      });
+      control.setValue(reply.id)
       updateJam();
     });
   })
 }
 
-function addNewBand(event, item) {
+function addNewBand(item) {
   showConfirmModal(
     `Are you sure you'd like to create the band "${item}" and select it for this jam?`,
   function() {
     $('#confirmModal').modal('hide');
     createEntity("bands", item, function(reply) {
       $('#bandid').val(reply.id);
+      var control = $('#jamband')[0].tomselect;
+      control.addOption({
+          value: reply.id,
+          label: reply.name
+      });
+      control.setValue(reply.id)
       updateJam();
     });
   })
@@ -2048,9 +2065,13 @@ function showConfirmModal(message, yesFunction) {
     $('#confirm-text').text(message)
     $('#yesButton').off();
     $('#yesButton').click(function() {
+      $('#yesButton').blur();
       if (yesFunction) {
         yesFunction();
       }
+    })
+    $('#noButton').click(function() {
+      $('#noButton').blur();
     })
     $('#confirmModal').modal('show', { keyboard:true});
   }) //get the confirmation modal
