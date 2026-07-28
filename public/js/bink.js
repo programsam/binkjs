@@ -1311,43 +1311,82 @@ function reloadMusicians(id, focus) {
   $.get(`/views/admin/jam/${id}/edit/musicians`, function(musicianView) {
     $('#musicianHolder').html(musicianView)
 
-    //Setup musician autocomplete
-    $('#addmusician').autoComplete({
-      resolverSettings: {
-        url: '/api/entity/search/musicians'
+    var musicianSelectorAutocomplete = new TomSelect('#addmusician', {
+      valueField: 'value',
+      labelField: 'label',
+      searchField: 'label',
+      maxItems: 1,
+      hideSelected: false,
+      create: true,
+      load: function(query, cb) {
+          $.get(`/api/entity/search/musicians?q=${encodeURIComponent(query)}`).done(function(response) {
+            cb(response);
+          });
+      }
+    });
+
+    musicianSelectorAutocomplete.on("focus", function() {
+      this.clear(true);
+    })
+
+    musicianSelectorAutocomplete.on("clear", function() {
+      console.log(`Musician selector cleared`);
+    })
+
+    musicianSelectorAutocomplete.on("change", function(value) {
+      this.blur();
+      if (Number.isInteger(Number(value))) {
+        console.log(`Musician selected: ${value}`)
       }
     })
 
-    //when the user selects a musician
-    $('#addmusician').on('autocomplete.select',
-      function(event, item) {
-        checkAddMusicianForm();
+    musicianSelectorAutocomplete.on("option_add", function(value) {
+      addNewMusician(value);
     })
 
-    //When the user creates a new musician
-    $('#addmusician').on('autocomplete.freevalue', addNewMusician)
+    $('#clearMusicianButton').on('click', function() {
+      musicianSelectorAutocomplete.clear(true);
+    }) //clearMusicianLocationButton callback end
 
-    //Setup instrument autocomplete
-    $('#addinstrument').autoComplete({
-      resolverSettings: {
-        url: '/api/entity/search/instruments'
+    var instrumentSelectorAutocomplete = new TomSelect('#addinstrument', {
+      valueField: 'value',
+      labelField: 'label',
+      searchField: 'label',
+      maxItems: 1,
+      hideSelected: false,
+      create: true,
+      load: function(query, cb) {
+          $.get(`/api/entity/search/instruments?q=${encodeURIComponent(query)}`).done(function(response) {
+            cb(response);
+          });
+      }
+    });
+
+    instrumentSelectorAutocomplete.on("focus", function() {
+      this.clear(true);
+    })
+
+    instrumentSelectorAutocomplete.on("clear", function() {
+      console.log(`Instrument selector cleared`);
+    })
+
+    instrumentSelectorAutocomplete.on("change", function(value) {
+      this.blur();
+      if (Number.isInteger(Number(value))) {
+        console.log(`Instrument selected: ${value}`)
+        checkAddMusicianForm();
       }
     })
 
-    //when the user selects an instrument
-    $('#addinstrument').on('autocomplete.select',
-      function(event, item) {
-        checkAddMusicianForm();
+    instrumentSelectorAutocomplete.on("option_add", function(value) {
+      addNewInstrument(value);
     })
 
-    //When the user creates a new instrument
-    $('#addinstrument').on('autocomplete.freevalue', addNewInstrument)
-
-    if (focus) {
-      $('#addmusician').focus();
-    }
-  })
-}
+    $('#clearInstrumentButton').on('click', function() {
+      instrumentSelectorAutocomplete.clear(true);
+    }) //clearMusicianLocationButton callback end
+  }) //end load musician view callback
+} //end reloadMusicians
 
 function reloadStaff(id, focus) {
   $.get(`/views/admin/jam/${id}/edit/staff`, function(staffView) {
@@ -1917,19 +1956,24 @@ function addMusicianToJam(jamid, musicianid, instrumentid) {
   });
 }
 
-function addNewMusician(event, item) {
+function addNewMusician(item) {
   showConfirmModal(
     `Are you sure you'd like to create the musician "${item}" and select them for this jam?`,
   function() {
     $('#confirmModal').modal('hide');
     createEntity("musicians", item, function(reply) {
-      $('#addmusician').autoComplete('set', { value: reply.id, text: reply.name });
+      var control = $('#addmusician')[0].tomselect;
+      control.addOption({
+          value: reply.id,
+          label: reply.name
+      });
+      control.setValue(reply.id)
       checkAddMusicianForm();
     });
   })
 }
 
-function addNewInstrument(event, item) {
+function addNewInstrument(item) {
   showConfirmModal(
     `Are you sure you'd like to create the instrument "${item}" and select it for this jam?`,
   function() {
@@ -1939,8 +1983,6 @@ function addNewInstrument(event, item) {
     createEntity("instruments", item, function(reply) {
       if (musicianid) {
         addMusicianToJam(jamid, musicianid, reply.id);
-      } else {
-        $('#addinstrument').autoComplete('set', { value: reply.id, text: reply.name });
       }
     });
   })
