@@ -16,7 +16,6 @@
     "async": "^3.2.6",
     "body-parser": "^2.2.0",
     "express": "^5.1.0",
-    "express-mysql-session": "^3.0.2",
     "express-session": "^1.18.0",
     "express-validator": "^7.2.1",
     "helmet": "^8.3.0",

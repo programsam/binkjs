@@ -1,7 +1,6 @@
 const path				= require('path');
 const express 			= require('express');
 const session 			= require('express-session');
-const MySQLStore 		= require('express-mysql-session')(session);
 const app 				= express();
 const mysql				= require('mysql2');
 const async				= require('async');
@@ -17,6 +16,10 @@ const podcastFeed		= require("./lib/podcastFeed.js");
 const makeLogger  		= require("./lib/loggerFactory.js");
 const scriptHolders		= require('./lib/scriptHolders.js');
 const helmet 			= require('helmet');
+//the NPM MySQL session store has been abandoned.
+//the other options mostly use ORMs and a lot more code.
+//i wrote my own.
+const MySQLStore 		= require('./lib/express-mysql-session');
 
 var settings = require('./settings');
 
@@ -43,7 +46,9 @@ BINKS3.testConnection(function(err, result) {
 
 app.set('trust proxy', 1) // trust first proxy
 
-var sessionstore = new MySQLStore(settings.mysql);
+const pool = mysql.createPool(settings.mysql);
+
+var sessionstore = new MySQLStore(pool);
 
 app.use(session({
 	secret: settings.session_secret,
