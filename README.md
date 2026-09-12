@@ -16,9 +16,9 @@ These dependencies are used in providing the UI.
 
 * bootstrap - provides the basic look and feel and built-in components for UI
 * bootswatch - styled version of the UI with specific colors
+* bootstrap-icons - provides special icons for buttons used throughout the UI
 * jQuery - to manipulate on-page objects to make a "single page app"
 * popper - pops up error messages and confirmations
-* fontawesome - provides special icons for buttons used throughout the UI
 * howler - allows in-browser HTML5 playback of songs
 * tomSelect - when selecting musicians, bands, locations, producers, etc. shows you what's in the db already
 * bootstrapTable - for listing results in the database, so far only jams

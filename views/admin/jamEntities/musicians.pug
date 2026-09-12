@@ -7,14 +7,14 @@ if (jam.musicians && jam.musicians.length > 0)
         each instrument, index in musician.instruments
           | #{instrument.name}&nbsp;
           a(href=`javascript:removeMusicianInstrument(${musician.id}, ${instrument.id})`)
-            i.fa-solid.fa-trash
+            i.bi.bi-trash
           if (index === (musician.instruments.length - 1))
             | &nbsp;
           else
             | ,&nbsp;
         p.float-end
           a(href=`javascript:removeEntireMusician(${musician.id})`)
-            i.fa-solid.fa-user-minus
+            i.bi.bi-person-dash
 else
   em No musicians.
 .row.mt-3
@@ -30,7 +30,7 @@ else
             placeholder="Select a musician..."
           )
           button.btn.btn-primary(type="button")#clearMusicianButton
-            i.fa.fa-solid.fa-delete-left
+            i.bi.bi-x-circle
       .col
         p Instrument:
         .input-group
@@ -40,4 +40,4 @@ else
             placeholder="Select an instrument..."
           )
           button.btn.btn-primary(type="button")#clearInstrumentButton
-            i.fa.fa-solid.fa-delete-left
+            i.bi.bi-x-circle

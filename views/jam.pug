@@ -11,12 +11,12 @@ else
         .col
           if (jam.private)
             p.float-end
-              i.fa.fa-key.ms-2
+              i.bi.bi-key.ms-2
           if (admin)
             a(href='javascript:')#editJamButton.float-end.ms-2
-              i.fa-solid.fa-pen-to-square
+              i.bi.bi-pencil-square
             a(href='javascript:')#deleteJamButton.float-end
-              i.fa-solid.fa-trash
+              i.bi.bi-trash
   .card-body
     h6.card-subtitle.mb-2.text-muted
       if (jam.band && jam.location)
@@ -72,7 +72,7 @@ else
             h4.card-title Music
           .col-6
             a(href='javascript:' data-id=jam.id)#downloadJamZipButton.float-end.ms-2
-              i.fa-lg.fa-solid.fa-file-zipper
+              i.bi.bi-file-earmark-zip
         ol.list-group.list-group-numbered
           for track in jam.tracks
             if (track.title === setBreakString)
@@ -86,9 +86,9 @@ else
                   | &nbsp;- #{track.notes}
                 p.float-end
                   a(href="javascript:" onclick=`playImmediately("${track.title}", "${track.path}");`)
-                    i.fa.fa-play.fa-sm.me-2
+                    i.bi.bi-play.me-2
                   a(href="javascript:" onclick=`enqueueItem("${track.title}", "${track.path}");`)
-                    i.fa.fa-plus.fa-sm
+                    i.bi.bi-file-earmark-plus
   if (jam.pictures && jam.pictures.length > 0)
     .card.border-secondary
       .card-body

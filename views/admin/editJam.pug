@@ -6,9 +6,9 @@
         h4 Editing Jam
       .col
         a(href='javascript:')#viewJamButton.float-end.ms-2
-          i.fa-solid.fa-check
+          i.bi.bi-check
         a(href='javascript:')#deleteJamButton.float-end.ms-2
-          i.fa-solid.fa-trash
+          i.bi.bi-trash
   .card.border-secondary
     .card-body
       .row
@@ -17,7 +17,7 @@
           #jamdatepicker.input-group.date(data-target-input='nearest')
             input#jamdate.form-control.datetimepicker-input(type='text', data-target='#jamdatepicker')
             .input-group-text(data-target='#jamdatepicker', data-toggle='datetimepicker')
-              i.fa-xl.fa-solid.fa-calendar
+              i.bi.bi-calendar
         .col
           h5 Title
           if (jam.title !== "")
@@ -38,7 +38,7 @@
               value=(jam.location && jam.location.name ? jam.location.name : "")
             )
             button.btn.btn-primary(type="button")#clearJamLocationButton
-              i.fa.fa-solid.fa-delete-left
+              i.bi.bi-x-circle
         .col-5
           h5 Band
           input#bandid(type="hidden", name="bandid", value=(jam.band && jam.band.id !== -1 ? jam.band.id : -1))  
@@ -50,7 +50,7 @@
               value=(jam.band && jam.band.name ? jam.band.name : "")
             )
             button.btn.btn-primary(type="button")#clearJamBandButton
-              i.fa.fa-solid.fa-delete-left
+              i.bi.bi-x-circle
         .col-2
           h5.d-none.d-md-block Private
           .form-check
@@ -59,7 +59,7 @@
             else
               input.form-check-input(type='checkbox' id='isJamPrivate')
             label.form-label(for='isJamPrivate')
-              i.fa.fa-key.fa-lg.me-1
+              i.me-1.bi.bi-key
   .card.border-secondary
     .card-body.container-flex
       .row-flex

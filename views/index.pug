@@ -16,9 +16,10 @@ html(lang='en')
 
     //Bootstrap DARKLY Theme -- should not need further customization!
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.8/darkly/bootstrap.min.css", integrity="sha512-+uC0Ar9AG4/j/iF0Ug22TO9D17MAbD94K7J8h17EzXzN3D5kcOpYQdF4OuiLraHSibCVhz4DIcqwsDboRMVStg==", crossorigin="anonymous" referrerpolicy='no-referrer')
-    //FontAwesome Icons/Sprites usable with Bootstrap
-    link(rel="stylesheet", href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.0/css/all.min.css' integrity='sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==' crossorigin='anonymous' referrerpolicy='no-referrer')
-    //Howler.js import
+    
+    //Let's try Bootstrap Icons
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css")
+    
     script(src='https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js' integrity='sha512-xi/RZRIF/S0hJ+yJJYuZ5yk6/8pCiRlEXZzoguSMl+vk2i3m6UjUO/WcZ11blRL/O+rnj94JRGwt/CHbc9+6EA==' crossorigin='anonymous' referrerpolicy='no-referrer')
     // The BINK Client-side JavaScript Application
     script(src='js/bink.js')
@@ -46,17 +47,17 @@ html(lang='en')
       .row.align-items-center
         .col-xl-3.col-lg-3.col-md-4.col-sm-5.col-12
           #playButton.btn.btn-primary(type=button)
-            i.fa-solid.fa-play
+            i.bi.bi-play
           #pauseButton.btn.btn-primary.disabled(type=button)
-            i.fa-solid.fa-pause
+            i.bi.bi-pause
           #stopButton.btn.btn-primary(type=button)
-            i.fa-solid.fa-stop
+            i.bi.bi-stop
           #prevButton.btn.btn-primary(type=button)
-            i.fa-solid.fa-step-backward
+            i.bi.bi-skip-backward
           #nextButton.btn.btn-primary(type=button)
-            i.fa-solid.fa-step-forward
+            i.bi.bi-skip-forward
           #playlistButton.btn.btn-primary(type=button)
-            i.fa-solid.fa-list
+            i.bi.bi-music-note-list
         .col-xl-4.col-lg-4.col-md-3.col-sm-2.col-6
           input.w-100#position(type="range", min=0, max=0, disabled)
         .col-xl-2.col-lg-2.col-md-2.col-sm-2.col-6

@@ -7,14 +7,14 @@ if (jam.staff && jam.staff.length > 0)
         each role, index in staff.roles
           | #{role.name}&nbsp;
           a(href=`javascript:removeStaffRole(${staff.id}, ${role.id})`)
-            i.fa-solid.fa-trash
+            i.bi.bi-trash
           if (index === (staff.roles.length - 1))
             | &nbsp;
           else
             | ,&nbsp;
         p.float-end
           a(href=`javascript:removeEntireStaff(${staff.id})`)
-            i.fa-solid.fa-user-minus
+            i.bi.bi-person-dash
 else
   em No staff.
 .row.mt-3
@@ -30,7 +30,7 @@ else
             placeholder="Select a staff member..."
           )
           button.btn.btn-primary(type="button")#clearStaffButton
-            i.fa.fa-solid.fa-delete-left
+            i.bi.bi-x-circle
       .col
         p Role:
         .input-group
@@ -40,4 +40,4 @@ else
             placeholder="Select a role..."
           )
           button.btn.btn-primary(type="button")#clearRoleButton
-            i.fa.fa-solid.fa-delete-left
+            i.bi.bi-x-circle

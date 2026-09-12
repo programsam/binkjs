@@ -7,9 +7,9 @@
       if (admin)
         .col-2
           a(href='javascript:')#editEntityButton.float-end.ms-2
-            i.fa-solid.fa-sm.fa-pen-to-square
+            i.bi.bi-pencil-square
           a(href='javascript:')#deleteEntityButton.float-end
-            i.fa-solid.fa-sm.fa-trash
+            i.bi.bi-trash
   .card-body
     if (type === "bands" || type === "musicians")
       if (link && link.indexOf('http') === 0)

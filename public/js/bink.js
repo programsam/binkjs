@@ -344,7 +344,7 @@ function loadManage() {
         showColumns: true,
         pageList: [3,5,10,20,50,100],
         sortOrder: 'desc',
-        iconsPrefix: 'fa',
+        iconsPrefix: 'bi',
         toolbar: '#toolbar',
         queryParams: function(params) {
           params.type = $('input[name=typeFilter]:checked').val();
@@ -418,7 +418,7 @@ function loadBrowse() {
 				showColumns: true,
 				pageList: [3,5,10,20,50,100],
 				sortOrder: 'desc',
-				iconsPrefix: 'fa'
+				iconsPrefix: 'bi'
 			}); //bootstrapTable init
       $(window).scrollTop(0);
     }) //loadScript + callback
@@ -456,31 +456,31 @@ function entityNameFormatter(value, row) {
 }
 
 function entityActionFormatter(value, row) {
-  return  `<a href="javascript:editEntity('${row.type}', ${row.id});"><i class="fa-solid fa-pen-to-square me-1"></i></a>` +
-          `<a href="javascript:deleteEntity('${row.type}', ${row.id});"><i class="fa-solid fa-trash"></i></a>`;
+  return  `<a href="javascript:editEntity('${row.type}', ${row.id});"><i class="bi bi-pencil-square me-1"></i></a>` +
+          `<a href="javascript:deleteEntity('${row.type}', ${row.id});"><i class="bi bi-trash"></i></a>`;
 }
 
 function attributesFormatter(value, row) {
   var toRet = '';
   if (row.hasTracks) {
-    toRet += '<i class="fa-solid fa-music me-1"></i>';
+    toRet += '<i class="bi bi-music-note-beamed me-1"></i>';
   } 
   if (row.hasPics) {
-    toRet += '<i class="fa-solid fa-camera me-1"></i>';
+    toRet += '<i class="bi bi-image me-1"></i>';
   }
   if (row.hasVids) {
-    toRet += '<i class="fa-solid fa-video me-1"></i>';
+    toRet += '<i class="bi bi-camera- me-1"></i>';
   }
   if (row.private) {
-    toRet += '<i class="fa-solid fa-key me-1"></i>';
+    toRet += '<i class="bi bi-key me-1"></i>';
   }
   return toRet;
 }
 
 function adminJamActionFormatter(value) {
-  return `<a href="javascript:deleteJam(${value});"><i class="fa-solid fa-trash fa-sm me-1"></i></a>` +
-  `<a href="javascript:editJam(${value});"><i class="fa-solid fa-pen-to-square fa-sm me-1"></i></a>` +
-  `<a href="javascript:loadJam(${value});"><i class="fa-solid fa-magnifying-glass fa-sm me-1"></i></a>`;
+  return `<a href="javascript:deleteJam(${value});"><i class="bi bi-trash me-1"></i></a>` +
+  `<a href="javascript:editJam(${value});"><i class="bi bi-pencil-square me-1"></i></a>` +
+  `<a href="javascript:loadJam(${value});"><i class="bi bi-binoculars me-1"></i></a>`;
 }
 
 function showAdmin()
@@ -736,7 +736,7 @@ function loadEntity(type, id) {
 				showColumns: true,
 				pageList: [3,5,10,20,50,100],
 				sortOrder: 'desc',
-				iconsPrefix: 'fa',
+				iconsPrefix: 'bi',
 			}); //end bootstrapTable definition
       $(window).scrollTop(0);
 		}) //loadScript call
@@ -987,11 +987,11 @@ function reloadTracksSection(id, focus) {
       search: false,
       showRefresh: true,
       showColumns: true,
-      iconsPrefix: 'fa',
+      iconsPrefix: 'bi',
       buttons: {
         btnStripTracks: {
           text: 'Strip Tracks',
-          icon: 'fa-solid fa-broom',
+          icon: 'bi bi-stars',
           event: stripTrackNumbers,
           attributes: {
             title: 'Strip the tracks of their extension and ordering prefix'
@@ -999,7 +999,7 @@ function reloadTracksSection(id, focus) {
         },
         btnSyncTracks: {
           text: 'Sync Tracks',
-          icon: 'fa-solid fa-phone-alt',
+          icon: 'bi bi-arrow-repeat',
           event: function() {
             syncMedia('tracks');
           },
@@ -1009,7 +1009,7 @@ function reloadTracksSection(id, focus) {
         },
         btnInsertSetBreak: {
           text: 'Insert Set Break',
-          icon: 'fa-solid fa-grip-lines',
+          icon: 'bi bi-file-break',
           event: function() {
             addSetBreak();
           },
@@ -1019,7 +1019,7 @@ function reloadTracksSection(id, focus) {
         }, //setbreaks definition
         btnDownloadTracks: {
           text: 'Download Tracks',
-          icon: 'fa-solid fa-file-zipper',
+          icon: 'bi bi-file-zip',
           event: function() {
             downloadJamZip(jamid);
           },
@@ -1127,7 +1127,7 @@ function vidActionsFormatter(value, row) {
     href: 'javascript:'
   })
   var deleteButton = $('<i>', {
-    class: 'far fa-trash-alt me-1'
+    class: 'bi bi-trash me-1'
   });
   deleter.on('click', () => {
     deleteVid(value);
@@ -1141,7 +1141,7 @@ function vidActionsFormatter(value, row) {
     href: row.path
   })
   var downloadButton = $('<i>', {
-    class: 'fa-solid fa-download me-1'
+    class: 'bi bi-download me-1'
   });
   downloader.append(downloadButton);
 
@@ -1152,7 +1152,7 @@ function vidActionsFormatter(value, row) {
     href: 'javascript:'
   })
   var moveUpButton = $('<i>', {
-    class: 'fa-solid fa-up-long me-1'
+    class: 'bi bi-arrow-up me-1'
   });
   moveUp.on('click', () => {
     moveVidUp(value);
@@ -1166,7 +1166,7 @@ function vidActionsFormatter(value, row) {
     href: 'javascript:'
   })
   var moveDownButton = $('<i>', {
-    class: 'fa-solid fa-down-long me-1'
+    class: 'bi bi-arrow-down me-1'
   });
   moveDown.on('click', () => {
     moveVidDown(value);
@@ -1244,11 +1244,11 @@ function reloadVidsSection(id, focus) {
       search: false,
       showRefresh: true,
       showColumns: true,
-      iconsPrefix: 'fa',
+      iconsPrefix: 'bi',
       buttons: {
         btnSyncTracks: {
           text: 'Sync Video',
-          icon: 'fa-solid fa-phone-alt',
+          icon: 'bi bi-arrow-repeat',
           event: function() {
             syncMedia('vids');
           },
@@ -1704,7 +1704,7 @@ function trackActionsFormatter(value, row) {
     href: 'javascript:'
   })
   var playButton = $('<i>', {
-    class: 'fa fa-play me-1'
+    class: 'bi bi-play me-1'
   });
   player.on('click', () => {
     playImmediately(row.title, row.path);
@@ -1718,7 +1718,7 @@ function trackActionsFormatter(value, row) {
     href: 'javascript:'
   })
   var deleteButton = $('<i>', {
-    class: 'far fa-trash-alt me-1'
+    class: 'bi bi-trash me-1'
   });
   deleter.on('click', () => {
     deleteTrack(value);
@@ -1732,7 +1732,7 @@ function trackActionsFormatter(value, row) {
     href: row.path
   })
   var downloadButton = $('<i>', {
-    class: 'fa-solid fa-download me-1'
+    class: 'bi bi-dowload me-1'
   });
   downloader.append(downloadButton);
 
@@ -1743,7 +1743,7 @@ function trackActionsFormatter(value, row) {
     href: 'javascript:'
   })
   var moveUpButton = $('<i>', {
-    class: 'fa-solid fa-up-long me-1'
+    class: 'bi bi-arrow-up me-1'
   });
   moveUp.on('click', () => {
     moveTrackUp(value);
@@ -1757,7 +1757,7 @@ function trackActionsFormatter(value, row) {
     href: 'javascript:'
   })
   var moveDownButton = $('<i>', {
-    class: 'fa-solid fa-down-long me-1'
+    class: 'bi bi-arrow-down me-1'
   });
   moveDown.on('click', () => {
     moveTrackDown(value);

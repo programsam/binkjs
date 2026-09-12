@@ -6,25 +6,25 @@ if (thisjam.pictures && thisjam.pictures.length > 0)
           img(src=pic.path).mw-100
           p.float-end
             a(href="javascript:deletePic('" + pic.id + "');")
-              i.far.fa-trash-alt.me-1
+              i.me-1.bi.bi-trash
             a(href=pic.path)
-              i.fa-solid.fa-download.me-1
+              i.me-1.bi.bi-download
             a(href="javascript:setDefaultPic('" + pic.id + "');")
-              i.fa-solid.fa-check-circle
+              i.bi.bi-check-circle
       else 
         .d-inline-grid.w-25.p-3
           img(src=pic.path).mw-100
           p.float-end
             a(href="javascript:deletePic('" + pic.id + "');")
-              i.far.fa-trash-alt.me-1
+              i.me-1.bi.bi-trash
             a(href=pic.path)
-              i.fa-solid.fa-download.me-1
+              i.me-1.bi.bi-download
             a(href="javascript:setDefaultPic('" + pic.id + "');")
-              i.fa-solid.fa-check-circle
+              i.bi.bi-check-circle
   p Scroll left and right to edit pictures.
 else
   em No pictures.
 a(href="javascript:syncMedia('pics')").float-end
-  i.fa-solid.fa-phone-alt.me-3
+  i.me-3.arrow-down-up
 a(href="javascript:reloadPicsSection('" + thisjam.id + "');").float-end
-  i.fa-solid.fa-sync.me-3
+  i.me-3.arrow-repeat
