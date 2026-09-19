@@ -1803,6 +1803,7 @@ function moveTrackDown(trackid) {
 
 function trackChanged(elementToGetTrackID) {
   var trackid = elementToGetTrackID.data('track-id');
+  var jamid = $('#jam').data('id');
 
   var trackTitleJQ = $(`#track-title-${trackid}`);
   var newTitle = trackTitleJQ.val();
@@ -1817,6 +1818,8 @@ function trackChanged(elementToGetTrackID) {
 
     var jamid = $('#jam').data('id');
     var toSend = {
+      trackid: trackid,
+      jamid: jamid,
       title: newTitle,
       notes: newNotes
     };
